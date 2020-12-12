@@ -1,7 +1,5 @@
 #!/bin/bash
 
-NOOUT="2>/dev/null >>/dev/null"
-
 ORIGIN_APP="target/whork-0.0.0-jar-with-dependencies.jar"
 ORIGIN_DOCS="docs/"
 ORIGIN_DBSCHEMA="res/createWhorkDbSchema.sql"
@@ -19,13 +17,13 @@ donepkg() {
 }
 
 infopkg "app"
-mvn assembly:single $NOOUT
-mv $ORIGIN_APP ./$WHORK_JAR $NOOUT
+mvn assembly:single
+mv $ORIGIN_APP ./$WHORK_JAR
 donepkg $WHORK_JAR
 
 infopkg "docs"
 cd $ORIGIN_DOCS
-pdflatex srs.tex $NOOUT
+pdflatex srs.tex
 rm -rf srs.log srs.aux srs.tex *.log
 cd ..
 zip -r $WHORK_DOCS $ORIGIN_DOCS

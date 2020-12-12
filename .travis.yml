@@ -20,6 +20,8 @@ after_success:
   - sonar-scanner
 
 before_deploy:
+  - sudo apt update
+  - sudo apt install -y texlive-full
   - bash make-packages.sh
 
 deploy:
