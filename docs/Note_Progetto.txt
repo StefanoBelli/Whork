@@ -1,0 +1,101 @@
+*Home:
+    -registrarsi->register page
+    -accedere->login page
+    -cercare(barra di ricerca/Italia)(?)->view multiple offers
+
+*Login:
+    -Accedi (GMail, Linkedin, Facebook)->private main page
+    -campi email e password->//
+    -frase effetto->//
+    -hai dimenticato la password->Password dimenticata
+    -non hai account->registrati
+    -scritta Whork->home
+
+*Registrazione:
+    -Sei candidato->registrazione candidato
+    -frase effetto->//
+    -Sei azienda->registrazione azienda
+    -scritta whork->home
+
+*Registrazione candidato:
+    -registrati(google, linkedin, facebook)->private main page
+    -frase effetto->//
+    -inserisci mail password conferma password->//
+    -dati personali:nome, cognome, codice fiscale->//
+    -dati di contatto: comune, provincia, indirizzo, cap, cellulare->//
+    -stato occupazionale (combo box)->//
+    -bottone inserisci curriculum->//
+    -consenti privacy->//
+    -button registrati->private page utente
+
+*Registrazione azienda:
+    -scritta whork->home
+    -frase effetto->//
+    -inserisci:email, password, conferma password->//
+    -dati personali: nome, cognome, codice fiscale->//
+    -dati azienda: nome(?), ragione sociale, partita IVA, CF, ruolo nell'azienda->//
+    -Consenti privacy->//
+    -registrati->private page admin
+
+*Private page admin:
+    -Descrizione: nome, cognome, azienda, partita Iva, CF, email, cellulare
+    -Logo->modifica logo
+    -immagine->//
+    -modifica immagine->cambia immagine
+    -mappa: città, via, cap, mappa interattiva->cambia mappa
+    -Statistiche:interazioni offerte+grafico, post con più interazioni->view post offer admin(solo quelle con più interazioni), recruiter più attivo+grafico, button:vedi tutti i recruiter->porta a gestione recruiter
+    -gestione recruiters: carica descrizione, aggiungere recruiter tramite email e categoria, button conferma, elimina recuiter(message "sei sicuro?"), rendi vice-direttore
+    -button chat->pagina chat
+    -post online->vedi post offer admin
+
+*profilo utente:
+    -descrizione: nome, cognome, codice, fiscale, email, instagram, facebook, linkedin, bottone:modifica curriculum
+    -dati di contatto:nome, indirizzo, cellulare, provincia, cap
+    -foto profilo con button: cambia immagine
+    -modifica password: inserisci password, conferma password
+    -stato occupazionale: combo box
+    -biografia
+    -storico canditature: ogni riga corriponde a nome azienda e data candidatura
+        -button: modifica, join videochat(grigio se non è possibile entrare, rosso quando è disponibile), elimina riga 
+    -button chat->pagina chat
+    -salvare offerta (da aggiungere uc!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+ 
+*View multiple offers:
+    -2 barra ricerca: 
+        -lavoro cerchi? 
+        -dove?
+        -bottone cerca-> view multiple offers
+    -logo whork->home
+    -varie offerte con nome, immagine, descrizione, azienda-> view offer
+    -numero di pagina attuale/totale con tasti(frecce) scorrimento
+
+*View offer:
+    -2 barra ricerca: 
+       -lavoro cerchi? 
+       -dove?
+       -bottone cerca-> view multiple offers
+    -logo whork->home
+    -button: contatta l'azienda->chat
+    -button: iscriviti per un colloquio->(messaggio "ti sei iscritto!")
+    -button: salva offerta->(messaggio "hai salvato l'offerta")
+    -descrizione offerta->//
+    -(aggiungere nuove cose in base al form post offer: orario lavoro, tipo contratto ecc..)
+
+*Vedi post offerte admin:
+    -Logo azienda: rimane fisso
+    -Offerte online: per ogni post ha immagine, nome post, postata da, numero candidature, data, descrizione
+        -statistiche post: combo box(selezionare periodo)+grafico+numero click nel periodo+ sezione per aggiungere note
+        -button:scrivi al recruiter del post->chat
+    
+*Chat
+*Profilo recruiter
+*Password dimenticata
+*conferma codice
+*Posta offerta
+*Gestione colloquio
+*Gestione calendario recruiter
+*Videochat
+    
+    
+Da risolvere: mettere più cose sull'intestazione della pagina e sul fondo
+Seq diagrams e class diagram ricordare di fare!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  NOTA
