@@ -40,6 +40,7 @@ public final class App {
 	private static final String DBCONNECTOPT = "dbConnect";
 	private static final String DBUSEROPT = "dbUser";
 	private static final String DBPWDOPT = "dbPwd";
+	private static final String DESKTOPOPT="desktop";
 
 	//Self-extraction properties
 	private static ArrayList<String> webResDirectory = new ArrayList<>();
@@ -53,6 +54,7 @@ public final class App {
 	private static String dbConnect = "localhost:3306";
 	private static String dbUser = null;
 	private static String dbPwd = null;
+	private static boolean launchDesktop = false;
 	
 	//Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -141,18 +143,21 @@ public final class App {
 	private static Options createOptions() {
 		Options opt = new Options();
 
+		//webapp
 		opt.addOption(PORTOPT, true, new StringBuilder()
 				.append("Provide different port from the standard one (default: ")
 				.append(port)
 				.append(")")
 				.toString());
 
+		//webapp
 		opt.addOption(BASEOPT, true, new StringBuilder()
 				.append("Provide base path for website (default: ")
 				.append(base.isEmpty() ? "/" : base)
 				.append(")")
 				.toString());
 
+		//webapp
 		opt.addOption(WEBROOTOPT, true, new StringBuilder()
 				.append("Provide different root directory for web resource extraction and usage (default: ")
 				.append(webRoot == null ? "webRes must be provided" : webRoot)
@@ -171,10 +176,13 @@ public final class App {
 				.append(")")
 				.toString());
 		
+		//webapp
 		opt.addOption(WEBRESOPT, true, "Provide web resources on your own (required if no self-extraction, default: none)");
 		
 		opt.addOption(DBUSEROPT, true, 
 				"User which has sufficient privileges to manage whork's DB. (required, default: none)");
+		
+		opt.addOption(DESKTOPOPT, false, "Launch desktop application");
 		
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
@@ -218,6 +226,8 @@ public final class App {
 				dbUser = opt.getValue();
 			} else if (argName.equals(DBPWDOPT)) {
 				dbPwd = opt.getValue();
+			} else if (argName.equals(DESKTOPOPT)) {
+				launchDesktop = true;
 			}
 		}
 		
@@ -245,15 +255,20 @@ public final class App {
 			return false;
 		}
 		
-		if (webRoot == null && !selfExtract) {
-			LOGGER.error("you must pass -{} in order to specify where to locate web resources", WEBRESOPT);
-			return false;
+		if (!launchDesktop) {
+			if(webRoot == null && !selfExtract) {
+				LOGGER.error("you must pass -{} in order to specify where to locate web resources", WEBRESOPT);
+				return false;
+			}
+			
+			LOGGER.info("{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
+					"Settings for Whork webapp", 
+					port, base.isEmpty() ? "/" : base, webRoot, selfExtract, dbConnect, dbUser, 
+					dbPwd == null ? "NOT using password authentication" : "[HIDDEN]");
+		} else {
+			LOGGER.info("Settings for Whork desktop:\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
+					dbConnect, dbUser, dbPwd == null ? "NOT using password authentication" : "[HIDDEN]");
 		}
-
-		LOGGER.info("{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
-				"Settings for Whork server", 
-				port, base.isEmpty() ? "/" : base, webRoot, selfExtract, dbConnect, dbUser, 
-				dbPwd == null ? "NOT using password authentication" : "[HIDDEN]");
 
 		return true;
 	}
@@ -272,7 +287,7 @@ public final class App {
 	private static void cleanup() {
 		Logger cleanupLogger = LoggerFactory.getLogger("WhorkCleanup");
 		
-		if (selfExtract) {
+		if (!launchDesktop && selfExtract) {
 			cleanupLogger.info("deleting webroot...");
 			try {
 				utilDeleteDirectoryRecursion(Paths.get(webRoot));
@@ -310,8 +325,14 @@ public final class App {
 			if (!propertySetup(args)) {
 				return;
 			}
-
-			selfExtraction();
+			
+			if(!launchDesktop) {
+				selfExtraction();
+			} else {
+				LOGGER.info("launching desktop application: any of {},{},{},{} options are ignored", 
+						BASEOPT, PORTOPT, WEBRESOPT, WEBROOTOPT);
+				LOGGER.info("launching desktop application: self extraction is ignored anyway");
+			}
 		} catch (ParseException e) {
 			exceptionMessageBeforeStart(e, "unable to parse command line");
 			return;
@@ -349,10 +370,16 @@ public final class App {
 		}
 		
 		LOGGER.info("Preliminary checks OK!");
-		LOGGER.info("Welcome to Whork server! Starting up...");
+		
+		if(!launchDesktop) {
+			LOGGER.info("Welcome to Whork webapp! Starting up...");
 
-		if (!startTomcat()) {
-			LOGGER.error("unable to start tomcat, details above");
+			if (!startTomcat()) {
+				LOGGER.error("unable to start tomcat, details above");
+			}
+		} else {
+			LOGGER.info("Welcome to Whork desktop! Starting up...");
+			WhorkDesktop.launchApp(args);
 		}
 	}
 }
