@@ -13,9 +13,8 @@ before_script:
   - mvn -version
   
 script:
-  - mvn compile
+  - mvn clean compile
   - mvn jacoco:prepare-agent test jacoco:report
 
 after_success:
-  - cd ..
   - sonar-scanner
