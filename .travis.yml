@@ -1,0 +1,21 @@
+os: linux
+dist: focal
+language: java
+jdk: oraclejdk15
+services: xvfb
+
+addons:
+  sonarcloud:
+    organization: "stefanobelli"
+    token: $SONAR_TOKEN
+      
+before_script:
+  - mvn -version
+  
+script:
+  - mvn compile
+  - mvn jacoco:prepare-agent test jacoco:report
+
+after_success:
+  - cd ..
+  - sonar-scanner
