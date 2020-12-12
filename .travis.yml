@@ -18,3 +18,17 @@ script:
 
 after_success:
   - sonar-scanner
+
+before_deploy:
+  - bash make-packages.sh
+
+deploy:
+  provider: releases
+  token: $GITHUB_TOKEN
+  skip_cleanup: true
+  file:
+    - whork-app-$TRAVIS_TAG-noosx-linuxany-win32oraclejdk8.jar
+    - whork-docs-$TRAVIS_TAG.zip
+    - createWhorkDbSchema-$TRAVIS_TAG.zip
+  on:
+    tags: true
