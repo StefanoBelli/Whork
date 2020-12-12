@@ -87,7 +87,7 @@
         -statistiche post: combo box(selezionare periodo)+grafico+numero click nel periodo+ sezione per aggiungere note
         -button:scrivi al recruiter del post->chat
     
-*Chat
+
 *Profilo recruiter
 *Password dimenticata
 *conferma codice
