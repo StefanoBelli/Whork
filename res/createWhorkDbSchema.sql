@@ -465,6 +465,20 @@ DELIMITER ;
 
 -- begin attached script 'script'
 -- Preset values for Regione
+
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Assunto a tempo determinato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Assunto a tempo indeterminato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Assunto a tempo indeterminato con scopo di somministrazione");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Assunto con contratto di somministrazione a tempo determinato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Disoccupato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Inoccupato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Lavoratore autonomo");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Pensionato");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Servizio civile/militare");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Stage");
+INSERT INTO StatoOccupazionale(Posizione) VALUES("Studente");
+
+-- Preset values for Regione
 INSERT INTO Regione(Nome) VALUES("Abruzzo");
 INSERT INTO Regione(Nome) VALUES("Basilicata");
 INSERT INTO Regione(Nome) VALUES("Calabria");
