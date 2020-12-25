@@ -6,6 +6,7 @@
    <version>0.0.0</version>
    <name>Whork</name>
    <url>https://github.com/StefanoBelli/Whork</url>
+   <packaging>pom</packaging>
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>

@@ -1,3 +1,4 @@
+/RegisterChoiceServlet<%@page import="logic.dao.StatoOccupazionaleDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -58,7 +59,7 @@
 			
 			<p><b>Stato Occupazionale</b></p>
 			
-			<select name="eployment-status" size="1">
+			<select name="employment-status" size="1">
 				<option>Italia</option>
 				<option>Inghilterra</option>
 				<option>Francia</option>

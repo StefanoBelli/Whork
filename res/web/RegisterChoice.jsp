@@ -16,8 +16,8 @@
 		<div>
 			<div class="rectangle">
 				<h1> Registrazione </h1>
-				<form action="Register-candidate.jsp"><input type="submit" value="Sei un candidato"></form>
-				<form action="Register-company.jsp"><input type="submit" value="Sei un'azienda?"></form>
+				<form action="RegisterChoiceServlet" method="POST"><input type="submit" value="Sei un candidato"></form>
+				<form action="Register-company.jsp" method="post"><input type="submit" value="Sei un'azienda?"></form>
 			</div>
 			
 			<div class="right-container">
@@ -31,10 +31,6 @@
 			
 			
 			
-		</div>
-	
-		
-	
-	
+		</div>	
 	</body>
 </html>
