@@ -1,0 +1,25 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+         
+		 <servlet>
+		    <servlet-name>RegisterCandidateServlet</servlet-name>
+		    <servlet-class>logic.servlet.RegisterCandidateServlet</servlet-class>
+		 </servlet>
+		 <servlet-mapping>
+		    <servlet-name>RegisterCandidateServlet</servlet-name>
+		    <url-pattern>/RegisterCandidateServlet</url-pattern>  <!-- This is the URL of the servlet. -->
+		 </servlet-mapping>
+		 
+		 <servlet>
+		    <servlet-name>RegisterCompanyServlet</servlet-name>
+		    <servlet-class>logic.servlet.RegisterCompanyServlet</servlet-class>
+		 </servlet>
+		 <servlet-mapping>
+		    <servlet-name>RegisterCompanyServlet</servlet-name>
+		    <url-pattern>/RegisterCompanyServlet</url-pattern>  <!-- This is the URL of the servlet. -->
+		 </servlet-mapping>
+</web-app>
+
