@@ -186,3 +186,8 @@ TSWLatexianTemp*
 *.sta
 *.lpz
 *.xwm
+target/
+tomcat.*/
+tomcat:*/
+*.c
+WebContent/

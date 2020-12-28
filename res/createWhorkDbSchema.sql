@@ -10,12 +10,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema whorkdb
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema whorkdb
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `whorkdb` ;
 USE `whorkdb` ;
+
 
 -- -----------------------------------------------------
 -- Table `whorkdb`.`Region`
@@ -31,16 +28,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `whorkdb`.`Province` (
   `Code` CHAR(2) NOT NULL,
-  `Region` VARCHAR(21) NOT NULL,
+  `Region_Name` VARCHAR(21) NOT NULL,
   PRIMARY KEY (`Code`),
-  CONSTRAINT `fk_Provincia_Regione`
-    FOREIGN KEY (`Region`)
+  INDEX `fk_Province_Region1_idx` (`Region_Name` ASC) VISIBLE,
+  CONSTRAINT `fk_Province_Region1`
+    FOREIGN KEY (`Region_Name`)
     REFERENCES `whorkdb`.`Region` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_Provincia_Regione_idx` ON `whorkdb`.`Province` (`Region` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -49,24 +45,24 @@ CREATE INDEX `fk_Provincia_Regione_idx` ON `whorkdb`.`Province` (`Region` ASC) V
 CREATE TABLE IF NOT EXISTS `whorkdb`.`Town` (
   `PostalCode` CHAR(5) NOT NULL,
   `Name` VARCHAR(34) NOT NULL,
-  `Province_code` VARCHAR(2) NOT NULL,
+  `Province_Code` CHAR(2) NOT NULL,
   PRIMARY KEY (`Name`, `PostalCode`),
-  CONSTRAINT `fk_Comune_Provincia1`
-    FOREIGN KEY (`Province_code`)
+  INDEX `fk_Town_Province1_idx` (`Province_Code` ASC) VISIBLE,
+  CONSTRAINT `fk_Town_Province1`
+    FOREIGN KEY (`Province_Code`)
     REFERENCES `whorkdb`.`Province` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_Comune_Provincia1_idx` ON `whorkdb`.`Town` (`Province_code` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
 -- Table `whorkdb`.`EmploymentStatus`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `whorkdb`.`EmploymentStatus` (
-  `Position` VARCHAR(90) NOT NULL,
-  PRIMARY KEY (`Position`))
+  `Position` VARCHAR(52) NOT NULL,
+  `Code` INT NOT NULL,
+  PRIMARY KEY (`Code`))
 ENGINE = InnoDB;
 
 
@@ -79,29 +75,26 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`UserDetails` (
   `CF` VARCHAR(16) NOT NULL,
   `Birthday` DATE NOT NULL,
   `PhoneNumber` VARCHAR(10) COLLATE 'Default Collation' NOT NULL,
-  `Town` VARCHAR(45) NOT NULL,
-  `Town_PostalCode` INT NOT NULL,
-  `CV` VARCHAR(96) NULL,
+  `CV` VARCHAR(4096) NULL,
   `HomeAddress` VARCHAR(45) NULL,
-  `IsEmployed` TINYINT(1) NOT NULL,
   `Biography` VARCHAR(250) NULL,
-  `EmploymentStatus_Position` VARCHAR(15) NOT NULL,
+  `Town_Name` VARCHAR(34) NOT NULL,
+  `Town_PostalCode` CHAR(5) NOT NULL,
+  `EmploymentStatus_Code` INT NOT NULL,
   PRIMARY KEY (`CF`),
-  CONSTRAINT `fk_Utente_Comune1`
-    FOREIGN KEY (`Town_PostalCode` , `Town`)
-    REFERENCES `whorkdb`.`Town` (`PostalCode` , `Name`)
+  INDEX `fk_UserDetails_Town1_idx` (`Town_Name` ASC, `Town_PostalCode` ASC) VISIBLE,
+  INDEX `fk_UserDetails_EmploymentStatus1_idx` (`EmploymentStatus_Code` ASC) VISIBLE,
+  CONSTRAINT `fk_UserDetails_Town1`
+    FOREIGN KEY (`Town_Name` , `Town_PostalCode`)
+    REFERENCES `whorkdb`.`Town` (`Name` , `PostalCode`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_UserDetails_StatoOccupazionale1`
-    FOREIGN KEY (`EmploymentStatus_Position`)
-    REFERENCES `whorkdb`.`EmploymentStatus` (`Position`)
+  CONSTRAINT `fk_UserDetails_EmploymentStatus1`
+    FOREIGN KEY (`EmploymentStatus_Code`)
+    REFERENCES `whorkdb`.`EmploymentStatus` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_Utente_Comune1_idx` ON `whorkdb`.`UserDetails` (`Town_PostalCode` ASC, `Town` ASC) VISIBLE;
-
-CREATE INDEX `fk_UserDetails_StatoOccupazionale1_idx` ON `whorkdb`.`UserDetails` (`EmploymentStatus_Position` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -109,366 +102,17 @@ CREATE INDEX `fk_UserDetails_StatoOccupazionale1_idx` ON `whorkdb`.`UserDetails`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `whorkdb`.`UserAuth` (
   `Email` VARCHAR(255) NOT NULL,
-  `FC` VARCHAR(16) NOT NULL,
-  `BcryptedPwd` BINARY(40) NULL,
-  PRIMARY KEY (`Email`, `FC`),
-  CONSTRAINT `fk_Utente_DatiUtente1`
-    FOREIGN KEY (`FC`)
+  `BcryptedPwd` BINARY(40) NOT NULL,
+  `RegistrationPending` TINYINT(1) NOT NULL,
+  `UserDetails_CF` VARCHAR(16) NOT NULL,
+  PRIMARY KEY (`Email`),
+  INDEX `fk_UserAuth_UserDetails1_idx` (`UserDetails_CF` ASC) VISIBLE,
+  CONSTRAINT `fk_UserAuth_UserDetails1`
+    FOREIGN KEY (`UserDetails_CF`)
     REFERENCES `whorkdb`.`UserDetails` (`CF`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_Utente_DatiUtente1_idx` ON `whorkdb`.`UserAuth` (`FC` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Company`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Company` (
-  `VATNumber` VARCHAR(16) NOT NULL,
-  `SocialReason` VARCHAR(45) NOT NULL,
-  `FC` VARCHAR(16) NOT NULL,
-  `Logo` VARCHAR(45) NULL,
-  PRIMARY KEY (`VATNumber`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`CompanyHeadquarter`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`CompanyHeadquarter` (
-  `Address` VARCHAR(45) NOT NULL,
-  `Town` VARCHAR(45) NOT NULL,
-  `Town_name` VARCHAR(45) NOT NULL,
-  `Town_PostalCode` INT NOT NULL,
-  `Primary` TINYINT(1) NULL,
-  `Company_VATNumber` VARCHAR(16) NOT NULL,
-  PRIMARY KEY (`Address`),
-  CONSTRAINT `fk_SediAzienda_Comune1`
-    FOREIGN KEY (`Town_name` , `Town_PostalCode`)
-    REFERENCES `whorkdb`.`Town` (`Name` , `PostalCode`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_SediAzienda_Azienda1`
-    FOREIGN KEY (`Company_VATNumber`)
-    REFERENCES `whorkdb`.`Company` (`VATNumber`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_SediAzienda_Comune1_idx` ON `whorkdb`.`CompanyHeadquarter` (`Town_name` ASC, `Town_PostalCode` ASC) VISIBLE;
-
-CREATE INDEX `fk_SediAzienda_Azienda1_idx` ON `whorkdb`.`CompanyHeadquarter` (`Company_VATNumber` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Aim`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Aim` (
-  `Code` INT NOT NULL,
-  `Description` VARCHAR(45) NULL,
-  PRIMARY KEY (`Code`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`JobCategory`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`JobCategory` (
-  `Name` VARCHAR(45) NOT NULL,
-  `Description` VARCHAR(45) NOT NULL,
-  `Aim_Code` INT NOT NULL,
-  PRIMARY KEY (`Name`),
-  CONSTRAINT `fk_CategoriaLavoro_Obiettivo1`
-    FOREIGN KEY (`Aim_Code`)
-    REFERENCES `whorkdb`.`Aim` (`Code`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_CategoriaLavoro_Obiettivo1_idx` ON `whorkdb`.`JobCategory` (`Aim_Code` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Employee`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Employee` (
-  `Mail` VARCHAR(45) NOT NULL,
-  `Name` VARCHAR(45) NOT NULL,
-  `Surname` VARCHAR(45) NOT NULL,
-  `PhoneNumber` VARCHAR(45) NOT NULL,
-  `Company_VATNumber` VARCHAR(16) NOT NULL,
-  `IsRecruiter` TINYINT(1) NOT NULL,
-  `IsAdmin` TINYINT(1) NOT NULL,
-  `Password` VARCHAR(32) NOT NULL,
-  `Note` VARCHAR(45) NULL,
-  `Photo` VARCHAR(96) NULL,
-  `JobCategory_Name` VARCHAR(45) NOT NULL,
-  `FC` VARCHAR(16) NULL,
-  PRIMARY KEY (`Mail`),
-  CONSTRAINT `fk_Recruiter_Azienda1`
-    FOREIGN KEY (`Company_VATNumber`)
-    REFERENCES `whorkdb`.`Company` (`VATNumber`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Employee_CategoriaLavoro1`
-    FOREIGN KEY (`JobCategory_Name`)
-    REFERENCES `whorkdb`.`JobCategory` (`Name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Recruiter_Azienda1_idx` ON `whorkdb`.`Employee` (`Company_VATNumber` ASC) VISIBLE;
-
-CREATE INDEX `fk_Employee_CategoriaLavoro1_idx` ON `whorkdb`.`Employee` (`JobCategory_Name` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`WorkShift`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`WorkShift` (
-  `StartTime` VARCHAR(45) NOT NULL,
-  `EndTime` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`StartTime`, `EndTime`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`JobPosition`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`JobPosition` (
-  `Position` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Position`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Qualification`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Qualification` (
-  `Qualification` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Qualification`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`TypeOfContract`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`TypeOfContract` (
-  `TypeOfContract` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`TypeOfContract`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Offer`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
-  `ID` INT NOT NULL,
-  `Description` VARCHAR(45) NOT NULL,
-  `CompanyHeadquarter_address` VARCHAR(45) NOT NULL,
-  `Employee_Mail` VARCHAR(45) NOT NULL,
-  `Company_VATNumber` VARCHAR(16) NOT NULL,
-  `Salary` VARCHAR(45) NULL,
-  `Photo` VARCHAR(45) NULL,
-  `OtherTime` TINYINT(1) NULL,
-  `WorkShift` VARCHAR(45) NOT NULL,
-  `JobPosition` VARCHAR(45) NOT NULL,
-  `Qualification` VARCHAR(45) NOT NULL,
-  `TypeOfContract` VARCHAR(45) NOT NULL,
-  `YearSalary` TINYINT(1) NOT NULL DEFAULT 0,
-  `Name` VARCHAR(45) NOT NULL,
-  `NumberOfCandidature` INT NULL DEFAULT 0,
-  `Data` DATE NOT NULL,
-  `ClickNumber` INT NOT NULL DEFAULT 0,
-  `Note` VARCHAR(45) NULL,
-  `NumberSaved` VARCHAR(45) NOT NULL DEFAULT 0,
-  `Checked` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `fk_Offer_SediAzienda1`
-    FOREIGN KEY (`CompanyHeadquarter_address`)
-    REFERENCES `whorkdb`.`CompanyHeadquarter` (`Address`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_Employee1`
-    FOREIGN KEY (`Employee_Mail`)
-    REFERENCES `whorkdb`.`Employee` (`Mail`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_Azienda1`
-    FOREIGN KEY (`Company_VATNumber`)
-    REFERENCES `whorkdb`.`Company` (`VATNumber`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_OrariLavoro1`
-    FOREIGN KEY (`WorkShift`)
-    REFERENCES `whorkdb`.`WorkShift` (`StartTime`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_PosizioneLavoro1`
-    FOREIGN KEY (`JobPosition`)
-    REFERENCES `whorkdb`.`JobPosition` (`Position`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_TitoloStudio1`
-    FOREIGN KEY (`Qualification`)
-    REFERENCES `whorkdb`.`Qualification` (`Qualification`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_TipoContratto1`
-    FOREIGN KEY (`TypeOfContract`)
-    REFERENCES `whorkdb`.`TypeOfContract` (`TypeOfContract`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Offer_SediAzienda1_idx` ON `whorkdb`.`Offer` (`CompanyHeadquarter_address` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_Employee1_idx` ON `whorkdb`.`Offer` (`Employee_Mail` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_Azienda1_idx` ON `whorkdb`.`Offer` (`Company_VATNumber` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_OrariLavoro1_idx` ON `whorkdb`.`Offer` (`WorkShift` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_PosizioneLavoro1_idx` ON `whorkdb`.`Offer` (`JobPosition` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_TitoloStudio1_idx` ON `whorkdb`.`Offer` (`Qualification` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_TipoContratto1_idx` ON `whorkdb`.`Offer` (`TypeOfContract` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Offer_has_OrariLavoro`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer_has_OrariLavoro` (
-  `Offer_id` INT NOT NULL,
-  `OrariLavoro_Turno` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Offer_id`, `OrariLavoro_Turno`),
-  CONSTRAINT `fk_Offer_has_OrariLavoro_Offer1`
-    FOREIGN KEY (`Offer_id`)
-    REFERENCES `whorkdb`.`Offer` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Offer_has_OrariLavoro_OrariLavoro1`
-    FOREIGN KEY (`OrariLavoro_Turno`)
-    REFERENCES `whorkdb`.`WorkShift` (`StartTime`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Offer_has_OrariLavoro_OrariLavoro1_idx` ON `whorkdb`.`Offer_has_OrariLavoro` (`OrariLavoro_Turno` ASC) VISIBLE;
-
-CREATE INDEX `fk_Offer_has_OrariLavoro_Offer1_idx` ON `whorkdb`.`Offer_has_OrariLavoro` (`Offer_id` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Chat`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Chat` (
-  `Chat` VARCHAR(45) NULL)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Candidature`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Candidature` (
-  `Company_VATNumber` VARCHAR(16) NOT NULL,
-  `Data` DATE NULL,
-  `Offer_id` INT NOT NULL,
-  `UserData_FC` VARCHAR(16) NOT NULL,
-  PRIMARY KEY (`Company_VATNumber`, `Offer_id`, `UserData_FC`),
-  CONSTRAINT `fk_Candidature_Azienda1`
-    FOREIGN KEY (`Company_VATNumber`)
-    REFERENCES `whorkdb`.`Company` (`VATNumber`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Candidature_Offer1`
-    FOREIGN KEY (`Offer_id`)
-    REFERENCES `whorkdb`.`Offer` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Candidature_DatiUtente1`
-    FOREIGN KEY (`UserData_FC`)
-    REFERENCES `whorkdb`.`UserDetails` (`CF`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Candidature_Offer1_idx` ON `whorkdb`.`Candidature` (`Offer_id` ASC) VISIBLE;
-
-CREATE INDEX `fk_Candidature_DatiUtente1_idx` ON `whorkdb`.`Candidature` (`UserData_FC` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
--- Table `whorkdb`.`Calendar`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whorkdb`.`Calendar` (
-  `Meeting` VARCHAR(45) NOT NULL,
-  `Data` DATE NULL,
-  `Hour` INT NULL,
-  `About` INT NOT NULL,
-  CONSTRAINT `fk_Calendario_Offer1`
-    FOREIGN KEY (`About`)
-    REFERENCES `whorkdb`.`Offer` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Calendario_Offer1_idx` ON `whorkdb`.`Calendar` (`About` ASC) VISIBLE;
-
-USE `whorkdb` ;
-
--- -----------------------------------------------------
--- procedure RegisterBasicUserCred
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `whorkdb`$$
-CREATE PROCEDURE `RegisterBasicUserCred` (mail VARCHAR(255), pwd BINARY(40), cf VARCHAR(16))
-BEGIN
-	INSERT INTO UserAuth(Email, CF, BcryptedPwd) VALUES(mail, cf, pwd);
-END$$
-
-DELIMITER ;
-
--- -----------------------------------------------------
--- procedure RegisterUserDetails
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `whorkdb`$$
-CREATE PROCEDURE `RegisterUserDetails` (cf VARCHAR(16), 
-	name VARCHAR(45), surname VARCHAR(45), birthday DATE, phoneNumber VARCHAR(10), 
-    cvPath VARCHAR(96), homeAddress VARCHAR(45), employed BOOLEAN, biography VARCHAR(250), 
-    comune VARCHAR(34), cap CHAR(5))
-BEGIN
-	INSERT INTO 
-		UserDetails(CF, Name, Surname, Birthday, PhoneNumber, CV, HomeAddress, IsEmployed, 
-        Biography, Comune, Comune_CAP) VALUES (cf, name, surname, birthday, phoneNumber, 
-			cvPath, homeAddress, employed, biography, comune, cap);
-END$$
-
-DELIMITER ;
-
--- -----------------------------------------------------
--- procedure GetUserByEmailAndPwd
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `whorkdb`$$
-CREATE PROCEDURE `GetUserByEmailAndPwd` (email VARCHAR(255), pwd BINARY(40))
-BEGIN
-	select * 
-    from UserDetails 
-    where UserDetails.CF = 
-		(select CF
-         from UserAuth 
-         where Email = email and BcryptedPwd = pwd);
-END$$
-
-DELIMITER ;
 
 -- begin attached script 'script'
 -- Preset values for StatoOccupazionale
