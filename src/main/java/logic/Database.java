@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-final class Database {
+public final class Database {
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	
 	// Errors for DatabaseException. Stay away.
@@ -37,6 +37,8 @@ final class Database {
 					url.append("&password=")
 						.append(password);
 			}
+
+			url.append("&noAccessToProcedureBodies=true");
 			
 			instance = new Database(url.toString());
 		}

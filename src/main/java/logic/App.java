@@ -3,6 +3,10 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import logic.dao.ComuniDao;
+import logic.dao.DataAccessException;
+import logic.dao.EmploymentStatusDao;
+
 import java.util.ArrayList;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -314,6 +318,18 @@ public final class App {
 		LOGGER.error("Whork will not start!");
 	}
 
+	private static boolean prePopulatePools() {
+		try {
+			ComuniDao.populatePool();
+			EmploymentStatusDao.populatePool();
+		} catch(DataAccessException e) {
+			exceptionMessageBeforeStart(e, e.getCause().getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
 	public static void main(String[] args) {
 		try {
 			if (selfExtract) {
@@ -370,6 +386,12 @@ public final class App {
 		}
 		
 		LOGGER.info("Preliminary checks OK!");
+
+		LOGGER.info("Prepopulating pools...");
+		
+		if(!prePopulatePools()) {
+			return;
+		}
 		
 		if(!launchDesktop) {
 			LOGGER.info("Welcome to Whork webapp! Starting up...");
