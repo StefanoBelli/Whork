@@ -393,7 +393,6 @@ INSERT INTO EmploymentStatus(Position) VALUES("Hired for an indefinite period");
 INSERT INTO EmploymentStatus(Position) VALUES("Hired indefinitely for the purpose of administration");
 INSERT INTO EmploymentStatus(Position) VALUES("Hired with a fixed-term administration contract");
 INSERT INTO EmploymentStatus(Position) VALUES("Unemployed");
-INSERT INTO EmploymentStatus(Position) VALUES("Unemployed");
 INSERT INTO EmploymentStatus(Position) VALUES("Self employed");
 INSERT INTO EmploymentStatus(Position) VALUES("Retired");
 INSERT INTO EmploymentStatus(Position) VALUES("Civil/military service");
