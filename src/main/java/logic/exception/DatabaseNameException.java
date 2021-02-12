@@ -1,6 +1,6 @@
-package logic;
+package logic.exception;
 
-final class DatabaseNameException extends RuntimeException {
+public final class DatabaseNameException extends RuntimeException {
 	private static final long serialVersionUID = -2223458074648370214L;
 	
 	public DatabaseNameException() {

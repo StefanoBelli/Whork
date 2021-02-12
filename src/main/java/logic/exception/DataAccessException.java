@@ -1,8 +1,8 @@
-package logic.dao;
+package logic.exception;
 
 import java.sql.SQLException;
 
-public class DataAccessException extends Exception {
+public final class DataAccessException extends Exception {
 	private static final long serialVersionUID = -1586073117767458937L;
 	
 	public DataAccessException(SQLException e) {

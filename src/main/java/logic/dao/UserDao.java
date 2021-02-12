@@ -1,0 +1,168 @@
+package logic.dao;
+
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+
+import logic.Database;
+import logic.model.EmployeeUserModel;
+import logic.model.JobSeekerUserModel;
+import logic.model.UserModel;
+import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
+
+public final class UserDao {
+	private UserDao() {}
+	
+	private static final String STMT_GETCF_BYEMAIL_AND_BCRYPWD = "{ call LoginUserViaBasic(?,?) }";
+	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
+		"Can't have both CFs with same pair email and password";
+	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
+		"Can't have both CFs *NULL* with same pair email and password";
+	private static final String DATA_LOGIC_ERR_MULTIPLE_ROWS =
+		"Multiple rows in result set, where we expect only one";
+	private static final String STMT_GETUSER_BYCF = "{ call GetUserDetails(?) }";
+	private static final String DATA_LOGIC_ERR_MULTIPLE_USERS =
+		"Multiple users for same CF";
+	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
+		"More than two result set, this is unexpected";
+
+	private static String getTargetCf(String cf, String cf2) 
+			throws DataLogicException {
+		String target = cf;
+
+		if (target != null) {
+			if (cf2 != null) {
+				throw new DataLogicException(DATA_LOGIC_ERR_TWOCF_ONECREDPAIR);
+			} else {
+				target = cf2;
+			}
+		} else {
+			if (cf2 == null) {
+				throw new DataLogicException(DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR);
+			} else {
+				target = cf;
+			}
+		}
+
+		return target;
+	}
+
+	private static UserModel getJobSeeker(ResultSet rs) 
+			throws SQLException, DataLogicException {
+
+		if(rs.next()) {
+			throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_USERS);
+		}
+
+		JobSeekerUserModel m = new JobSeekerUserModel();
+		m.setName(rs.getString(1));
+		m.setSurname(rs.getString(2));
+		m.setPhoneNumber(rs.getString(3));
+		m.setBirthday(rs.getDate(4));
+		m.setCv(rs.getString(5));
+		m.setHomeAddress(rs.getString(6));
+		m.setBiography(rs.getString(7));
+		m.setComune(
+			ComuniDao.getComune(rs.getString(8), 
+								rs.getString(9)));
+		m.setEmploymentStatus(
+			EmploymentStatusDao.getEmploymentStatus(rs.getString(10)));
+		m.setEmployee(false);
+
+		return m;
+	}
+
+	private static UserModel getEmployee(ResultSet rs) 
+			throws SQLException, DataLogicException, DataAccessException {
+
+		if (rs.next()) {
+			throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_USERS);
+		}
+
+		EmployeeUserModel m = new EmployeeUserModel();
+		m.setName(rs.getString(1));
+		m.setSurname(rs.getString(2));
+		m.setPhoneNumber(rs.getString(3));
+		m.setCompany(
+			CompanyDao.getCompanyByVat(rs.getString(4)));
+		m.setRecruiter(rs.getBoolean(5));
+		m.setAdmin(rs.getBoolean(6));
+		m.setNote(rs.getString(7));
+		m.setPhoto(rs.getString(8));
+		m.setEmployee(true);
+
+		return m;
+	}
+
+	public static String getUserCfByEmailAndBcryPasswd(String email, InputStream bcryPasswd) 
+			throws DataAccessException, DataLogicException {
+		Connection conn = Database.getInstance().getConnection();
+
+		try(CallableStatement stmt = conn.prepareCall(STMT_GETCF_BYEMAIL_AND_BCRYPWD)) {
+			stmt.setString(1, email);
+			stmt.setBinaryStream(2, bcryPasswd);
+			stmt.execute();
+
+			try(ResultSet rs = stmt.getResultSet()) {
+				if(!rs.next()) {
+					return null;
+				}
+
+				String target = getTargetCf(rs.getString(1), rs.getString(2));
+
+				if(rs.next()) {
+					throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_ROWS);
+				}
+
+				return target;
+			} catch(SQLException e) {
+				throw new DataAccessException(e);
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static UserModel getUserByCf(String cf) 
+			throws DataAccessException, DataLogicException {
+		Connection conn = Database.getInstance().getConnection();
+
+		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSER_BYCF)) {
+			stmt.setString(1, cf);
+			stmt.execute();
+			
+			boolean nextResult = false;
+			int i = 1;
+
+			do {
+				if(i > 2) {
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED);
+				}
+				
+				try(ResultSet rs = stmt.getResultSet()) {
+					if(!rs.next()) {
+						if(!nextResult) {
+							nextResult = true;
+						}
+					} else {
+						UserModel model = nextResult ? getEmployee(rs) : getJobSeeker(rs);
+						model.setCf(cf);
+						
+						return model;
+					}
+				} catch(SQLException e) {
+					throw new DataAccessException(e);
+				}
+
+				++i;
+			} while(nextResult && stmt.getMoreResults());
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+
+		return null;
+	}
+}

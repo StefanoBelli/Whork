@@ -1,5 +1,7 @@
 package logic;
 
+import logic.exception.DatabaseNameException;
+
 final class DatabaseName {
 	private static String dbName = null;
 	

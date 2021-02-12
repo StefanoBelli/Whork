@@ -4,7 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import logic.dao.ComuniDao;
-import logic.dao.DataAccessException;
+import logic.exception.DataAccessException;
+import logic.exception.DatabaseException;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
@@ -386,8 +387,7 @@ public final class App {
 		}
 		
 		LOGGER.info("Preliminary checks OK!");
-
-		LOGGER.info("Prepopulating pools...");
+		LOGGER.info("Prepopulating pools with default values (presets)...");
 		
 		if(!prePopulatePools()) {
 			return;

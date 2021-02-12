@@ -1,5 +1,6 @@
 package logic.dao;
 
+import logic.exception.DataAccessException;
 import logic.Database;
 import logic.model.EmploymentStatusModel;
 import logic.EmploymentsStatusPool;
@@ -10,7 +11,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class EmploymentStatusDao {
+public final class EmploymentStatusDao {
+	private EmploymentStatusDao() {}
+	
 	private static final String STMT_MAIN_POPULATE_POOL = "{ call GetEmploymentStatuses() }";
 
 	public static void populatePool() throws DataAccessException {
@@ -36,5 +39,14 @@ public class EmploymentStatusDao {
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+
+	public static EmploymentStatusModel getEmploymentStatus(String name) {
+		for(final EmploymentStatusModel m : EmploymentsStatusPool.getEmploymentsStatus()) {
+			if(m.getStatus().equals(name))
+				return m;
+		}
+
+		return null;
 	}
 }
