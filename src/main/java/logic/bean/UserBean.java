@@ -27,23 +27,23 @@ public class UserBean implements Serializable {
 	private EmploymentStatusBean employmentStatus;
 
 	public String getCf() {
-		return cf;
+		return this.cf;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getSurname() {
-		return surname;
+		return this.surname;
 	}
 
 	public String getPhoneNumber() {
-		return phoneNumber;
+		return this.phoneNumber;
 	}
 
 	public boolean isEmployee() {
-		return employee;
+		return this.employee;
 	}
 
 	public CompanyBean getCompany() {
