@@ -20,30 +20,46 @@
 		<h1 id="title">Login to Whork</h1>
 
 		<div id="loginform">
-			<form action="validateLogin" method="post">
-				<label for="email">Email</label>
-				<input placeholder="Enter email here..." type="email" name="email" required>
+			<form id="loginf" action="validateLogin" method="post">
+				<div id="credInput">
+					<label for="email">Email</label>
+					<input placeholder="Enter email here..." type="email" name="email" required>
+
+					<br/><br/>
+
+					<label for="passwd">Password</label>
+					<input placeholder="Enter password here..." type="password" name="passwd" required>
+
+					<br/><br/>
+
+					<label for="stayLoggedIn">Stay logged in</label>
+					<input type="checkbox" name="stayLoggedIn">
+				</div>
 
 				<br/><br/>
-
-				<label for="passwd">Password</label>
-				<input placeholder="Enter password here..." type="password" name="passwd" required>
-
-				<br/><br/>
-
-				<input type="submit" value="Login"/>
+				<input type="submit" value="Login">
 			</form>
 		</div>
 
+		<div id="errors">
 <%
 		String errorMessage = (String) request.getAttribute("errorMessage");
 
 		if(errorMessage != null) {
 %>
-		<p id="errmsg"><%=errorMessage%></p>
+			<p id="errmsg"><%=errorMessage%></p>
+<%
+		}
+
+		if(request.getAttribute("showPasswordRecoveryButton") != null) {
+%>
+			<form id="forgotbtn" action="forgotpwd.jsp" method="get">
+				<input type="submit" value="I forgot my password">
+			</form>
 <%
 		}
 %>
+		</div>
 
 	</body>
 </html>

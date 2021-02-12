@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.util.Util;
+
 public class AlreadyLoggedInFilter implements Filter {
 
 	@Override
@@ -27,7 +29,9 @@ public class AlreadyLoggedInFilter implements Filter {
 		if (req.getSession().getAttribute("user") != null) {
 			((HttpServletResponse)response).sendRedirect("index.jsp");
 		} else {
-			req.getRequestDispatcher("login.jsp").forward(request, response);
+			if(!Util.cookieLogin(req, (HttpServletResponse)response, "login.jsp")) {
+				req.getRequestDispatcher("login.jsp").forward(request, response);
+			}
 		}
 	}
 	

@@ -3,11 +3,13 @@ package logic.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.exception.SyntaxException;
+import logic.util.Util;
 import logic.bean.UserBean;
 import logic.controller.LoginController;
 import logic.exception.InternalException;
@@ -21,6 +23,7 @@ public class LoginServlet extends HttpServlet {
 	
 		String email = req.getParameter("email");
 		String password = req.getParameter("passwd");
+		boolean stayLoggedIn = Util.checkboxToBoolean(req.getParameter("stayLoggedIn"));
 
 		String errorMessage = null;
 		String file = "login.jsp";
@@ -30,10 +33,18 @@ public class LoginServlet extends HttpServlet {
 		
 			if(user == null) {
 				errorMessage = "Wrong username and/or password";
+				req.setAttribute("showPasswordRecoveryButton", true);
 			} else {
 				String reqRes = req.getPathInfo();
 				file = reqRes.equals("login.jsp") ? "index.jsp" : reqRes;
 				req.getSession().setAttribute("user", user);
+
+				if(stayLoggedIn) {
+					Cookie ckEmail = new Cookie("email", email);
+					Cookie ckPwd = new Cookie("password", password);
+					resp.addCookie(ckEmail);
+					resp.addCookie(ckPwd);
+				}
 			}
 		} catch(InternalException e) {
 			errorMessage = "Internal processing error: " + e.getMessage();

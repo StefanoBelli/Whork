@@ -30,5 +30,13 @@ label {
 }
 
 input {
+	display: inline-block;	
+}
+
+form {
 	display: inline-block;
+}
+
+#errors {
+	text-align: center;
 }
