@@ -42,8 +42,6 @@ public final class UserDao {
 		} else {
 			if (cf2 == null) {
 				throw new DataLogicException(DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR);
-			} else {
-				target = cf;
 			}
 		}
 
@@ -118,9 +116,8 @@ public final class UserDao {
 				}
 
 				return target;
-			} catch(SQLException e) {
-				throw new DataAccessException(e);
 			}
+			
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -133,8 +130,7 @@ public final class UserDao {
 		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSER_BYCF)) {
 			stmt.setString(1, cf);
 			stmt.execute();
-			
-			boolean nextResult = false;
+
 			int i = 1;
 
 			do {
@@ -143,22 +139,16 @@ public final class UserDao {
 				}
 				
 				try(ResultSet rs = stmt.getResultSet()) {
-					if(!rs.next()) {
-						if(!nextResult) {
-							nextResult = true;
-						}
-					} else {
-						UserModel model = nextResult ? getEmployee(rs) : getJobSeeker(rs);
+					if(rs.next()) {
+						UserModel model = i == 2 ? getEmployee(rs) : getJobSeeker(rs);
 						model.setCf(cf);
 						
 						return model;
 					}
-				} catch(SQLException e) {
-					throw new DataAccessException(e);
 				}
 
 				++i;
-			} while(nextResult && stmt.getMoreResults());
+			} while(stmt.getMoreResults());
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}

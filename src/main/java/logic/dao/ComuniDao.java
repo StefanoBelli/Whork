@@ -67,9 +67,8 @@ public final class ComuniDao {
 				}
 
 				realPopulatePool(c, p, r);
-			} catch(SQLException e) {
-				throw new DataAccessException(e);
 			}
+			
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}

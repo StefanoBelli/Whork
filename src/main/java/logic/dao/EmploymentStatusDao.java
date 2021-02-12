@@ -32,8 +32,6 @@ public final class EmploymentStatusDao {
 				}
 
 				EmploymentsStatusPool.setEmploymentsStatus(esl);
-			} catch (SQLException e) {
-				throw new DataAccessException(e);
 			}
 
 		} catch (SQLException e) {
