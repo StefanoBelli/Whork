@@ -118,8 +118,9 @@ public class UserBean implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) 
 			throws SyntaxException {
-		if(!Pattern.matches("^\\+(?:[0-9] ?){6,14}[0-9]$", phoneNumber)) {
-			throw new SyntaxException("Phone number is not valid");
+		
+		if(phoneNumber.length() < 9 || phoneNumber.length() > 10) {
+			throw new SyntaxException("Valid italian phone number format is 9-10 chars");
 		}
 		
 		this.phoneNumber = phoneNumber;
