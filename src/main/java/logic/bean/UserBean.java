@@ -1,7 +1,6 @@
 package logic.bean;
 
 import java.util.Date;
-import java.util.regex.Pattern;
 import java.io.Serializable;
 import java.io.File;
 import logic.exception.SyntaxException;
