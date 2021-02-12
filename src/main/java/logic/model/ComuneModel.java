@@ -1,6 +1,6 @@
 package logic.model;
 
-public final class ComuneModel implements Comparable<ComuneModel> {
+public final class ComuneModel {
 	private String cap;
 	private String nome;
 	private ProvinciaModel provincia;
@@ -27,10 +27,5 @@ public final class ComuneModel implements Comparable<ComuneModel> {
 
 	public void setProvincia(ProvinciaModel provincia) {
 		this.provincia = provincia;
-	}
-
-	@Override
-	public int compareTo(ComuneModel comune) {
-		return this.nome.compareTo(comune.getNome());
 	}
 }

@@ -1,6 +1,6 @@
 package logic.model;
 
-public final class ProvinciaModel implements Comparable<ProvinciaModel>{
+public final class ProvinciaModel {
 	private String sigla;
 	private RegioneModel regione;
 
@@ -19,10 +19,4 @@ public final class ProvinciaModel implements Comparable<ProvinciaModel>{
 	public void setRegione(RegioneModel regione) {
 		this.regione = regione;
 	}
-
-	@Override
-	public int compareTo(ProvinciaModel provincia) {
-		return this.sigla.compareTo(provincia.getSigla());
-	}
-	
 }

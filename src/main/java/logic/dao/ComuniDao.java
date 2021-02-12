@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
+import java.util.HashSet;
 
 public final class ComuniDao {
 	private ComuniDao() {}
@@ -37,8 +37,8 @@ public final class ComuniDao {
 		return new Threeple<>(rm, pm, cm);
 	}
 
-	private static void realPopulatePool(SortedSet<ComuneModel> sscm, 
-		SortedSet<ProvinciaModel> sspm, SortedSet<RegioneModel> ssrm) {
+	private static void realPopulatePool(Set<ComuneModel> sscm, 
+		Set<ProvinciaModel> sspm, Set<RegioneModel> ssrm) {
 		
 		ComuniPool.setComuni(sscm);
 		ComuniPool.setProvince(sspm);
@@ -53,9 +53,9 @@ public final class ComuniDao {
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
-				SortedSet<ComuneModel> c = new TreeSet<>();
-				SortedSet<ProvinciaModel> p = new TreeSet<>();
-				SortedSet<RegioneModel> r = new TreeSet<>();
+				Set<ComuneModel> c = new HashSet<>();
+				Set<ProvinciaModel> p = new HashSet<>();
+				Set<RegioneModel> r = new HashSet<>();
 				
 				while(rs.next()) {
 					Threeple<RegioneModel, ProvinciaModel, ComuneModel> models = getModels(

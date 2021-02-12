@@ -19,6 +19,8 @@ import logic.bean.ProvinciaBean;
 import logic.bean.RegioneBean;
 
 public class BeanFactory {
+	private BeanFactory() {}
+	
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 
 			throws SyntaxException {
 		CompanyBean companyBean = new CompanyBean();

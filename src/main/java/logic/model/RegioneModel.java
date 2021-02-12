@@ -1,6 +1,6 @@
 package logic.model;
 
-public final class RegioneModel implements Comparable<RegioneModel> {
+public final class RegioneModel {
 	private String nome;
 
 	public String getNome() {
@@ -9,10 +9,5 @@ public final class RegioneModel implements Comparable<RegioneModel> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	@Override
-	public int compareTo(RegioneModel regione) {
-		return this.nome.compareTo(regione.getNome());
 	}
 }

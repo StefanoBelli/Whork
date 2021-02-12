@@ -6,6 +6,8 @@ import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 
 public final class ComuniPool {
+	private ComuniPool() {}
+	
 	private static Set<ComuneModel> comuni;
 	private static Set<ProvinciaModel> province;
 	private static Set<RegioneModel> regioni;

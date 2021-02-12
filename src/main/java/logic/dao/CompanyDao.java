@@ -26,7 +26,7 @@ public final class CompanyDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				if(rs.next() == false) {
+				if(!rs.next()) {
 					return null;
 				}
 
@@ -36,7 +36,7 @@ public final class CompanyDao {
 				cm.setLogo(stmt.getString(3));
 				cm.setVat(vat);
 
-				if(rs.next() == true) {
+				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEVAT_MORECOMPANIES);
 				}
 
