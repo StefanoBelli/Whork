@@ -9,6 +9,14 @@
 	</head>
 
 	<body lang="en">
+
+<%
+		if(request.getAttribute("showMustLoginInfo") != null) {
+%>
+		<p id="mustlogin">You must be logged in to do that</p>
+<%
+		}
+%>
 		<h1 id="title">Login to Whork</h1>
 
 		<div id="loginform">

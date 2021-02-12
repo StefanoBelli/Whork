@@ -31,7 +31,9 @@ public class LoginServlet extends HttpServlet {
 			if(user == null) {
 				errorMessage = "Wrong username and/or password";
 			} else {
-				file = "index.jsp";
+				String reqRes = req.getPathInfo();
+				file = reqRes.equals("login.jsp") ? "index.jsp" : reqRes;
+				req.getSession().setAttribute("user", user);
 			}
 		} catch(InternalException e) {
 			errorMessage = "Internal processing error: " + e.getMessage();
@@ -40,7 +42,6 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		req.setAttribute("errorMessage", errorMessage);
-
 		req.getRequestDispatcher(file).forward(req, resp);
 	}
 }

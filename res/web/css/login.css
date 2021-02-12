@@ -9,7 +9,7 @@ body {
 	text-align: center;
 }
 
-#errmsg {
+#errmsg, #mustlogin {
 	font-size: large;
 	font-weight: bold;
 	color: red;
