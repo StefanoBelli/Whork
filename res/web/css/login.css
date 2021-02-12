@@ -1,0 +1,34 @@
+body {
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#loginform {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#errmsg {
+	font-size: large;
+	font-weight: bold;
+	color: red;
+	text-align: center;
+}
+
+#title {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+label {
+	display: inline-block;
+	clear: left;
+	width: 100px;
+	text-align: left;
+}
+
+input {
+	display: inline-block;
+}

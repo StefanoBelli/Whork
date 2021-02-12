@@ -22,17 +22,22 @@ public final class LoginController {
 	private LoginController() {}
 
 	public static UserBean login(String email, String password) 
-			throws InternalException {
+			throws InternalException, SyntaxException {
 
-		String bcryptedPwd = 
-			BCrypt.withDefaults().hashToString(12, password.toCharArray());
+		// responsabilità di verifica di sintassi
+		if(email.length() > 255) {
+			throw new SyntaxException("Email is too long (max. allowed 255 chars, no limit for password)");
+		}
+
+		byte[] bcryptedPwd = 
+			BCrypt.withDefaults().hash(12, password.toCharArray());
 
 		UserModel userModel = null;
-		try(ByteArrayInputStream stream = new ByteArrayInputStream(bcryptedPwd.getBytes())) {
+		try(ByteArrayInputStream stream = new ByteArrayInputStream(bcryptedPwd)) {
 			String cf = UserDao.getUserCfByEmailAndBcryPasswd(email, stream);
 			if (cf == null)
 				return null;
-
+			
 			userModel = UserDao.getUserByCf(cf);
 		} catch(IOException e) {
 			Util.exceptionLog(e);

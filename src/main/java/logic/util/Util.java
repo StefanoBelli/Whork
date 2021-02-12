@@ -17,12 +17,11 @@ public final class Util {
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("--> ")
-			.append(trace[0].getMethodName())
+		builder.append(trace[1].getMethodName())
 			.append(" got called by: ")
-			.append(trace[1].getClassName())
+			.append(trace[2].getClassName())
 			.append("#")
-			.append(trace[1].getMethodName())
+			.append(trace[2].getMethodName())
 			.append("()");
 
 		logger.error(builder.toString());
