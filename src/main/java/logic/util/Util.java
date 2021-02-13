@@ -9,9 +9,7 @@ public final class Util {
 	private Util() {}
 
 	private static final Pattern EMAIL_REGEX = 
-		Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{" + 
-						"|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9]" +
-						"(?:[a-z0-9-]*[a-z0-9])?", 
+		Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$", 
 						Pattern.CASE_INSENSITIVE);
 	
 	public static void exceptionLog(Exception e) {

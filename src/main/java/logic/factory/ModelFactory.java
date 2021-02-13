@@ -4,6 +4,7 @@ import logic.model.UserAuthModel;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import logic.bean.UserAuthBean;
 
@@ -14,7 +15,7 @@ public class ModelFactory {
 			throws UnsupportedEncodingException {
 		UserAuthModel userAuthModel = new UserAuthModel();
 		userAuthModel.setEmail(userAuthBean.getEmail());
-		userAuthModel.setBcryptedPassword(new ByteArrayInputStream(userAuthBean.getPassword().getBytes("utf-8")));
+		userAuthModel.setBcryptedPassword(new ByteArrayInputStream(userAuthBean.getPassword().getBytes(StandardCharsets.UTF_8)));
 
 		return userAuthModel;
 	}

@@ -44,7 +44,7 @@ public final class LoginController {
 			byte[] bcryptedPwdFromDb = pair.getSecond();
 
 			BCrypt.Result result = BCrypt.verifyer().verify(bcryptedPwdFromDb, bcryptedPwdFromUserInput);
-			if(result.verified == true) {
+			if(result.verified) {
 				userModel = UserDao.getUserByCf(pair.getFirst());
 			}
 		} catch(IOException e) {
