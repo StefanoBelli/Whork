@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import logic.bean.UserAuthBean;
 
-public class ModelFactory {
+public final class ModelFactory {
 	private ModelFactory() {}
 
 	public static UserAuthModel buildUserAuthModel(UserAuthBean userAuthBean) {

@@ -1,6 +1,6 @@
 package logic.util;
 
-public class Pair<K,V> {
+public final class Pair<K,V> {
 	private K first;
 	private V second;
 

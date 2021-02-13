@@ -32,7 +32,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-public final class App {
+final class App {
 	//Logger tagged "WhorkStartup" for startup phase
 	private static final Logger LOGGER = LoggerFactory.getLogger("WhorkStartup");
 	
@@ -63,6 +63,8 @@ public final class App {
 	
 	//Static config for whork
 	private static final String DBNAME = "whorkdb";
+
+	private static final String NOT_USING_PWDAUTH = "NOT using password authentication";
 
 	private static void setResources() {
 		webResDirectory.add("WEB-INF");
@@ -177,7 +179,7 @@ public final class App {
 		
 		opt.addOption(DBPWDOPT, true, new StringBuilder()
 				.append("Password for \"dbUser\". (default: ")
-				.append(dbPwd == null ? "NOT using password authentication" : dbPwd)
+				.append(dbPwd == null ? NOT_USING_PWDAUTH : dbPwd)
 				.append(")")
 				.toString());
 		
@@ -269,10 +271,10 @@ public final class App {
 			LOGGER.info("{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
 					"Settings for Whork webapp", 
 					port, base.isEmpty() ? "/" : base, webRoot, selfExtract, dbConnect, dbUser, 
-					dbPwd == null ? "NOT using password authentication" : "[HIDDEN]");
+					dbPwd == null ? NOT_USING_PWDAUTH : "[HIDDEN]");
 		} else {
 			LOGGER.info("Settings for Whork desktop:\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
-					dbConnect, dbUser, dbPwd == null ? "NOT using password authentication" : "[HIDDEN]");
+					dbConnect, dbUser, dbPwd == null ? NOT_USING_PWDAUTH : "[HIDDEN]");
 		}
 
 		return true;

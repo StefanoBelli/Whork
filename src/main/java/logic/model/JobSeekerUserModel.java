@@ -2,7 +2,7 @@ package logic.model;
 
 import java.util.Date;
 
-public class JobSeekerUserModel extends UserModel {
+public final class JobSeekerUserModel extends UserModel {
 	private Date birthday;
 	private String cv;
 	private String homeAddress;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import logic.exception.SyntaxException;
 
-public class UserAuthBean implements Serializable {
+public final class UserAuthBean implements Serializable {
 	private static final long serialVersionUID = 6053272591238153999L;
 	
 	private String email;

@@ -2,7 +2,7 @@ package logic.bean;
 
 import java.io.Serializable;
 
-public class EmploymentStatusBean implements Serializable {
+public final class EmploymentStatusBean implements Serializable {
 	private static final long serialVersionUID = 8204914069484753112L;
 	
 	private String status;

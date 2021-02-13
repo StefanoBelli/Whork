@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.io.File;
 import logic.exception.SyntaxException;
 
-public class CompanyBean implements Serializable {
+public final class CompanyBean implements Serializable {
 	private static final long serialVersionUID = 143762902979557477L;
 	
 	private String vat;

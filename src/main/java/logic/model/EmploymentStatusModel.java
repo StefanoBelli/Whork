@@ -1,6 +1,6 @@
 package logic.model;
 
-public class EmploymentStatusModel {
+public final class EmploymentStatusModel {
 	private String status;
 
 	public void setStatus(String status) {

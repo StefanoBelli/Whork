@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.io.File;
 import logic.exception.SyntaxException;
 
-public class UserBean implements Serializable {
+public final class UserBean implements Serializable {
 	private static final long serialVersionUID = -3927240997879942530L;
 
 	private String cf;

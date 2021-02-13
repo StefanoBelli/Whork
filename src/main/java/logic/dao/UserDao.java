@@ -176,17 +176,4 @@ public final class UserDao {
 			throw new DataAccessException(e);
 		}
 	}
-
-	/*
-	public static void registerUser(UserModel userModel) 
-			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-		//TODO
-	}
-
-	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) {
-		//TODO
-	}
-	*/
 }

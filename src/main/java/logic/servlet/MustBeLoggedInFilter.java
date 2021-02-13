@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import logic.util.Util;
 
-public class MustBeLoggedInFilter implements Filter {
+public final class MustBeLoggedInFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

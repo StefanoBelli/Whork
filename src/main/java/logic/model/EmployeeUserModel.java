@@ -1,6 +1,6 @@
 package logic.model;
 
-public class EmployeeUserModel extends UserModel {
+public final class EmployeeUserModel extends UserModel {
 	private CompanyModel company;
 	private boolean admin;
 	private boolean recruiter;

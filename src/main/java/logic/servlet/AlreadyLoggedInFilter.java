@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.util.Util;
 
-public class AlreadyLoggedInFilter implements Filter {
+public final class AlreadyLoggedInFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

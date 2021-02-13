@@ -1,6 +1,6 @@
 package logic.model;
 
-public class CompanyModel {
+public final class CompanyModel {
 	private String vat;
 	private String socialReason;
 	private String cf;

@@ -18,5 +18,5 @@ public final class WhorkDesktop extends Application {
 		primaryStage.setTitle("Whork");
 		primaryStage.show();
 	}
-}	
+}
 

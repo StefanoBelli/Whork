@@ -19,7 +19,7 @@ import logic.bean.ProvinciaBean;
 import logic.bean.RegioneBean;
 import logic.bean.UserAuthBean;
 
-public class BeanFactory {
+public final class BeanFactory {
 	private BeanFactory() {}
 	
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 

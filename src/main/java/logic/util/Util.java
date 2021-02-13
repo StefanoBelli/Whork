@@ -1,7 +1,5 @@
 package logic.util;
 
-import java.io.IOException;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,26 +22,20 @@ public final class Util {
 		logger.error("");
 
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		logger.error("{} got called by: {}#{}()", 
+			trace[1].getMethodName(), trace[2].getClassName(), trace[2].getMethodName());
 
-		StringBuilder builder = new StringBuilder();
-		builder.append(trace[1].getMethodName())
-			.append(" got called by: ")
-			.append(trace[2].getClassName())
-			.append("#")
-			.append(trace[2].getMethodName())
-			.append("()");
-
-		logger.error(builder.toString());
-		logger.error("");
+		logger.error("++++++++++++STACK TRACE++++++++++++");
 		e.printStackTrace();
+		logger.error("++++++++++END STACK TRACE++++++++++");
+		
 		logger.error("");
 		logger.error("*************************");
 		logger.error("* EXCEPTION LOGGING END *");
 		logger.error("*************************");
 	}
 	
-	public static boolean cookieLogin(HttpServletRequest req) 
-			throws IOException {
+	public static boolean cookieLogin(HttpServletRequest req) {
 		Cookie[] cks = req.getCookies();
 
 		if(cks == null) {

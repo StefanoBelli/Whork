@@ -2,7 +2,7 @@ package logic.model;
 
 import java.io.ByteArrayInputStream;
 
-public class UserAuthModel {
+public final class UserAuthModel {
 	private String email;
 	private ByteArrayInputStream bcryptedPassword;
 
