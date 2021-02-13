@@ -1,7 +1,7 @@
 package logic.dao;
 
-import java.io.InputStream;
 import java.sql.Connection;
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -12,11 +12,12 @@ import logic.model.JobSeekerUserModel;
 import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.util.Pair;
 
 public final class UserDao {
 	private UserDao() {}
 	
-	private static final String STMT_GETCF_BYEMAIL_AND_BCRYPWD = "{ call LoginUserViaBasic(?,?) }";
+	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = "{ call GetUserCfAndPwdByEmail(?) }";
 	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
 		"Can't have both CFs with same pair email and password";
 	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
@@ -95,13 +96,12 @@ public final class UserDao {
 		return m;
 	}
 
-	public static String getUserCfByEmailAndBcryPasswd(String email, InputStream bcryPasswd) 
+	public static Pair<String, InputStream> getUserCfAndBcrypwdByEmail(String email) 
 			throws DataAccessException, DataLogicException {
 		Connection conn = Database.getInstance().getConnection();
 
-		try(CallableStatement stmt = conn.prepareCall(STMT_GETCF_BYEMAIL_AND_BCRYPWD)) {
+		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
 			stmt.setString(1, email);
-			stmt.setBinaryStream(2, bcryPasswd);
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
@@ -111,11 +111,13 @@ public final class UserDao {
 
 				String target = getTargetCf(rs.getString(1), rs.getString(2));
 
+				Pair<String, InputStream> pair = new Pair<>(target, rs.getBinaryStream(3));
+
 				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_ROWS);
 				}
 
-				return target;
+				return pair;
 			}
 			
 		} catch(SQLException e) {

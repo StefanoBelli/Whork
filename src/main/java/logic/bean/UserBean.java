@@ -121,6 +121,12 @@ public class UserBean implements Serializable {
 		if(phoneNumber.length() < 9 || phoneNumber.length() > 10) {
 			throw new SyntaxException("Valid italian phone number format is 9-10 chars");
 		}
+
+		for(int i = 0; i < phoneNumber.length(); ++i) {
+			if(!Character.isDigit(phoneNumber.charAt(i))) {
+				throw new SyntaxException("Only digits are allowed");
+			}
+		}
 		
 		this.phoneNumber = phoneNumber;
 	}

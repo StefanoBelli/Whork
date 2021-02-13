@@ -1,1 +1,0 @@
--- run after createWhorkDbSchema.sql

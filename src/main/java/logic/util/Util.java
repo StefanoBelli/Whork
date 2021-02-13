@@ -50,6 +50,10 @@ public final class Util {
 	public static boolean cookieLogin(HttpServletRequest req, HttpServletResponse resp, String res) 
 			throws IOException, ServletException {
 		Cookie[] cks = req.getCookies();
+
+		if(cks == null) {
+			return false;
+		}
 		
 		String email = null;
 		String password = null;
