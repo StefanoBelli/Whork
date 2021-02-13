@@ -1,11 +1,9 @@
 package logic.util;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +15,6 @@ import logic.factory.BeanFactory;
 public final class Util {
 	private Util() {}
 
-	private static final Pattern EMAIL_REGEX = 
-		Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$", 
-						Pattern.CASE_INSENSITIVE);
-	
 	public static void exceptionLog(Exception e) {
 		Logger logger = LoggerFactory.getLogger("WhorkExceptionLogger");
 
@@ -48,7 +42,7 @@ public final class Util {
 		logger.error("*************************");
 	}
 	
-	public static boolean cookieLogin(HttpServletRequest req, HttpServletResponse resp) 
+	public static boolean cookieLogin(HttpServletRequest req) 
 			throws IOException {
 		Cookie[] cks = req.getCookies();
 
@@ -91,10 +85,6 @@ public final class Util {
 
 	public static boolean checkboxToBoolean(String value) {
 		return value != null && value.equals("on");
-	}
-
-	public static boolean isValidEmail(String email) {
-		return EMAIL_REGEX.matcher(email).matches();
 	}
 
 	public static void setUserForSession(HttpServletRequest req, UserBean userBean) {

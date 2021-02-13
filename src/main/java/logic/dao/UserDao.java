@@ -14,7 +14,6 @@ import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.util.Pair;
-import logic.model.UserAuthModel;
 
 public final class UserDao {
 	private UserDao() {}
@@ -178,6 +177,7 @@ public final class UserDao {
 		}
 	}
 
+	/*
 	public static void registerUser(UserModel userModel) 
 			throws DataAccessException {
 
@@ -188,4 +188,5 @@ public final class UserDao {
 	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) {
 		//TODO
 	}
+	*/
 }
