@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ComuneBean implements Serializable {
 	private static final long serialVersionUID = 772654344964136033L;
+	
 	private String nome;
 	private String cap;
 	private ProvinciaBean provincia;

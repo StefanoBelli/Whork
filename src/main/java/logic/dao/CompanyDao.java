@@ -13,6 +13,7 @@ public final class CompanyDao {
 	private CompanyDao() {}
 	
 	private static final String MAIN_STMT_GET_COMPANY_BYVAT = "{ call GetCompanyByVAT(?) }";
+	private static final String MAIN_STMT_REGISTER_COMPANY = "{ call RegisterCompany(?,?,?,?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEVAT_MORECOMPANIES =
 		"Multiple companies detected with same VAT code";
 
@@ -43,6 +44,21 @@ public final class CompanyDao {
 				return cm;
 			}
 
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void registerCompany(CompanyModel companyModel) 
+			throws DataAccessException {
+		Connection conn = Database.getInstance().getConnection();
+
+		try(CallableStatement stmt = conn.prepareCall(MAIN_STMT_REGISTER_COMPANY)) {
+			stmt.setString(1, companyModel.getVat());
+			stmt.setString(2, companyModel.getSocialReason());
+			stmt.setString(3, companyModel.getCf());
+			stmt.setString(4, companyModel.getLogo());
+			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}

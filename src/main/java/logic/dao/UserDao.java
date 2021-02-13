@@ -14,6 +14,7 @@ import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.util.Pair;
+import logic.model.UserAuthModel;
 
 public final class UserDao {
 	private UserDao() {}
@@ -30,6 +31,7 @@ public final class UserDao {
 		"Multiple users for same CF";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
 		"More than two result set, this is unexpected";
+	private static final String STMT_CONFIRM_REG = "{ call ConfirmRegistration(?) }";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
@@ -161,5 +163,29 @@ public final class UserDao {
 		}
 
 		return null;
+	}
+
+	public static void confirmRegistration(UserModel userModel) 
+			throws DataAccessException {
+		
+		Connection conn = Database.getInstance().getConnection();
+
+		try(CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
+			stmt.setString(1, userModel.getCf());
+			stmt.execute();
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void registerUser(UserModel userModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+		//TODO
+	}
+
+	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) {
+		//TODO
 	}
 }

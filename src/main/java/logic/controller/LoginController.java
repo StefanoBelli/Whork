@@ -1,7 +1,7 @@
 package logic.controller;
 
 import logic.model.UserModel;
-import logic.bean.UserBean;
+import logic.bean.UserAuthBean;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
@@ -12,6 +12,11 @@ import logic.util.Pair;
 import logic.util.Util;
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,22 +26,19 @@ public final class LoginController {
 	private static final Logger LOGGER = LoggerFactory.getLogger("WhorkLoginController");
 	private LoginController() {}
 
-	public static UserBean login(String email, String password) 
+	public static boolean basicLogin(HttpServletRequest req, HttpServletResponse resp, UserAuthBean userAuthBean, boolean stayLoggedIn) 
 			throws InternalException, SyntaxException {
 
-		if(email.length() > 255) {
-			throw new SyntaxException("Email is too long (max. allowed 255 chars, no limit for password)");
-		}
-
 		byte[] bcryptedPwdFromUserInput = 
-			BCrypt.withDefaults().hash(12, password.toCharArray());
+			BCrypt.withDefaults().hash(12, userAuthBean.getPassword().toCharArray());
 
 		UserModel userModel = null;
 
 		try {
-			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(email);
+			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(userAuthBean.getEmail());
 			if(pair == null) {
-				return null;
+				req.getSession().setAttribute("user", null);
+				return false;
 			}
 
 			byte[] bcryptedPwdFromDb = pair.getSecond();
@@ -62,10 +64,55 @@ public final class LoginController {
 		}
 
 		try {
-			return BeanFactory.buildUserBean(userModel);
+			req.getSession().setAttribute("user", BeanFactory.buildUserBean(userModel));
+			if(stayLoggedIn) {
+				Cookie ckEmail = new Cookie("email", userAuthBean.getEmail());
+				Cookie ckPwd = new Cookie("password", userAuthBean.getPassword());
+				resp.addCookie(ckEmail);
+				resp.addCookie(ckPwd);
+			}
+
+			return true;
 		} catch(SyntaxException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("Data syntax error");
 		}
 	}
+
+	public static boolean cookieLogin(HttpServletRequest req, HttpServletResponse resp) 
+			throws IOException, ServletException {
+		Cookie[] cks = req.getCookies();
+
+		if(cks == null) {
+			return false;
+		}
+		
+		String email = null;
+		String password = null;
+
+		for(int i = 0; i < cks.length; ++i) {
+			String ckName = cks[i].getName();
+			if(ckName.equals("email")) {
+				email = cks[i].getValue();
+			} else if(ckName.equals("password")) {
+				password = cks[i].getValue();
+			}
+		}
+
+		if(email != null && password != null) {
+			boolean loggedIn = false;
+			try {
+				loggedIn = LoginController.basicLogin(
+					req, resp, BeanFactory.buildUserAuthBean(email, password), false);
+			} catch(Exception e) {
+				Util.exceptionLog(e);
+				loggedIn = false;
+			}
+
+			return loggedIn;
+		}
+
+		return false;
+	}
+
 }

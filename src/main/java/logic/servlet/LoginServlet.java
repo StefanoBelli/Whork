@@ -3,14 +3,14 @@ package logic.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.exception.SyntaxException;
+import logic.factory.BeanFactory;
 import logic.util.Util;
-import logic.bean.UserBean;
+import logic.bean.UserAuthBean;
 import logic.controller.LoginController;
 import logic.exception.InternalException;
 
@@ -29,23 +29,15 @@ public class LoginServlet extends HttpServlet {
 		String file = "login.jsp";
 
 		try {
-			UserBean user = LoginController.login(email, password);
-		
-			if(user == null) {
-				errorMessage = "Wrong username and/or password";
-				req.setAttribute("showPasswordRecoveryButton", true);
-			} else {
+			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, password);
+			if(LoginController.basicLogin(req, resp, userAuthBean, stayLoggedIn)) {
 				String reqRes = req.getPathInfo();
 				file = reqRes.equals("login.jsp") ? "index.jsp" : reqRes;
-				req.getSession().setAttribute("user", user);
-
-				if(stayLoggedIn) {
-					Cookie ckEmail = new Cookie("email", email);
-					Cookie ckPwd = new Cookie("password", password);
-					resp.addCookie(ckEmail);
-					resp.addCookie(ckPwd);
-				}
+			} else {
+				errorMessage = "Wrong username and/or password";
+				req.setAttribute("showPasswordRecoveryButton", true);
 			}
+
 		} catch(InternalException e) {
 			errorMessage = "Internal processing error: " + e.getMessage();
 		} catch(SyntaxException e) {

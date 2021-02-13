@@ -17,6 +17,7 @@ import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
 import logic.bean.ProvinciaBean;
 import logic.bean.RegioneBean;
+import logic.bean.UserAuthBean;
 
 public class BeanFactory {
 	private BeanFactory() {}
@@ -92,5 +93,14 @@ public class BeanFactory {
 		}
 
 		return userBean;
+	}
+
+	public static UserAuthBean buildUserAuthBean(String email, String password) 
+			throws SyntaxException {
+		UserAuthBean userAuthBean = new UserAuthBean();
+		userAuthBean.setEmail(email);
+		userAuthBean.setPassword(password);
+
+		return userAuthBean;
 	}
 }

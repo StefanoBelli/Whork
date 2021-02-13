@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.util.Util;
+import logic.controller.LoginController;
 
 public class MustBeLoggedInFilter implements Filter {
 
@@ -32,9 +32,11 @@ public class MustBeLoggedInFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		if(req.getSession().getAttribute("user") == null) {
-			if(!Util.cookieLogin(req, (HttpServletResponse)response, req.getRequestURI())) {
+			if(!LoginController.cookieLogin(req, (HttpServletResponse)response)) {
 				req.setAttribute("showMustLoginInfo", true);
 				req.getRequestDispatcher("login.jsp").forward(request, response);
+			} else {
+				req.getRequestDispatcher(req.getRequestURI()).forward(request, response);
 			}
 		} else {
 			req.getRequestDispatcher(req.getRequestURI()).forward(request, response);

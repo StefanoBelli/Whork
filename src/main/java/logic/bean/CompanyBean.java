@@ -6,6 +6,7 @@ import logic.exception.SyntaxException;
 
 public class CompanyBean implements Serializable {
 	private static final long serialVersionUID = 143762902979557477L;
+	
 	private String vat;
 	private String socialReason;
 	private String cf;
