@@ -1,6 +1,7 @@
 package logic.dao;
 
 import java.sql.Connection;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -96,8 +97,8 @@ public final class UserDao {
 		return m;
 	}
 
-	public static Pair<String, InputStream> getUserCfAndBcrypwdByEmail(String email) 
-			throws DataAccessException, DataLogicException {
+	public static Pair<String, byte[]> getUserCfAndBcrypwdByEmail(String email) 
+			throws DataAccessException, DataLogicException, IOException {
 		Connection conn = Database.getInstance().getConnection();
 
 		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
@@ -111,7 +112,11 @@ public final class UserDao {
 
 				String target = getTargetCf(rs.getString(1), rs.getString(2));
 
-				Pair<String, InputStream> pair = new Pair<>(target, rs.getBinaryStream(3));
+				Pair<String, byte[]> pair = null;
+
+				try (InputStream stream = rs.getBinaryStream(3)) {
+					pair = new Pair<>(target, stream.readAllBytes());
+				}
 
 				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_ROWS);

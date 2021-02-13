@@ -11,7 +11,6 @@ import logic.dao.UserDao;
 import logic.util.Pair;
 import logic.util.Util;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public final class LoginController {
 
 	public static UserBean login(String email, String password) 
 			throws InternalException, SyntaxException {
-				
+
 		if(email.length() > 255) {
 			throw new SyntaxException("Email is too long (max. allowed 255 chars, no limit for password)");
 		}
@@ -33,15 +32,14 @@ public final class LoginController {
 			BCrypt.withDefaults().hash(12, password.toCharArray());
 
 		UserModel userModel = null;
-		Pair<String, InputStream> pair = null;
 
 		try {
-			pair = UserDao.getUserCfAndBcrypwdByEmail(email);
+			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(email);
 			if(pair == null) {
 				return null;
 			}
 
-			byte[] bcryptedPwdFromDb = pair.getSecond().readAllBytes();
+			byte[] bcryptedPwdFromDb = pair.getSecond();
 
 			BCrypt.Result result = BCrypt.verifyer().verify(bcryptedPwdFromDb, bcryptedPwdFromUserInput);
 			if(result.verified == true) {
@@ -56,15 +54,6 @@ public final class LoginController {
 		} catch(DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("Data logic error");
-		} finally {
-			if(pair != null) {
-				try {
-					pair.getSecond().close();
-				} catch(IOException e) {
-					Util.exceptionLog(e);
-					throw new InternalException("General I/O error");
-				}
-			}
 		}
 
 		if(userModel == null) { // 99% UNREACHABLE IF BLOCK
