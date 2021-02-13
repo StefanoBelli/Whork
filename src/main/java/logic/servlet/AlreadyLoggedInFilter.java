@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.controller.LoginController;
+import logic.util.Util;
 
 public class AlreadyLoggedInFilter implements Filter {
 
@@ -30,15 +30,14 @@ public class AlreadyLoggedInFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 
-		if (req.getSession().getAttribute("user") != null) {
+		if (Util.getUserForSession(req) != null) {
 			((HttpServletResponse)response).sendRedirect("index.jsp");
 		} else {
-			if(!LoginController.cookieLogin(req, (HttpServletResponse)response)) {
+			if(!Util.cookieLogin(req, (HttpServletResponse)response)) {
 				req.getRequestDispatcher("login.jsp").forward(request, response);
 			} else {
 				((HttpServletResponse)response).sendRedirect("index.jsp");
 			}
 		}
 	}
-	
 }
