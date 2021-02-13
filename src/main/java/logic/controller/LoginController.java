@@ -1,6 +1,5 @@
 package logic.controller;
 
-import logic.model.UserModel;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.exception.DataAccessException;
@@ -13,35 +12,39 @@ import logic.util.Pair;
 import logic.util.Util;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import at.favre.lib.crypto.bcrypt.BCrypt;
-
 public final class LoginController {
-	private static final Logger LOGGER = LoggerFactory.getLogger("WhorkLoginController");
 	private LoginController() {}
 
+	/**
+	 * This method will interact with UserDao to fetch data from
+	 * DB and attempt a login for user (standard email and password).
+	 * 
+	 * Password are stored using BCrypt salted hash.
+	 * 
+	 * Once email / password are compared and matched, this controller
+	 * method will load user personal data interacting, again, with UserDao.
+	 * (see return).
+	 * 
+	 * @param userAuthBean : object containing email / password
+	 * @return UserBean object representing user data or null if no matching
+	 */
 	public static UserBean basicLogin(UserAuthBean userAuthBean) 
 			throws InternalException {
-
-		byte[] bcryptedPwdFromUserInput = 
-			BCrypt.withDefaults().hash(12, userAuthBean.getPassword().toCharArray());
-
-		UserModel userModel = null;
-
 		try {
-			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(userAuthBean.getEmail());
+			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(
+													userAuthBean.getEmail());
 			if(pair == null) {
-				return null;
+				return null; // email was not found
 			}
 
-			byte[] bcryptedPwdFromDb = pair.getSecond();
+			byte[] hashUserInput = Util.Bcrypt.hash(userAuthBean.getPassword());
 
-			BCrypt.Result result = BCrypt.verifyer().verify(bcryptedPwdFromDb, bcryptedPwdFromUserInput);
-			if(result.verified) {
-				userModel = UserDao.getUserByCf(pair.getFirst());
+			if(Util.Bcrypt.equals(hashUserInput, pair.getSecond())) {
+				return BeanFactory.buildUserBean(
+							UserDao.getUserByCf(pair.getFirst()));
 			}
+
+			return null; // passwords are not matching
 		} catch(IOException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("General I/O error");
@@ -51,15 +54,6 @@ public final class LoginController {
 		} catch(DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("Data logic error");
-		}
-
-		if(userModel == null) { // 99% UNREACHABLE IF BLOCK
-			LOGGER.error("in login, userModel is null but it should not be");
-			throw new InternalException("Could not find data about you");
-		}
-
-		try {
-			return BeanFactory.buildUserBean(userModel);
 		} catch(SyntaxException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("Data syntax error");

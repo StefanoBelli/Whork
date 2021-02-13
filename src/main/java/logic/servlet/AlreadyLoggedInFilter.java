@@ -25,19 +25,25 @@ public final class AlreadyLoggedInFilter implements Filter {
 		//method stub
 	}
 
+	/**
+	 * This method ensures login.jsp is reached if and only if strictly necessary.
+	 * If user is registered for current session, then redirect (HTTP REDIRECT) user to "index.jsp"
+	 * Else, If cookie login is not successful, allow original request to "login.jsp"
+	 * Else, If cookie login is successful, HTTP REDIRECT user to "index.jsp"
+	 * 
+	 * @param request
+	 * @param response
+	 * @param chain
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 
-		if (Util.getUserForSession(req) != null) {
+		if (Util.getUserForSession(req) != null || Util.cookieLogin(req)) {
 			((HttpServletResponse)response).sendRedirect("index.jsp");
 		} else {
-			if(!Util.cookieLogin(req)) {
-				req.getRequestDispatcher("login.jsp").forward(request, response);
-			} else {
-				((HttpServletResponse)response).sendRedirect("index.jsp");
-			}
+			req.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 }

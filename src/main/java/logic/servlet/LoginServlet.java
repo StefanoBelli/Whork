@@ -22,13 +22,13 @@ public final class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws IOException, ServletException {
-	
-		String email = req.getParameter("email");
-		String password = req.getParameter("passwd");
-		boolean stayLoggedIn = Util.checkboxToBoolean(req.getParameter("stayLoggedIn"));
-
+		
 		String errorMessage = null;
 		String file = "login.jsp";
+		String email = req.getParameter("email");
+		String password = req.getParameter("passwd");
+		boolean stayLoggedIn = Util.checkboxToBoolean(
+			req.getParameter("stayLoggedIn"));
 
 		try {
 			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, password);
@@ -44,13 +44,10 @@ public final class LoginServlet extends HttpServlet {
 				Util.setUserForSession(req, userBean);
 
 				if(stayLoggedIn) {
-					Cookie ckEmail = new Cookie("email", userAuthBean.getEmail());
-					Cookie ckPwd = new Cookie("password", userAuthBean.getPassword());
-					resp.addCookie(ckEmail);
-					resp.addCookie(ckPwd);
+					resp.addCookie(new Cookie("email", email));
+					resp.addCookie(new Cookie("password", password));
 				}
 			}
-
 		} catch(InternalException e) {
 			errorMessage = "Internal processing error: " + e.getMessage();
 		} catch(SyntaxException e) {

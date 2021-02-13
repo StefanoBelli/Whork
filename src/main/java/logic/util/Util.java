@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import logic.bean.UserBean;
 import logic.controller.LoginController;
 import logic.factory.BeanFactory;
@@ -35,6 +36,14 @@ public final class Util {
 		logger.error("*************************");
 	}
 	
+	/**
+	 * Attempt login using cookies sent back from client.
+	 * If cookie login is successful, then this method automatically
+	 * sets the user for current session. This method will
+	 * be called from Filers and/or (if necessary) from Servlets
+	 * @param req 
+	 * @return true if login via cookie was successful, false otherwise
+	 */
 	public static boolean cookieLogin(HttpServletRequest req) {
 		Cookie[] cks = req.getCookies();
 
@@ -55,13 +64,13 @@ public final class Util {
 		}
 
 		if(email != null && password != null) {
-			UserBean userBean;
+			UserBean userBean = null;
+			
 			try {
 				userBean = LoginController.basicLogin(
 					BeanFactory.buildUserAuthBean(email, password));
 			} catch(Exception e) {
 				Util.exceptionLog(e);
-				userBean = null;
 			}
 
 			if(userBean == null) {
@@ -85,5 +94,17 @@ public final class Util {
 
 	public static UserBean getUserForSession(HttpServletRequest req) {
 		return (UserBean) req.getSession().getAttribute("user");
+	}
+
+	public static final class Bcrypt {
+		private Bcrypt(){}
+		
+		public static byte[] hash(String clearText) {
+			return BCrypt.withDefaults().hash(12, clearText.toCharArray());
+		}
+
+		public static boolean equals(byte[] hash1, byte[] hash2) {
+			return BCrypt.verifyer().verify(hash1, hash2).verified;
+		}
 	}
 }

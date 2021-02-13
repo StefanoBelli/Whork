@@ -24,20 +24,32 @@ public final class MustBeLoggedInFilter implements Filter {
 		//method stub
 	}
 
+	/**
+	 * if User is already logged in (active session)
+	 *   - get original resource and forward user to it (original request, NO redirect)
+	 *   - END: NO FURTHER ACTION REQUIRED
+	 * else
+	 *   - if for this request we got cookies auth successful, then
+	 * 	    - get original resource and forward user to it (original request, NO redirect)
+	 *      - END: NO FURTHER ACTION REQUIRED
+	 *   - else
+	 *      - forward user to login.jsp (original request, NO redirect)
+	 *      - END: NO FURTHER ACTION REQURED
+	 *  
+	 * @param request
+	 * @param response
+	 * @param chain
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		
-		if(Util.getUserForSession(req) == null) {
-			if(Util.cookieLogin(req)) {
-				req.getRequestDispatcher(req.getRequestURI()).forward(request, response);
-			} else {
-				req.setAttribute("showMustLoginInfo", true);
-				req.getRequestDispatcher("login.jsp").forward(request, response);
-			}
-		} else {
+
+		if(Util.getUserForSession(req) != null || Util.cookieLogin(req)) {
 			req.getRequestDispatcher(req.getRequestURI()).forward(request, response);
+		} else {
+			req.setAttribute("showMustLoginInfo", true);
+			req.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
 }
