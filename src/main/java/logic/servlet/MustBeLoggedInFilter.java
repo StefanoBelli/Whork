@@ -16,12 +16,12 @@ public final class MustBeLoggedInFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		//method stub
+		//method stub for MustBeLoggedInFilter#init()
 	}
 
 	@Override
 	public void destroy() {
-		//method stub
+		//method stub for MustBeLoggedInFilter#destroy()
 	}
 
 	/**

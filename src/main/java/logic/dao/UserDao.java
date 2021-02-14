@@ -6,10 +6,13 @@ import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Date;
 
 import logic.Database;
+import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
 import logic.model.JobSeekerUserModel;
+import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
@@ -31,6 +34,12 @@ public final class UserDao {
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
 		"More than two result set, this is unexpected";
 	private static final String STMT_CONFIRM_REG = "{ call ConfirmRegistration(?) }";
+	private static final String STMT_REGAUTH_JOBSEEKER = "{ call RegisterJobSeekerUserAuth(?,?,?) }";
+	private static final String STMT_REGAUTH_EMPLOYEE = "{ call RegisterEmployeeUserAuth(?,?,?) }";
+	private static final String STMT_REGDET_EMPLOYEE = 
+		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
+	private static final String STMT_REGDET_JOBSEEKER = 
+		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?) }";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
@@ -171,6 +180,69 @@ public final class UserDao {
 
 		try(CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
 			stmt.setString(1, userModel.getCf());
+			if(stmt.executeUpdate() == 0) {
+				throw new DataAccessException(new SQLException());
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void registerUserDetails(UserModel userModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		boolean isEmployee = userModel.isEmployee();
+		EmployeeUserModel employeeUserModel = null;
+		JobSeekerUserModel jobSeekerUserModel = null;
+
+		if(isEmployee) {
+			employeeUserModel = (EmployeeUserModel) userModel;
+		} else {
+			jobSeekerUserModel = (JobSeekerUserModel) userModel;
+		}
+
+		String callStmt = isEmployee ? STMT_REGDET_EMPLOYEE : STMT_REGDET_JOBSEEKER;
+
+		try(CallableStatement stmt = conn.prepareCall(callStmt)) {
+			stmt.setString(1, userModel.getCf());
+			stmt.setString(2, userModel.getName());
+			stmt.setString(3, userModel.getSurname());
+			stmt.setString(4, userModel.getPhoneNumber());
+			if(isEmployee) {
+				stmt.setString(5, employeeUserModel.getCompany().getVat());
+				stmt.setBoolean(6, employeeUserModel.isRecruiter());
+				stmt.setBoolean(7, employeeUserModel.isAdmin());
+				stmt.setString(8, employeeUserModel.getNote());
+				stmt.setString(9, employeeUserModel.getPhoto());
+			} else {
+				ComuneModel comuneModel = jobSeekerUserModel.getComune();
+
+				stmt.setDate(5, new Date(jobSeekerUserModel.getBirthday().getTime()));
+				stmt.setString(6, jobSeekerUserModel.getBiography());
+				stmt.setString(7, comuneModel.getNome());
+				stmt.setString(8, comuneModel.getCap());
+				stmt.setString(9, jobSeekerUserModel.getEmploymentStatus().getStatus());
+			}
+			stmt.execute();
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
+	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		String callStmt = userModel.isEmployee() ? 
+							STMT_REGAUTH_EMPLOYEE : STMT_REGAUTH_JOBSEEKER;
+
+		try (CallableStatement stmt = conn.prepareCall(callStmt)) {
+			stmt.setString(1, userAuthModel.getEmail());
+			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
+			stmt.setString(3, userModel.getCf());
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

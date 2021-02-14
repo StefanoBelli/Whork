@@ -17,12 +17,12 @@ public final class AlreadyLoggedInFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		//method stub
+		//method stub for AlreadyLoggedInFilter#init()
 	}
 
 	@Override
 	public void destroy() {
-		//method stub
+		//method stub for AlreadyLoggedInFilter#destroy()
 	}
 
 	/**
