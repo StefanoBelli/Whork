@@ -12,7 +12,6 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public final class ComuniDao {
@@ -41,9 +40,29 @@ public final class ComuniDao {
 	private static void realPopulatePool(List<ComuneModel> sscm, 
 		List<ProvinciaModel> sspm, List<RegioneModel> ssrm) {
 		
-		ComuniPool.setComuni(new ArrayList<>(new HashSet<>(sscm)));
-		ComuniPool.setProvince(new ArrayList<>(new HashSet<>(sspm)));
-		ComuniPool.setRegioni(new ArrayList<>(new HashSet<>(ssrm)));
+		ComuniPool.setComuni(sscm);
+		ComuniPool.setProvince(sspm);
+		ComuniPool.setRegioni(ssrm);
+	}
+
+	private static boolean provinceContains(List<ProvinciaModel> p, String sigla) {
+		for(final ProvinciaModel provincia : p) {
+			if(provincia.getSigla().equals(sigla)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static boolean regioniContains(List<RegioneModel> r, String nome) {
+		for(final RegioneModel regione : r) {
+			if(regione.getNome().equals(nome)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static void populatePool() 
@@ -63,8 +82,16 @@ public final class ComuniDao {
 							rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
 
 					c.add(models.getThird());
-					p.add(models.getSecond());
-					r.add(models.getFirst());
+					ProvinciaModel pms = models.getSecond();
+					RegioneModel rms = models.getFirst();
+
+					if(!provinceContains(p, pms.getSigla())) {
+						p.add(pms);
+					}
+
+					if(!regioniContains(r, rms.getNome())) {
+						r.add(rms);
+					}
 				}
 
 				realPopulatePool(c, p, r);
