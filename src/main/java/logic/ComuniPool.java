@@ -1,6 +1,6 @@
 package logic;
 
-import java.util.Set;
+import java.util.List;
 import logic.model.ComuneModel;
 import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
@@ -8,31 +8,31 @@ import logic.model.RegioneModel;
 public final class ComuniPool {
 	private ComuniPool() {}
 	
-	private static Set<ComuneModel> comuni;
-	private static Set<ProvinciaModel> province;
-	private static Set<RegioneModel> regioni;
+	private static List<ComuneModel> comuni;
+	private static List<ProvinciaModel> province;
+	private static List<RegioneModel> regioni;
 
-	public static void setComuni(Set<ComuneModel> comuni) {
+	public static void setComuni(List<ComuneModel> comuni) {
 		ComuniPool.comuni = comuni;
 	}
 
-	public static void setProvince(Set<ProvinciaModel> province) {
+	public static void setProvince(List<ProvinciaModel> province) {
 		ComuniPool.province = province;
 	}
 
-	public static void setRegioni(Set<RegioneModel> regioni) {
+	public static void setRegioni(List<RegioneModel> regioni) {
 		ComuniPool.regioni = regioni;
 	}
 
-	public static Set<ComuneModel> getComuni() {
+	public static List<ComuneModel> getComuni() {
 		return comuni;
 	}
 
-	public static Set<ProvinciaModel> getProvince() {
+	public static List<ProvinciaModel> getProvince() {
 		return province;
 	}
 
-	public static Set<RegioneModel> getRegioni() {
+	public static List<RegioneModel> getRegioni() {
 		return regioni;
 	}
 }

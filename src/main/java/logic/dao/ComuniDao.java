@@ -11,8 +11,9 @@ import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public final class ComuniDao {
 	private ComuniDao() {}
@@ -37,12 +38,12 @@ public final class ComuniDao {
 		return new Threeple<>(rm, pm, cm);
 	}
 
-	private static void realPopulatePool(Set<ComuneModel> sscm, 
-		Set<ProvinciaModel> sspm, Set<RegioneModel> ssrm) {
+	private static void realPopulatePool(List<ComuneModel> sscm, 
+		List<ProvinciaModel> sspm, List<RegioneModel> ssrm) {
 		
-		ComuniPool.setComuni(sscm);
-		ComuniPool.setProvince(sspm);
-		ComuniPool.setRegioni(ssrm);
+		ComuniPool.setComuni(new ArrayList<>(new HashSet<>(sscm)));
+		ComuniPool.setProvince(new ArrayList<>(new HashSet<>(sspm)));
+		ComuniPool.setRegioni(new ArrayList<>(new HashSet<>(ssrm)));
 	}
 
 	public static void populatePool() 
@@ -53,9 +54,9 @@ public final class ComuniDao {
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
-				Set<ComuneModel> c = new HashSet<>();
-				Set<ProvinciaModel> p = new HashSet<>();
-				Set<RegioneModel> r = new HashSet<>();
+				List<ComuneModel> c = new ArrayList<>();
+				List<ProvinciaModel> p = new ArrayList<>();
+				List<RegioneModel> r = new ArrayList<>();
 				
 				while(rs.next()) {
 					Threeple<RegioneModel, ProvinciaModel, ComuneModel> models = getModels(
