@@ -7,6 +7,8 @@ import java.util.GregorianCalendar;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -29,6 +31,7 @@ import logic.model.UserModel;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserDao {
+	private static final Logger LOGGER = LoggerFactory.getLogger("TestUserDao");
 
 	@Test
 	public void testARegisterJobSeeker() throws DataAccessException {
@@ -85,7 +88,10 @@ public class TestUserDao {
 		try {
 			UserDao.confirmRegistration("a@b.com");
 		} catch(DataLogicException e) {
-
+			LOGGER.warn(
+				"DataLogicException raised" + 
+				" for testDConfirmRegForJobSeeker" + 
+				e.getMessage());
 		}
 
 		assertTrue(true);
@@ -147,8 +153,11 @@ public class TestUserDao {
 		try {
 			UserDao.confirmRegistration("me@az.com");
 		} catch(DataLogicException e) {
-
+			LOGGER.warn("DataLogicException raised" + 
+						" for testMConfirmRegEmployee" + 
+						e.getMessage());
 		}
+		
 		assertTrue(true);
 	}
 
