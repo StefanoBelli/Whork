@@ -21,12 +21,20 @@ import logic.bean.UserAuthBean;
 
 public final class BeanFactory {
 	private BeanFactory() {}
+
+	private static File getFile(String f) {
+		if(f == null) {
+			return null;
+		}
+
+		return new File(f);
+	}
 	
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 
 			throws SyntaxException {
 		CompanyBean companyBean = new CompanyBean();
 		companyBean.setCf(companyModel.getCf());
-		companyBean.setLogo(new File(companyModel.getLogo()));
+		companyBean.setLogo(getFile(companyModel.getLogo()));
 		companyBean.setSocialReason(companyModel.getSocialReason());
 		companyBean.setVat(companyModel.getVat());
 
@@ -67,24 +75,24 @@ public final class BeanFactory {
 
 	public static UserBean buildUserBean(UserModel userModel) throws SyntaxException {
 		UserBean userBean = new UserBean();
-
 		userBean.setName(userModel.getName());
 		userBean.setSurname(userModel.getSurname());
 		userBean.setPhoneNumber(userModel.getPhoneNumber());
 		userBean.setEmployee(userModel.isEmployee());
+		
 		if (userBean.isEmployee()) {
 			EmployeeUserModel m = (EmployeeUserModel) userModel;
 			userBean.setRecruiter(m.isRecruiter());
 			userBean.setAdmin(m.isAdmin());
 			userBean.setNote(m.getNote());
-			userBean.setPhoto(new File(m.getPhoto()));
+			userBean.setPhoto(getFile(m.getPhoto()));
 			userBean.setCf(m.getCf());
 			userBean.setCompany(BeanFactory.buildCompanyBean(m.getCompany()));
 		} else {
 			JobSeekerUserModel m = (JobSeekerUserModel) userModel;
 			userBean.setHomeAddress(m.getHomeAddress());
 			userBean.setPhoneNumber(m.getPhoneNumber());
-			userBean.setCv(new File(m.getCv()));
+			userBean.setCv(getFile(m.getCv()));
 			userBean.setCf(m.getCf());
 			userBean.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean(m.getEmploymentStatus()));
 			userBean.setComune(BeanFactory.buildComuneBean(m.getComune()));

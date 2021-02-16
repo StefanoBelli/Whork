@@ -10,6 +10,10 @@ public final class JobSeekerUserModel extends UserModel {
 	private ComuneModel comune;
 	private EmploymentStatusModel employmentStatus;
 
+	public JobSeekerUserModel() {
+		setEmployee(false);
+	}
+
 	public Date getBirthday() {
 		return birthday;
 	}

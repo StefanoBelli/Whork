@@ -1,9 +1,9 @@
 package logic.factory;
 
 import logic.model.UserAuthModel;
+import logic.util.Util;
 
 import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 
 import logic.bean.UserAuthBean;
 
@@ -15,7 +15,7 @@ public final class ModelFactory {
 		userAuthModel.setEmail(userAuthBean.getEmail());
 		userAuthModel.setBcryptedPassword(
 			new ByteArrayInputStream(
-				userAuthBean.getPassword().getBytes(StandardCharsets.UTF_8)));
+				Util.Bcrypt.hash(userAuthBean.getPassword())));
 
 		return userAuthModel;
 	}

@@ -58,7 +58,6 @@ public class TestDatabase {
 	@AfterClass
 	public static void chooseDb() 
 			throws SQLException {
-				
 		Database.getInstance().getConnection().setCatalog(DbmsConfig.DB_NAME);
 	}
 }

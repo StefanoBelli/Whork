@@ -43,7 +43,7 @@ public abstract class UserModel {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void setEmployee(boolean employee) {
+	protected void setEmployee(boolean employee) {
 		this.employee = employee;
 	}
 }

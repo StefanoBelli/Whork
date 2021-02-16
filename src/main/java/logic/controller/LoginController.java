@@ -37,9 +37,7 @@ public final class LoginController {
 				return null; // email was not found
 			}
 
-			byte[] hashUserInput = Util.Bcrypt.hash(userAuthBean.getPassword());
-
-			if(Util.Bcrypt.equals(hashUserInput, pair.getSecond())) {
+			if(Util.Bcrypt.equals(userAuthBean.getPassword(), pair.getSecond())) {
 				return BeanFactory.buildUserBean(
 							UserDao.getUserByCf(pair.getFirst()));
 			}

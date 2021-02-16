@@ -7,6 +7,10 @@ public final class EmployeeUserModel extends UserModel {
 	private String note;
 	private String photo;
 
+	public EmployeeUserModel() {
+		setEmployee(true);
+	}
+	
 	public CompanyModel getCompany() {
 		return company;
 	}

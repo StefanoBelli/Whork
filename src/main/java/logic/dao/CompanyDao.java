@@ -32,9 +32,9 @@ public final class CompanyDao {
 				}
 
 				CompanyModel cm = new CompanyModel();
-				cm.setSocialReason(stmt.getString(1));
-				cm.setCf(stmt.getString(2));
-				cm.setLogo(stmt.getString(3));
+				cm.setSocialReason(rs.getString(1));
+				cm.setCf(rs.getString(2));
+				cm.setLogo(rs.getString(3));
 				cm.setVat(vat);
 
 				if(rs.next()) {

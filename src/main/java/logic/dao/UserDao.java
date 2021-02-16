@@ -29,8 +29,6 @@ public final class UserDao {
 	private static final String DATA_LOGIC_ERR_MULTIPLE_ROWS =
 		"Multiple rows in result set, where we expect only one";
 	private static final String STMT_GETUSER_BYCF = "{ call GetUserDetails(?) }";
-	private static final String DATA_LOGIC_ERR_MULTIPLE_USERS =
-		"Multiple users for same CF";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
 		"More than two result set, this is unexpected";
 	private static final String STMT_CONFIRM_REG = "{ call ConfirmRegistration(?) }";
@@ -39,21 +37,23 @@ public final class UserDao {
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
-		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?) }";
+		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?) }";
+	private static final String DATA_LOGIC_ERR_NOEMAIL_OR_ALREADYCOMPLETED =
+		"No email found or registration process already completed";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
 		String target = cf;
 
-		if (target != null) {
-			if (cf2 != null) {
+		if (cf != null) { /* cf != null && cf2 = ??? */
+			if (cf2 != null) { /* cf != null && cf2 != null */
 				throw new DataLogicException(DATA_LOGIC_ERR_TWOCF_ONECREDPAIR);
-			} else {
-				target = cf2;
 			}
-		} else {
-			if (cf2 == null) {
+		} else { /* cf = null && cf2 = ??? */
+			if (cf2 == null) { /* cf = null && cf2 = null */
 				throw new DataLogicException(DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR);
+			} else { /* cf = null && cf2 != null */
+				target = cf2;
 			}
 		}
 
@@ -61,11 +61,7 @@ public final class UserDao {
 	}
 
 	private static UserModel getJobSeeker(ResultSet rs) 
-			throws SQLException, DataLogicException {
-
-		if(rs.next()) {
-			throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_USERS);
-		}
+			throws SQLException {
 
 		JobSeekerUserModel m = new JobSeekerUserModel();
 		m.setName(rs.getString(1));
@@ -80,17 +76,12 @@ public final class UserDao {
 								rs.getString(9)));
 		m.setEmploymentStatus(
 			EmploymentStatusDao.getEmploymentStatus(rs.getString(10)));
-		m.setEmployee(false);
 
 		return m;
 	}
 
 	private static UserModel getEmployee(ResultSet rs) 
 			throws SQLException, DataLogicException, DataAccessException {
-
-		if (rs.next()) {
-			throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_USERS);
-		}
 
 		EmployeeUserModel m = new EmployeeUserModel();
 		m.setName(rs.getString(1));
@@ -102,7 +93,6 @@ public final class UserDao {
 		m.setAdmin(rs.getBoolean(6));
 		m.setNote(rs.getString(7));
 		m.setPhoto(rs.getString(8));
-		m.setEmployee(true);
 
 		return m;
 	}
@@ -159,7 +149,7 @@ public final class UserDao {
 					if(rs.next()) {
 						UserModel model = i == 2 ? getEmployee(rs) : getJobSeeker(rs);
 						model.setCf(cf);
-						
+
 						return model;
 					}
 				}
@@ -173,15 +163,15 @@ public final class UserDao {
 		return null;
 	}
 
-	public static void confirmRegistration(UserModel userModel) 
-			throws DataAccessException {
+	public static void confirmRegistration(String email) 
+			throws DataAccessException, DataLogicException {
 		
 		Connection conn = Database.getInstance().getConnection();
 
 		try(CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
-			stmt.setString(1, userModel.getCf());
+			stmt.setString(1, email);
 			if(stmt.executeUpdate() == 0) {
-				throw new DataAccessException(new SQLException());
+				throw new DataLogicException(DATA_LOGIC_ERR_NOEMAIL_OR_ALREADYCOMPLETED);
 			}
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
@@ -219,18 +209,20 @@ public final class UserDao {
 			} else {
 				ComuneModel comuneModel = jobSeekerUserModel.getComune();
 
-				stmt.setDate(5, new Date(jobSeekerUserModel.getBirthday().getTime()));
-				stmt.setString(6, jobSeekerUserModel.getBiography());
-				stmt.setString(7, comuneModel.getNome());
-				stmt.setString(8, comuneModel.getCap());
-				stmt.setString(9, jobSeekerUserModel.getEmploymentStatus().getStatus());
+				stmt.setString(5, jobSeekerUserModel.getHomeAddress());
+				stmt.setDate(6, new Date(jobSeekerUserModel.getBirthday().getTime()));
+				stmt.setString(7, jobSeekerUserModel.getBiography());
+				stmt.setString(8, comuneModel.getNome());
+				stmt.setString(9, comuneModel.getCap());
+				stmt.setString(10, jobSeekerUserModel.getEmploymentStatus().getStatus());
+				stmt.setString(11, jobSeekerUserModel.getCv());
 			}
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
 	}
-	
+
 	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) 
 			throws DataAccessException {
 

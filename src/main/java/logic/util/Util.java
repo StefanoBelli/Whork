@@ -103,8 +103,8 @@ public final class Util {
 			return BCrypt.withDefaults().hash(12, clearText.toCharArray());
 		}
 
-		public static boolean equals(byte[] hash1, byte[] hash2) {
-			return BCrypt.verifyer().verify(hash1, hash2).verified;
+		public static boolean equals(String clearText, byte[] hash2) {
+			return BCrypt.verifyer().verify(clearText.getBytes(), hash2).verified;
 		}
 	}
 }
