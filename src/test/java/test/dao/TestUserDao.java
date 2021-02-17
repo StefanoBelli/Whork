@@ -7,9 +7,6 @@ import java.util.GregorianCalendar;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
@@ -31,7 +28,6 @@ import logic.model.UserModel;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserDao {
-	private static final Logger LOGGER = LoggerFactory.getLogger("TestUserDao");
 
 	@Test
 	public void testARegisterJobSeeker() throws DataAccessException {
@@ -83,16 +79,9 @@ public class TestUserDao {
 
 	@Test
 	public void testDConfirmRegForJobSeeker() 
-			throws DataAccessException {
-
-		try {
-			UserDao.confirmRegistration("a@b.com");
-		} catch(DataLogicException e) {
-			LOGGER.warn(
-				"DataLogicException raised" + 
-				" for testDConfirmRegForJobSeeker" + 
-				e.getMessage());
-		}
+			throws DataAccessException, DataLogicException {
+				
+		UserDao.confirmRegistration("a@b.com");
 
 		assertTrue(true);
 	}
@@ -148,15 +137,9 @@ public class TestUserDao {
 
 	@Test
 	public void testMConfirmRegEmployee() 
-			throws DataAccessException {
-
-		try {
-			UserDao.confirmRegistration("me@az.com");
-		} catch(DataLogicException e) {
-			LOGGER.warn("DataLogicException raised" + 
-						" for testMConfirmRegEmployee" + 
-						e.getMessage());
-		}
+			throws DataAccessException, DataLogicException {
+				
+		UserDao.confirmRegistration("me@az.com");
 		
 		assertTrue(true);
 	}

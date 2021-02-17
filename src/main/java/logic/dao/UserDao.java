@@ -38,8 +38,6 @@ public final class UserDao {
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?) }";
-	private static final String DATA_LOGIC_ERR_NOEMAIL_OR_ALREADYCOMPLETED =
-		"No email found or registration process already completed";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
@@ -170,10 +168,12 @@ public final class UserDao {
 
 		try(CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
 			stmt.setString(1, email);
-			if(stmt.executeUpdate() == 0) {
-				throw new DataLogicException(DATA_LOGIC_ERR_NOEMAIL_OR_ALREADYCOMPLETED);
-			}
+			stmt.execute();
 		} catch(SQLException e) {
+			if(e.getSQLState().equals("45001")) {
+				throw new DataLogicException(e.getMessage());
+			}
+			
 			throw new DataAccessException(e);
 		}
 	}
