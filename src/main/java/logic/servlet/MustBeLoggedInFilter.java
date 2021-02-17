@@ -15,13 +15,13 @@ import logic.util.Util;
 public final class MustBeLoggedInFilter implements Filter {
 
 	@Override
+	public void destroy() {
+		// method stub for MustBeLoggedInFilter#destroy()
+	}
+	
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		//method stub for MustBeLoggedInFilter#init()
-	}
-
-	@Override
-	public void destroy() {
-		//method stub for MustBeLoggedInFilter#destroy()
 	}
 
 	/**
