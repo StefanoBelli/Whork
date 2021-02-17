@@ -1,5 +1,10 @@
 package logic.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -94,6 +99,20 @@ public final class Util {
 
 	public static UserBean getUserForSession(HttpServletRequest req) {
 		return (UserBean) req.getSession().getAttribute("user");
+	}
+
+	public static String readFileEntirely(File f) 
+			throws IOException {
+		StringBuilder builder = new StringBuilder();
+
+		try(BufferedReader reader = new BufferedReader(new FileReader(f))) {
+			String line;
+			while((line = reader.readLine()) != null) {
+				builder.append(line).append('\n');
+			}
+		}
+
+		return builder.toString();
 	}
 
 	public static final class Bcrypt {

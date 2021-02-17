@@ -403,7 +403,7 @@ final class App {
 			}
 		} else {
 			LOGGER.info("Welcome to Whork desktop! Starting up...");
-			WhorkDesktop.launchApp(args);
+			WhorkDesktopLauncher.launchApp(args);
 		}
 	}
 }
