@@ -27,12 +27,16 @@ public final class WhorkDesktopLauncher extends Application {
 		launch(args);
 	}
 
+	private void showThisStage(Stage currentStage) {
+		mainView.setWindowProperties(currentStage);
+		currentStage.setScene(mainView.getScene());
+		currentStage.show();
+	}
+
 	@Override
 	public void start(Stage primaryStage) {
 		attemptLogin();
-		mainView.setWindowProperties(primaryStage);
-		primaryStage.setScene(mainView.getScene());
-		primaryStage.show();
+		showThisStage(primaryStage);
 	}
 
 	private Pair<String, String> parseJson(String json) {

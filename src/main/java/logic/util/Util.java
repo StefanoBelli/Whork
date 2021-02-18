@@ -1,8 +1,10 @@
 package logic.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.servlet.http.Cookie;
@@ -12,9 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.scene.control.Button;
 import logic.bean.UserBean;
 import logic.controller.LoginController;
 import logic.factory.BeanFactory;
+import logic.view.ExceptionView;
+import logic.view.View;
 
 public final class Util {
 	private Util() {}
@@ -113,6 +120,30 @@ public final class Util {
 		}
 
 		return builder.toString();
+	}
+
+	public static void fileOverwrite(String content, File f) 
+			throws IOException {
+
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(f))) {
+			writer.write(content);
+		}
+	}
+
+	public static void showNewStage(View v) {
+		Stage newStage = new Stage();
+		newStage.setScene(v.getScene());
+		v.setWindowProperties(newStage);
+		newStage.show();
+	}
+
+	public static void showExceptionView(Exception e) {
+		showNewStage(new ExceptionView(e));
+	}
+
+	public static void closeStageByMouseEvent(MouseEvent event) {
+		Stage s = (Stage) ((Button) event.getSource()).getScene().getWindow();
+		s.close();
 	}
 
 	public static final class Bcrypt {
