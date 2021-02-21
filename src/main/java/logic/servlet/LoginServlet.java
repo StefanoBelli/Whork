@@ -18,50 +18,47 @@ import logic.exception.InternalException;
 
 public final class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -9153792726136664317L;
+	private static final int COOKIE_MAX_AGE = 43200; /* 30 days */
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws IOException, ServletException {
-		String errorMessage = null;
-		String file = "login.jsp";
 		String email = req.getParameter("email");
 		String password = req.getParameter("passwd");
 		boolean stayLoggedIn = Util.checkboxToBoolean(
 			req.getParameter("stayLoggedIn"));
 
+		String errorMessage = null;
+		UserBean userBean = null;
+
 		try {
 			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, password);
-			UserBean userBean = LoginController.basicLogin(userAuthBean);
-
-			if(userBean == null) {
-				errorMessage = "Wrong username and/or password";
-				req.setAttribute("showPasswordRecoveryButton", true);
-			} else {
-				file = "index.jsp";
-
-				Util.setUserForSession(req, userBean);
-
-				if(stayLoggedIn) {
-					Cookie ckEmail = new Cookie("email", email);
-					Cookie ckPassword = new Cookie("password", password);
-					ckEmail.setMaxAge(43200);
-					ckPassword.setMaxAge(43200);
-
-					resp.addCookie(ckEmail);
-					resp.addCookie(ckPassword);
-				}
-			}
+			userBean = LoginController.basicLogin(userAuthBean); /* maybe userBean != null or userBean = null */
 		} catch(InternalException e) {
-			errorMessage = "Internal processing error: " + e.getMessage();
+			errorMessage = "Internal processing error: " + e.getMessage(); /* userBean = null (thrown from buildUserAuthBean) */
 		} catch(SyntaxException e) {
-			errorMessage = e.getMessage();
+			errorMessage = e.getMessage(); /* userBean = null (thrown from basicLogin) */
 		}
 
-		if(file.equals("index.jsp")) {
-			resp.sendRedirect("index.jsp");
-		} else {
-			req.setAttribute("errorMessage", errorMessage);
+		if(userBean == null) { /* wrong creds or internal error */
+			errorMessage = "Wrong username and/or password";
+			req.setAttribute("showPasswordRecoveryButton", true);
+			req.setAttribute("errorMessage", errorMessage); /* if errorMessage = null then internal error happened */
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
+		} else { /* successful login */
+			Util.setUserForSession(req, userBean);
+
+			if(stayLoggedIn) {
+				Cookie ckEmail = new Cookie("email", email);
+				Cookie ckPassword = new Cookie("password", password);
+				ckEmail.setMaxAge(COOKIE_MAX_AGE);
+				ckPassword.setMaxAge(COOKIE_MAX_AGE);
+
+				resp.addCookie(ckEmail);
+				resp.addCookie(ckPassword);
+			}
+
+			resp.sendRedirect("index.jsp");
 		}
 	}
 }
