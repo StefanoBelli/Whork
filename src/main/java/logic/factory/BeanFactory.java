@@ -78,6 +78,8 @@ public final class BeanFactory {
 		userBean.setName(userModel.getName());
 		userBean.setSurname(userModel.getSurname());
 		userBean.setPhoneNumber(userModel.getPhoneNumber());
+		userBean.setCf(userModel.getCf());
+		userBean.setPhoto(getFile(userModel.getPhoto()));
 		userBean.setEmployee(userModel.isEmployee());
 		
 		if (userBean.isEmployee()) {
@@ -85,15 +87,12 @@ public final class BeanFactory {
 			userBean.setRecruiter(m.isRecruiter());
 			userBean.setAdmin(m.isAdmin());
 			userBean.setNote(m.getNote());
-			userBean.setPhoto(getFile(m.getPhoto()));
-			userBean.setCf(m.getCf());
 			userBean.setCompany(BeanFactory.buildCompanyBean(m.getCompany()));
 		} else {
 			JobSeekerUserModel m = (JobSeekerUserModel) userModel;
 			userBean.setHomeAddress(m.getHomeAddress());
 			userBean.setPhoneNumber(m.getPhoneNumber());
 			userBean.setCv(getFile(m.getCv()));
-			userBean.setCf(m.getCf());
 			userBean.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean(m.getEmploymentStatus()));
 			userBean.setComune(BeanFactory.buildComuneBean(m.getComune()));
 			userBean.setBiography(m.getBiography());

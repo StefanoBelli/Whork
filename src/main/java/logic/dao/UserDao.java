@@ -37,7 +37,7 @@ public final class UserDao {
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
-		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?) }";
+		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
@@ -74,6 +74,7 @@ public final class UserDao {
 								rs.getString(9)));
 		m.setEmploymentStatus(
 			EmploymentStatusDao.getEmploymentStatus(rs.getString(10)));
+		m.setPhoto(rs.getString(11));
 
 		return m;
 	}
@@ -200,22 +201,22 @@ public final class UserDao {
 			stmt.setString(2, userModel.getName());
 			stmt.setString(3, userModel.getSurname());
 			stmt.setString(4, userModel.getPhoneNumber());
+			stmt.setString(5, userModel.getPhoto());
 			if(isEmployee) {
-				stmt.setString(5, employeeUserModel.getCompany().getVat());
-				stmt.setBoolean(6, employeeUserModel.isRecruiter());
-				stmt.setBoolean(7, employeeUserModel.isAdmin());
-				stmt.setString(8, employeeUserModel.getNote());
-				stmt.setString(9, employeeUserModel.getPhoto());
+				stmt.setString(6, employeeUserModel.getCompany().getVat());
+				stmt.setBoolean(7, employeeUserModel.isRecruiter());
+				stmt.setBoolean(8, employeeUserModel.isAdmin());
+				stmt.setString(9, employeeUserModel.getNote());
 			} else {
 				ComuneModel comuneModel = jobSeekerUserModel.getComune();
 
-				stmt.setString(5, jobSeekerUserModel.getHomeAddress());
-				stmt.setDate(6, new Date(jobSeekerUserModel.getBirthday().getTime()));
-				stmt.setString(7, jobSeekerUserModel.getBiography());
-				stmt.setString(8, comuneModel.getNome());
-				stmt.setString(9, comuneModel.getCap());
-				stmt.setString(10, jobSeekerUserModel.getEmploymentStatus().getStatus());
-				stmt.setString(11, jobSeekerUserModel.getCv());
+				stmt.setString(6, jobSeekerUserModel.getHomeAddress());
+				stmt.setDate(7, new Date(jobSeekerUserModel.getBirthday().getTime()));
+				stmt.setString(8, jobSeekerUserModel.getBiography());
+				stmt.setString(9, comuneModel.getNome());
+				stmt.setString(10, comuneModel.getCap());
+				stmt.setString(11, jobSeekerUserModel.getEmploymentStatus().getStatus());
+				stmt.setString(12, jobSeekerUserModel.getCv());
 			}
 			stmt.execute();
 		} catch(SQLException e) {

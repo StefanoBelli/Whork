@@ -5,6 +5,7 @@ public abstract class UserModel {
 	private String surname;
 	private String phoneNumber;
 	private String cf;
+	private String photo;
 	private boolean employee;
 
 	public String getCf() {
@@ -21,6 +22,10 @@ public abstract class UserModel {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public String getPhoto() {
+		return photo;
 	}
 
 	public boolean isEmployee() {
@@ -45,5 +50,9 @@ public abstract class UserModel {
 
 	protected void setEmployee(boolean employee) {
 		this.employee = employee;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 }
