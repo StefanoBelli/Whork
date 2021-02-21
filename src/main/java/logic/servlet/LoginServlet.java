@@ -22,7 +22,6 @@ public final class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws IOException, ServletException {
-		
 		String errorMessage = null;
 		String file = "login.jsp";
 		String email = req.getParameter("email");
@@ -38,14 +37,18 @@ public final class LoginServlet extends HttpServlet {
 				errorMessage = "Wrong username and/or password";
 				req.setAttribute("showPasswordRecoveryButton", true);
 			} else {
-				String reqRes = req.getRequestURI();
-				file = reqRes.equals("login.jsp") ? "index.jsp" : reqRes;
+				file = "index.jsp";
 
 				Util.setUserForSession(req, userBean);
 
 				if(stayLoggedIn) {
-					resp.addCookie(new Cookie("email", email));
-					resp.addCookie(new Cookie("password", password));
+					Cookie ckEmail = new Cookie("email", email);
+					Cookie ckPassword = new Cookie("password", password);
+					ckEmail.setMaxAge(43200);
+					ckPassword.setMaxAge(43200);
+
+					resp.addCookie(ckEmail);
+					resp.addCookie(ckPassword);
 				}
 			}
 		} catch(InternalException e) {
@@ -54,7 +57,11 @@ public final class LoginServlet extends HttpServlet {
 			errorMessage = e.getMessage();
 		}
 
-		req.setAttribute("errorMessage", errorMessage);
-		req.getRequestDispatcher(file).forward(req, resp);
+		if(file.equals("index.jsp")) {
+			resp.sendRedirect("index.jsp");
+		} else {
+			req.setAttribute("errorMessage", errorMessage);
+			req.getRequestDispatcher("login.jsp").forward(req, resp);
+		}
 	}
 }
