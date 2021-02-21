@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import logic.view.ExceptionView;
 import logic.view.HomeView;
-import logic.view.LoginView;
 import logic.view.View;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.LoginHandler;
@@ -61,7 +60,7 @@ public final class WhorkDesktopLauncher extends Application {
 		try {
 			jsonAuthCred = Util.readFileEntirely(f);
 		} catch(FileNotFoundException e) {
-			mainView = new LoginView();
+			mainView = new HomeView();
 			return;
 		} catch(Exception e) {
 			mainView = new ExceptionView(e);
@@ -70,20 +69,16 @@ public final class WhorkDesktopLauncher extends Application {
 
 		Pair<String, String> cred = parseJson(jsonAuthCred);
 		if(cred != null) {
-			boolean outcome;
-
 			try {
-				outcome = LoginHandler.login(
+				LoginHandler.login(
 					BeanFactory.buildUserAuthBean(cred.getFirst(), cred.getSecond()));
 			} catch (Exception e) {
 				mainView = new ExceptionView(e);
 				return;
 			}
-
-			mainView = outcome ? new HomeView() : new LoginView();
-		} else {
-			mainView = new LoginView();
 		}
+
+		mainView = new HomeView();
 	}
 }
 

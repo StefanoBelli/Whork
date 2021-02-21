@@ -7,6 +7,7 @@ import logic.exception.SyntaxException;
 
 public final class UserBean implements Serializable {
 	private static final long serialVersionUID = -3927240997879942530L;
+	private static final String DEFAULT_USER_PHOTO_PATH = "";
 
 	private String cf;
 	private String name;
@@ -62,6 +63,10 @@ public final class UserBean implements Serializable {
 	}
 
 	public File getPhoto() {
+		if(photo == null) {
+			return new File(DEFAULT_USER_PHOTO_PATH);
+		}
+		
 		return photo;
 	}
 
