@@ -30,7 +30,7 @@ public final class HomeView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-		return;
+		//no need to set node props for now
 	}
 
 	private void populateScene() {
@@ -50,7 +50,6 @@ public final class HomeView implements ControllableView {
 		stage.setResizable(false);
 		stage.setTitle(CONFIG_WIN_TITLE);
 	}
-
 	@Override
 	public Node[] getNodes() {
 		return new Node[] {

@@ -5,7 +5,6 @@ public final class EmployeeUserModel extends UserModel {
 	private boolean admin;
 	private boolean recruiter;
 	private String note;
-	private String photo;
 
 	public EmployeeUserModel() {
 		setEmployee(true);
@@ -27,10 +26,6 @@ public final class EmployeeUserModel extends UserModel {
 		return note;
 	}
 
-	public String getPhoto() {
-		return photo;
-	}
-
 	public void setCompany(CompanyModel company) {
 		this.company = company;
 	}
@@ -45,9 +40,5 @@ public final class EmployeeUserModel extends UserModel {
 
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
 	}
 }

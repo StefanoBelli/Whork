@@ -23,16 +23,16 @@ public final class AccountView implements ControllableView {
 		populateScene();
 	}
 
-	public void init() {
+	private void init() {
 		logoutBtn = new Button("Logout");
 		controller.setup();
 	}
 
-	public void setNodesProps() {
+	private void setNodesProps() {
 		//no nodes props for now
 	}
 
-	public void populateScene() {
+	private void populateScene() {
 		VBox vbox = new VBox();
 		vbox.getChildren().add(logoutBtn);
 
