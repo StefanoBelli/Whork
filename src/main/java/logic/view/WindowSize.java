@@ -1,6 +1,6 @@
 package logic.view;
 
-public final class WindowSize {
+final class WindowSize {
 	private WindowSize() {}
 
 	public static final int HEIGHT = 400;
