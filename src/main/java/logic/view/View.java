@@ -6,4 +6,5 @@ import javafx.stage.Stage;
 public interface View {
 	Scene getScene();
 	void setWindowProperties(Stage stage);
+	void visible();
 }

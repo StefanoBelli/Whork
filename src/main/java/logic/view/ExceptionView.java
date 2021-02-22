@@ -18,7 +18,7 @@ import logic.graphicscontroller.GraphicsController;
  * Window (Stage in JavaFX). L'applicazione termina effettivamente solo se tutte le
  * Window sono chiuse, pertanto è responsabilità del metodo chiamante chiuderle.'
  */
-public final class ExceptionView implements View, ControllableView {
+public final class ExceptionView implements ControllableView {
 	private static final String UNHANDLED_EXCEPTION_MSG = 
 		"Unhandled exception: Whork desktop needs to terminate";
 	private static final String EXIT_MSG = "Exit";
@@ -26,8 +26,6 @@ public final class ExceptionView implements View, ControllableView {
 	private static final String CONFIG_FONT_FAMILY_STACKTRACE = "Monospace Regular";
 	private static final String STACK_TRACE_MSG = "Stack trace below:";
 	private static final int CONFIG_FONT_SIZE_STACKTRACE = 15;
-	private static final int CONFIG_WIN_WIDTH = 600;
-	private static final int CONFIG_WIN_HEIGHT = 400;
 	private static final int CONFIG_DESCFONT_SIZE = 15;
 	private static final int CONFIG_EXCPNAMEFONT_SIZE = 14;
 	private static final int CONFIG_EXCPMSGFONT_SIZE = 14;
@@ -44,8 +42,8 @@ public final class ExceptionView implements View, ControllableView {
 
 	private GraphicsController controller;
 
-	public ExceptionView(Exception e) {
-		controller = new ExceptionViewController(e, this);
+	public ExceptionView(Exception e, ViewStack viewStack) {
+		controller = new ExceptionViewController(e, this, viewStack);
 		init();
 		populateScene();
 	}
@@ -75,7 +73,7 @@ public final class ExceptionView implements View, ControllableView {
 		vbox.getChildren().add(stackTraceFollowsMessage);
 		vbox.getChildren().add(exceptionStackTrace);
 		vbox.getChildren().add(exitApp);
-		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
+		scene = new Scene(vbox, WindowSize.WIDTH, WindowSize.HEIGHT);
 	}
 
 	@Override
@@ -97,5 +95,10 @@ public final class ExceptionView implements View, ControllableView {
 			exceptionStackTrace,
 			exitApp
 		};
+	}
+
+	@Override
+	public void visible() {
+		//no need to request update
 	}
 }

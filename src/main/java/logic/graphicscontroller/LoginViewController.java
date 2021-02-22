@@ -1,9 +1,6 @@
 package logic.graphicscontroller;
 
-import java.io.File;
 import java.io.IOException;
-
-import org.json.JSONObject;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -12,30 +9,29 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import logic.WhorkDesktopLauncher;
 import logic.exception.InternalException;
 import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
+import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
-import logic.view.HomeView;
+import logic.view.ViewStack;
 
-public final class LoginViewController implements GraphicsController {
+public final class LoginViewController extends GraphicsController {
 
 	private static final String EMAIL_EXCEEDS_255_CHARS_MSG = "Email exceeds 255 chars!";
 	private static final String EMAIL_EMPTY_MSG = "Email field is empty";
 	private static final String PASSWORD_EMPTY_MSG = "Password field is empty";
 	private static final String BOTH_EMPTY_MSG = "Both fields are empty";
 
-	private ControllableView view;
 	private TextField emailField;
 	private TextField passwordField;
 	private Label errorFieldLabel;
 	private CheckBox stayLoggedInBox;
 
-	public LoginViewController(ControllableView view) {
-		this.view = view;
+	public LoginViewController(ControllableView view, ViewStack viewStack) {
+		super(view, viewStack);
 	}
 
 	@Override
@@ -74,35 +70,19 @@ public final class LoginViewController implements GraphicsController {
 			return true;
 		}
 
-		private void writeJsonFile(String email, String password) 
-				throws IOException {
-			File f = new File(WhorkDesktopLauncher.AUTH_FILE_PATH);
-
-			if(!f.exists() && !f.createNewFile()) {
-				throw new IOException();
-			}
-
-			JSONObject obj = new JSONObject();
-			obj.put("email", email);
-			obj.put("password", password);
-
-			Util.fileOverwrite(obj.toString(), f);
-		}
-
 		private void completeLoginPhase(
 			MouseEvent event, boolean loggedIn, String email, String password) {
 			if(loggedIn) {
 				if(stayLoggedInBox.isSelected()) {
 					try {
-						writeJsonFile(email, password);
+						Util.Files.overWriteJsonAuth(email, password);
 					} catch(IOException e) {
-						Util.closeStageByMouseEvent(event);
-						Util.showExceptionView(e);
+						GraphicsUtil.closeStageByMouseEvent(event);
+						GraphicsUtil.showExceptionStage(e);
 					}
 				}
 
-				Util.closeStageByMouseEvent(event);
-				Util.showNewStage(new HomeView());
+				GraphicsUtil.closeStageByMouseEvent(event);
 			} else {
 				DialogFactory.error(
 					"Access denied", 
@@ -128,8 +108,8 @@ public final class LoginViewController implements GraphicsController {
 				outcome = LoginHandler.login(
 							BeanFactory.buildUserAuthBean(email, password));
 			} catch(InternalException e) {
-				Util.closeStageByMouseEvent(event);
-				Util.showExceptionView(e);
+				GraphicsUtil.closeStageByMouseEvent(event);
+				GraphicsUtil.showExceptionStage(e);
 				return;
 			} catch(SyntaxException e) {
 				errorFieldLabel.setText(EMAIL_EXCEEDS_255_CHARS_MSG);
@@ -147,12 +127,17 @@ public final class LoginViewController implements GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {
 			errorFieldLabel.setVisible(false);
-
-			Util.closeStageByMouseEvent(event);
-			Util.showExceptionView(new Exception("missing implementation"));
+			
+			GraphicsUtil.closeStageByMouseEvent(event);
+			GraphicsUtil.showExceptionStage(new Exception("missing implementation"));
 			//TODO call appcontroller
 		}
 
+	}
+
+	@Override
+	public void update() {
+		//no need to update anything
 	}
 	
 }

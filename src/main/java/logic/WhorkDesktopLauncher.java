@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import logic.view.ExceptionView;
 import logic.view.HomeView;
 import logic.view.View;
+import logic.view.ViewStack;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.LoginHandler;
 import logic.util.Pair;
@@ -34,7 +35,9 @@ public final class WhorkDesktopLauncher extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		attemptLogin();
+		ViewStack stack = new ViewStack(primaryStage);
+		attemptLogin(stack);
+		stack.push(mainView);
 		showThisStage(primaryStage);
 	}
 
@@ -53,17 +56,17 @@ public final class WhorkDesktopLauncher extends Application {
 		return new Pair<>(email, password);
 	}
 
-	private void attemptLogin() {
+	private void attemptLogin(ViewStack stack) {
 		File f = new File(AUTH_FILE_PATH);
 		String jsonAuthCred;
 
 		try {
-			jsonAuthCred = Util.readFileEntirely(f);
+			jsonAuthCred = Util.Files.readAll(f);
 		} catch(FileNotFoundException e) {
-			mainView = new HomeView();
+			mainView = new HomeView(stack);
 			return;
 		} catch(Exception e) {
-			mainView = new ExceptionView(e);
+			mainView = new ExceptionView(e, stack);
 			return;
 		}
 
@@ -73,12 +76,12 @@ public final class WhorkDesktopLauncher extends Application {
 				LoginHandler.login(
 					BeanFactory.buildUserAuthBean(cred.getFirst(), cred.getSecond()));
 			} catch (Exception e) {
-				mainView = new ExceptionView(e);
+				mainView = new ExceptionView(e, stack);
 				return;
 			}
 		}
 
-		mainView = new HomeView();
+		mainView = new HomeView(stack);
 	}
 }
 

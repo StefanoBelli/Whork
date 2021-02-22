@@ -3,20 +3,20 @@ package logic.graphicscontroller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 import logic.view.ControllableView;
+import logic.view.ViewStack;
 
-public final class ExceptionViewController implements GraphicsController {
+public final class ExceptionViewController extends GraphicsController {
 	private Exception e;
-	private ControllableView view;
 
-	public ExceptionViewController(Exception e, ControllableView view) {
+	public ExceptionViewController(Exception e, ControllableView view, ViewStack viewStack) {
+		super(view, viewStack);
 		this.e = e;
-		this.view = view;
 	}
 
 	@Override
@@ -32,10 +32,7 @@ public final class ExceptionViewController implements GraphicsController {
 
 		((TextArea)n[2]).setText(getStackTraceAsString(e));
 
-		btnExit.setOnMouseClicked(event -> {
-			Stage window = (Stage) btnExit.getScene().getWindow();
-			window.close();
-		});
+		btnExit.setOnMouseClicked(ev -> Platform.exit());
 	}
 
 	private String formatMessage(String msg, String simpleName) {
@@ -51,5 +48,10 @@ public final class ExceptionViewController implements GraphicsController {
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		return sw.toString();
+	}
+
+	@Override
+	public void update() {
+		//no need to update anything
 	}
 }

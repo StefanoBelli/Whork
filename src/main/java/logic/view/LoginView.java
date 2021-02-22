@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.LoginViewController;
 
-public final class LoginView implements View, ControllableView {
+public final class LoginView implements ControllableView {
 
 	private static final String LOGIN_TO_WHORK_MSG = "Login to Whork";
 	private static final String EMAIL_MSG = "Email";
@@ -43,9 +43,9 @@ public final class LoginView implements View, ControllableView {
 	private Label loginCredErrorMessage;
 	
 	private GraphicsController controller;
-	
-	public LoginView() {
-		controller = new LoginViewController(this);
+
+	public LoginView(ViewStack viewStack) {
+		controller = new LoginViewController(this, viewStack);
 		init();
 		setNodesProps();
 		populateScene();
@@ -120,5 +120,10 @@ public final class LoginView implements View, ControllableView {
 			loginCredErrorMessage,
 			stayLoggedInBox
 		};
+	}
+
+	@Override
+	public void visible() {
+		//no need to update anything
 	}
 }
