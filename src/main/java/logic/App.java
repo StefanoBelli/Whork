@@ -3,12 +3,11 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import logic.controller.MailController;
-import logic.controller.MailSender;
 import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
 import logic.util.Util;
+import logic.util.MailSender;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
@@ -432,7 +431,7 @@ final class App {
 		sender.setTls(mailTls);
 		sender.setPort(mailSmtpPort);
 
-		MailController.setMailSender(sender);
+		Util.Mailer.setMailSender(sender);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {

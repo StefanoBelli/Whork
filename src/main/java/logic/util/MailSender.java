@@ -1,4 +1,4 @@
-package logic.controller;
+package logic.util;
 
 public final class MailSender {
 	private String from = null;
