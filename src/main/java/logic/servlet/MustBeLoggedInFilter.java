@@ -11,7 +11,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import logic.util.ServletUtil;
-import logic.util.Util;
 
 public final class MustBeLoggedInFilter implements Filter {
 
@@ -46,7 +45,7 @@ public final class MustBeLoggedInFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 
-		if(ServletUtil.getUserForSession(req) != null || Util.cookieLogin(req)) {
+		if(ServletUtil.getUserForSession(req) != null || ServletUtil.cookieLogin(req)) {
 			req.getRequestDispatcher(req.getRequestURI()).forward(request, response);
 		} else {
 			req.setAttribute("showMustLoginInfo", true);

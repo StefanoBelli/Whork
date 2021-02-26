@@ -3,9 +3,12 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import logic.controller.MailController;
+import logic.controller.MailSender;
 import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
+import logic.util.Util;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
@@ -45,7 +48,12 @@ final class App {
 	private static final String DBCONNECTOPT = "dbConnect";
 	private static final String DBUSEROPT = "dbUser";
 	private static final String DBPWDOPT = "dbPwd";
-	private static final String DESKTOPOPT="desktop";
+	private static final String DESKTOPOPT = "desktop";
+	private static final String MAILFROMOPT = "mailFrom";
+	private static final String MAILPASSWORDOPT = "mailPassword";
+	private static final String MAILSMTPPORTOPT = "mailSmtpPort";
+	private static final String MAILNOTLSOPT = "mailNoTls";
+	private static final String MAILHOSTOPT = "mailHost";
 
 	//Self-extraction properties
 	private static ArrayList<String> webResDirectory = new ArrayList<>();
@@ -60,11 +68,17 @@ final class App {
 	private static String dbUser = null;
 	private static String dbPwd = null;
 	private static boolean launchDesktop = false;
+	private static String mailTls = "true";
+	private static String mailSmtpPort = "587";
+	private static String mailFrom = null;
+	private static String mailPwd = null;
+	private static String mailHost = null;
 	
 	//Static config for whork
 	private static final String DBNAME = "whorkdb";
 
 	private static final String NOT_USING_PWDAUTH = "NOT using password authentication";
+	private static final String HIDE_PWD = "[HIDDEN]";
 
 	private static void setResources() {
 		webResDirectory.add("WEB-INF");
@@ -191,6 +205,18 @@ final class App {
 		
 		opt.addOption(DESKTOPOPT, false, "Launch desktop application");
 		
+		opt.addOption(MAILFROMOPT, true, "From email address (required)");
+
+		opt.addOption(MAILPASSWORDOPT, true, "Mail provider password authentication");
+
+		opt.addOption(MAILHOSTOPT, true, "Mail provider host (required, hostname or IP address)");
+
+		opt.addOption(MAILSMTPPORTOPT, true, new StringBuilder()
+				.append("Mail provider SMTP port (default: ")
+				.append(mailSmtpPort).append(")").toString());
+
+		opt.addOption(MAILNOTLSOPT, false, "Disable TLS for mail provider");
+
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
 		return opt;
@@ -211,7 +237,7 @@ final class App {
 				}
 			} else if (argName.equals(PORTOPT)) {
 				port = Integer.parseInt(opt.getValue());
-				if (port < 0 || port > 65535) {
+				if (!Util.isValidPort(port)) {
 					LOGGER.error("{} number must be within range [0-65535]", argName);
 					return false;
 				}
@@ -235,6 +261,20 @@ final class App {
 				dbPwd = opt.getValue();
 			} else if (argName.equals(DESKTOPOPT)) {
 				launchDesktop = true;
+			} else if (argName.equals(MAILHOSTOPT)) {
+				mailHost = opt.getValue();
+			} else if (argName.equals(MAILNOTLSOPT)) {
+				mailTls = "false";
+			} else if (argName.equals(MAILSMTPPORTOPT)) {
+				mailSmtpPort = opt.getValue();
+				if (!Util.isValidPort(Integer.parseInt(mailSmtpPort))) {
+					LOGGER.error("{} number must be within range [0-65535]", argName);
+					return false;
+				}
+			}  else if (argName.equals(MAILFROMOPT)) {
+				mailFrom = opt.getValue();
+			} else if (argName.equals(MAILPASSWORDOPT)) {
+				mailPwd = opt.getValue();
 			}
 		}
 		
@@ -261,6 +301,12 @@ final class App {
 			LOGGER.error("you must pass -{} in order to access DB", DBUSEROPT);
 			return false;
 		}
+
+		if(mailHost == null || mailFrom == null) {
+			LOGGER.error("you must pass -{} and -{} in order to be able to send emails", 
+						MAILFROMOPT, MAILHOSTOPT);
+			return false;
+		}
 		
 		if (!launchDesktop) {
 			if(webRoot == null && !selfExtract) {
@@ -268,13 +314,18 @@ final class App {
 				return false;
 			}
 			
-			LOGGER.info("{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
+			LOGGER.info("{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n" +
+			"--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}\n" +
+			"--> mailfrom: {}\n--> mailhost: {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
 					"Settings for Whork webapp", 
 					port, base.isEmpty() ? "/" : base, webRoot, selfExtract, dbConnect, dbUser, 
-					dbPwd == null ? NOT_USING_PWDAUTH : "[HIDDEN]");
+					dbPwd == null ? NOT_USING_PWDAUTH : HIDE_PWD, mailFrom, mailHost, 
+					mailPwd == null ? NOT_USING_PWDAUTH : HIDE_PWD, mailTls, mailSmtpPort);
 		} else {
-			LOGGER.info("Settings for Whork desktop:\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}",
-					dbConnect, dbUser, dbPwd == null ? NOT_USING_PWDAUTH : "[HIDDEN]");
+			LOGGER.info("Settings for Whork desktop:\n--> db: {}\n |--> dbuser: {}\n |--> dbpwd: {}\n" +
+			"--> mailfrom: {}\n--> mailhost: {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
+			dbConnect, dbUser, dbPwd == null ? NOT_USING_PWDAUTH : HIDE_PWD, mailFrom, mailHost, 
+					mailPwd == null ? NOT_USING_PWDAUTH : HIDE_PWD, mailTls, mailSmtpPort);
 		}
 
 		return true;
@@ -322,6 +373,8 @@ final class App {
 	}
 
 	private static boolean prePopulatePools() {
+		LOGGER.info("Prepopulating pools with default values (presets)...");
+
 		try {
 			ComuniDao.populatePool();
 			EmploymentStatusDao.populatePool();
@@ -331,6 +384,19 @@ final class App {
 		}
 
 		return true;
+	}
+
+	private static void setMailSender() {
+		LOGGER.info("Setting mail sender...");
+
+		MailSender sender = new MailSender();
+		sender.setFrom(mailFrom);
+		sender.setHost(mailHost);
+		sender.setPassword(mailPwd);
+		sender.setTls(mailTls);
+		sender.setPort(mailSmtpPort);
+
+		MailController.setMailSender(sender);
 	}
 
 	public static void main(String[] args) {
@@ -388,12 +454,13 @@ final class App {
 			return;
 		}
 		
-		LOGGER.info("Preliminary checks OK!");
-		LOGGER.info("Prepopulating pools with default values (presets)...");
-		
 		if(!prePopulatePools()) {
 			return;
 		}
+
+		setMailSender();
+
+		LOGGER.info("Initialization phase completed!");
 		
 		if(!launchDesktop) {
 			LOGGER.info("Welcome to Whork webapp! Starting up...");
