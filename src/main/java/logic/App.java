@@ -11,6 +11,7 @@ import logic.util.MailSender;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -53,13 +54,18 @@ final class App {
 	private static final String MAILSMTPPORTOPT = "mailSmtpPort";
 	private static final String MAILNOTLSOPT = "mailNoTls";
 	private static final String MAILHOSTOPT = "mailHost";
+	private static final String DFLRESOPT = "dflRes";
+	private static final String DFLROOTOPT = "dflRoot";
 
 	// Self-extraction properties
-	private static ArrayList<String> webResDirectory = new ArrayList<>();
-	private static ArrayList<String> webResFiles = new ArrayList<>();
+	private static List<String> webResDirectory = null;
+	private static List<String> webResFiles = null;
+	private static List<String> dflResDirectory = null;
+	private static List<String> dflResFiles = null;
 
 	// Dynamic config for whork
-	private static String webRoot;
+	private static String webRoot = null;
+	private static String dflRoot = null;
 	private static String base = "";
 	private static int port = 8080;
 	private static boolean selfExtract = isJarPackaged();
@@ -79,60 +85,91 @@ final class App {
 	private static final String NOT_USING_PWDAUTH = "NOT using password authentication";
 	private static final String HIDE_PWD = "[HIDDEN]";
 
-	private static void setResources() {
-		webResDirectory.add("WEB-INF");
+	private static final class ArchiveSelfExtractor {
+		private ArchiveSelfExtractor() {}
 
-		webResFiles.add("/WEB-INF/web.xml");
-		webResFiles.add("/index.jsp");
-	}
-
-	private static void selfExtraction() throws IOException {
-		if (selfExtract) {
-			LOGGER.info("starting self extraction...");
-			setResources();
-
-			File f = new File(webRoot);
-			f.mkdir();
-
-			for (final String dir : webResDirectory) {
+		private static void mkdirs(String basedir, List<String> dirs) {
+			for (final String dir : dirs) {
 				StringBuilder builder = new StringBuilder();
-				builder.append(webRoot);
+				builder.append(basedir);
 				builder.append("/");
 				builder.append(dir);
 
-				File newDir = new File(builder.toString());
-				newDir.mkdir();
+				new File(builder.toString()).mkdir();
 			}
+		}
 
-			for (String res : webResFiles) {
-				StringBuilder builder = new StringBuilder();
+		private static String touch(String basedir, String resfile) 
+				throws IOException {
+			StringBuilder builder = new StringBuilder();
 
-				builder.append(webRoot);
-				builder.append(res);
+			builder.append(basedir);
+			builder.append(resfile);
 
-				String path = builder.toString();
-				File resFile = new File(path);
-				if (!resFile.createNewFile())
-					LOGGER.info("{} already exists", path);
+			String path = builder.toString();
+			File resFile = new File(path);
 
-				BufferedInputStream istOrigin = new BufferedInputStream(App.class.getResourceAsStream(res));
+			if (!resFile.createNewFile())
+				LOGGER.info("{} already exists", path);
 
-				BufferedOutputStream ostDest = new BufferedOutputStream(new FileOutputStream(resFile));
+			return path;
+		}
 
-				byte[] buffer = new byte[1024];
-				int lengthRead;
+		private static void extract(String dir, List<String> subdirs, List<String> files) 
+				throws IOException {
+			File f = new File(dir);
+			f.mkdir();
 
-				try {
-					while ((lengthRead = istOrigin.read(buffer)) > 0) {
-						ostDest.write(buffer, 0, lengthRead);
+			mkdirs(dir, subdirs);
+
+			for(final String file : files) {
+				String finalPath = touch(dir, file);
+
+				try(BufferedInputStream istOrigin = new BufferedInputStream(
+						App.class.getResourceAsStream(file))) {
+					
+					try(BufferedOutputStream ostDest = new BufferedOutputStream(
+							new FileOutputStream(finalPath))) {
+
+						ostDest.write(istOrigin.readAllBytes());
 					}
-				} finally {
-					ostDest.close();
-					istOrigin.close();
 				}
 			}
-		} else {
-			LOGGER.info("skipping self extraction...");
+		}
+	}
+
+	private enum AssignResources {
+		ONLY_DEFAULTS,
+		ALL
+	}
+
+	private static void setResources(AssignResources res) {
+		dflResDirectory = new ArrayList<>();
+		dflResFiles = new ArrayList<>();
+		dflResFiles.add("/placeholder");
+		dflResFiles.add("/placeholder1");
+
+		if(res == AssignResources.ALL) {
+			webResDirectory = new ArrayList<>();
+			webResFiles = new ArrayList<>();
+
+			webResDirectory.add("WEB-INF");
+
+			webResFiles.add("/WEB-INF/web.xml");
+			webResFiles.add("/index.jsp");
+		}
+
+	}
+
+	private static void selfExtract(AssignResources res) 
+			throws IOException {
+		setResources(res);
+
+		LOGGER.info("starting archive self-extraction...");
+
+		ArchiveSelfExtractor.extract(dflRoot, dflResDirectory, dflResFiles);
+		if(!launchDesktop) {
+			ArchiveSelfExtractor.extract(webRoot, webResDirectory, webResFiles);
 		}
 	}
 
@@ -174,16 +211,18 @@ final class App {
 		// webapp
 		opt.addOption(WEBROOTOPT, true,
 				new StringBuilder()
-						.append("Provide different root directory for web resource extraction and usage (default: ")
-						.append(webRoot == null ? "webRes must be provided" : webRoot).append(")").toString());
+					.append("Provide different root directory for web resource extraction and usage (default: ")
+					.append(webRoot == null ? "webRes must be provided" : webRoot).append(")").toString());
 
 		opt.addOption(DBCONNECTOPT, true,
 				new StringBuilder()
-						.append("Where we can find your DB? \"hostname:[0-65535]\". We don't check syntax. (default: ")
-						.append(dbConnect).append(")").toString());
+					.append("Where we can find your DB? \"hostname:[0-65535]\". We don't check syntax. (default: ")
+					.append(dbConnect).append(")").toString());
 
-		opt.addOption(DBPWDOPT, true, new StringBuilder().append("Password for \"dbUser\". (default: ")
-				.append(dbPwd == null ? NOT_USING_PWDAUTH : dbPwd).append(")").toString());
+		opt.addOption(DBPWDOPT, true, 
+				new StringBuilder()
+					.append("Password for \"dbUser\". (default: ")
+					.append(dbPwd == null ? NOT_USING_PWDAUTH : dbPwd).append(")").toString());
 
 		// webapp
 		opt.addOption(WEBRESOPT, true,
@@ -200,10 +239,20 @@ final class App {
 
 		opt.addOption(MAILHOSTOPT, true, "Mail provider host (required, hostname or IP address)");
 
-		opt.addOption(MAILSMTPPORTOPT, true, new StringBuilder().append("Mail provider SMTP port (default: ")
-				.append(mailSmtpPort).append(")").toString());
+		opt.addOption(MAILSMTPPORTOPT, true, 
+				new StringBuilder()
+					.append("Mail provider SMTP port (default: ")
+					.append(mailSmtpPort).append(")").toString());
 
 		opt.addOption(MAILNOTLSOPT, false, "Disable TLS for mail provider");
+
+		opt.addOption(DFLRESOPT, true,
+				"Provide default resources on your own (required if no self-extraction, default: none)");
+
+		opt.addOption(DFLROOTOPT, true,
+				new StringBuilder()
+						.append("Provide different root directory for defaults resources extraction and usage (default: ")
+						.append(dflRoot == null ? "dflRes must be provided" : dflRoot).append(")").toString());
 
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
@@ -250,11 +299,27 @@ final class App {
 		}
 	}
 
+	private static void assignDflRootOnRes(String arg, String value) {
+		if (selfExtract) {
+			LOGGER.warn("ignoring {} value because self extraction is enabled...", arg);
+		} else {
+			dflRoot = new File(value).getAbsolutePath();
+		}
+	}
+
 	private static void assignWebRootOnRoot(String arg, String value) {
 		if (!selfExtract) {
 			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
 		} else {
 			webRoot = new File(value).getAbsolutePath();
+		}
+	}
+
+	private static void assignDflRootOnRoot(String arg, String value) {
+		if (!selfExtract) {
+			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
+		} else {
+			dflRoot = new File(value).getAbsolutePath();
 		}
 	}
 
@@ -294,31 +359,36 @@ final class App {
 			mailFrom = opt.getValue();
 		} else if (argName.equals(MAILPASSWORDOPT)) {
 			mailPwd = opt.getValue();
+		} else if (argName.equals(DFLRESOPT)) {
+			assignDflRootOnRes(argName, opt.getValue());
+		} else if (argName.equals(DFLROOTOPT)) {
+			assignDflRootOnRoot(argName, opt.getValue());
 		}
 
 		return true;
 	}
 
-	private static String getPassword(String pwd) {
+	private static String getPasswordBanner(String pwd) {
 		return pwd == null ? NOT_USING_PWDAUTH : HIDE_PWD;
 	}
 
 	private static void logParsedConfig() {
 		if (launchDesktop) {
 			LOGGER.info(
-					"Settings for Whork desktop:\n--> db: {}\n |--> dbuser:"
+					"Settings for Whork desktop:\n--> dflroot: {}\n--> db: {}\n |--> dbuser:"
 							+ " {}\n |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost:"
 							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
-					dbConnect, dbUser, getPassword(dbPwd), mailFrom, mailHost, getPassword(mailPwd), mailTls,
-					mailSmtpPort);
+					dflRoot, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
 		} else {
 			LOGGER.info(
-					"{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n"
+					"{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> dflroot: {}\n"
 							+ "--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n"
 							+ " |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost: {}\n"
 							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
-					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, selfExtract, dbConnect,
-					dbUser, getPassword(dbPwd), mailFrom, mailHost, getPassword(mailPwd), mailTls, mailSmtpPort);
+					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, dflRoot,
+					selfExtract, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
 		}
 	}
 
@@ -329,13 +399,23 @@ final class App {
 		}
 
 		if (mailHost == null || mailFrom == null) {
-			LOGGER.error("you must pass -{} and -{} in order to be able to send emails", MAILFROMOPT, MAILHOSTOPT);
+			LOGGER.error("you must pass -{} and -{} in order to be able to send emails", 
+				MAILFROMOPT, MAILHOSTOPT);
 			return false;
 		}
 
-		if (!launchDesktop && webRoot == null && !selfExtract) {
-			LOGGER.error("you must pass -{} in order to specify where to locate web resources", WEBRESOPT);
-			return false;
+		if (!selfExtract) {
+			if (dflRoot == null) {
+				LOGGER.error("you must pass -{} in order to specify where to locate default resources",
+					DFLRESOPT);
+				return false;
+			}
+
+			if (!launchDesktop && webRoot == null) {
+				LOGGER.error("you must pass -{} in order to specify where to locate web resources", 
+					WEBRESOPT);
+				return false;
+			}
 		}
 
 		return true;
@@ -377,17 +457,25 @@ final class App {
 		Files.delete(path);
 	}
 
+	private static void deleteDirWithMessage(Logger logger, String name, String path) {
+		logger.info("deleting {}...", name);
+		try {
+			utilDeleteDirectoryRecursion(Paths.get(path));
+		} catch (IOException e) {
+			e.getMessage();
+			logger.error("unable to delete {} @ {}", name, path);
+		}
+	}
+
 	private static void cleanup() {
 		Logger cleanupLogger = LoggerFactory.getLogger("WhorkCleanup");
 
-		if (!launchDesktop && selfExtract) {
-			cleanupLogger.info("deleting webroot...");
-			try {
-				utilDeleteDirectoryRecursion(Paths.get(webRoot));
-			} catch (IOException e) {
-				e.getMessage();
-				cleanupLogger.error("unable to delete webroot @ {}", webRoot);
+		if (selfExtract) {
+			if(!launchDesktop) {
+				deleteDirWithMessage(cleanupLogger, "webroot", webRoot);
 			}
+
+			deleteDirWithMessage(cleanupLogger, "dflroot", dflRoot);
 		}
 
 		cleanupLogger.info("closing DB connection...");
@@ -469,31 +557,49 @@ final class App {
 		return true;
 	}
 
-	private static boolean parse(String[] args) {
-		try {
-			if (selfExtract) {
-				webRoot = new File("whork_webroot").getAbsolutePath();
-			} else {
-				webRoot = null;
-			}
+	private static AssignResources assignResourcesAndLog() {
+		AssignResources res = AssignResources.ALL;
 
+		if (launchDesktop) {
+			res = AssignResources.ONLY_DEFAULTS;
+			LOGGER.info("launching desktop application: any of {},{},{},{} options are ignored", 
+					BASEOPT, PORTOPT, WEBRESOPT, WEBROOTOPT);
+		}
+
+		return res;
+	}
+
+	private static void assignDefaultRoots() {
+		if (selfExtract) {
+			webRoot = new File("whork_webroot").getAbsolutePath();
+			dflRoot = new File("whork_defaultsroot").getAbsolutePath();
+		} else {
+			webRoot = null;
+			dflRoot = null;
+		}
+	}
+
+	private static boolean parse(String[] args) {
+		assignDefaultRoots();
+
+		try {
 			if (!propertySetup(args)) {
 				return false;
 			}
-
-			if (!launchDesktop) {
-				selfExtraction();
-			} else {
-				LOGGER.info("launching desktop application: any of {},{},{},{} options are ignored", BASEOPT, PORTOPT,
-						WEBRESOPT, WEBROOTOPT);
-				LOGGER.info("launching desktop application: self extraction is ignored anyway");
-			}
-		} catch (ParseException e) {
+		} catch(ParseException e) {
 			exceptionMessageBeforeStart(e, "unable to parse command line");
 			return false;
-		} catch (IOException e) {
-			exceptionMessageBeforeStart(e, "unable to correclty self-extract");
-			return false;
+		}
+
+		AssignResources res = assignResourcesAndLog();
+
+		if(selfExtract) {
+			try {
+				selfExtract(res);
+			} catch (IOException e) {
+				exceptionMessageBeforeStart(e, "unable to correclty self-extract");
+				return false;
+			}
 		}
 
 		return true;
@@ -521,6 +627,11 @@ final class App {
 		}
 	}
 
+	/**
+	 * @param args
+	 * 
+	 * Entry point
+	 */
 	public static void main(String[] args) {
 		if (parse(args)) {
 			setRuntimeHooks();
@@ -528,5 +639,13 @@ final class App {
 				finalizeLaunch(args);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @return default root
+	 */
+	public static String getDflRoot() {
+		return dflRoot;
 	}
 }
