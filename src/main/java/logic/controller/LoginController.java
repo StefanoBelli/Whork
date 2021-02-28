@@ -40,8 +40,9 @@ public final class LoginController {
 				return null; // email was not found
 			}
 
-			byte[] bcryptedPwd = pair.getSecond().readAllBytes();
-			pair.getSecond().close();
+			ByteArrayInputStream bcryptedPwdIstream = pair.getSecond();
+			byte[] bcryptedPwd = bcryptedPwdIstream.readAllBytes();
+			bcryptedPwdIstream.close();
 
 			if(Util.Bcrypt.equals(userAuthBean.getPassword(), bcryptedPwd)) {
 				return BeanFactory.buildUserBean(

@@ -17,7 +17,8 @@ import java.util.List;
 public final class ComuniDao {
 	private ComuniDao() {}
 	
-	private static final String STMT_MAIN_POPULATE_POOL = "{ call GetComuni() }";
+	private static final String STMT_MAIN_POPULATE_POOL = 
+		"{ call GetComuni() }";
 	
 	private static Threeple<RegioneModel, ProvinciaModel, ComuneModel> 
 		getModels(String c, String n, String p, String r) {

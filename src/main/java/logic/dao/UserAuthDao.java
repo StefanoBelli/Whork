@@ -18,8 +18,6 @@ public final class UserAuthDao {
 
 	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = 
 		"{ call GetUserCfAndPwdByEmail(?) }";
-	private static final String DATA_LOGIC_ERR_MULTIPLE_ROWS =
-		"Multiple rows in result set, where we expect only one";
 	private static final String STMT_CONFIRM_REG = 
 		"{ call ConfirmRegistration(?) }";
 	private static final String STMT_REGAUTH_JOBSEEKER = 
@@ -30,6 +28,8 @@ public final class UserAuthDao {
 		"Can't have both CFs with same pair email and password";
 	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
 		"Can't have both CFs *NULL* with same pair email and password";
+	private static final String DATA_LOGIC_ERR_MULTIPLE_ROWS = 
+		"Multiple rows in result set, where we expect only one";
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {

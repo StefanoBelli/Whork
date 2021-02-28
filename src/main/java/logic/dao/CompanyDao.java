@@ -12,8 +12,10 @@ import java.sql.ResultSet;
 public final class CompanyDao {
 	private CompanyDao() {}
 	
-	private static final String MAIN_STMT_GET_COMPANY_BYVAT = "{ call GetCompanyByVAT(?) }";
-	private static final String MAIN_STMT_REGISTER_COMPANY = "{ call RegisterCompany(?,?,?,?) }";
+	private static final String MAIN_STMT_GET_COMPANY_BYVAT = 
+		"{ call GetCompanyByVAT(?) }";
+	private static final String MAIN_STMT_REGISTER_COMPANY = 
+		"{ call RegisterCompany(?,?,?,?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEVAT_MORECOMPANIES =
 		"Multiple companies detected with same VAT code";
 

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public final class EmploymentStatusDao {
 	private EmploymentStatusDao() {}
 	
-	private static final String STMT_MAIN_POPULATE_POOL = "{ call GetEmploymentStatuses() }";
+	private static final String STMT_MAIN_POPULATE_POOL = 
+		"{ call GetEmploymentStatuses() }";
 
 	public static void populatePool() throws DataAccessException {
 		Connection conn = Database.getInstance().getConnection();
