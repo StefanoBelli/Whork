@@ -7,9 +7,12 @@ import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
+import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
 import logic.util.Pair;
 import logic.util.Util;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public final class LoginController {
@@ -31,13 +34,16 @@ public final class LoginController {
 	public static UserBean basicLogin(UserAuthBean userAuthBean) 
 			throws InternalException {
 		try {
-			Pair<String, byte[]> pair = UserDao.getUserCfAndBcrypwdByEmail(
+			Pair<String, ByteArrayInputStream> pair = UserAuthDao.getUserCfAndBcryPwdByEmail(
 													userAuthBean.getEmail());
 			if(pair == null) {
 				return null; // email was not found
 			}
 
-			if(Util.Bcrypt.equals(userAuthBean.getPassword(), pair.getSecond())) {
+			byte[] bcryptedPwd = pair.getSecond().readAllBytes();
+			pair.getSecond().close();
+
+			if(Util.Bcrypt.equals(userAuthBean.getPassword(), bcryptedPwd)) {
 				return BeanFactory.buildUserBean(
 							UserDao.getUserByCf(pair.getFirst()));
 			}

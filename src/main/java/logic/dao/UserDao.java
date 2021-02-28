@@ -1,8 +1,6 @@
 package logic.dao;
 
 import java.sql.Connection;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -12,51 +10,21 @@ import logic.Database;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
 import logic.model.JobSeekerUserModel;
-import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
-import logic.util.Pair;
 
 public final class UserDao {
 	private UserDao() {}
 	
-	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = "{ call GetUserCfAndPwdByEmail(?) }";
-	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
-		"Can't have both CFs with same pair email and password";
-	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
-		"Can't have both CFs *NULL* with same pair email and password";
-	private static final String DATA_LOGIC_ERR_MULTIPLE_ROWS =
-		"Multiple rows in result set, where we expect only one";
-	private static final String STMT_GETUSER_BYCF = "{ call GetUserDetails(?) }";
-	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
-		"More than two result set, this is unexpected";
-	private static final String STMT_CONFIRM_REG = "{ call ConfirmRegistration(?) }";
-	private static final String STMT_REGAUTH_JOBSEEKER = "{ call RegisterJobSeekerUserAuth(?,?,?) }";
-	private static final String STMT_REGAUTH_EMPLOYEE = "{ call RegisterEmployeeUserAuth(?,?,?) }";
+	private static final String STMT_GETUSER_BYCF = 
+		"{ call GetUserDetails(?) }";
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
-
-	private static String getTargetCf(String cf, String cf2) 
-			throws DataLogicException {
-		String target = cf;
-
-		if (cf != null) { /* cf != null && cf2 = ??? */
-			if (cf2 != null) { /* cf != null && cf2 != null */
-				throw new DataLogicException(DATA_LOGIC_ERR_TWOCF_ONECREDPAIR);
-			}
-		} else { /* cf = null && cf2 = ??? */
-			if (cf2 == null) { /* cf = null && cf2 = null */
-				throw new DataLogicException(DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR);
-			} else { /* cf = null && cf2 != null */
-				target = cf2;
-			}
-		}
-
-		return target;
-	}
+	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
+		"More than two result set, this is unexpected";
 
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
@@ -96,39 +64,6 @@ public final class UserDao {
 		return m;
 	}
 
-	public static Pair<String, byte[]> getUserCfAndBcrypwdByEmail(String email) 
-			throws DataAccessException, DataLogicException, IOException {
-		Connection conn = Database.getInstance().getConnection();
-
-		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
-			stmt.setString(1, email);
-			stmt.execute();
-
-			try(ResultSet rs = stmt.getResultSet()) {
-				if(!rs.next()) {
-					return null;
-				}
-
-				String target = getTargetCf(rs.getString(1), rs.getString(2));
-
-				Pair<String, byte[]> pair = null;
-
-				try (InputStream stream = rs.getBinaryStream(3)) {
-					pair = new Pair<>(target, stream.readAllBytes());
-				}
-
-				if(rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_ROWS);
-				}
-
-				return pair;
-			}
-			
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
 	public static UserModel getUserByCf(String cf) 
 			throws DataAccessException, DataLogicException {
 		Connection conn = Database.getInstance().getConnection();
@@ -160,23 +95,6 @@ public final class UserDao {
 		}
 
 		return null;
-	}
-
-	public static void confirmRegistration(String email) 
-			throws DataAccessException, DataLogicException {
-		
-		Connection conn = Database.getInstance().getConnection();
-
-		try(CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
-			stmt.setString(1, email);
-			stmt.execute();
-		} catch(SQLException e) {
-			if(e.getSQLState().equals("45001")) {
-				throw new DataLogicException(e.getMessage());
-			}
-			
-			throw new DataAccessException(e);
-		}
 	}
 
 	public static void registerUserDetails(UserModel userModel) 
@@ -218,24 +136,6 @@ public final class UserDao {
 				stmt.setString(11, jobSeekerUserModel.getEmploymentStatus().getStatus());
 				stmt.setString(12, jobSeekerUserModel.getCv());
 			}
-			stmt.execute();
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
-	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) 
-			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		String callStmt = userModel.isEmployee() ? 
-							STMT_REGAUTH_EMPLOYEE : STMT_REGAUTH_JOBSEEKER;
-
-		try (CallableStatement stmt = conn.prepareCall(callStmt)) {
-			stmt.setString(1, userAuthModel.getEmail());
-			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
-			stmt.setString(3, userModel.getCf());
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
