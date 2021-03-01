@@ -94,38 +94,45 @@ public final class LoginController {
 		try {
 			mutexOldReq.lock();
 			
-			PasswordRestoreModel passwordRestoreModel;
-			
-			try {
-				passwordRestoreModel = 
-					UserAuthDao.getSinglePasswordRestorePendingRequest(token);
-			} catch(DataAccessException e) {
-				Util.exceptionLog(e);
-				return false;
-			} 
+			PasswordRestoreModel passwordRestoreModel 
+				= getPasswordRestoreModelFromToken(token);
 
-			if(passwordRestoreModel == null) {
-				return false;
-			}
-
-			if(isNotValidRestoreRequest(passwordRestoreModel)) {
-				try {
-					UserAuthDao.delPasswordRestorePendingRequest(token);
-				} catch(DataAccessException e) {
-					Util.exceptionLog(e);
-				}
-
-				return false;
-			}
-
-			return effChangePassword(passwordRestoreModel, password);
+			return effectivelyChangePassword(passwordRestoreModel, password);
 		} finally {
 			mutexOldReq.unlock();
 		}
 	}
 
-	private static boolean effChangePassword(
+	private static PasswordRestoreModel getPasswordRestoreModelFromToken(String token) {
+		PasswordRestoreModel passwordRestoreModel;
+
+		try {
+			passwordRestoreModel = UserAuthDao.getSinglePasswordRestorePendingRequest(token);
+		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
+			return null;
+		}
+
+		if (passwordRestoreModel == null) {
+			return null;
+		}
+
+		if (isNotValidRestoreRequest(passwordRestoreModel)) {
+			try {
+				UserAuthDao.delPasswordRestorePendingRequest(token);
+			} catch (DataAccessException e) {
+				Util.exceptionLog(e);
+			}
+
+			return null;
+		}
+
+		return passwordRestoreModel;
+	}
+
+	private static boolean effectivelyChangePassword(
 			PasswordRestoreModel passwordRestoreModel, String password) {
+
 		try (ByteArrayInputStream bcryptedPassword = 
 				new ByteArrayInputStream(Util.Bcrypt.hash(password))) {
 			UserAuthModel userAuthModel = new UserAuthModel();
