@@ -40,9 +40,10 @@ public final class LoginController {
 				return null; // email was not found
 			}
 
-			ByteArrayInputStream bcryptedPwdIstream = pair.getSecond();
-			byte[] bcryptedPwd = bcryptedPwdIstream.readAllBytes();
-			bcryptedPwdIstream.close();
+			byte[] bcryptedPwd;
+			try(ByteArrayInputStream bcryptedPwdIstream = pair.getSecond()) {
+				bcryptedPwd = bcryptedPwdIstream.readAllBytes();
+			}
 
 			if(Util.Bcrypt.equals(userAuthBean.getPassword(), bcryptedPwd)) {
 				return BeanFactory.buildUserBean(
@@ -63,5 +64,9 @@ public final class LoginController {
 			Util.exceptionLog(e);
 			throw new InternalException("Data syntax error");
 		}
+	}
+
+	public static void forgotPassword(String email) {
+		//TODO toimplement
 	}
 }

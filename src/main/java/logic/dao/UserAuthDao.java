@@ -4,11 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.CallableStatement;
 
 import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.model.PasswordRestoreModel;
 import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.util.Pair;
@@ -24,6 +27,14 @@ public final class UserAuthDao {
 		"{ call RegisterJobSeekerUserAuth(?,?,?) }";
 	private static final String STMT_REGAUTH_EMPLOYEE = 
 		"{ call RegisterEmployeeUserAuth(?,?,?) }";
+	private static final String STMT_GETPWDRES_PENDING =
+		"{ call GetPendingPasswordRestoreRequest() }";
+	private static final String STMT_NEWPWDRES_PENDING =
+		"{ call NewPendingPasswordRestoreRequest(?,?,?) }";
+	private static final String STMT_DELPWDRES_PENDING =
+		"{ call RemovePendingPasswordRestoreRequest(?) }";
+	private static final String STMT_CHANGEUSERAUTH_PASSWORD =
+		"{ call ChangeUserAuthPassword(?,?) }";
 	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
 		"Can't have both CFs with same pair email and password";
 	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
@@ -33,6 +44,7 @@ public final class UserAuthDao {
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
+				
 		String target = cf;
 
 		if (cf != null) { /* cf != null && cf2 = ??? */
@@ -52,6 +64,7 @@ public final class UserAuthDao {
 
 	public static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmail(String email)
 			throws DataAccessException, DataLogicException {
+
 		Connection conn = Database.getInstance().getConnection();
 
 		try (CallableStatement stmt = conn.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
@@ -114,4 +127,73 @@ public final class UserAuthDao {
 		}
 	}
 
+	public static List<PasswordRestoreModel> getPasswordRestorePendingRequest() 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_GETPWDRES_PENDING)) {
+			stmt.execute();
+
+			try(ResultSet rs = stmt.getResultSet()) {
+				List<PasswordRestoreModel> pwdPend = new ArrayList<>();
+				if(rs.next()) {
+					do {
+						PasswordRestoreModel model = new PasswordRestoreModel();
+						model.setToken(rs.getString(1));
+						model.setDate(rs.getDate(2));
+						model.setEmail(rs.getString(3));
+
+						pwdPend.add(model);
+					} while(rs.next());
+				}
+
+				return pwdPend;
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void newPasswordRestorePendingRequest(PasswordRestoreModel passwordRestoreModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try(CallableStatement stmt = conn.prepareCall(STMT_NEWPWDRES_PENDING)) {
+			stmt.setString(1, passwordRestoreModel.getToken());
+			stmt.setDate(2, new java.sql.Date(passwordRestoreModel.getDate().getTime()));
+			stmt.setString(3, passwordRestoreModel.getEmail());
+			stmt.execute();
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void delPasswordRestorePendingRequest(String token) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_DELPWDRES_PENDING)) {
+			stmt.setString(1, token);
+			stmt.execute();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void changeUserAuthPassword(UserAuthModel userAuthModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_CHANGEUSERAUTH_PASSWORD)) {
+			stmt.setString(1, userAuthModel.getEmail());
+			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
+			stmt.execute();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
 }
