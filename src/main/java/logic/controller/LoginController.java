@@ -11,12 +11,27 @@ import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
 import logic.util.Pair;
 import logic.util.Util;
+import logic.model.PasswordRestoreModel;
+import logic.model.UserAuthModel;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public final class LoginController {
 	private LoginController() {}
+
+	private static ReentrantLock mutexNewReq = new ReentrantLock();
+	private static ReentrantLock mutexOldReq = new ReentrantLock();
+	private static Thread pwdRecCleanupThread = new Thread(
+			new PasswordRecoveryPendingCleanup());
+
+	static {
+		pwdRecCleanupThread.start();
+	}
 
 	/**
 	 * This method will interact with UserDao to fetch data from
@@ -66,7 +81,123 @@ public final class LoginController {
 		}
 	}
 
-	public static void forgotPassword(String email) {
-		//TODO toimplement
+	public static void recoverPassword(String email) {
+		try {
+			mutexNewReq.lock();
+			
+		} finally {
+			mutexNewReq.unlock();
+		}
+	}
+
+	public static boolean changePassword(String token, String password) {
+		try {
+			mutexOldReq.lock();
+			
+			PasswordRestoreModel passwordRestoreModel;
+			
+			try {
+				passwordRestoreModel = 
+					UserAuthDao.getSinglePasswordRestorePendingRequest(token);
+			} catch(DataAccessException e) {
+				Util.exceptionLog(e);
+				return false;
+			} 
+
+			if(passwordRestoreModel == null) {
+				return false;
+			}
+
+			if(isNotValidRestoreRequest(passwordRestoreModel)) {
+				try {
+					UserAuthDao.delPasswordRestorePendingRequest(token);
+				} catch(DataAccessException e) {
+					Util.exceptionLog(e);
+				}
+
+				return false;
+			}
+
+			return effChangePassword(passwordRestoreModel, password);
+		} finally {
+			mutexOldReq.unlock();
+		}
+	}
+
+	private static boolean effChangePassword(
+			PasswordRestoreModel passwordRestoreModel, String password) {
+		try (ByteArrayInputStream bcryptedPassword = 
+				new ByteArrayInputStream(Util.Bcrypt.hash(password))) {
+			UserAuthModel userAuthModel = new UserAuthModel();
+			userAuthModel.setEmail(passwordRestoreModel.getEmail());
+			userAuthModel.setBcryptedPassword(bcryptedPassword);
+			UserAuthDao.changeUserAuthPassword(userAuthModel);
+		} catch (IOException | DataAccessException e) {
+			Util.exceptionLog(e);
+			return false;
+		}
+
+		return true;
+	}
+
+	private static boolean isNotValidRestoreRequest(PasswordRestoreModel passwordRestoreModel) {
+		final int INVALID_DIFF_MS = 86400000; // 24 hrs
+
+		long nowTime = new Date().getTime();
+		long reqTime = passwordRestoreModel.getDate().getTime();
+
+		return nowTime - reqTime > INVALID_DIFF_MS;
+	}
+
+	private static final class PasswordRecoveryPendingCleanup implements Runnable {
+		private static final int CLEANUP_EACHMS = 43200000; // 12 hrs
+
+		private void deleteNoMoreValidPendingRequests() {
+			List<PasswordRestoreModel> requests;
+			try {
+				requests = 
+					UserAuthDao.getPasswordRestorePendingRequest();
+			} catch(DataAccessException e) {
+				Util.exceptionLog(e);
+				return;
+			}
+
+			List<PasswordRestoreModel> noMoreValidRequests = new ArrayList<>();
+			for(final PasswordRestoreModel req : requests) {
+				if(isNotValidRestoreRequest(req)) {
+					noMoreValidRequests.add(req);
+				}
+			}
+
+			for(final PasswordRestoreModel invalidReq : noMoreValidRequests) {
+				try {
+					UserAuthDao.delPasswordRestorePendingRequest(invalidReq.getToken());
+				} catch(DataAccessException e) {
+					Util.exceptionLog(e);
+				}
+			}
+		}
+
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					mutexNewReq.lock();
+					mutexOldReq.lock();
+					deleteNoMoreValidPendingRequests();
+				} finally {
+					mutexNewReq.unlock();
+					mutexOldReq.unlock();
+				}
+
+				try {
+					Thread.sleep(CLEANUP_EACHMS);
+				} catch(InterruptedException e) {
+					Util.exceptionLog(e);
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+		
 	}
 }

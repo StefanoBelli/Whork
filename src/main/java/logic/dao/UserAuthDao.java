@@ -35,6 +35,8 @@ public final class UserAuthDao {
 		"{ call RemovePendingPasswordRestoreRequest(?) }";
 	private static final String STMT_CHANGEUSERAUTH_PASSWORD =
 		"{ call ChangeUserAuthPassword(?,?) }";
+	private static final String STMT_GETSINGLE_PWDRES_PENDING =
+		"{ call GetSinglePendingPasswordRestoreRequest(?) }";
 	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
 		"Can't have both CFs with same pair email and password";
 	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
@@ -192,6 +194,31 @@ public final class UserAuthDao {
 			stmt.setString(1, userAuthModel.getEmail());
 			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
 			stmt.execute();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static PasswordRestoreModel getSinglePasswordRestorePendingRequest(String token) 
+			throws DataAccessException{
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_GETSINGLE_PWDRES_PENDING)) {
+			stmt.setString(1, token);
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				PasswordRestoreModel model = null;
+				if (rs.next()) {
+					model = new PasswordRestoreModel();
+					model.setToken(rs.getString(1));
+					model.setDate(rs.getDate(2));
+					model.setEmail(rs.getString(3));
+				}
+
+				return model;
+			}
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
