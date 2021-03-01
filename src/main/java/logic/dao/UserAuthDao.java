@@ -37,6 +37,10 @@ public final class UserAuthDao {
 		"{ call ChangeUserAuthPassword(?,?) }";
 	private static final String STMT_GETSINGLE_PWDRES_PENDING =
 		"{ call GetSinglePendingPasswordRestoreRequest(?) }";
+	private static final String STMT_GETPWDRES_PENDING_BYEMAIL =
+		"{ call GetPendingPasswordRestoreRequestByEmail(?) }";
+	private static final String STMT_UPDATE_PWDRES_PENDING = 
+		"{ call UpdatePasswordRestorePendingRequestByEmail(?,?,?) }";
 	private static final String DATA_LOGIC_ERR_TWOCF_ONECREDPAIR = 
 		"Can't have both CFs with same pair email and password";
 	private static final String DATA_LOGIC_ERR_ZEROCF_ONECREDPAIR = 
@@ -200,7 +204,7 @@ public final class UserAuthDao {
 	}
 
 	public static PasswordRestoreModel getSinglePasswordRestorePendingRequest(String token) 
-			throws DataAccessException{
+			throws DataAccessException {
 
 		Connection conn = Database.getInstance().getConnection();
 
@@ -212,13 +216,57 @@ public final class UserAuthDao {
 				PasswordRestoreModel model = null;
 				if (rs.next()) {
 					model = new PasswordRestoreModel();
-					model.setToken(rs.getString(1));
-					model.setDate(rs.getDate(2));
-					model.setEmail(rs.getString(3));
+					model.setToken(token);
+					model.setDate(rs.getDate(1));
+					model.setEmail(rs.getString(2));
 				}
 
 				return model;
 			}
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static PasswordRestoreModel getPasswordRestorePendingRequestByEmail(String email) 
+			throws DataAccessException, DataLogicException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_GETPWDRES_PENDING_BYEMAIL)) {
+			stmt.setString(1, email);
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				PasswordRestoreModel model = null;
+				if (rs.next()) {
+					model = new PasswordRestoreModel();
+					model.setToken(rs.getString(1));
+					model.setDate(rs.getDate(2));
+					model.setEmail(email);
+				}
+
+				if(rs.next()) {
+					throw new DataLogicException(DATA_LOGIC_ERR_MULTIPLE_ROWS);
+				}
+
+				return model;
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void updatePasswordRestorePendingRequest(PasswordRestoreModel passwordRestoreModel)
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_UPDATE_PWDRES_PENDING)) {
+			stmt.setString(1, passwordRestoreModel.getEmail());
+			stmt.setString(2, passwordRestoreModel.getToken());
+			stmt.setDate(3, new java.sql.Date(passwordRestoreModel.getDate().getTime()));
+			stmt.execute();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}

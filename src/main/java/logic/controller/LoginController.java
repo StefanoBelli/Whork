@@ -5,6 +5,7 @@ import logic.bean.UserBean;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
+import logic.exception.SendMailException;
 import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.dao.UserAuthDao;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class LoginController {
@@ -82,12 +84,31 @@ public final class LoginController {
 	}
 
 	public static void recoverPassword(String email) {
+		PasswordRestoreModel passwordRestoreModel;
 		try {
 			mutexNewReq.lock();
-			
+
+			try {
+				passwordRestoreModel = 
+					UserAuthDao.getPasswordRestorePendingRequestByEmail(email);
+			} catch(DataLogicException | DataAccessException e) {
+				Util.exceptionLog(e);
+				return;
+			}
+
+			try {
+				addOrUpdatePwdReq(passwordRestoreModel, email);
+			} catch(DataAccessException e) {
+				Util.exceptionLog(e);
+				return;
+			}
 		} finally {
 			mutexNewReq.unlock();
 		}
+
+		Thread t = new Thread(new SendPwdReqLinkViaEmail(passwordRestoreModel));
+		t.setDaemon(true);
+		t.start();
 	}
 
 	public static boolean changePassword(String token, String password) {
@@ -103,6 +124,42 @@ public final class LoginController {
 		}
 	}
 
+	private static final class SendPwdReqLinkViaEmail implements Runnable {
+		private PasswordRestoreModel passwordRestoreModel;
+
+		private SendPwdReqLinkViaEmail(PasswordRestoreModel passwordRestoreModel) {
+			this.passwordRestoreModel = passwordRestoreModel;
+		}
+
+		@Override
+		public void run() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Whork recieved a request to restore your password:");
+			builder.append(" if you requested so, click on the link below:\n\n");
+			builder.append("/forgotpwd.jsp?token=");
+			builder.append(passwordRestoreModel.getToken());
+			try {
+				Util.Mailer.sendMail(passwordRestoreModel.getEmail(), "Whork password reset", builder.toString());
+			} catch (SendMailException e) {
+				Util.exceptionLog(e);
+			}
+		}
+	}
+
+	private static void addOrUpdatePwdReq(PasswordRestoreModel passwordRestoreModel, String email) 
+			throws DataAccessException {
+		if (passwordRestoreModel != null) {
+			passwordRestoreModel.setDate(new Date());
+			passwordRestoreModel.setToken(generatePwdReqToken());
+			UserAuthDao.updatePasswordRestorePendingRequest(passwordRestoreModel);
+		} else {
+			passwordRestoreModel = new PasswordRestoreModel();
+			passwordRestoreModel.setDate(new Date());
+			passwordRestoreModel.setToken(generatePwdReqToken());
+			passwordRestoreModel.setEmail(email);
+			UserAuthDao.newPasswordRestorePendingRequest(passwordRestoreModel);
+		}
+	}
 	private static PasswordRestoreModel getPasswordRestoreModelFromToken(String token) {
 		PasswordRestoreModel passwordRestoreModel;
 
@@ -117,13 +174,13 @@ public final class LoginController {
 			return null;
 		}
 
-		if (isNotValidRestoreRequest(passwordRestoreModel)) {
-			try {
-				UserAuthDao.delPasswordRestorePendingRequest(token);
-			} catch (DataAccessException e) {
-				Util.exceptionLog(e);
-			}
+		try {
+			UserAuthDao.delPasswordRestorePendingRequest(token);
+		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
+		}
 
+		if (isNotValidRestoreRequest(passwordRestoreModel)) {
 			return null;
 		}
 
@@ -154,6 +211,15 @@ public final class LoginController {
 		long reqTime = passwordRestoreModel.getDate().getTime();
 
 		return nowTime - reqTime > INVALID_DIFF_MS;
+	}
+
+	private static String generatePwdReqToken() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(Long.toString(new Date().getTime()));
+		builder.append("-");
+		builder.append(UUID.randomUUID().toString());
+
+		return builder.toString();
 	}
 
 	private static final class PasswordRecoveryPendingCleanup implements Runnable {
