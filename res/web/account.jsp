@@ -5,8 +5,8 @@
 <%
     UserBean userBean = Util.getUserForSession(request);
 %>
-
-<html>
+<!DOCTYPE HTML>
+<html xml:lang="en">
     <head>
         <title>Whork</title>
     </head>

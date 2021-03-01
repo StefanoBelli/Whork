@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<html>
+<!DOCTYPE HTML>
+<html xml:lang="en">
 	<head>
 		<title>Login to Whork</title>
 		<link rel="stylesheet" href="css/login.css">

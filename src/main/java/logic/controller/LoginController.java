@@ -83,67 +83,57 @@ public final class LoginController {
 		}
 	}
 
+	/**
+	 * 
+	 * @param email
+	 */
 	public static void recoverPassword(String email) {
-		PasswordRestoreModel passwordRestoreModel;
+		PasswordRestoreModel passwordRestoreModel = null;
+		boolean success = true;
+
 		try {
 			mutexNewReq.lock();
 
-			try {
-				passwordRestoreModel = 
-					UserAuthDao.getPasswordRestorePendingRequestByEmail(email);
-			} catch(DataLogicException | DataAccessException e) {
-				Util.exceptionLog(e);
-				return;
-			}
+			passwordRestoreModel = 
+				UserAuthDao.getPasswordRestorePendingRequestByEmail(email);
 
-			try {
-				addOrUpdatePwdReq(passwordRestoreModel, email);
-			} catch(DataAccessException e) {
-				Util.exceptionLog(e);
-				return;
-			}
+			addOrUpdatePwdReq(passwordRestoreModel, email);
+		} catch(DataLogicException | DataAccessException e) {
+			Util.exceptionLog(e);
+			success = false;
 		} finally {
 			mutexNewReq.unlock();
 		}
 
-		Thread t = new Thread(new SendPwdReqLinkViaEmail(passwordRestoreModel));
-		t.setDaemon(true);
-		t.start();
+		if(success) {
+			Thread t = new Thread(new SendPwdReqLinkViaEmail(passwordRestoreModel));
+			t.setDaemon(true);
+			t.start();
+		}
 	}
 
+	/**
+	 * @param token
+	 * @param password
+	 * @return if password is changed or not
+	 */
 	public static boolean changePassword(String token, String password) {
+		PasswordRestoreModel passwordRestoreModel;
+
 		try {
 			mutexOldReq.lock();
 			
-			PasswordRestoreModel passwordRestoreModel 
+			passwordRestoreModel
 				= getPasswordRestoreModelFromToken(token);
-
-			return effectivelyChangePassword(passwordRestoreModel, password);
 		} finally {
 			mutexOldReq.unlock();
 		}
-	}
 
-	private static final class SendPwdReqLinkViaEmail implements Runnable {
-		private PasswordRestoreModel passwordRestoreModel;
-
-		private SendPwdReqLinkViaEmail(PasswordRestoreModel passwordRestoreModel) {
-			this.passwordRestoreModel = passwordRestoreModel;
+		if(passwordRestoreModel != null) {
+			return effectivelyChangePassword(passwordRestoreModel, password);
 		}
 
-		@Override
-		public void run() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("Whork recieved a request to restore your password:");
-			builder.append(" if you requested so, click on the link below:\n\n");
-			builder.append("/forgotpwd.jsp?token=");
-			builder.append(passwordRestoreModel.getToken());
-			try {
-				Util.Mailer.sendMail(passwordRestoreModel.getEmail(), "Whork password reset", builder.toString());
-			} catch (SendMailException e) {
-				Util.exceptionLog(e);
-			}
-		}
+		return false;
 	}
 
 	private static void addOrUpdatePwdReq(PasswordRestoreModel passwordRestoreModel, String email) 
@@ -160,6 +150,7 @@ public final class LoginController {
 			UserAuthDao.newPasswordRestorePendingRequest(passwordRestoreModel);
 		}
 	}
+
 	private static PasswordRestoreModel getPasswordRestoreModelFromToken(String token) {
 		PasswordRestoreModel passwordRestoreModel;
 
@@ -271,6 +262,30 @@ public final class LoginController {
 				}
 			}
 		}
-		
+	}
+
+	private static final class SendPwdReqLinkViaEmail implements Runnable {
+		private PasswordRestoreModel passwordRestoreModel;
+
+		private SendPwdReqLinkViaEmail(PasswordRestoreModel passwordRestoreModel) {
+			this.passwordRestoreModel = passwordRestoreModel;
+		}
+
+		@Override
+		public void run() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Whork recieved a request to restore your password:");
+			builder.append(" if you requested so, click on the link below:\n\n");
+			builder.append("/changepwd.jsp?token=");
+			builder.append(passwordRestoreModel.getToken());
+			try {
+				Util.Mailer.sendMail(
+					passwordRestoreModel.getEmail(), 
+					"Whork password reset", 
+					builder.toString());
+			} catch (SendMailException e) {
+				Util.exceptionLog(e);
+			}
+		}
 	}
 }
