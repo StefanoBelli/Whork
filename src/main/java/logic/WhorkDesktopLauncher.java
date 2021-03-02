@@ -27,18 +27,12 @@ public final class WhorkDesktopLauncher extends Application {
 		launch(args);
 	}
 
-	private void showThisStage(Stage currentStage) {
-		mainView.setWindowProperties(currentStage);
-		currentStage.setScene(mainView.getScene());
-		currentStage.show();
-	}
-
 	@Override
 	public void start(Stage primaryStage) {
 		ViewStack stack = new ViewStack(primaryStage);
 		attemptLogin(stack);
 		stack.push(mainView);
-		showThisStage(primaryStage);
+		primaryStage.show();
 	}
 
 	@Override
