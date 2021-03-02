@@ -41,6 +41,25 @@ public final class WhorkDesktopLauncher extends Application {
 		showThisStage(primaryStage);
 	}
 
+	@Override
+	public void stop() throws Exception {
+		Thread t = getThreadByName("Thread-PwdRecCleanup");
+
+		if(t != null) {
+			t.interrupt();
+		}
+	}
+
+	private Thread getThreadByName(String threadName) {
+		for (final Thread t : Thread.getAllStackTraces().keySet()) {
+			if (t.getName().equals(threadName)) {
+				return t;
+			}
+		}
+
+		return null;
+	}
+
 	private Pair<String, String> parseJson(String json) {
 		String email;
 		String password;

@@ -29,7 +29,7 @@ public final class LoginController {
 	private static ReentrantLock mutexNewReq = new ReentrantLock();
 	private static ReentrantLock mutexOldReq = new ReentrantLock();
 	private static Thread pwdRecCleanupThread = new Thread(
-			new PasswordRecoveryPendingCleanup());
+			new PasswordRecoveryPendingCleanup(), "Thread-PwdRecCleanup");
 
 	static {
 		pwdRecCleanupThread.start();
@@ -257,8 +257,8 @@ public final class LoginController {
 				try {
 					Thread.sleep(CLEANUP_EACHMS);
 				} catch(InterruptedException e) {
-					Util.exceptionLog(e);
 					Thread.currentThread().interrupt();
+					return;
 				}
 			}
 		}
