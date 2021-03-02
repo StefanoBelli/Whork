@@ -138,17 +138,14 @@ public final class LoginController {
 
 	private static void addOrUpdatePwdReq(PasswordRestoreModel passwordRestoreModel, String email) 
 			throws DataAccessException {
-		if (passwordRestoreModel != null) {
-			passwordRestoreModel.setDate(new Date());
-			passwordRestoreModel.setToken(generatePwdReqToken());
-			UserAuthDao.updatePasswordRestorePendingRequest(passwordRestoreModel);
-		} else {
+		if(passwordRestoreModel == null) {
 			passwordRestoreModel = new PasswordRestoreModel();
-			passwordRestoreModel.setDate(new Date());
-			passwordRestoreModel.setToken(generatePwdReqToken());
 			passwordRestoreModel.setEmail(email);
-			UserAuthDao.newPasswordRestorePendingRequest(passwordRestoreModel);
 		}
+
+		passwordRestoreModel.setDate(new Date());
+		passwordRestoreModel.setToken(generatePwdReqToken());
+		UserAuthDao.updatePasswordRestorePendingRequest(passwordRestoreModel);
 	}
 
 	private static PasswordRestoreModel getPasswordRestoreModelFromToken(String token) {

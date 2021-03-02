@@ -13,7 +13,7 @@
 
 			<label for="pwdSecond">Retype password</label>
 			<input placeholder="Retype password..." type="password" name="pwdSecond" required>
-
+			
 			<br /><br />
 			<input type="submit" value="Change my password">
 		</form>
