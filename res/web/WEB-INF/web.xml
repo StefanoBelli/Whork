@@ -4,6 +4,12 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
     version="4.0">
 
+    <!--
+        **
+        MustBeLoggedInFilter
+        **
+    -->
+
     <filter>     
         <filter-name>MustBeLoggedInFilter</filter-name>   
         <filter-class>logic.servlet.MustBeLoggedInFilter</filter-class>  
@@ -13,6 +19,17 @@
         <filter-name>MustBeLoggedInFilter</filter-name>
         <url-pattern>/account.jsp</url-pattern>
     </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MustBeLoggedInFilter</filter-name>
+        <url-pattern>/logout</url-pattern>
+    </filter-mapping>
+
+    <!--
+        **
+        AlreadyLoggedInFilter
+        **
+    -->
 
     <filter>     
         <filter-name>AlreadyLoggedInFilter</filter-name>   
@@ -24,6 +41,42 @@
         <url-pattern>/login.jsp</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/changepwd.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/cpoutcome.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/forgotpwd.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/validateLogin</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/forgotPassword</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/changePassword</url-pattern>
+    </filter-mapping>
+
+    <!--
+        **
+        SERVLETS
+        **
+    -->
+
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>logic.servlet.LoginServlet</servlet-class>
@@ -34,6 +87,22 @@
         <servlet-class>logic.servlet.LogoutServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <servlet-class>logic.servlet.ForgotPasswordServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>logic.servlet.ChangePasswordServlet</servlet-class>
+    </servlet>
+
+    <!--
+        **
+        SERVLET MAPPINGS
+        **
+    -->
+
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/validateLogin</url-pattern>
@@ -42,6 +111,16 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgotPassword</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
     </servlet-mapping>
 
 </web-app>

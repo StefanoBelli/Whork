@@ -17,6 +17,7 @@ import logic.model.UserAuthModel;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -99,14 +100,17 @@ public final class LoginController {
 
 			addOrUpdatePwdReq(passwordRestoreModel, email);
 		} catch(DataLogicException | DataAccessException e) {
-			Util.exceptionLog(e);
+			if(!(e.getCause() instanceof SQLIntegrityConstraintViolationException)) {
+				Util.exceptionLog(e);
+			}
+			
 			success = false;
 		} finally {
 			mutexNewReq.unlock();
 		}
 
 		if(success) {
-			Thread t = new Thread(new SendPwdReqLinkViaEmail(passwordRestoreModel));
+			Thread t = new Thread(new PasswdReqLinkSender(passwordRestoreModel));
 			t.setDaemon(true);
 			t.start();
 		}
@@ -264,10 +268,10 @@ public final class LoginController {
 		}
 	}
 
-	private static final class SendPwdReqLinkViaEmail implements Runnable {
+	private static final class PasswdReqLinkSender implements Runnable {
 		private PasswordRestoreModel passwordRestoreModel;
 
-		private SendPwdReqLinkViaEmail(PasswordRestoreModel passwordRestoreModel) {
+		private PasswdReqLinkSender(PasswordRestoreModel passwordRestoreModel) {
 			this.passwordRestoreModel = passwordRestoreModel;
 		}
 

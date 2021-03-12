@@ -43,7 +43,7 @@ public final class AlreadyLoggedInFilter implements Filter {
 		if (ServletUtil.getUserForSession(req) != null || ServletUtil.cookieLogin(req)) {
 			((HttpServletResponse)response).sendRedirect("index.jsp");
 		} else {
-			req.getRequestDispatcher("login.jsp").forward(request, response);
+			req.getRequestDispatcher(req.getRequestURI()).forward(request, response);
 		}
 	}
 }
