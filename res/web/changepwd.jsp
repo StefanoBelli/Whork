@@ -1,16 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html xml:lang="en">
-	<script>
-		function checkPass() {
-			if (document.getElementById('pwd').value ==
-				document.getElementById('pwdConfirm').value) {
-				document.getElementById('submit').disabled = false;
-			} else {
-				document.getElementById('submit').disabled = true;
-			}
-		}
-	</script>
 	<head>
 		<title>Whork - Change my password</title>
 	</head>
@@ -20,6 +10,16 @@
 	String token = (String) request.getParameter("token");
 	if(token != null) {
 %>
+		<script>
+			function checkPass() {
+				if (document.getElementById('pwd').value ==
+					document.getElementById('pwdConfirm').value) {
+					document.getElementById('submit').disabled = false;
+				} else {
+					document.getElementById('submit').disabled = true;
+				}
+			}
+		</script>
 		<form action="changePassword" method="post">
 			<label for="pwdFirst">Password</label>
 			<input placeholder="New password..." type="password" id="pwd" name="pwdFirst" onchange="checkPass()" required>
