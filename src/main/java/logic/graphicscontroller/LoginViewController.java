@@ -41,7 +41,7 @@ public final class LoginViewController extends GraphicsController {
 		((Button)n[3]).setOnMouseClicked(new HandlePasswordRecoveryRequest());
 		stayLoggedInBox = (CheckBox) n[4];
 		emailField.textProperty().addListener(new HandleChangedTextFields());
-		emailField.textProperty().addListener(new HandleChangedTextFields());
+		passwordField.textProperty().addListener(new HandleChangedTextFields());
 	}
 	
 	@Override
@@ -99,11 +99,10 @@ public final class LoginViewController extends GraphicsController {
 		public void handle(MouseEvent event) {
 			Stage stage = new Stage();
 			ViewStack stack = new ViewStack(stage);
-			stack.push(new PasswordRecoveryView(stack));
+			stack.push(new PasswordRecoveryView(stack, emailField.getText()));
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		}
-
 	}
 
 	private final class HandleChangedTextFields implements ChangeListener<String> {
@@ -118,6 +117,5 @@ public final class LoginViewController extends GraphicsController {
 				email.length() > 255 ||
 				!Util.EMAIL_PATTERN.matcher(email).matches());
 		}
-		
 	}
 }

@@ -68,6 +68,7 @@ public final class LoginView implements ControllableView {
 		passwordField.setPromptText(PASSWORD_PROMPT_MSG);
 		loginToWhorkMessage.setPadding(new Insets(10,10,10,10));
 		stayLoggedInBox.setSelected(true);
+		loginButton.setDisable(true);
 	}
 
 	private void populateScene() {

@@ -43,9 +43,9 @@ public final class LoginServlet extends HttpServlet {
 		if(userBean == null) { /* wrong creds or internal error */
 			if(errorMessage == null) { /* userBean = null && errorMessage = null */
 				errorMessage = "Wrong username and/or password";
+				req.setAttribute("showPasswordRecoveryButton", true);
 			}
 
-			req.setAttribute("showPasswordRecoveryButton", true);
 			req.setAttribute("errorMessage", errorMessage);
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 		} else { /* successful login */

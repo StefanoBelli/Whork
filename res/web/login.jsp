@@ -24,17 +24,19 @@
 			<form id="loginf" action="validateLogin" method="post">
 				<div id="credInput">
 					<label for="email">Email</label>
-					<input placeholder="Enter email here..." type="email" name="email" minlength="3" maxlength="255" required>
+					<input placeholder="Enter email here..." 
+						type="email" name="email" minlength="3" maxlength="255" required>
 
 					<br/><br/>
 
 					<label for="passwd">Password</label>
-					<input placeholder="Enter password here..." type="password" name="passwd" required>
+					<input placeholder="Enter password here..." 
+					type="password" name="passwd" required>
 
 					<br/><br/>
 
 					<label for="stayLoggedIn">Stay logged in</label>
-					<input type="checkbox" name="stayLoggedIn">
+					<input type="checkbox" name="stayLoggedIn" checked="true">
 				</div>
 
 				<br/><br/>
@@ -54,7 +56,7 @@
 
 		if(request.getAttribute("showPasswordRecoveryButton") != null) {
 %>
-		<form id="forgotbtn" action="forgotpwd.jsp" method="get">
+		<form id="forgotbtn" action="forgotpwd.jsp" method="post">
 			<input type="submit" value="I forgot my password">
 		</form>
 <%
