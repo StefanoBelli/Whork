@@ -128,9 +128,11 @@ public final class LoginViewController extends GraphicsController {
 		public void handle(MouseEvent event) {
 			errorFieldLabel.setVisible(false);
 			
+			/*
 			GraphicsUtil.closeStageByMouseEvent(event);
 			GraphicsUtil.showExceptionStage(new Exception("missing implementation"));
-			//TODO call appcontroller
+			*/
+
 		}
 
 	}

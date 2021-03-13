@@ -18,4 +18,8 @@ public final class DialogFactory {
 	public static Alert error(String title, String headerText, String contentText) {
 		return buildDialog(AlertType.ERROR, title, headerText, contentText);
 	}
+
+	public static Alert info(String title, String headerText, String contentText) {
+		return buildDialog(AlertType.INFORMATION, title, headerText, contentText);
+	}
 }

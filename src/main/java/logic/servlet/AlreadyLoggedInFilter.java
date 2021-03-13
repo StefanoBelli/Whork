@@ -26,7 +26,7 @@ public final class AlreadyLoggedInFilter implements Filter {
 	}
 
 	/**
-	 * This method ensures login.jsp is reached if and only if strictly necessary.
+	 * This method ensures the requested URI is reached if and only if necessary (user is not logged in).
 	 * If user is registered for current session, then redirect (HTTP REDIRECT) user to "index.jsp"
 	 * Else, If cookie login is not successful, allow original request to "login.jsp"
 	 * Else, If cookie login is successful, HTTP REDIRECT user to "index.jsp"
