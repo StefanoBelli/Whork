@@ -25,7 +25,7 @@
 				<div id="credInput">
 					<label for="email">Email</label>
 					<input placeholder="Enter email here..." 
-						type="email" name="email" minlength="3" maxlength="255" required>
+						type="email" name="email" required>
 
 					<br/><br/>
 
