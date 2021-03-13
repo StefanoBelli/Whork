@@ -50,6 +50,7 @@ public final class HomeView implements ControllableView {
 		stage.setResizable(false);
 		stage.setTitle(CONFIG_WIN_TITLE);
 	}
+	
 	@Override
 	public Node[] getNodes() {
 		return new Node[] {

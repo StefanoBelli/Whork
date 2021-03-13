@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ import logic.WhorkDesktopLauncher;
 import logic.exception.SendMailException;
 
 public final class Util {
+	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
+	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
 	private Util() {
 	}
 

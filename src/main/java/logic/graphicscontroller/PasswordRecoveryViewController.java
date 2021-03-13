@@ -1,5 +1,7 @@
 package logic.graphicscontroller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -7,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import logic.controller.LoginController;
 import logic.factory.DialogFactory;
+import logic.util.Util;
 import logic.view.ControllableView;
 import logic.view.PasswordChangeView;
 import logic.view.ViewStack;
@@ -14,6 +17,7 @@ import logic.view.ViewStack;
 public final class PasswordRecoveryViewController extends GraphicsController {
 
 	private TextField emailAddressTextField;
+	private Button continueButton;
 
 	public PasswordRecoveryViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
@@ -23,8 +27,10 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 	public void setup() {
 		Node[] n = view.getNodes();
 		emailAddressTextField = (TextField) n[0];
-		((Button)n[1]).setOnMouseClicked(new HandlePasswordRecoveryRequest());
+		continueButton = (Button) n[1];
+		continueButton.setOnMouseClicked(new HandlePasswordRecoveryRequest());
 		((Button)n[2]).setOnMouseClicked(new HandleAlreadyHasToken());
+		emailAddressTextField.textProperty().addListener(new HandleChangedTextField());
 	}
 
 	@Override
@@ -71,5 +77,18 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 			viewStack.push(new PasswordChangeView(viewStack));
 		}
 
+	}
+
+	private final class HandleChangedTextField implements ChangeListener<String> {
+
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			continueButton.setDisable(
+				newValue.isBlank() ||
+				newValue.length() > 255 ||
+				!Util.EMAIL_PATTERN.matcher(newValue).matches()
+			);
+		}
+		
 	}
 }

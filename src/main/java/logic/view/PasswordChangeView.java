@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -52,9 +53,9 @@ public final class PasswordChangeView implements ControllableView {
 		tokenLabel = new Label(SAY_TOKEN);
 		tokenTextField = new TextField();
 		passwordLabel = new Label(SAY_PASSWORD);
-		passwordTextField = new TextField();
+		passwordTextField = new PasswordField();
 		retypePasswordLabel = new Label(SAY_RETYPE_PASSWORD);
-		retypePasswordTextField = new TextField();
+		retypePasswordTextField = new PasswordField();
 		continueButton = new Button(BTN_CONTINUE);
 		goBackButton = new Button(BTN_GOBACK);
 		controller.setup();
@@ -64,6 +65,7 @@ public final class PasswordChangeView implements ControllableView {
 		tokenTextField.setPromptText(TOKEN_PROMPT);
 		passwordTextField.setPromptText(PASSWORD_PROMPT);
 		retypePasswordTextField.setPromptText(RETYPE_PASSWORD_PROMPT);
+		continueButton.setDisable(true);
 	}
 
 	private void populateScene() {
@@ -84,7 +86,7 @@ public final class PasswordChangeView implements ControllableView {
 
 		HBox hboxControlButtons = new HBox();
 		hboxControlButtons.getChildren().add(continueButton);
-		hboxControlButtons.getChildren().add(changePasswordLabel);
+		hboxControlButtons.getChildren().add(goBackButton);
 
 		vbox.getChildren().add(hboxToken);
 		vbox.getChildren().add(hboxPassword);

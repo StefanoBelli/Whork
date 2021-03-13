@@ -24,7 +24,7 @@
 			<form id="loginf" action="validateLogin" method="post">
 				<div id="credInput">
 					<label for="email">Email</label>
-					<input placeholder="Enter email here..." type="email" name="email" required>
+					<input placeholder="Enter email here..." type="email" name="email" minlength="3" maxlength="255" required>
 
 					<br/><br/>
 
@@ -48,15 +48,15 @@
 
 		if(errorMessage != null) {
 %>
-			<p id="errmsg"><%=errorMessage%></p>
+		<p id="errmsg"><%=errorMessage%></p>
 <%
 		}
 
 		if(request.getAttribute("showPasswordRecoveryButton") != null) {
 %>
-			<form id="forgotbtn" action="forgotpwd.jsp" method="get">
-				<input type="submit" value="I forgot my password">
-			</form>
+		<form id="forgotbtn" action="forgotpwd.jsp" method="get">
+			<input type="submit" value="I forgot my password">
+		</form>
 <%
 		}
 %>

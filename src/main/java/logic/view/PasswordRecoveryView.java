@@ -47,6 +47,7 @@ public final class PasswordRecoveryView implements ControllableView {
 		if(emailAddressPreset != null) {
 			emailAddressTextField.setText(emailAddressPreset);
 		}
+		sendRequestButton.setDisable(true);
 	}
 
 	private void populateScene() {

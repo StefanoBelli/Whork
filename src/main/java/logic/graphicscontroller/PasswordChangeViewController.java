@@ -4,12 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
-
-import javax.swing.event.ChangeEvent;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import logic.controller.LoginController;
+import logic.factory.DialogFactory;
+import logic.util.GraphicsUtil;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
@@ -34,6 +34,8 @@ public final class PasswordChangeViewController extends GraphicsController {
 		completeRequestButton.setOnMouseClicked(new HandleCompleteRequest());
 		((Button)n[4]).setOnMouseClicked(new HandleGoBackRequest());
 		passwordTextField.textProperty().addListener(new HandleChangedTextFields());
+		tokenTextField.textProperty().addListener(new HandleChangedTextFields());
+		retypePasswordTextField.textProperty().addListener(new HandleChangedTextFields());
 	}
 
 	@Override
@@ -41,34 +43,53 @@ public final class PasswordChangeViewController extends GraphicsController {
 		//no need to update anything
 	}
 
-	private static final class HandleCompleteRequest implements EventHandler<MouseEvent> {
+	private final class HandleCompleteRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub
-			
+			String token = tokenTextField.getText();
+			String password = passwordTextField.getText();
+
+			if(LoginController.changePassword(token, password)) {
+				DialogFactory.info(
+					"Whork - Password changed", 
+					"Password change request", 
+					"Your password was changed correctly!").showAndWait();
+
+				GraphicsUtil.closeStageByMouseEvent(event);
+			} else {
+				DialogFactory.error(
+					"Whork - Error",
+					"Unable to change your password",
+					"Something went wrong. Is your token correct?").showAndWait();
+			}
 		}
 		
 	}
 
-	private static final class HandleGoBackRequest implements EventHandler<MouseEvent> {
+	private final class HandleGoBackRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub
-			
+			viewStack.pop();
 		}
 		
 	}
 
-	private static final class HandleChangedTextFields implements ChangeListener<String> {
+	private final class HandleChangedTextFields implements ChangeListener<String> {
 
 		@Override
-		public void changed(ObservableValue observable, String oldValue, String newValue) {
-			// TODO Auto-generated method stub
-			
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			String password = passwordTextField.getText();
+			String retypePassword = retypePasswordTextField.getText();
+
+			completeRequestButton.setDisable(
+				tokenTextField.getText().isBlank() ||
+				password.isBlank() ||
+				retypePassword.isBlank() ||
+				!password.equals(retypePassword)
+			);
 		}
 		
 	}
-	
 }

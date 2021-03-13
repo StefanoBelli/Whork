@@ -34,9 +34,9 @@ public final class LoginServlet extends HttpServlet {
 		try {
 			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, password);
 			userBean = LoginController.basicLogin(userAuthBean);
-		} catch(InternalException e) {
+		} catch(InternalException e) { /* should never happen */
 			errorMessage = "Internal processing error: " + e.getMessage();
-		} catch(SyntaxException e) {
+		} catch(SyntaxException e) { /* should never happen */
 			errorMessage = e.getMessage(); 
 		}
 

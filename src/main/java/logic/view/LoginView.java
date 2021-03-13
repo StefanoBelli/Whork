@@ -40,7 +40,6 @@ public final class LoginView implements ControllableView {
 	private Button forgotPasswordButton;
 	private Button loginButton;
 	private CheckBox stayLoggedInBox;
-	private Label loginCredErrorMessage;
 	
 	private GraphicsController controller;
 
@@ -60,7 +59,6 @@ public final class LoginView implements ControllableView {
 		forgotPasswordMessage = new Label(FORGOT_PASSWORD_MSG);
 		forgotPasswordButton = new Button(FORGOT_PASSWORD_BTN_MSG);
 		loginButton = new Button(LOGIN_BTN_MSG);
-		loginCredErrorMessage = new Label();
 		stayLoggedInBox = new CheckBox(STAY_LOGGED_IN_MSG);
 		controller.setup();
 	}
@@ -69,7 +67,6 @@ public final class LoginView implements ControllableView {
 		emailField.setPromptText(EMAIL_PROMPT_MSG);
 		passwordField.setPromptText(PASSWORD_PROMPT_MSG);
 		loginToWhorkMessage.setPadding(new Insets(10,10,10,10));
-		loginCredErrorMessage.setVisible(false);
 		stayLoggedInBox.setSelected(true);
 	}
 
@@ -94,7 +91,6 @@ public final class LoginView implements ControllableView {
 		hbox.getChildren().add(vboxfp);
 
 		vbox.getChildren().add(hbox);
-		vbox.getChildren().add(loginCredErrorMessage);
 
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
@@ -117,7 +113,6 @@ public final class LoginView implements ControllableView {
 			passwordField,
 			loginButton,
 			forgotPasswordButton,
-			loginCredErrorMessage,
 			stayLoggedInBox
 		};
 	}
