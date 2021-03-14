@@ -16,7 +16,7 @@ public final class ChangePasswordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		
-		String password = req.getParameter("pwd");
+		String password = req.getParameter("pwdFirst");
 		String token = req.getParameter("token");
 
 		if(password == null || token == null) {

@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="logic.bean.UserBean" %>
-<%@ page import="logic.util.Util" %>
+<%@ page import="logic.util.ServletUtil" %>
 
 <%
-    UserBean userBean = Util.getUserForSession(request);
+    UserBean userBean = ServletUtil.getUserForSession(request);
 %>
 <!DOCTYPE HTML>
 <html xml:lang="en">

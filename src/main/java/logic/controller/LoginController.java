@@ -98,12 +98,13 @@ public final class LoginController {
 			passwordRestoreModel = 
 				UserAuthDao.getPasswordRestorePendingRequestByEmail(email);
 
-			addOrUpdatePwdReq(passwordRestoreModel, email);
+			passwordRestoreModel = 
+				addOrUpdatePwdReq(passwordRestoreModel, email);
 		} catch(DataLogicException | DataAccessException e) {
 			if(!(e.getCause() instanceof SQLIntegrityConstraintViolationException)) {
 				Util.exceptionLog(e);
 			}
-			
+
 			success = false;
 		} finally {
 			mutexNewReq.unlock();
@@ -140,7 +141,7 @@ public final class LoginController {
 		return false;
 	}
 
-	private static void addOrUpdatePwdReq(PasswordRestoreModel passwordRestoreModel, String email) 
+	private static PasswordRestoreModel addOrUpdatePwdReq(PasswordRestoreModel passwordRestoreModel, String email) 
 			throws DataAccessException {
 		if(passwordRestoreModel == null) { /* new request */
 			passwordRestoreModel = new PasswordRestoreModel();
@@ -153,6 +154,8 @@ public final class LoginController {
 			passwordRestoreModel.setToken(generatePwdReqToken());
 			UserAuthDao.updatePasswordRestorePendingRequest(passwordRestoreModel);
 		}
+
+		return passwordRestoreModel;
 	}
 
 	private static PasswordRestoreModel getPasswordRestoreModelFromToken(String token) {
@@ -282,6 +285,7 @@ public final class LoginController {
 			builder.append(" if you requested so, click on the link below:\n\n");
 			builder.append("/changepwd.jsp?token=");
 			builder.append(passwordRestoreModel.getToken());
+
 			try {
 				Util.Mailer.sendMail(
 					passwordRestoreModel.getEmail(), 
