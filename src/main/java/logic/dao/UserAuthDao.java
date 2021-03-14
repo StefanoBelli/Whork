@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.CallableStatement;
+import java.sql.Timestamp;
 
 import logic.Database;
 import logic.exception.DataAccessException;
@@ -147,7 +148,7 @@ public final class UserAuthDao {
 					do {
 						PasswordRestoreModel model = new PasswordRestoreModel();
 						model.setToken(rs.getString(1));
-						model.setDate(rs.getDate(2));
+						model.setDate(rs.getTimestamp(2));
 						model.setEmail(rs.getString(3));
 
 						pwdPend.add(model);
@@ -168,7 +169,9 @@ public final class UserAuthDao {
 
 		try(CallableStatement stmt = conn.prepareCall(STMT_NEWPWDRES_PENDING)) {
 			stmt.setString(1, passwordRestoreModel.getToken());
-			stmt.setDate(2, new java.sql.Date(passwordRestoreModel.getDate().getTime()));
+			stmt.setTimestamp(2, 
+				new Timestamp(
+					passwordRestoreModel.getDate().getTime()));
 			stmt.setString(3, passwordRestoreModel.getEmail());
 			stmt.execute();
 		} catch(SQLException e) {
@@ -189,20 +192,6 @@ public final class UserAuthDao {
 		}
 	}
 
-	public static void changeUserAuthPassword(UserAuthModel userAuthModel) 
-			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_CHANGEUSERAUTH_PASSWORD)) {
-			stmt.setString(1, userAuthModel.getEmail());
-			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
-			stmt.execute();
-		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
 	public static PasswordRestoreModel getSinglePasswordRestorePendingRequest(String token) 
 			throws DataAccessException {
 
@@ -217,7 +206,7 @@ public final class UserAuthDao {
 				if (rs.next()) {
 					model = new PasswordRestoreModel();
 					model.setToken(token);
-					model.setDate(rs.getDate(1));
+					model.setDate(rs.getTimestamp(1));
 					model.setEmail(rs.getString(2));
 				}
 
@@ -242,7 +231,7 @@ public final class UserAuthDao {
 				if (rs.next()) {
 					model = new PasswordRestoreModel();
 					model.setToken(rs.getString(1));
-					model.setDate(rs.getDate(2));
+					model.setDate(rs.getTimestamp(2));
 					model.setEmail(email);
 				}
 
@@ -265,7 +254,23 @@ public final class UserAuthDao {
 		try (CallableStatement stmt = conn.prepareCall(STMT_UPDATE_PWDRES_PENDING)) {
 			stmt.setString(1, passwordRestoreModel.getEmail());
 			stmt.setString(2, passwordRestoreModel.getToken());
-			stmt.setDate(3, new java.sql.Date(passwordRestoreModel.getDate().getTime()));
+			stmt.setTimestamp(3,
+				new Timestamp(
+					passwordRestoreModel.getDate().getTime()));
+			stmt.execute();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	public static void changeUserAuthPassword(UserAuthModel userAuthModel) 
+			throws DataAccessException {
+
+		Connection conn = Database.getInstance().getConnection();
+
+		try (CallableStatement stmt = conn.prepareCall(STMT_CHANGEUSERAUTH_PASSWORD)) {
+			stmt.setString(1, userAuthModel.getEmail());
+			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
 			stmt.execute();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
