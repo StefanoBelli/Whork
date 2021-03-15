@@ -16,6 +16,9 @@ import logic.exception.DataLogicException;
 
 public final class UserDao {
 	private UserDao() {}
+
+	private static final Connection CONN =
+		Database.getInstance().getConnection();
 	
 	private static final String STMT_GETUSER_BYCF = 
 		"{ call GetUserDetails(?) }";
@@ -28,7 +31,6 @@ public final class UserDao {
 
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
-
 		JobSeekerUserModel m = new JobSeekerUserModel();
 		m.setName(rs.getString(1));
 		m.setSurname(rs.getString(2));
@@ -49,7 +51,6 @@ public final class UserDao {
 
 	private static UserModel getEmployee(ResultSet rs) 
 			throws SQLException, DataLogicException, DataAccessException {
-
 		EmployeeUserModel m = new EmployeeUserModel();
 		m.setName(rs.getString(1));
 		m.setSurname(rs.getString(2));
@@ -66,9 +67,7 @@ public final class UserDao {
 
 	public static UserModel getUserByCf(String cf) 
 			throws DataAccessException, DataLogicException {
-		Connection conn = Database.getInstance().getConnection();
-
-		try(CallableStatement stmt = conn.prepareCall(STMT_GETUSER_BYCF)) {
+		try(CallableStatement stmt = CONN.prepareCall(STMT_GETUSER_BYCF)) {
 			stmt.setString(1, cf);
 			stmt.execute();
 
@@ -99,9 +98,6 @@ public final class UserDao {
 
 	public static void registerUserDetails(UserModel userModel) 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
 		boolean isEmployee = userModel.isEmployee();
 		EmployeeUserModel employeeUserModel = null;
 		JobSeekerUserModel jobSeekerUserModel = null;
@@ -114,7 +110,7 @@ public final class UserDao {
 
 		String callStmt = isEmployee ? STMT_REGDET_EMPLOYEE : STMT_REGDET_JOBSEEKER;
 
-		try(CallableStatement stmt = conn.prepareCall(callStmt)) {
+		try(CallableStatement stmt = CONN.prepareCall(callStmt)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, userModel.getName());
 			stmt.setString(3, userModel.getSurname());

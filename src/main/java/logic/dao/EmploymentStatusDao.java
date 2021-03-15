@@ -13,14 +13,15 @@ import java.util.ArrayList;
 
 public final class EmploymentStatusDao {
 	private EmploymentStatusDao() {}
+
+	private static final Connection CONN = 
+		Database.getInstance().getConnection();
 	
 	private static final String STMT_MAIN_POPULATE_POOL = 
 		"{ call GetEmploymentStatuses() }";
 
 	public static void populatePool() throws DataAccessException {
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_MAIN_POPULATE_POOL)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_MAIN_POPULATE_POOL)) {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {

@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 
 public final class CompanyDao {
 	private CompanyDao() {}
+
+	private static final Connection CONN = 
+		Database.getInstance().getConnection();
 	
 	private static final String MAIN_STMT_GET_COMPANY_BYVAT = 
 		"{ call GetCompanyByVAT(?) }";
@@ -21,10 +24,7 @@ public final class CompanyDao {
 
 	public static CompanyModel getCompanyByVat(String vat) 
 			throws DataAccessException, DataLogicException {
-		
-		Connection conn = Database.getInstance().getConnection();
-		
-		try (CallableStatement stmt = conn.prepareCall(MAIN_STMT_GET_COMPANY_BYVAT)) {
+		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_COMPANY_BYVAT)) {
 			stmt.setString(1, vat);
 			stmt.execute();
 
@@ -53,9 +53,7 @@ public final class CompanyDao {
 
 	public static void registerCompany(CompanyModel companyModel) 
 			throws DataAccessException {
-		Connection conn = Database.getInstance().getConnection();
-
-		try(CallableStatement stmt = conn.prepareCall(MAIN_STMT_REGISTER_COMPANY)) {
+		try(CallableStatement stmt = CONN.prepareCall(MAIN_STMT_REGISTER_COMPANY)) {
 			stmt.setString(1, companyModel.getVat());
 			stmt.setString(2, companyModel.getSocialReason());
 			stmt.setString(3, companyModel.getCf());

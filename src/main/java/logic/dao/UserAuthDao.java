@@ -20,6 +20,9 @@ import logic.util.Pair;
 public final class UserAuthDao {
 	private UserAuthDao() {}
 
+	private static final Connection CONN =
+		Database.getInstance().getConnection();
+
 	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = 
 		"{ call GetUserCfAndPwdByEmail(?) }";
 	private static final String STMT_CONFIRM_REG = 
@@ -51,7 +54,6 @@ public final class UserAuthDao {
 
 	private static String getTargetCf(String cf, String cf2) 
 			throws DataLogicException {
-				
 		String target = cf;
 
 		if (cf != null) { /* cf != null && cf2 = ??? */
@@ -71,10 +73,7 @@ public final class UserAuthDao {
 
 	public static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmail(String email)
 			throws DataAccessException, DataLogicException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
 			stmt.setString(1, email);
 			stmt.execute();
 
@@ -102,10 +101,7 @@ public final class UserAuthDao {
 
 	public static void confirmRegistration(String email, String regToken) 
 			throws DataAccessException, DataLogicException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_CONFIRM_REG)) {
 			stmt.setString(1, email);
 			stmt.setString(2, regToken);
 			stmt.execute();
@@ -121,12 +117,10 @@ public final class UserAuthDao {
 	public static void registerUserAuth(
 			UserModel userModel, UserAuthModel userAuthModel, String regToken) 
 				throws DataAccessException {
+		String callStmt = userModel.isEmployee() ? 
+			STMT_REGAUTH_EMPLOYEE : STMT_REGAUTH_JOBSEEKER;
 
-		Connection conn = Database.getInstance().getConnection();
-
-		String callStmt = userModel.isEmployee() ? STMT_REGAUTH_EMPLOYEE : STMT_REGAUTH_JOBSEEKER;
-
-		try (CallableStatement stmt = conn.prepareCall(callStmt)) {
+		try (CallableStatement stmt = CONN.prepareCall(callStmt)) {
 			stmt.setString(1, userAuthModel.getEmail());
 			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
 			stmt.setString(3, userModel.getCf());
@@ -139,10 +133,7 @@ public final class UserAuthDao {
 
 	public static List<PasswordRestoreModel> getPasswordRestorePendingRequest() 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_GETPWDRES_PENDING)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GETPWDRES_PENDING)) {
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
@@ -167,10 +158,7 @@ public final class UserAuthDao {
 
 	public static void newPasswordRestorePendingRequest(PasswordRestoreModel passwordRestoreModel) 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try(CallableStatement stmt = conn.prepareCall(STMT_NEWPWDRES_PENDING)) {
+		try(CallableStatement stmt = CONN.prepareCall(STMT_NEWPWDRES_PENDING)) {
 			stmt.setString(1, passwordRestoreModel.getToken());
 			stmt.setTimestamp(2, 
 				new Timestamp(
@@ -184,10 +172,7 @@ public final class UserAuthDao {
 
 	public static void delPasswordRestorePendingRequest(String token) 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_DELPWDRES_PENDING)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_DELPWDRES_PENDING)) {
 			stmt.setString(1, token);
 			stmt.execute();
 		} catch (SQLException e) {
@@ -197,10 +182,7 @@ public final class UserAuthDao {
 
 	public static PasswordRestoreModel getSinglePasswordRestorePendingRequest(String token) 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_GETSINGLE_PWDRES_PENDING)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GETSINGLE_PWDRES_PENDING)) {
 			stmt.setString(1, token);
 			stmt.execute();
 
@@ -222,10 +204,7 @@ public final class UserAuthDao {
 
 	public static PasswordRestoreModel getPasswordRestorePendingRequestByEmail(String email) 
 			throws DataAccessException, DataLogicException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_GETPWDRES_PENDING_BYEMAIL)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GETPWDRES_PENDING_BYEMAIL)) {
 			stmt.setString(1, email);
 			stmt.execute();
 
@@ -251,10 +230,7 @@ public final class UserAuthDao {
 
 	public static void updatePasswordRestorePendingRequest(PasswordRestoreModel passwordRestoreModel)
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_UPDATE_PWDRES_PENDING)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_UPDATE_PWDRES_PENDING)) {
 			stmt.setString(1, passwordRestoreModel.getEmail());
 			stmt.setString(2, passwordRestoreModel.getToken());
 			stmt.setTimestamp(3,
@@ -268,10 +244,7 @@ public final class UserAuthDao {
 
 	public static void changeUserAuthPassword(UserAuthModel userAuthModel) 
 			throws DataAccessException {
-
-		Connection conn = Database.getInstance().getConnection();
-
-		try (CallableStatement stmt = conn.prepareCall(STMT_CHANGEUSERAUTH_PASSWORD)) {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_CHANGEUSERAUTH_PASSWORD)) {
 			stmt.setString(1, userAuthModel.getEmail());
 			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
 			stmt.execute();
