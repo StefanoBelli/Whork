@@ -89,5 +89,4 @@ public final class PasswordRecoveryView implements ControllableView {
 			alreadyHaveTokenButton
 		};
 	}
-	
 }

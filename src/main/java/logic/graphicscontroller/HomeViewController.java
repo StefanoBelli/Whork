@@ -12,7 +12,6 @@ import logic.view.LoginView;
 import logic.view.ViewStack;
 
 public final class HomeViewController extends GraphicsController {
-
 	private Button accountBtn;
 
 	public HomeViewController(ControllableView view, ViewStack viewStack) {
@@ -58,5 +57,4 @@ public final class HomeViewController extends GraphicsController {
 	public void update() {
 		dynamicViewUpdate();
 	}
-	
 }

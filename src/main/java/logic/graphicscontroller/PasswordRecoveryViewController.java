@@ -67,7 +67,6 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 				emailAddressTextField.clear();
 			}
 		}
-
 	}
 
 	private final class HandleAlreadyHasToken implements EventHandler<MouseEvent> {
@@ -76,7 +75,6 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 		public void handle(MouseEvent event) {
 			viewStack.push(new PasswordChangeView(viewStack));
 		}
-
 	}
 
 	private final class HandleChangedTextField implements ChangeListener<String> {
@@ -89,6 +87,5 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 				!Util.EMAIL_PATTERN.matcher(newValue).matches()
 			);
 		}
-		
 	}
 }

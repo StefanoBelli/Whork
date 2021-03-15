@@ -90,6 +90,5 @@ public final class PasswordChangeViewController extends GraphicsController {
 				!password.equals(retypePassword)
 			);
 		}
-		
 	}
 }

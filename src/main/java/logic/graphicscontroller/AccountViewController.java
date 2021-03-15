@@ -12,7 +12,6 @@ import logic.view.ControllableView;
 import logic.view.ViewStack;
 
 public final class AccountViewController extends GraphicsController {
-
 	public AccountViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
@@ -44,7 +43,5 @@ public final class AccountViewController extends GraphicsController {
 
 			viewStack.pop();
 		}
-
 	}
-	
 }

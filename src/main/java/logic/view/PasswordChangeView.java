@@ -108,11 +108,6 @@ public final class PasswordChangeView implements ControllableView {
 	}
 
 	@Override
-	public void visible() {
-		// no need to update anything
-	}
-
-	@Override
 	public Node[] getNodes() {
 		return new Node[] {
 			tokenTextField,
@@ -121,5 +116,10 @@ public final class PasswordChangeView implements ControllableView {
 			continueButton,
 			goBackButton
 		};
+	}
+
+	@Override
+	public void visible() {
+		// no need to update anything
 	}
 }

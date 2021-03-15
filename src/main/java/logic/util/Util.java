@@ -29,11 +29,10 @@ import logic.WhorkDesktopLauncher;
 import logic.exception.SendMailException;
 
 public final class Util {
+	private Util() {}
+
 	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
 	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
-
-	private Util() {
-	}
 
 	public static void exceptionLog(Exception e) {
 		Logger logger = LoggerFactory.getLogger("WhorkExceptionLogger");
@@ -112,8 +111,7 @@ public final class Util {
 	}
 
 	public static final class Bcrypt {
-		private Bcrypt() {
-		}
+		private Bcrypt() {}
 
 		public static byte[] hash(String clearText) {
 			return BCrypt.withDefaults().hash(12, clearText.toCharArray());
@@ -125,8 +123,7 @@ public final class Util {
 	}
 	
 	public static final class Mailer {
-		private Mailer() {
-		}
+		private Mailer() {}
 
 		private static final Logger LOGGER = LoggerFactory.getLogger("Mailer");
 

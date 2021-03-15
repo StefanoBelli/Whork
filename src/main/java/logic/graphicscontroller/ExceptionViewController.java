@@ -14,7 +14,9 @@ import logic.view.ViewStack;
 public final class ExceptionViewController extends GraphicsController {
 	private Exception e;
 
-	public ExceptionViewController(Exception e, ControllableView view, ViewStack viewStack) {
+	public ExceptionViewController(
+		Exception e, ControllableView view, ViewStack viewStack) {
+
 		super(view, viewStack);
 		this.e = e;
 	}

@@ -90,7 +90,6 @@ public final class LoginViewController extends GraphicsController {
 
 			completeLoginPhase(event, outcome, email, password);
 		}
-
 	}
 
 	private final class HandlePasswordRecoveryRequest implements EventHandler<MouseEvent> {
