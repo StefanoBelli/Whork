@@ -1,4 +1,4 @@
-package logic.servlet;
+package logic.servlet.filter;
 
 import java.io.IOException;
 

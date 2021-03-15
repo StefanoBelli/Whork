@@ -12,7 +12,7 @@
 
     <filter>     
         <filter-name>MustBeLoggedInFilter</filter-name>   
-        <filter-class>logic.servlet.MustBeLoggedInFilter</filter-class>  
+        <filter-class>logic.servlet.filter.MustBeLoggedInFilter</filter-class>  
     </filter>
 
     <filter-mapping>
@@ -33,7 +33,7 @@
 
     <filter>     
         <filter-name>AlreadyLoggedInFilter</filter-name>   
-        <filter-class>logic.servlet.AlreadyLoggedInFilter</filter-class>  
+        <filter-class>logic.servlet.filter.AlreadyLoggedInFilter</filter-class>  
     </filter>
 
     <filter-mapping>
