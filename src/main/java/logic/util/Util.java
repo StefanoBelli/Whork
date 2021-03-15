@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.json.JSONObject;
@@ -54,6 +55,15 @@ public final class Util {
 		logger.error("*************************");
 		logger.error("* EXCEPTION LOGGING END *");
 		logger.error("*************************");
+	}
+
+	public static String generateToken() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(Long.toString(new Date().getTime()));
+		builder.append("-");
+		builder.append(UUID.randomUUID().toString());
+
+		return builder.toString();
 	}
 
 	public static boolean isValidPort(int port) {

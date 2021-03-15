@@ -23,11 +23,11 @@ public final class UserAuthDao {
 	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = 
 		"{ call GetUserCfAndPwdByEmail(?) }";
 	private static final String STMT_CONFIRM_REG = 
-		"{ call ConfirmRegistration(?) }";
+		"{ call ConfirmRegistration(?,?) }";
 	private static final String STMT_REGAUTH_JOBSEEKER = 
-		"{ call RegisterJobSeekerUserAuth(?,?,?) }";
+		"{ call RegisterJobSeekerUserAuth(?,?,?,?) }";
 	private static final String STMT_REGAUTH_EMPLOYEE = 
-		"{ call RegisterEmployeeUserAuth(?,?,?) }";
+		"{ call RegisterEmployeeUserAuth(?,?,?,?) }";
 	private static final String STMT_GETPWDRES_PENDING =
 		"{ call GetPendingPasswordRestoreRequest() }";
 	private static final String STMT_NEWPWDRES_PENDING =
@@ -100,13 +100,14 @@ public final class UserAuthDao {
 		}
 	}
 
-	public static void confirmRegistration(String email) 
+	public static void confirmRegistration(String email, String regToken) 
 			throws DataAccessException, DataLogicException {
 
 		Connection conn = Database.getInstance().getConnection();
 
 		try (CallableStatement stmt = conn.prepareCall(STMT_CONFIRM_REG)) {
 			stmt.setString(1, email);
+			stmt.setString(2, regToken);
 			stmt.execute();
 		} catch (SQLException e) {
 			if (e.getSQLState().equals("45001")) {
@@ -117,8 +118,9 @@ public final class UserAuthDao {
 		}
 	}
 
-	public static void registerUserAuth(UserModel userModel, UserAuthModel userAuthModel) 
-			throws DataAccessException {
+	public static void registerUserAuth(
+			UserModel userModel, UserAuthModel userAuthModel, String regToken) 
+				throws DataAccessException {
 
 		Connection conn = Database.getInstance().getConnection();
 
@@ -128,6 +130,7 @@ public final class UserAuthDao {
 			stmt.setString(1, userAuthModel.getEmail());
 			stmt.setBinaryStream(2, userAuthModel.getBcryptedPassword());
 			stmt.setString(3, userModel.getCf());
+			stmt.setString(4, regToken);
 			stmt.execute();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);

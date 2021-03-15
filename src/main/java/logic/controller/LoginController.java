@@ -17,11 +17,11 @@ import logic.model.UserAuthModel;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class LoginController {
@@ -100,11 +100,19 @@ public final class LoginController {
 
 			passwordRestoreModel = 
 				addOrUpdatePwdReq(passwordRestoreModel, email);
-		} catch(DataLogicException | DataAccessException e) {
-			if(!(e.getCause() instanceof SQLIntegrityConstraintViolationException)) {
+		} catch(DataAccessException e) {
+			Throwable cause = e.getCause();
+
+			if(!(cause instanceof SQLIntegrityConstraintViolationException || 
+				(cause instanceof SQLException &&
+				((SQLException) cause).getSQLState().equals("45002")))) {
+				
 				Util.exceptionLog(e);
 			}
 
+			success = false;
+		} catch(DataLogicException e) {
+			Util.exceptionLog(e);
 			success = false;
 		} finally {
 			mutexNewReq.unlock();
@@ -147,11 +155,11 @@ public final class LoginController {
 			passwordRestoreModel = new PasswordRestoreModel();
 			passwordRestoreModel.setEmail(email);
 			passwordRestoreModel.setDate(new Date());
-			passwordRestoreModel.setToken(generatePwdReqToken());
+			passwordRestoreModel.setToken(Util.generateToken());
 			UserAuthDao.newPasswordRestorePendingRequest(passwordRestoreModel);
 		} else { /* update old request */
 			passwordRestoreModel.setDate(new Date());
-			passwordRestoreModel.setToken(generatePwdReqToken());
+			passwordRestoreModel.setToken(Util.generateToken());
 			UserAuthDao.updatePasswordRestorePendingRequest(passwordRestoreModel);
 		}
 
@@ -209,15 +217,6 @@ public final class LoginController {
 		long reqTime = passwordRestoreModel.getDate().getTime();
 
 		return nowTime - reqTime > INVALID_DIFF_MS;
-	}
-
-	private static String generatePwdReqToken() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(Long.toString(new Date().getTime()));
-		builder.append("-");
-		builder.append(UUID.randomUUID().toString());
-
-		return builder.toString();
 	}
 
 	private static final class PasswordRecoveryPendingCleanup implements Runnable {
