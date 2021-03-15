@@ -2,7 +2,9 @@ os: linux
 dist: focal
 language: java
 jdk: oraclejdk15
-services: xvfb
+services: 
+  - xvfb
+  - mysql
 
 addons:
   sonarcloud:
@@ -10,8 +12,8 @@ addons:
     token: $SONAR_TOKEN
       
 before_script:
-  - mvn -version
-  
+  - sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
+
 script:
   - mvn clean compile
   - mvn jacoco:prepare-agent test jacoco:report
