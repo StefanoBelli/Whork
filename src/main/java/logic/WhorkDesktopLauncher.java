@@ -73,10 +73,11 @@ public final class WhorkDesktopLauncher extends Application {
 		File f = new File(AUTH_FILE_PATH);
 		String jsonAuthCred;
 
+		mainView = new HomeView(stack);
+
 		try {
 			jsonAuthCred = Util.Files.readAll(f);
 		} catch(FileNotFoundException e) {
-			mainView = new HomeView(stack);
 			return;
 		} catch(Exception e) {
 			mainView = new ExceptionView(e, stack);
@@ -90,11 +91,8 @@ public final class WhorkDesktopLauncher extends Application {
 					BeanFactory.buildUserAuthBean(cred.getFirst(), cred.getSecond()));
 			} catch (Exception e) {
 				mainView = new ExceptionView(e, stack);
-				return;
 			}
 		}
-
-		mainView = new HomeView(stack);
 	}
 }
 

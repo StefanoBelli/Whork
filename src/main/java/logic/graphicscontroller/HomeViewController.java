@@ -23,8 +23,6 @@ public final class HomeViewController extends GraphicsController {
 		Node[] n = view.getNodes();
 		accountBtn = (Button) n[0];
 		accountBtn.setOnMouseClicked(new HandleAccountButtonRequest());
-
-		dynamicViewUpdate();
 	}
 
 	private void dynamicViewUpdate() {
