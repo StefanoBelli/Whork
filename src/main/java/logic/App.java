@@ -7,7 +7,6 @@ import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
 import logic.util.Util;
-import logic.util.MailSender;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
@@ -509,28 +508,22 @@ final class App {
 		return true;
 	}
 
-	private static void setMailSender() {
-		LOGGER.info("Setting mail sender...");
-
-		MailSender sender = new MailSender();
-		sender.setFrom(mailFrom);
-		sender.setHost(mailHost);
-		sender.setPassword(mailPwd);
-		sender.setTls(mailTls);
-		sender.setPort(mailSmtpPort);
-
-		Util.Mailer.setMailSender(sender);
+	private static void setInstanceConfigs() {
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, mailFrom);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, mailHost);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILPWD, mailPwd);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, mailTls);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, mailSmtpPort);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
 		LOGGER.info("Checking if we can correctly talk to DB...");
 		LOGGER.info("Driver: {}", Database.DRIVER);
 
-		DatabaseName.setDbName(DBNAME);
-
 		try {
 			Connection conn = Database.getInstance(dbConnect, dbUser, dbPwd).getConnection();
-			conn.setCatalog(DatabaseName.getDbName());
+			conn.setCatalog(DBNAME);
 			LOGGER.info("Yes, we're able to talk to DB!");
 		} catch (ClassNotFoundException e) {
 			exceptionMessageBeforeStart(e, "unable to load driver class, this SHOULD be reported!");
@@ -552,7 +545,7 @@ final class App {
 			return false;
 		}
 
-		setMailSender();
+		setInstanceConfigs();
 
 		return true;
 	}
@@ -639,13 +632,5 @@ final class App {
 				finalizeLaunch(args);
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @return default root
-	 */
-	public static String getDflRoot() {
-		return dflRoot;
 	}
 }

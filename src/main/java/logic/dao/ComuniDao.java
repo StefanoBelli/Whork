@@ -1,7 +1,7 @@
 package logic.dao;
 
 import logic.exception.DataAccessException;
-import logic.util.Threeple;
+import logic.util.tuple.Threeple;
 import logic.model.ComuneModel;
 import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;

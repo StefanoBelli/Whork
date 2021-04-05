@@ -10,7 +10,7 @@ import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
-import logic.util.Pair;
+import logic.util.tuple.Pair;
 import logic.util.Util;
 import logic.model.PasswordRestoreModel;
 import logic.model.UserAuthModel;
