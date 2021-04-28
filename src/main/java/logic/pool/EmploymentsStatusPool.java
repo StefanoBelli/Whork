@@ -1,4 +1,4 @@
-package logic;
+package logic.pool;
 
 import java.util.List;
 import logic.model.EmploymentStatusModel;
