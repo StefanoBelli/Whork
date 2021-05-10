@@ -626,28 +626,11 @@ final class App {
 	 * Entry point
 	 */
 	public static void main(String[] args) {
-		/*
 		if (parse(args)) {
 			setRuntimeHooks();
 			if (initialize()) {
 				finalizeLaunch(args);
 			}
-		}*/
-		try (logic.net.SocketServer server = new logic.net.SocketServer("0.0.0.0",12345, new logic.net.ReceiveEvent() {
-				@Override
-				public void onReceive(java.nio.channels.SocketChannel socketChannel, java.nio.ByteBuffer buffer) {
-					try {
-						String msg = Util.readFromSocketChannel(socketChannel, buffer);
-						Util.writeToSocketChannel(socketChannel, msg);
-					} catch(IOException e) {
-						System.out.println("exception gotit!");
-						e.printStackTrace();
-					}
-				}
-			})) {
-				server.acceptWhileBlocking();
-		} catch(IOException e) {
-
 		}
 	}
 }

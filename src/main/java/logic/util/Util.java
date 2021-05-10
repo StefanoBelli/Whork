@@ -10,6 +10,7 @@ import javax.mail.Transport;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -231,20 +232,17 @@ public final class Util {
 		}
 	}
 
-	public static String readFromSocketChannel(SocketChannel socketChannel, ByteBuffer buffer) 
+	public static String readFromSocketChannel(SocketChannel socketChannel) 
 			throws IOException {
+		ByteBuffer buffer = ByteBuffer.allocate(8192);
+
 		buffer.clear();
 
-		if (buffer.hasRemaining()) {
-			int nread = socketChannel.read(buffer);
-			if (nread == -1) {
-				socketChannel.close();
-				throw new java.io.EOFException();
-			}
+		if (socketChannel.read(buffer) == -1) {
+			throw new EOFException();
 		}
 
 		buffer.flip();
-
 		return new String(buffer.array());
 	}
 

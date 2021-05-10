@@ -2,7 +2,6 @@ package logic.net;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -11,11 +10,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class SocketServer implements AutoCloseable {
-	private static final int IOBUFFER_SIZE = 8192;
 
 	private Selector selector = Selector.open();
 	protected ServerSocketChannel serverSocket = ServerSocketChannel.open();
-	private ByteBuffer ioBuffer = ByteBuffer.allocate(IOBUFFER_SIZE);
 	private ReceiveEvent receiveEvent;
 	
 	public SocketServer(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
@@ -39,7 +36,7 @@ public class SocketServer implements AutoCloseable {
 					client.configureBlocking(false);
 					client.register(selector, SelectionKey.OP_READ);
 				} else if (key.isReadable()) {
-					receiveEvent.onReceive((SocketChannel) key.channel(), ioBuffer);
+					receiveEvent.onReceive((SocketChannel) key.channel());
 				}
 
 				iter.remove();
