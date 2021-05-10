@@ -3,7 +3,6 @@ package logic.net;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -27,7 +26,7 @@ public class SocketServer implements AutoCloseable {
 		this.receiveEvent = receiveEvent;
 	}
 
-	public void acceptWhileBlocking() throws IOException {
+	public final void acceptWhileBlocking() throws IOException {
 		while (true) {
 			selector.select();
 			Set<SelectionKey> selectedKeys = selector.selectedKeys();
@@ -49,12 +48,16 @@ public class SocketServer implements AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
-		for(final SelectionKey key : selector.keys()) {
-			key.channel().close();
+	public final void close() {
+		try {
+			for(final SelectionKey key : selector.keys()) {
+				key.channel().close();
+			}
+			
+			selector.close();
+			serverSocket.close();
+		} catch(IOException e) {
+			//unhandled
 		}
-
-		selector.close();
-		serverSocket.close();	
 	}
 }

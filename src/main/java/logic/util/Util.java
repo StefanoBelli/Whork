@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
@@ -226,6 +228,35 @@ public final class Util {
 
 		public static Object get(String key) {
 			return config.get(key);
+		}
+	}
+
+	public static String readFromSocketChannel(SocketChannel socketChannel, ByteBuffer buffer) 
+			throws IOException {
+		buffer.clear();
+
+		if (buffer.hasRemaining()) {
+			int nread = socketChannel.read(buffer);
+			if (nread == -1) {
+				socketChannel.close();
+				throw new java.io.EOFException();
+			}
+		}
+
+		buffer.flip();
+
+		return new String(buffer.array());
+	}
+
+	public static void writeToSocketChannel(SocketChannel socketChannel, String what) 
+			throws IOException {
+		ByteBuffer buffer = ByteBuffer.allocate(what.length());
+		buffer.clear();
+		buffer.put(what.getBytes());
+		buffer.flip();
+
+		while (buffer.hasRemaining()) {
+			socketChannel.write(buffer);
 		}
 	}
 }

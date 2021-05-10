@@ -10,7 +10,7 @@ import javax.net.ssl.SSLContext;
 
 import org.baswell.niossl.SSLServerSocketChannel;
 
-public class SSLSocketServer extends SocketServer {
+public final class SSLSocketServer extends SocketServer {
 	public SSLSocketServer(String listenAddress, int listenPort, ReceiveEvent event) 
 			throws IOException, NoSuchAlgorithmException {
 		super(listenAddress, listenPort, event);
