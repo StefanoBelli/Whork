@@ -10,10 +10,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class SocketServer implements AutoCloseable {
-
 	private Selector selector = Selector.open();
-	protected ServerSocketChannel serverSocket = ServerSocketChannel.open();
 	private ReceiveEvent receiveEvent;
+	protected ServerSocketChannel serverSocket = ServerSocketChannel.open();
 	
 	public SocketServer(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
 			throws IOException {
@@ -23,7 +22,8 @@ public class SocketServer implements AutoCloseable {
 		this.receiveEvent = receiveEvent;
 	}
 
-	public final void acceptWhileBlocking() throws IOException {
+	public final void acceptWhileBlocking() 
+			throws IOException {
 		while (true) {
 			selector.select();
 			Set<SelectionKey> selectedKeys = selector.selectedKeys();

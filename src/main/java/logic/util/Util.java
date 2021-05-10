@@ -73,6 +73,32 @@ public final class Util {
 		return port >= 0 && port <= 65535;
 	}
 
+	public static String readFromSocketChannel(SocketChannel socketChannel) 
+			throws IOException {
+		ByteBuffer buffer = ByteBuffer.allocate(8192);
+
+		buffer.clear();
+
+		if (socketChannel.read(buffer) == -1) {
+			throw new EOFException();
+		}
+
+		buffer.flip();
+		return new String(buffer.array());
+	}
+
+	public static void writeToSocketChannel(SocketChannel socketChannel, String what) 
+			throws IOException {
+		ByteBuffer buffer = ByteBuffer.allocate(what.length());
+		buffer.clear();
+		buffer.put(what.getBytes());
+		buffer.flip();
+
+		while (buffer.hasRemaining()) {
+			socketChannel.write(buffer);
+		}
+	}
+
 	public static final class Files {
 		private Files() {}
 
@@ -229,32 +255,6 @@ public final class Util {
 
 		public static Object get(String key) {
 			return config.get(key);
-		}
-	}
-
-	public static String readFromSocketChannel(SocketChannel socketChannel) 
-			throws IOException {
-		ByteBuffer buffer = ByteBuffer.allocate(8192);
-
-		buffer.clear();
-
-		if (socketChannel.read(buffer) == -1) {
-			throw new EOFException();
-		}
-
-		buffer.flip();
-		return new String(buffer.array());
-	}
-
-	public static void writeToSocketChannel(SocketChannel socketChannel, String what) 
-			throws IOException {
-		ByteBuffer buffer = ByteBuffer.allocate(what.length());
-		buffer.clear();
-		buffer.put(what.getBytes());
-		buffer.flip();
-
-		while (buffer.hasRemaining()) {
-			socketChannel.write(buffer);
 		}
 	}
 }
