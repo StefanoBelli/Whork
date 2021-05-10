@@ -27,7 +27,7 @@ public class SocketServer implements AutoCloseable {
 		this.receiveEvent = receiveEvent;
 	}
 
-	public void acceptWhileBlocking() throws IOException, ClosedChannelException {
+	public void acceptWhileBlocking() throws IOException {
 		while (true) {
 			selector.select();
 			Set<SelectionKey> selectedKeys = selector.selectedKeys();
@@ -53,7 +53,7 @@ public class SocketServer implements AutoCloseable {
 		for(final SelectionKey key : selector.keys()) {
 			key.channel().close();
 		}
-		
+
 		selector.close();
 		serverSocket.close();	
 	}
