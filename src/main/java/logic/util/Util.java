@@ -228,4 +228,16 @@ public final class Util {
 			return config.get(key);
 		}
 	}
+
+	public static final class Holder<T> {
+		private T heldObject;
+
+		public T getHeldObject() {
+			return heldObject;
+		}
+
+		public void setHeldObject(T heldObject) {
+			this.heldObject = heldObject;
+		}
+	}
 }
