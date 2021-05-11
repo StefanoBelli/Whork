@@ -16,7 +16,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
@@ -87,18 +89,21 @@ public final class Util {
 			}
 
 			buffer.flip();
-			return new String(buffer.array());
+			return StandardCharsets.UTF_8.decode(buffer).toString();
 		}
 
 		public static void write(SocketChannel socketChannel, String what) 
 				throws IOException {
-			ByteBuffer buffer = ByteBuffer.allocate(what.length());
+
+			CharBuffer buffer = CharBuffer.allocate(what.length());
 			buffer.clear();
-			buffer.put(what.getBytes());
+			buffer.put(what);
 			buffer.flip();
 
-			while (buffer.hasRemaining()) {
-				socketChannel.write(buffer);
+			ByteBuffer bytes = StandardCharsets.UTF_8.encode(buffer);
+
+			while (bytes.hasRemaining()) {
+				socketChannel.write(bytes);
 			}
 		}
 	}
