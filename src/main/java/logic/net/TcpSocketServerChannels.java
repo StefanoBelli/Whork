@@ -9,12 +9,12 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class TcpServer implements AutoCloseable {
+public final class TcpSocketServerChannels implements AutoCloseable {
 	private Selector selector = Selector.open();
 	private ServerSocketChannel serverSocket = ServerSocketChannel.open();
 	private ReceiveEvent receiveEvent;
 	
-	public TcpServer(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
+	public TcpSocketServerChannels(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
 			throws IOException {
 		serverSocket.bind(new InetSocketAddress(listenAddress, listenPort));
 		serverSocket.configureBlocking(false);
