@@ -16,57 +16,18 @@ import logic.model.ChatLogEntryModel;
 import logic.model.EmployeeUserModel;
 import logic.model.JobSeekerUserModel;
 
-public final class ChatDao {
-	private ChatDao() {}
+public final class ChatLogDao {
+	private ChatLogDao() {}
 
 	private static final Connection CONN = 
 		Database.getInstance().getConnection();
 
-	private static final String MAIN_STMT_NEW_CHAT_SESSION = 
-		"{ call NewChatSession(?,?,?) }";
-	private static final String MAIN_STMT_DEL_CHAT_SESSION = 
-		"{ call DelChatSession(?) }";
-	private static final String MAIN_STMT_UPDATE_CHAT_SESSION_TOKEN = 
-		"{ call UpdateChatSessionToken(?,?) }";
 	private static final String MAIN_STMT_NEW_CHAT_LOG_ENTRY = 
 		"{ call NewChatLogEntry(?,?,?,?,?,?,?) }";
 	private static final String MAIN_STMT_FLAG_MESSAGE_AS_DELIVERED = 
 		"{ call FlagMessageAsDelivered(?,?,?) }";
 	private static final String MAIN_STMT_GET_CHAT_LOG = 
 		"{ call GetChatLog(?,?) }";
-
-	public static void newChatSession(String token, EmployeeUserModel employee, JobSeekerUserModel jobSeeker) 
-			throws DataAccessException {
-		try(CallableStatement stmt = CONN.prepareCall(MAIN_STMT_NEW_CHAT_SESSION)) {
-			stmt.setString(1, token);
-			stmt.setString(2, employee.getCf());
-			stmt.setString(3, jobSeeker.getCf());
-			stmt.execute();
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
-	public static void delChatSession(String token) 
-			throws DataAccessException {
-		try(CallableStatement stmt = CONN.prepareCall(MAIN_STMT_DEL_CHAT_SESSION)) {
-			stmt.setString(1, token);
-			stmt.execute();
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
-	public static void updateChatSessionToken(String token, String newToken) 
-			throws DataAccessException {
-		try(CallableStatement stmt = CONN.prepareCall(MAIN_STMT_UPDATE_CHAT_SESSION_TOKEN)) {
-			stmt.setString(1, token);
-			stmt.setString(2, newToken);
-			stmt.execute();
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
 
 	public static void newChatLogEntry(EmployeeUserModel employee, JobSeekerUserModel jobSeeker, ChatLogEntryModel chatLogEntry) 
 			throws DataAccessException {
