@@ -623,8 +623,6 @@ final class App {
 
 	/**
 	 * @param args
-	 * 
-	 * Entry point
 	 */
 	public static void main(String[] args) {
 		if (parse(args)) {

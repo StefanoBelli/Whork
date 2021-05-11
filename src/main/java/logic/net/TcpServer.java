@@ -9,12 +9,12 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SocketServer implements AutoCloseable {
+public class TcpServer implements AutoCloseable {
 	private Selector selector = Selector.open();
+	private ServerSocketChannel serverSocket = ServerSocketChannel.open();
 	private ReceiveEvent receiveEvent;
-	protected ServerSocketChannel serverSocket = ServerSocketChannel.open();
 	
-	public SocketServer(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
+	public TcpServer(String listenAddress, int listenPort, ReceiveEvent receiveEvent) 
 			throws IOException {
 		serverSocket.bind(new InetSocketAddress(listenAddress, listenPort));
 		serverSocket.configureBlocking(false);
@@ -22,25 +22,23 @@ public class SocketServer implements AutoCloseable {
 		this.receiveEvent = receiveEvent;
 	}
 
-	public final void acceptWhileBlocking() 
+	public final void process() 
 			throws IOException {
-		while (true) {
-			selector.select();
-			Set<SelectionKey> selectedKeys = selector.selectedKeys();
-			Iterator<SelectionKey> iter = selectedKeys.iterator();
-			while (iter.hasNext()) {
-				SelectionKey key = iter.next();
+		selector.select();
+		Set<SelectionKey> selectedKeys = selector.selectedKeys();
+		Iterator<SelectionKey> iter = selectedKeys.iterator();
+		while (iter.hasNext()) {
+			SelectionKey key = iter.next();
 
-				if (key.isAcceptable()) {
-					SocketChannel client = serverSocket.accept();
-					client.configureBlocking(false);
-					client.register(selector, SelectionKey.OP_READ);
-				} else if (key.isReadable()) {
-					receiveEvent.onReceive((SocketChannel) key.channel());
-				}
-
-				iter.remove();
+			if (key.isAcceptable()) {
+				SocketChannel client = serverSocket.accept();
+				client.configureBlocking(false);
+				client.register(selector, SelectionKey.OP_READ);
+			} else if (key.isReadable()) {
+				receiveEvent.onReceive((SocketChannel) key.channel());
 			}
+
+			iter.remove();
 		}
 	}
 

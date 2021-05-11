@@ -73,29 +73,33 @@ public final class Util {
 		return port >= 0 && port <= 65535;
 	}
 
-	public static String readFromSocketChannel(SocketChannel socketChannel) 
-			throws IOException {
-		ByteBuffer buffer = ByteBuffer.allocate(8192);
+	public static final class SocketChannels {
+		private SocketChannels() {}
+		
+		public static String read(SocketChannel socketChannel) 
+				throws IOException {
+			ByteBuffer buffer = ByteBuffer.allocate(8192);
 
-		buffer.clear();
+			buffer.clear();
 
-		if (socketChannel.read(buffer) == -1) {
-			throw new EOFException();
+			if (socketChannel.read(buffer) == -1) {
+				throw new EOFException();
+			}
+
+			buffer.flip();
+			return new String(buffer.array());
 		}
 
-		buffer.flip();
-		return new String(buffer.array());
-	}
+		public static void write(SocketChannel socketChannel, String what) 
+				throws IOException {
+			ByteBuffer buffer = ByteBuffer.allocate(what.length());
+			buffer.clear();
+			buffer.put(what.getBytes());
+			buffer.flip();
 
-	public static void writeToSocketChannel(SocketChannel socketChannel, String what) 
-			throws IOException {
-		ByteBuffer buffer = ByteBuffer.allocate(what.length());
-		buffer.clear();
-		buffer.put(what.getBytes());
-		buffer.flip();
-
-		while (buffer.hasRemaining()) {
-			socketChannel.write(buffer);
+			while (buffer.hasRemaining()) {
+				socketChannel.write(buffer);
+			}
 		}
 	}
 
