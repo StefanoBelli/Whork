@@ -6,19 +6,31 @@ import java.util.Map;
 import logic.net.Protocol;
 import logic.util.tuple.Pair;
 
-abstract class StatelessProtocol implements Protocol {
-	private Map<String, OnRequestHandler> handlers = new HashMap<>();
+public abstract class StatelessProtocol implements Protocol {
+	private final Map<String, OnRequestHandler> handlers = new HashMap<>();
 
-	void addCommand(String name, OnRequestHandler handler) {
+	protected final void addCommand(String name, OnRequestHandler handler) {
 		handlers.put(name, handler);
 	}
 
 	@Override
-	public Pair<String,Boolean> onMessage(String what) {
-		return null; //TODO here
+	public final Pair<String,Boolean> onMessage(String what) {
+		Pair<OnRequestHandler, Request> p = parseAndBuildPair(what);
+
+		if(p == null) {
+			Response errorResp = new Response();
+			errorResp.setStatus(Response.Status.KO);
+			errorResp.setBody("SyntaxError");
+			errorResp.addHeaderEntry("Content-Length", "11");
+			return new Pair<>(errorResp.toString(), true);
+		}
+
+		Response resp = p.getFirst().onRequest(p.getSecond());
+
+		return new Pair<>(resp.toString(), false);
 	}
 
-	private Pair<OnRequestHandler, Request> 
+	private final Pair<OnRequestHandler, Request> 
 		buildResultingPair(String cmd, Map<String, String> hdrs, String body) {
 
 		OnRequestHandler handler = handlers.get(cmd);
@@ -33,29 +45,22 @@ abstract class StatelessProtocol implements Protocol {
 		return new Pair<>(handler, request);
 	}
 
-	private Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
-		//find the first '\0' character, that is meaning that cmd+hdr is done
+	private final Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
 		int cmdPlusHdrEndIdx = msg.indexOf('\0', 0);
 		if(cmdPlusHdrEndIdx == -1) {
 			return null;
 		}
 
-		//extract cmd+hdr (substring) and work ONLY on it
-		//(so we don't require any escaping of the body if working
-		//using split), on the substring, split based of '\t'
 		String[] cmdPlusHdr = msg.substring(0, cmdPlusHdrEndIdx).split("\t");
 		if(cmdPlusHdr.length != 2) {
 			return null;
 		}
 
-		//get cmd
 		String cmd = cmdPlusHdr[0];
 		if(cmd.isEmpty() || cmd.isBlank()) {
 			return null;
 		}
 
-		//by checking for cmdPlusHdr.length != 2, we are also ensuring
-		//that headers are always here
 		Map<String, String> hdrs = new HashMap<>();
 		String hdr = cmdPlusHdr[1];
 		String[] hdrKvs = hdr.split("\n");
@@ -78,11 +83,11 @@ abstract class StatelessProtocol implements Protocol {
 		return buildResultingPair(cmd, hdrs, msg.substring(cmdPlusHdrEndIdx + 1, msg.length()));
 	}
 
-	interface OnRequestHandler {
+	public interface OnRequestHandler {
 		Response onRequest(Request request);
 	}
 
-	static class Response {
+	public static final class Response {
 		enum Status {
 			OK("OK"),
 			KO("KO");
@@ -130,14 +135,14 @@ abstract class StatelessProtocol implements Protocol {
 			}
 
 			builder
-				.append("\r")
+				.append("\0")
 				.append(body);
 
 			return builder.toString();
 		}
 	}
 
-	static class Request {
+	public static final class Request {
 		private Map<String, String> headers;
 		private String body;
 

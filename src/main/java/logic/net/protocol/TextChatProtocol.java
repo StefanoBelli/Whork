@@ -1,5 +1,5 @@
 package logic.net.protocol;
 
-public class TextChatProtocol {
-	
+public final class TextChatProtocol extends StatelessProtocol {
+
 }
