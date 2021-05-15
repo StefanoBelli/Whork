@@ -74,7 +74,7 @@ public final class Util {
 	public static boolean isValidPort(int port) {
 		return port >= 0 && port <= 65535;
 	}
-
+	
 	public static final class SocketChannels {
 		private SocketChannels() {}
 		
