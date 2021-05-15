@@ -34,39 +34,48 @@ abstract class StatelessProtocol implements Protocol {
 	}
 
 	private Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
+		//find the first '\0' character, that is meaning that cmd+hdr is done
 		int cmdPlusHdrEndIdx = msg.indexOf('\0', 0);
 		if(cmdPlusHdrEndIdx == -1) {
 			return null;
 		}
 
-		String[] cmdPlusHdr = msg.substring(0, cmdPlusHdrEndIdx + 1).split("\t");
+		//extract cmd+hdr (substring) and work ONLY on it
+		//(so we don't require any escaping of the body if working
+		//using split), on the substring, split based of '\t'
+		String[] cmdPlusHdr = msg.substring(0, cmdPlusHdrEndIdx).split("\t");
 		if(cmdPlusHdr.length != 2) {
 			return null;
 		}
 
+		//get cmd
 		String cmd = cmdPlusHdr[0];
 		if(cmd.isEmpty() || cmd.isBlank()) {
 			return null;
 		}
 
+		//by checking for cmdPlusHdr.length != 2, we are also ensuring
+		//that headers are always here
 		Map<String, String> hdrs = new HashMap<>();
 		String hdr = cmdPlusHdr[1];
-		if(!hdr.isEmpty()) {
-			String[] hdrKvs = hdr.split("\n");
-			for(final String hdrKv : hdrKvs) {
-				int sp = hdrKv.indexOf(":",0);
-				if(sp == -1) {
-					return null;
-				}
-
-				String key = hdrKv.substring(0, sp + 1);
-				String value = hdrKv.substring(sp, hdrKv.length());
-
-				hdrs.put(key, value);
+		String[] hdrKvs = hdr.split("\n");
+		for (final String hdrKv : hdrKvs) {
+			int sp = hdrKv.indexOf(":", 0);
+			if (sp == -1) {
+				return null;
 			}
+
+			String key = hdrKv.substring(0, sp);
+			String value = hdrKv.substring(sp + 1, hdrKv.length());
+
+			if(key.isEmpty() || key.isBlank()) {
+				return null;
+			}
+
+			hdrs.put(key, value);
 		}
 
-		return buildResultingPair(cmd, hdrs, msg.substring(cmdPlusHdrEndIdx, msg.length()));
+		return buildResultingPair(cmd, hdrs, msg.substring(cmdPlusHdrEndIdx + 1, msg.length()));
 	}
 
 	interface OnRequestHandler {
