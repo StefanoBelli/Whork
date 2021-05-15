@@ -107,7 +107,7 @@ abstract class StatelessProtocol implements Protocol {
 			this.status = status;
 		}
 
-		void addHeader(String key, String value) {
+		void addHeaderEntry(String key, String value) {
 			this.headers.put(key, value);
 		}
 
