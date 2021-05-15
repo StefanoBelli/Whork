@@ -15,7 +15,7 @@ abstract class StatelessProtocol implements Protocol {
 
 	@Override
 	public Pair<String,Boolean> onMessage(String what) {
-		return null;
+		return null; //TODO here
 	}
 
 	private Pair<OnRequestHandler, Request> 
@@ -34,7 +34,7 @@ abstract class StatelessProtocol implements Protocol {
 	}
 
 	private Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
-		int cmdPlusHdrEndIdx = msg.indexOf('\r', 0);
+		int cmdPlusHdrEndIdx = msg.indexOf('\0', 0);
 		if(cmdPlusHdrEndIdx == -1) {
 			return null;
 		}
