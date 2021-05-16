@@ -2,6 +2,7 @@ os: linux
 dist: focal
 language: java
 jdk: oraclejdk15
+install: true
 services: 
   - xvfb
   - mysql

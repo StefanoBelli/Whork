@@ -54,6 +54,7 @@ msg_UTF8
 PullMessage\t
 Token:ActualToken\n
 To:email\n
+Apply-Filter:[all|to-deliver]\n
 Content-Length:0\n
 Accept-Encoding:gzip\n
 Starting-From:dateInt\n

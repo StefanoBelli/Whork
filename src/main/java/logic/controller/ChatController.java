@@ -1,6 +1,8 @@
 package logic.controller;
 
-public final class ChatController {
+import logic.controller.privileges.TokenAccessControl;
+
+public final class ChatController extends TokenAccessControl {
 	private ChatController(){}
 
 }
