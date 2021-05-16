@@ -1,20 +1,37 @@
 package logic.net.protocol;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import logic.net.Protocol;
+import logic.net.protocol.annotation.RequestHandler;
 import logic.util.tuple.Pair;
 
-public abstract class StatelessProtocol implements Protocol {
+public final class StatelessProtocol implements Protocol {
 	private final Map<String, OnRequestHandler> handlers = new HashMap<>();
 
-	protected final void addCommand(String name, OnRequestHandler handler) {
-		handlers.put(name, handler);
+	public StatelessProtocol(OnRequestHandler[] reqHandlers) {
+		for(final OnRequestHandler reqHandler : reqHandlers) {
+			Class<?> repr = reqHandler.getClass();
+
+			Method[] methods = repr.getMethods();
+			for(final Method method : methods) {
+				if(method.getName().equals("onRequest")) {
+					RequestHandler[] annots = method.getAnnotationsByType(RequestHandler.class);
+
+					if(annots.length != 0) {
+						handlers.put(annots[0].value(), reqHandler);
+					}
+
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
-	public final Pair<String,Boolean> onMessage(String what) {
+	public Pair<String,Boolean> onMessage(String what) {
 		Pair<OnRequestHandler, Request> p = parseAndBuildPair(what);
 
 		if(p == null) {
@@ -30,7 +47,7 @@ public abstract class StatelessProtocol implements Protocol {
 		return new Pair<>(resp.toString(), false);
 	}
 
-	private final Pair<OnRequestHandler, Request> 
+	private Pair<OnRequestHandler, Request> 
 		buildResultingPair(String cmd, Map<String, String> hdrs, String body) {
 
 		OnRequestHandler handler = handlers.get(cmd);
@@ -45,7 +62,7 @@ public abstract class StatelessProtocol implements Protocol {
 		return new Pair<>(handler, request);
 	}
 
-	private final Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
+	private Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
 		int cmdPlusHdrEndIdx = msg.indexOf('\0', 0);
 		if(cmdPlusHdrEndIdx == -1) {
 			return null;
