@@ -78,7 +78,7 @@ TokenRefresh
 <BEGIN>
 OK\t
 Content-Length:tokenLen\n
-Expires:timestampInt\n
+Expires-In:timestampInt\n
 \0
 token
 <END>
