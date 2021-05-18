@@ -163,6 +163,7 @@ PullMessage
 
 <BEGIN>
 OK\t
+Should-Pull-Every:nms\n
 Content-Length:x\n
 Content-Type:text/json\n
 Content-Encoding:gzip\n

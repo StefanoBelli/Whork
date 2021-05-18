@@ -4,39 +4,30 @@ import java.io.Serializable;
 
 public final class ChatInitBean implements Serializable {
 	private String token;
-	private int expiresIn;
-	private int pullMessageEvery;
-	private int refreshTokenEvery;
+	private int tokenExpiresIn;
+	private int shouldPullMessagesEvery;
 
 	public String getToken() {
 		return token;
 	}
 
-	public int getExpiresIn() {
-		return expiresIn;
+	public int getTokenExpiresIn() {
+		return tokenExpiresIn;
 	}
 
-	public int getPullMessageEvery() {
-		return pullMessageEvery;
-	}
-
-	public int getRefreshTokenEvery() {
-		return refreshTokenEvery;
+	public int getShouldPullMessagesEvery() {
+		return shouldPullMessagesEvery;
 	}
 
 	public void setToken(String token) {
 		this.token = token;
 	}
 
-	public void setExpiresIn(int expiresIn) {
-		this.expiresIn = expiresIn;
+	public void setExpiresIn(int tokenExpiresIn) {
+		this.tokenExpiresIn = tokenExpiresIn;
 	}
 
-	public void setPullMessageEvery(int pullMessageEvery) {
-		this.pullMessageEvery = pullMessageEvery;
-	}
-
-	public void setRefreshTokenEvery(int refreshTokenEvery) {
-		this.refreshTokenEvery = refreshTokenEvery;
+	public void setShouldPullMessageEvery(int shouldPullMessagesEvery) {
+		this.shouldPullMessagesEvery = shouldPullMessagesEvery;
 	}
 }
