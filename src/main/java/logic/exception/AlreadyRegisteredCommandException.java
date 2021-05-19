@@ -3,20 +3,11 @@ package logic.exception;
 public final class AlreadyRegisteredCommandException extends RuntimeException {
 	private static final long serialVersionUID = -9091076783347345111L;
 
-	private final String cmd;
-	private final String prev;
-	private final String actual;
+	private final String msg;
 
 	public AlreadyRegisteredCommandException(String cmd, String prev, String actual) {
-		this.cmd = cmd;
-		this.prev = prev;
-		this.actual = actual;
-	}
-
-	@Override
-	public String getMessage() {
 		StringBuilder builder = new StringBuilder();
-		
+
 		builder
 			.append("\"")
 			.append(cmd)
@@ -26,6 +17,11 @@ public final class AlreadyRegisteredCommandException extends RuntimeException {
 			.append(actual)
 			.append("\"");
 
-		return builder.toString();
+		msg = builder.toString();
+	}
+
+	@Override
+	public String getMessage() {
+		return msg;
 	}
 }
