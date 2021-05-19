@@ -1,9 +1,9 @@
 package logic.controller.service;
 
 import logic.controller.ChatController;
-import logic.exception.ServiceControllerManagerStateException;
+import logic.exception.ServiceControllerHolderStateException;
 
-public final class ServiceControllerManager {
+public final class ServiceControllerHolder {
 	private static ServiceController chatServiceController = null;
 
 	static {
@@ -11,11 +11,11 @@ public final class ServiceControllerManager {
 	}
 
 	public ServiceController getService(Service service) 
-			throws ServiceControllerManagerStateException {
+			throws ServiceControllerHolderStateException {
 		if(service == Service.CHAT && chatServiceController != null) {
 			return chatServiceController;
 		}
 
-		throw new ServiceControllerManagerStateException();
+		throw new ServiceControllerHolderStateException();
 	}
 }
