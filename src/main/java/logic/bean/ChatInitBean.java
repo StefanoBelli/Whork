@@ -27,7 +27,7 @@ public final class ChatInitBean implements Serializable {
 		this.tokenExpiresIn = tokenExpiresIn;
 	}
 
-	public void setShouldPullMessageEvery(int shouldPullMessagesEvery) {
+	public void setShouldPullMessagesEvery(int shouldPullMessagesEvery) {
 		this.shouldPullMessagesEvery = shouldPullMessagesEvery;
 	}
 }
