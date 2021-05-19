@@ -1,7 +1,6 @@
 package logic.controller.service;
 
 import logic.controller.ChatController;
-import logic.exception.ServiceControllerHolderStateException;
 
 public final class ServiceControllerHolder {
 	private ServiceControllerHolder() {}
@@ -12,12 +11,11 @@ public final class ServiceControllerHolder {
 		chatServiceController = ChatController.getInstance();
 	}
 
-	public static ServiceController getService(Service service) 
-			throws ServiceControllerHolderStateException {
+	public static ServiceController getService(Service service) {
 		if(service == Service.CHAT && chatServiceController != null) {
 			return chatServiceController;
 		}
 
-		throw new ServiceControllerHolderStateException();
+		return null; //should never be reached
 	}
 }

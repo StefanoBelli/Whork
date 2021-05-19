@@ -17,6 +17,7 @@ public final class StatelessProtocol {
 
 	public StatelessProtocol(Object impl) {
 		this.impl = impl;
+		
 		Class<?> implClass = impl.getClass();
 		Method[] implClassMethods = implClass.getMethods();
 
@@ -26,9 +27,11 @@ public final class StatelessProtocol {
 			if(annots.length > 0) {
 				
 				String cmdName = annots[0].value();
-				for(final Map.Entry<String, Method> handler : handlers.entrySet()) {
-					if(handler.getKey().equals(cmdName)) {
-						throw new AlreadyRegisteredCommandException();
+
+				for(final Map.Entry<String, Method> entry : handlers.entrySet()) {
+					if(entry.getKey().equals(cmdName)) {
+						throw new AlreadyRegisteredCommandException(
+							cmdName, entry.getValue().getName(), reqMethod.getName());
 					}
 				}
 
@@ -40,7 +43,7 @@ public final class StatelessProtocol {
 				if(goodMethodSignature) {
 					handlers.put(cmdName, reqMethod);
 				} else {
-					throw new InvalidMethodSignatureException();
+					throw new InvalidMethodSignatureException(reqMethod.getName());
 				}
 			}
 		}
