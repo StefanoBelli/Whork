@@ -4,16 +4,19 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
+import logic.net.protocol.StatelessProtocol;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
 public final class Server implements Runnable {
 	private final TcpSocketServerChannels serverChannels;
-	private final Protocol protocol;
+	private final StatelessProtocol protocol;
 	
-	public Server(String listenAddr, int listenPort, Protocol protocol) 
+	public Server(String listenAddr, int listenPort, StatelessProtocol protocol) 
 			throws IOException {
-		this.serverChannels = new TcpSocketServerChannels(listenAddr, listenPort, new OnReceiveEventHandler());
+		this.serverChannels = 
+			new TcpSocketServerChannels(
+				listenAddr, listenPort, new OnReceiveEventHandler());
 		this.protocol = protocol;
 	}
 

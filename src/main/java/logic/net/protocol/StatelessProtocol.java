@@ -1,56 +1,85 @@
 package logic.net.protocol;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import logic.net.Protocol;
+import logic.exception.AlreadyRegisteredCommandException;
+import logic.exception.InvalidMethodSignatureException;
 import logic.net.protocol.annotation.RequestHandler;
+import logic.util.Util;
 import logic.util.tuple.Pair;
 
-public final class StatelessProtocol implements Protocol {
-	private final Map<String, OnRequestHandler> handlers = new HashMap<>();
+public final class StatelessProtocol {
+	private final Map<String, Method> handlers = new HashMap<>();
+	private final Object impl;
 
-	public StatelessProtocol(OnRequestHandler[] reqHandlers) {
-		for(final OnRequestHandler reqHandler : reqHandlers) {
-			Class<?> repr = reqHandler.getClass();
+	public StatelessProtocol(Object impl) {
+		this.impl = impl;
+		Class<?> implClass = impl.getClass();
+		Method[] implClassMethods = implClass.getMethods();
 
-			Method[] methods = repr.getMethods();
-			for(final Method method : methods) {
-				if(method.getName().equals("onRequest")) {
-					RequestHandler[] annots = method.getAnnotationsByType(RequestHandler.class);
+		for(final Method reqMethod : implClassMethods) {
 
-					if(annots.length != 0) {
-						handlers.put(annots[0].value(), reqHandler);
+			RequestHandler[] annots = reqMethod.getAnnotationsByType(RequestHandler.class);
+			if(annots.length > 0) {
+				
+				String cmdName = annots[0].value();
+				for(final Map.Entry<String, Method> handler : handlers.entrySet()) {
+					if(handler.getKey().equals(cmdName)) {
+						throw new AlreadyRegisteredCommandException();
 					}
+				}
 
-					break;
+				boolean goodMethodSignature =
+					reqMethod.getReturnType() == Response.class &&
+					reqMethod.getParameterCount() == 1 &&
+					reqMethod.getParameterTypes()[0] == Request.class;
+
+				if(goodMethodSignature) {
+					handlers.put(cmdName, reqMethod);
+				} else {
+					throw new InvalidMethodSignatureException();
 				}
 			}
 		}
 	}
 
-	@Override
+	private Pair<String, Boolean> errorResponse(String str) {
+		Response errorResp = new Response();
+		errorResp.setStatus(Response.Status.KO);
+		errorResp.setBody(str);
+		errorResp.addHeaderEntry("Content-Length", Integer.toString(str.length()));
+
+		return new Pair<>(errorResp.toString(), true);
+	}
+
 	public Pair<String,Boolean> onMessage(String what) {
-		Pair<OnRequestHandler, Request> p = parseAndBuildPair(what);
+		Pair<Method, Request> p = parseAndBuildPair(what);
 
 		if(p == null) {
-			Response errorResp = new Response();
-			errorResp.setStatus(Response.Status.KO);
-			errorResp.setBody("SyntaxError");
-			errorResp.addHeaderEntry("Content-Length", "11");
-			return new Pair<>(errorResp.toString(), true);
+			return errorResponse("SyntaxError");
 		}
 
-		Response resp = p.getFirst().onRequest(p.getSecond());
+		Response resp;
 
+		try {
+			resp = (Response) p.getFirst().invoke(impl, p.getSecond());
+		} catch(IllegalStateException | 
+				InvocationTargetException | 
+				IllegalAccessException e) {
+			Util.exceptionLog(e);
+			return errorResponse("GenericError");
+		}
+		
 		return new Pair<>(resp.toString(), false);
 	}
 
-	private Pair<OnRequestHandler, Request> 
+	private Pair<Method, Request> 
 		buildResultingPair(String cmd, Map<String, String> hdrs, String body) {
 
-		OnRequestHandler handler = handlers.get(cmd);
+		Method handler = handlers.get(cmd);
 		if(handler == null) {
 			return null;
 		}
@@ -62,7 +91,7 @@ public final class StatelessProtocol implements Protocol {
 		return new Pair<>(handler, request);
 	}
 
-	private Pair<OnRequestHandler, Request> parseAndBuildPair(String msg) {
+	private Pair<Method, Request> parseAndBuildPair(String msg) {
 		int cmdPlusHdrEndIdx = msg.indexOf('\0', 0);
 		if(cmdPlusHdrEndIdx == -1) {
 			return null;
@@ -98,10 +127,6 @@ public final class StatelessProtocol implements Protocol {
 		}
 
 		return buildResultingPair(cmd, hdrs, msg.substring(cmdPlusHdrEndIdx + 1, msg.length()));
-	}
-
-	public interface OnRequestHandler {
-		Response onRequest(Request request);
 	}
 
 	public static final class Response {
