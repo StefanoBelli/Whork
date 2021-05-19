@@ -23,7 +23,7 @@ public final class ChatInitBean implements Serializable {
 		this.token = token;
 	}
 
-	public void setExpiresIn(int tokenExpiresIn) {
+	public void setTokenExpiresIn(int tokenExpiresIn) {
 		this.tokenExpiresIn = tokenExpiresIn;
 	}
 
