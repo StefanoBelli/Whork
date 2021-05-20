@@ -75,6 +75,10 @@ public final class StatelessProtocol {
 			Util.exceptionLog(e);
 			return errorResponseCloseNow("InvokeError");
 		}
+
+		if(resp == null) {
+			return errorResponseCloseNow("MissingImplementationError");
+		}
 		
 		return new Pair<>(resp.toString(), false);
 	}

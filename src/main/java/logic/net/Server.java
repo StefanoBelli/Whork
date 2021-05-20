@@ -11,12 +11,10 @@ import logic.util.tuple.Pair;
 
 public final class Server implements Runnable {
 	private final TcpSocketServerChannels serverChannels;
-	private final StatelessProtocol protocol;
 	
 	//may support SSL "SslSocketServerChannels" in the future... maybe
-	public Server(TcpSocketServerChannels serverChannels, StatelessProtocol protocol) {
+	public Server(TcpSocketServerChannels serverChannels) {
 		this.serverChannels = serverChannels;
-		this.protocol = protocol;
 	}
 
 	@Override
@@ -34,7 +32,12 @@ public final class Server implements Runnable {
 		serverChannels.close();
 	}
 
-	public final class OnReceiveEventHandler implements ReceiveEvent {
+	public static final class OnReceiveEventHandler implements ReceiveEvent {
+		private final StatelessProtocol protocol;
+		
+		public OnReceiveEventHandler(StatelessProtocol protocol) {
+			this.protocol = protocol;
+		}
 
 		private void socketChannelCloseWithLogging(SocketChannel socketChannel) {
 			try {
