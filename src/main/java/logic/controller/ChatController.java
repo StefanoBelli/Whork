@@ -4,14 +4,18 @@ import logic.bean.ChatInitBean;
 import logic.bean.UserBean;
 import logic.controller.privileges.TokenAccessControl;
 import logic.controller.service.ServiceController;
+import logic.net.protocol.StatelessProtocol;
 import logic.net.protocol.StatelessProtocol.Request;
 import logic.net.protocol.StatelessProtocol.Response;
 import logic.net.protocol.annotation.RequestHandler;
 
 public final class ChatController extends TokenAccessControl implements ServiceController {
-	private ChatController(){}
+	private ChatController(){
+		this.statelessProtocol = new StatelessProtocol(this);	
+	}
 
 	private static ChatController instance = null;
+	private final StatelessProtocol statelessProtocol;
 
 	public static ChatController getInstance() {
 		if(instance == null) {
@@ -41,22 +45,22 @@ public final class ChatController extends TokenAccessControl implements ServiceC
 	}
 
 	@RequestHandler("PushMessage")
-	private Response pushMessage(Request request) {
+	public Response pushMessage(Request request) {
 		return null;
 	}
 
 	@RequestHandler("PullMessages")
-	private Response pullMessages(Request request) {
+	public Response pullMessages(Request request) {
 		return null;
 	}
 
 	@RequestHandler("CheckOnlineStatus")
-	private Response checkOnlineStatus(Request request) {
+	public Response checkOnlineStatus(Request request) {
 		return null;
 	}
 
 	@RequestHandler("TokenRefresh")
-	private Response tokenRefresh(Request request) {
+	public Response tokenRefresh(Request request) {
 		return null;
 	}
 }

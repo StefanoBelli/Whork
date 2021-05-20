@@ -11,7 +11,7 @@ public final class InvalidMethodSignatureException extends RuntimeException {
 		builder
 			.append("\"")
 			.append(name)
-			.append("\" method signature must be: /* any-mods */ Response ")
+			.append("\" method signature must be: public /* any-mods */ Response ")
 			.append(name)
 			.append("(Request req) /* any-throws-decl */");
 

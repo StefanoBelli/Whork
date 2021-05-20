@@ -49,7 +49,7 @@ public final class StatelessProtocol {
 		}
 	}
 
-	private Pair<String, Boolean> errorResponse(String str) {
+	private Pair<String, Boolean> errorResponseCloseNow(String str) {
 		Response errorResp = new Response();
 		errorResp.setStatus(Response.Status.KO);
 		errorResp.setBody(str);
@@ -62,7 +62,7 @@ public final class StatelessProtocol {
 		Pair<Method, Request> p = parseAndBuildPair(what);
 
 		if(p == null) {
-			return errorResponse("SyntaxError");
+			return errorResponseCloseNow("SyntaxOrInvalidCommandError");
 		}
 
 		Response resp;
@@ -73,7 +73,7 @@ public final class StatelessProtocol {
 				InvocationTargetException | 
 				IllegalAccessException e) {
 			Util.exceptionLog(e);
-			return errorResponse("GenericError");
+			return errorResponseCloseNow("InvokeError");
 		}
 		
 		return new Pair<>(resp.toString(), false);
@@ -133,7 +133,7 @@ public final class StatelessProtocol {
 	}
 
 	public static final class Response {
-		enum Status {
+		public enum Status {
 			OK("OK"),
 			KO("KO");
 
@@ -153,15 +153,15 @@ public final class StatelessProtocol {
 		private Map<String, String> headers = new HashMap<>();
 		private String body;
 
-		void setStatus(Status status) {
+		public void setStatus(Status status) {
 			this.status = status;
 		}
 
-		void addHeaderEntry(String key, String value) {
+		public void addHeaderEntry(String key, String value) {
 			this.headers.put(key, value);
 		}
 
-		void setBody(String body) {
+		public void setBody(String body) {
 			this.body = body;
 		}
 
@@ -191,19 +191,19 @@ public final class StatelessProtocol {
 		private Map<String, String> headers;
 		private String body;
 
-		void setHeaders(Map<String, String> headers) {
+		public void setHeaders(Map<String, String> headers) {
 			this.headers = headers;
 		}
 
-		void setBody(String body) {
+		public void setBody(String body) {
 			this.body = body;
 		}
 
-		String getBody() {
+		public String getBody() {
 			return body;
 		}
 
-		Map<String, String> getHeaders() {
+		public Map<String, String> getHeaders() {
 			return headers;
 		}
 	}

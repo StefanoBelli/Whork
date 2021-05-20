@@ -2,6 +2,7 @@ package logic.net;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.net.SocketException;
 import java.nio.channels.SocketChannel;
 
 import logic.net.protocol.StatelessProtocol;
@@ -12,17 +13,16 @@ public final class Server implements Runnable {
 	private final TcpSocketServerChannels serverChannels;
 	private final StatelessProtocol protocol;
 	
-	public Server(String listenAddr, int listenPort, StatelessProtocol protocol) 
-			throws IOException {
-		this.serverChannels = 
-			new TcpSocketServerChannels(
-				listenAddr, listenPort, new OnReceiveEventHandler());
+	//may support SSL "SslSocketServerChannels" in the future... maybe
+	public Server(TcpSocketServerChannels serverChannels, StatelessProtocol protocol) {
+		this.serverChannels = serverChannels;
 		this.protocol = protocol;
 	}
 
 	@Override
 	public void run() {
-		while(true){
+		Thread curThread = Thread.currentThread();
+		while(!curThread.isInterrupted()){
 			try{
 				serverChannels.process();
 			} catch (IOException e) {
@@ -49,7 +49,7 @@ public final class Server implements Runnable {
 			String recvWhat;
 			try {
 				recvWhat = Util.SocketChannels.read(socketChannel);
-			} catch(EOFException e) {
+			} catch(EOFException | SocketException e) {
 				socketChannelCloseWithLogging(socketChannel);
 				return;
 			} catch(IOException e) {
@@ -67,6 +67,8 @@ public final class Server implements Runnable {
 					Util.SocketChannels.write(socketChannel, next.getFirst());
 				} catch (IOException e) {
 					Util.exceptionLog(e);
+					socketChannelCloseWithLogging(socketChannel);
+					return;
 				}
 			}
 
