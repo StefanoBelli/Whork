@@ -52,11 +52,7 @@ public final class Server implements Runnable {
 			String recvWhat;
 			try {
 				recvWhat = Util.SocketChannels.read(socketChannel);
-			} catch(EOFException | SocketException e) {
-				socketChannelCloseWithLogging(socketChannel);
-				return;
 			} catch(IOException e) {
-				Util.exceptionLog(e);
 				socketChannelCloseWithLogging(socketChannel);
 				return;
 			}
@@ -69,7 +65,6 @@ public final class Server implements Runnable {
 				try {
 					Util.SocketChannels.write(socketChannel, next.getFirst());
 				} catch (IOException e) {
-					Util.exceptionLog(e);
 					socketChannelCloseWithLogging(socketChannel);
 					return;
 				}
