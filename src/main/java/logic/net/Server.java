@@ -1,8 +1,6 @@
 package logic.net;
 
-import java.io.EOFException;
 import java.io.IOException;
-import java.net.SocketException;
 import java.nio.channels.SocketChannel;
 
 import logic.net.protocol.StatelessProtocol;
