@@ -408,7 +408,7 @@ final class App {
 			LOGGER.info(
 					"Settings for Whork desktop:\n--> dflroot: {}\n--> db: {}\n |--> dbuser:"
 							+ " {}\n |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost:"
-							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
+							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n",
 					dflRoot, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
 					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
 		} else {
