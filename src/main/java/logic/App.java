@@ -80,8 +80,8 @@ final class App {
 	private static String mailFrom = null;
 	private static String mailPwd = null;
 	private static String mailHost = null;
-	private static int svcChatPort = 45612;
-	private static int svcTokIntvl = 300;
+	private static int chatPort = 45612;
+	private static int tokIntvl = 300;
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -264,12 +264,12 @@ final class App {
 		opt.addOption(SVCTOKINTVL, true, 
 				new StringBuilder()
 						.append("Set service token validity interval (default: ")
-						.append(svcTokIntvl).append(")").toString());
+						.append(tokIntvl).append(")").toString());
 		
 		opt.addOption(SVCCHATPORT, true, 
 				new StringBuilder()
 						.append("Set chat service port (default: ")
-						.append(svcChatPort).append(")").toString());
+						.append(chatPort).append(")").toString());
 
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
@@ -289,8 +289,8 @@ final class App {
 	}
 
 	private static boolean assignChatServicePort(String arg, String value) {
-		svcChatPort = Integer.parseInt(value);
-		if (!Util.isValidPort(svcChatPort)) {
+		chatPort = Integer.parseInt(value);
+		if (!Util.isValidPort(chatPort)) {
 			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
@@ -393,7 +393,7 @@ final class App {
 		} else if(argName.equals(SVCCHATPORT)) {
 			assignChatServicePort(argName, opt.getValue());
 		} else if(argName.equals(SVCTOKINTVL)) {
-			svcTokIntvl = Integer.parseInt(opt.getValue());
+			tokIntvl = Integer.parseInt(opt.getValue());
 		}
 
 		return true;
@@ -420,7 +420,7 @@ final class App {
 							+ "--> chatport: {}\n--> tokenintvl: {}\n",
 					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, dflRoot,
 					selfExtract, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
-					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, svcChatPort, svcTokIntvl);
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, chatPort, tokIntvl);
 		}
 	}
 
@@ -548,8 +548,8 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, mailTls);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, mailSmtpPort);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, svcTokIntvl);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, svcChatPort);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
