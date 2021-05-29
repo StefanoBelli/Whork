@@ -2,42 +2,24 @@ package logic.controller;
 
 import logic.bean.ChatInitBean;
 import logic.bean.UserBean;
-import logic.controller.privileges.TokenAccessControl;
 import logic.controller.service.ServiceController;
-import logic.net.protocol.StatelessProtocol;
 import logic.net.protocol.StatelessProtocol.Request;
 import logic.net.protocol.StatelessProtocol.Response;
 import logic.net.protocol.annotation.RequestHandler;
+import logic.util.Util;
 
-public final class ChatController extends TokenAccessControl implements ServiceController {
-	private ChatController(){
-		this.statelessProtocol = new StatelessProtocol(this);	
+public final class ChatController extends ServiceController {
+	private ChatController() {
+		super(Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_CHATSERV_PORT));
 	}
-
+	
 	private static ChatController instance = null;
-	private final StatelessProtocol statelessProtocol;
-
 	public static ChatController getInstance() {
 		if(instance == null) {
 			instance = new ChatController();
 		}
 
 		return instance;
-	}
-
-	@Override
-	public boolean startService() {
-		return false;
-	}
-
-	@Override
-	public boolean stopService() {
-		return false;
-	}
-
-	@Override
-	public boolean isOnlineService() {
-		return false;
 	}
 
 	public ChatInitBean newChatSession(UserBean user) {

@@ -39,6 +39,7 @@ public final class Util {
 
 	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
 	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+	public static final String INADDR_ANY = "0.0.0.0";
 
 	public static void exceptionLog(Exception e) {
 		Logger logger = LoggerFactory.getLogger("WhorkExceptionLogger");
@@ -247,6 +248,7 @@ public final class Util {
 		public static final String KEY_MAILSMTP_PORT = "any.mail.smtp_port";
 		public static final String KEY_DFL_ROOT = "any.dfl_root";
 		public static final String KEY_AUTH_FILE_PATH = "desktop.auth_file_path";
+		public static final String KEY_CHATSERV_PORT = "any.chatserv.port";
 
 		private static Map<String, Object> config = new HashMap<>();
 		
@@ -260,6 +262,10 @@ public final class Util {
 
 		public static boolean getBoolean(String key) {
 			return (boolean) get(key);
+		}
+
+		public static int getInt(String key) {
+			return (int) get(key);
 		}
 
 		public static Object get(String key) {
