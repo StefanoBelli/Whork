@@ -1,21 +1,26 @@
 package logic.controller.service;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import logic.controller.privileges.TokenAccessControl;
 import logic.net.Server;
 import logic.net.TcpSocketServerChannels;
 import logic.net.protocol.StatelessProtocol;
 import logic.util.Util;
+import logic.util.tuple.Pair;
 
-public class ServiceController extends TokenAccessControl {
+public class ServiceController {
 	protected ServiceController(int listenPort){
 		this.listenPort = listenPort;
 	}
 
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
+	private static final int VALID_TOKEN_INTVL = 300; //seconds
 
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this);
+	private final Map<String, Pair<String, Long>> validTokens = new HashMap<>();
 	private final int listenPort;
 	private Thread worker;
 	private boolean isOnline = false;
@@ -38,6 +43,7 @@ public class ServiceController extends TokenAccessControl {
 			return false;
 		}
 
+		isOnline = true;
 		return true;
 	}
 
@@ -50,6 +56,7 @@ public class ServiceController extends TokenAccessControl {
 				return false;
 			}
 
+			isOnline = false;
 			return true;
 		}
 
@@ -58,5 +65,21 @@ public class ServiceController extends TokenAccessControl {
 
 	public final boolean isOnlineService() {
 		return isOnline;
+	}
+
+	protected final void addOrRefresh(String userEmail) {
+		validTokens.put(Util.generateToken(), new Pair<>(userEmail, new Date().getTime()));
+	}
+
+	protected final String query(String tok) {
+		Date nowTime = new Date();
+		Pair<String, Long> token = validTokens.get(tok);
+
+		if(nowTime.getTime() - token.getSecond() > VALID_TOKEN_INTVL) {
+			validTokens.remove(tok);
+			return null;
+		}
+
+		return token.getFirst();
 	}
 }

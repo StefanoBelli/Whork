@@ -14,6 +14,7 @@ public final class ChatController extends ServiceController {
 	}
 	
 	private static ChatController instance = null;
+	
 	public static ChatController getInstance() {
 		if(instance == null) {
 			instance = new ChatController();
