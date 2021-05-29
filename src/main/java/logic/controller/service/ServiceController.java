@@ -67,11 +67,11 @@ public class ServiceController {
 		return isOnline;
 	}
 
-	protected final void addOrRefresh(String userEmail) {
+	protected final void addOrRefreshToken(String userEmail) {
 		validTokens.put(Util.generateToken(), new Pair<>(userEmail, new Date().getTime()));
 	}
 
-	protected final String query(String tok) {
+	protected final String queryToken(String tok) {
 		Date nowTime = new Date();
 		Pair<String, Long> token = validTokens.get(tok);
 
