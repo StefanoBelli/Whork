@@ -10,7 +10,7 @@ import logic.util.Util;
 
 public final class ChatController extends ServiceController {
 	private ChatController() {
-		super(Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_CHATSERV_PORT));
+		super(Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_CHAT_PORT));
 	}
 	
 	private static ChatController instance = null;

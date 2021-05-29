@@ -56,6 +56,8 @@ final class App {
 	private static final String MAILHOSTOPT = "mailHost";
 	private static final String DFLRESOPT = "dflRes";
 	private static final String DFLROOTOPT = "dflRoot";
+	private static final String SVCCHATPORT = "svcChatPort";
+	private static final String SVCTOKINTVL = "svcTokIntvl";
 
 	// Self-extraction properties
 	private static List<String> webResDirectory = null;
@@ -78,12 +80,17 @@ final class App {
 	private static String mailFrom = null;
 	private static String mailPwd = null;
 	private static String mailHost = null;
+	private static int svcChatPort = 45612;
+	private static int svcTokIntvl = 300;
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
 
 	private static final String NOT_USING_PWDAUTH = "NOT using password authentication";
 	private static final String HIDE_PWD = "[HIDDEN]";
+	private static final String PORT_RANGE_ERROR_FMT = "{} number must be within range [0-65535]";
+	private static final String IGN_PROP_SELFEXT_ENABLED_FMT = "ignoring {} property because self extraction is enabled...";
+	private static final String IGN_PROP_SELFEXT_DISABLED_FMT = "ignoring {} value because self extraction is disabled...";
 
 	private static final class ArchiveSelfExtractor {
 		private ArchiveSelfExtractor() {}
@@ -254,6 +261,16 @@ final class App {
 						.append("Provide different root directory for defaults resources extraction and usage (default: ")
 						.append(dflRoot == null ? "dflRes must be provided" : dflRoot).append(")").toString());
 
+		opt.addOption(SVCTOKINTVL, true, 
+				new StringBuilder()
+						.append("Set service token validity interval (default: ")
+						.append(svcTokIntvl).append(")").toString());
+		
+		opt.addOption(SVCCHATPORT, true, 
+				new StringBuilder()
+						.append("Set chat service port (default: ")
+						.append(svcChatPort).append(")").toString());
+
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
 		return opt;
@@ -271,10 +288,20 @@ final class App {
 		return true;
 	}
 
+	private static boolean assignChatServicePort(String arg, String value) {
+		svcChatPort = Integer.parseInt(value);
+		if (!Util.isValidPort(svcChatPort)) {
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
+			return false;
+		}
+
+		return true;
+	}
+
 	private static boolean assignServerPort(String arg, String value) {
 		port = Integer.parseInt(value);
 		if (!Util.isValidPort(port)) {
-			LOGGER.error("{} number must be within range [0-65535]", arg);
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
 
@@ -284,7 +311,7 @@ final class App {
 	private static boolean assignSmtpPort(String arg, String value) {
 		mailSmtpPort = value;
 		if (!Util.isValidPort(Integer.parseInt(mailSmtpPort))) {
-			LOGGER.error("{} number must be within range [0-65535]", arg);
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
 
@@ -293,7 +320,7 @@ final class App {
 
 	private static void assignWebRootOnRes(String arg, String value) {
 		if (selfExtract) {
-			LOGGER.warn("ignoring {} value because self extraction is enabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_ENABLED_FMT, arg);
 		} else {
 			webRoot = new File(value).getAbsolutePath();
 		}
@@ -301,7 +328,7 @@ final class App {
 
 	private static void assignDflRootOnRes(String arg, String value) {
 		if (selfExtract) {
-			LOGGER.warn("ignoring {} value because self extraction is enabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_ENABLED_FMT, arg);
 		} else {
 			dflRoot = new File(value).getAbsolutePath();
 		}
@@ -309,7 +336,7 @@ final class App {
 
 	private static void assignWebRootOnRoot(String arg, String value) {
 		if (!selfExtract) {
-			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_DISABLED_FMT, arg);
 		} else {
 			webRoot = new File(value).getAbsolutePath();
 		}
@@ -317,7 +344,7 @@ final class App {
 
 	private static void assignDflRootOnRoot(String arg, String value) {
 		if (!selfExtract) {
-			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_DISABLED_FMT, arg);
 		} else {
 			dflRoot = new File(value).getAbsolutePath();
 		}
@@ -363,6 +390,10 @@ final class App {
 			assignDflRootOnRes(argName, opt.getValue());
 		} else if (argName.equals(DFLROOTOPT)) {
 			assignDflRootOnRoot(argName, opt.getValue());
+		} else if(argName.equals(SVCCHATPORT)) {
+			assignChatServicePort(argName, opt.getValue());
+		} else if(argName.equals(SVCTOKINTVL)) {
+			svcTokIntvl = Integer.parseInt(opt.getValue());
 		}
 
 		return true;
@@ -385,10 +416,11 @@ final class App {
 					"{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> dflroot: {}\n"
 							+ "--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n"
 							+ " |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost: {}\n"
-							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
+							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n"
+							+ "--> chatport: {}\n--> tokenintvl: {}\n",
 					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, dflRoot,
 					selfExtract, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
-					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, svcChatPort, svcTokIntvl);
 		}
 	}
 
@@ -516,6 +548,8 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, mailTls);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, mailSmtpPort);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, svcTokIntvl);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, svcChatPort);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
