@@ -26,7 +26,7 @@ public class ServiceController {
 	private boolean isOnline = false;
 
 	public final boolean startService() {
-		if(isOnlineService()) {
+		if(isOnline) {
 			return false;
 		}
 
@@ -48,7 +48,7 @@ public class ServiceController {
 	}
 
 	public final boolean stopService() {
-		if(isOnlineService()) {
+		if(isOnline) {
 			try {
 				worker.interrupt();
 				worker.join();
