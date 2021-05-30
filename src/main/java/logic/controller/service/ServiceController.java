@@ -17,7 +17,7 @@ public class ServiceController {
 	}
 
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
-	private static final int VALID_TOKEN_INTVL = Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //seconds
+	public static final int VALID_TOKEN_INTVL = Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //seconds
 
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this);
 	private final Map<String, Pair<String, Long>> validTokens = new HashMap<>();
@@ -51,9 +51,14 @@ public class ServiceController {
 		if(isOnlineService()) {
 			try {
 				worker.interrupt();
+				worker.join();
 			} catch(SecurityException e) {
 				Util.exceptionLog(e);
 				return false;
+			} catch(InterruptedException e) {
+				Util.exceptionLog(e);
+				isOnline = false;
+				Thread.currentThread().interrupt();
 			}
 
 			isOnline = false;
