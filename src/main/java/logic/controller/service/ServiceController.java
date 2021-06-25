@@ -17,7 +17,8 @@ public class ServiceController {
 	}
 
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
-	public static final int VALID_TOKEN_INTVL = Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //seconds
+	protected static final int VALID_TOKEN_INTVL = 
+		Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //secs
 
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this);
 	private final Map<String, Pair<String, Long>> validTokens = new HashMap<>();
@@ -72,8 +73,30 @@ public class ServiceController {
 		return isOnline;
 	}
 
-	protected final void addOrRefreshToken(String userEmail) {
-		validTokens.put(Util.generateToken(), new Pair<>(userEmail, new Date().getTime()));
+	protected final String addOrRefreshToken(String currentToken, String userEmail) {
+		String token = null;
+		
+		if(currentToken == null) {
+			if(userEmail != null) {
+				token = Util.generateToken();
+				validTokens.put(token, new Pair<>(userEmail, new Date().getTime()));
+			} else {
+				throw new IllegalArgumentException("Either currentToken or userEmail is null, not both");
+			}
+		} else {
+			if(userEmail == null) {
+				Pair<String, Long> currentTokenRecord = validTokens.get(currentToken);
+				if(currentTokenRecord != null) {
+					token = Util.generateToken();
+					validTokens.remove(currentToken);
+					validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), new Date().getTime()));
+				}
+			} else {
+				throw new IllegalArgumentException("Either currentToken or userEmail is NOT null, not both");
+			}
+		}
+		
+		return token;
 	}
 
 	protected final String queryToken(String tok) {
