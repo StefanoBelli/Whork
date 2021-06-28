@@ -165,7 +165,6 @@ OK\t
 Should-Pull-Every:nms\n
 Content-Length:x\n
 Content-Type:text/json\n
-Content-Encoding:gzip\n
 \0
 {
   "starting_from":"xxx",
@@ -208,6 +207,7 @@ CheckOnlineStatus
 <BEGIN>
 OK\t
 Content-Length:1\n
+Should-Pull-Every:nms\n
 \0
 0
 <END>
@@ -217,6 +217,7 @@ OR
 <BEGIN>
 OK\t
 Content-Length:1\n
+Should-Pull-Every:nms\n
 \0
 1
 <END>
@@ -228,15 +229,6 @@ KO\t
 Content-Length:12\n
 \0
 InvalidToken
-<END>
-
-OR
-
-<BEGIN>
-KO\t
-Content-Length:12\n
-\0
-UserNotFound
 <END>
 
 OR

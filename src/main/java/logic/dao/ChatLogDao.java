@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import logic.Database;
@@ -34,7 +33,7 @@ public final class ChatLogDao {
 			stmt.setString(1, entry.getSenderEmail());
 			stmt.setString(2, entry.getReceiverEmail());
 			stmt.setString(3, entry.getText());
-			stmt.setTimestamp(4, new Timestamp(entry.getDeliveryRequestDate().getTime()));
+			stmt.setTimestamp(4, new Timestamp(entry.getDeliveryRequestTime()));
 			stmt.execute();
 		} catch(SQLException e) {
 			if(e.getErrorCode() == 1452) {
@@ -47,13 +46,13 @@ public final class ChatLogDao {
 
 	public static List<ChatLogEntryModel> getLog(
 			String senderEmail, String receiverEmail, 
-			Date deliverRequestFrom, Date deliverRequestTo) 
+			int deliverRequestFromTime, int deliverRequestToTime) 
 				throws DataAccessException {
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_CHAT_LOG)) {
 			stmt.setString(1, senderEmail);
 			stmt.setString(2, receiverEmail);
-			stmt.setTimestamp(3, new Timestamp(deliverRequestFrom.getTime()));
-			stmt.setTimestamp(4, new Timestamp(deliverRequestTo.getTime()));
+			stmt.setTimestamp(3, new Timestamp(deliverRequestFromTime));
+			stmt.setTimestamp(4, new Timestamp(deliverRequestToTime));
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
@@ -65,8 +64,8 @@ public final class ChatLogDao {
 					model.setSenderEmail(rs.getString(2));
 					model.setReceiverEmail(rs.getString(3));
 					model.setText(rs.getString(4));
-					model.setDeliveryRequestDate(rs.getTimestamp(5));
-					model.setDeliveredDate(rs.getTimestamp(6));
+					model.setDeliveryRequestTime((int)rs.getTimestamp(5).getTime());
+					model.setDeliveredTime((int)rs.getTimestamp(6).getTime());
 
 					cle.add(model);
 				}
@@ -82,7 +81,7 @@ public final class ChatLogDao {
 			throws DataAccessException {
 		try(CallableStatement stmt = CONN.prepareCall(STMT_FLG_DELIVD_CHAT_LOG_ENTRY)) {
 			stmt.setLong(1, entry.getLogEntryId());
-			stmt.setTimestamp(2, new Timestamp(entry.getDeliveredDate().getTime()));
+			stmt.setTimestamp(2, new Timestamp(entry.getDeliveredTime()));
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

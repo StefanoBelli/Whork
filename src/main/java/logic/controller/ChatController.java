@@ -1,6 +1,10 @@
 package logic.controller;
 
+import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import logic.bean.ChatInitBean;
 import logic.bean.UserAuthBean;
@@ -22,6 +26,8 @@ public final class ChatController extends TokenizedServiceController {
 	
 	private static ChatController instance = null;
 	private static final int SHOULD_PULL_MSGS_EVERY = 1000; //ms
+	private static final String SHOULD_PULL_MSGS_EVERY_STRING = 
+		Integer.toString(SHOULD_PULL_MSGS_EVERY);
 
 	public static ChatController getInstance() {
 		if(instance == null) {
@@ -55,7 +61,14 @@ public final class ChatController extends TokenizedServiceController {
 				return buildMissingRequiredFieldResponse();
 			}
 
-			int contentLength = Integer.parseInt(contentLengthField);
+			int contentLength;
+			
+			try {
+				contentLength = Integer.parseInt(contentLengthField);
+			} catch (NumberFormatException e) {
+				return buildIllegalArgumentResponse();
+			}
+
 			if(contentLength > 500) {
 				return buildTooBigMessageResponse();
 			}
@@ -63,20 +76,22 @@ public final class ChatController extends TokenizedServiceController {
 			if(contentLength != bodyField.length()) {
 				return buildIllegalArgumentResponse();
 			}
+			
+			ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
+			chatLogEntry.setText(bodyField);
+			chatLogEntry.setSenderEmail(senderEmail);
+			chatLogEntry.setReceiverEmail(receiverEmailField);
 
-			try {
-				ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
-				chatLogEntry.setText(bodyField);
-				chatLogEntry.setSenderEmail(senderEmail);
-				chatLogEntry.setReceiverEmail(receiverEmailField);
-				
+			try {	
 				ChatLogDao.addLogEntry(chatLogEntry);
-				return buildOkAcceptedForDeliveryResponse();
 			} catch(DataLogicException e) {
 				return buildUserNotFoundResponse();
-			} catch (DataAccessException e) {
+			} catch(DataAccessException e) {
+				Util.exceptionLog(e);
 				return buildGenericErrorResponse();
 			}
+
+			return buildOkAcceptedForDeliveryResponse();
 		}
 
 		return buildInvalidTokenResponse();
@@ -90,17 +105,51 @@ public final class ChatController extends TokenizedServiceController {
 		if(senderEmail != null) {
 			String contentLengthField = headers.get(CONTENT_LENGTH);
 			String toField = headers.get("To");
-			String tsFromLatest = headers.get("Ts-From-Latest");
-			String tsToEarliest = headers.get("Ts-To-Earliest");
+			String tsFromLatestField = headers.get("Ts-From-Latest");
+			String tsToEarliestField = headers.get("Ts-To-Earliest");
 
 			if(contentLengthField != null && !contentLengthField.equals("0")) {
 				return buildIllegalArgumentResponse();
 			}
 
-			if(toField == null || tsFromLatest == null || tsToEarliest == null) {
+			if(toField == null || tsFromLatestField == null || tsToEarliestField == null) {
 				return buildMissingRequiredFieldResponse();
 			}
 
+			int tsFromLatest;
+			int tsToEarliest;
+			
+			try {
+				tsFromLatest = Integer.parseInt(tsFromLatestField);
+				tsToEarliest = Integer.parseInt(tsToEarliestField);
+			} catch(NumberFormatException e) {
+				return buildIllegalArgumentResponse();
+			}
+
+			if(tsFromLatest < tsToEarliest) {
+				return buildIllegalArgumentResponse();
+			}
+
+			List<ChatLogEntryModel> senderToLogs;
+			List<ChatLogEntryModel> toSenderLogs;
+
+			try {
+				senderToLogs = 
+					ChatLogDao.getLog(senderEmail, toField, tsFromLatest, tsToEarliest);
+				toSenderLogs =
+					ChatLogDao.getLog(toField, senderEmail, tsFromLatest, tsToEarliest);
+			} catch(DataAccessException e) {
+				Util.exceptionLog(e);
+				return buildGenericErrorResponse();
+			}
+
+			String jsonSerializedLogs = 
+				jsonSerializeAndFlagChatLogEntries(senderToLogs, toSenderLogs);
+			if(jsonSerializedLogs == null) {
+				return buildGenericErrorResponse();
+			}
+
+			return buildOkSerializedMsgsResponse(jsonSerializedLogs);
 		}
 
 		return buildInvalidTokenResponse();
@@ -108,6 +157,71 @@ public final class ChatController extends TokenizedServiceController {
 
 	@RequestHandler("CheckOnlineStatus")
 	public Response checkOnlineStatus(Request request) {
+		Map<String, String> headers = request.getHeaders();
+		String senderEmail = getTokenAssocUserEmailFromHeaders(headers);
+		
+		if(senderEmail != null) {
+			String contentLengthField = headers.get(CONTENT_LENGTH);
+			String toField = headers.get("To");
+
+			if(toField == null) {
+				return buildMissingRequiredFieldResponse();
+			}
+
+			if (contentLengthField != null && !contentLengthField.equals("0")) {
+				return buildIllegalArgumentResponse();
+			}
+
+			return buildOkOnlineStatusResponse(
+				isUserOnlineFmtResponse(toField)
+			);
+		}
+
+		return buildInvalidTokenResponse();
+	}
+
+	private Response buildOkOnlineStatusResponse(String userOnlineFmtResponse) {
+		Response okResponse = new Response();
+		okResponse.addHeaderEntry(CONTENT_LENGTH, "1");
+		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
+		okResponse.setBody(userOnlineFmtResponse);
+		okResponse.setStatus(Status.OK);
+		return okResponse;
+	}
+
+	private String jsonSerializeAndFlagChatLogEntries(List<ChatLogEntryModel> senderToLogs,
+		List<ChatLogEntryModel> toSenderLogs) {
+
+		JSONArray jsonArray = new JSONArray();
+
+		for (final ChatLogEntryModel chatLogEntry : senderToLogs) {
+			jsonArray.put(jsonSerializeChatLogEntryModelObject(chatLogEntry));
+		}
+
+		for (final ChatLogEntryModel chatLogEntry : toSenderLogs) {
+			if(chatLogEntry.getDeliveredTime() == 0) {
+				try {
+					ChatLogDao.flagDeliveredLogEntry(chatLogEntry);
+				} catch(DataAccessException e) {
+					Util.exceptionLog(e);
+					return null;
+				}
+			}
+			jsonArray.put(jsonSerializeChatLogEntryModelObject(chatLogEntry));
+		}
+
+		return jsonArray.toString();
+	}
+
+	private JSONObject jsonSerializeChatLogEntryModelObject(ChatLogEntryModel chatLogEntry) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("id", chatLogEntry.getLogEntryId());
+		jsonObject.put("delivery_request_date", chatLogEntry.getDeliveryRequestTime());
+		jsonObject.put("delivered_date", chatLogEntry.getDeliveredTime());
+		jsonObject.put("sender_email", chatLogEntry.getSenderEmail());
+		jsonObject.put("receiver_email", chatLogEntry.getReceiverEmail());
+		jsonObject.put("text", chatLogEntry.getText());
+		
 		return null;
 	}
 
@@ -123,6 +237,16 @@ public final class ChatController extends TokenizedServiceController {
 		Response okResponse = new Response();
 		okResponse.addHeaderEntry(CONTENT_LENGTH, "19");
 		okResponse.setBody("AcceptedForDelivery");
+		okResponse.setStatus(Status.OK);
+		return okResponse;
+	}
+
+	private Response buildOkSerializedMsgsResponse(String jsonSerializedLogs) {
+		Response okResponse = new Response();
+		okResponse.addHeaderEntry("Content-Type", "text/json");
+		okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(jsonSerializedLogs.length()));
+		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
+		okResponse.setBody(jsonSerializedLogs);
 		okResponse.setStatus(Status.OK);
 		return okResponse;
 	}

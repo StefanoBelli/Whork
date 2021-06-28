@@ -1,14 +1,12 @@
 package logic.model;
 
-import java.util.Date;
-
 public final class ChatLogEntryModel {
 	private long logEntryId;
 	private String senderEmail;
 	private String receiverEmail;
 	private String text;
-	private Date deliveryRequestDate;
-	private Date deliveredDate;
+	private int deliveryRequestTime;
+	private int deliveredTime = 0;
 
 	public long getLogEntryId() {
 		return logEntryId;
@@ -22,12 +20,12 @@ public final class ChatLogEntryModel {
 		return receiverEmail;
 	}
 
-	public Date getDeliveryRequestDate() {
-		return deliveryRequestDate;
+	public int getDeliveryRequestTime() {
+		return deliveryRequestTime;
 	}
 
-	public Date getDeliveredDate() {
-		return deliveredDate;
+	public int getDeliveredTime() {
+		return deliveredTime;
 	}
 
 	public String getText() {
@@ -46,12 +44,12 @@ public final class ChatLogEntryModel {
 		this.receiverEmail = receiverEmail;
 	}
 
-	public void setDeliveryRequestDate(Date deliveryRequestDate) {
-		this.deliveryRequestDate = deliveryRequestDate;
+	public void setDeliveryRequestTime(int deliveryRequestTime) {
+		this.deliveryRequestTime = deliveryRequestTime;
 	}
 
-	public void setDeliveredDate(Date deliveredDate) {
-		this.deliveredDate = deliveredDate;
+	public void setDeliveredTime(int deliveredTime) {
+		this.deliveredTime = deliveredTime;
 	}
 
 	public void setText(String text) {

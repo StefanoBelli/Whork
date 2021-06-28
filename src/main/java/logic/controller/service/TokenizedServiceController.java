@@ -24,8 +24,13 @@ public class TokenizedServiceController {
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
 	private static final int VALID_TOKEN_INTVL_INTEGER = 
 		Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //secs
-	private static final String VALID_TOKEN_INTVL_STRING = 
-		Util.InstanceConfig.getString(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //secs
+	private static final String VALID_TOKEN_INTVL_STRING =
+		Integer.toString(VALID_TOKEN_INTVL_INTEGER);
+
+	private static final String CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NULL = 
+		"Either currentToken or userEmail is null, not both";
+	private static final String CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NOT_NULL =
+		"Either currentToken or userEmail is NOT null, not both";
 
 	protected static final int VALID_TOKEN_INTVL = VALID_TOKEN_INTVL_INTEGER;
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this);
@@ -89,7 +94,7 @@ public class TokenizedServiceController {
 				token = Util.generateToken();
 				validTokens.put(token, new Pair<>(userEmail, new Date().getTime()));
 			} else {
-				throw new IllegalArgumentException("Either currentToken or userEmail is null, not both");
+				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NULL);
 			}
 		} else {
 			if(userEmail == null) {
@@ -100,7 +105,7 @@ public class TokenizedServiceController {
 					validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), new Date().getTime()));
 				}
 			} else {
-				throw new IllegalArgumentException("Either currentToken or userEmail is NOT null, not both");
+				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NOT_NULL);
 			}
 		}
 		
@@ -148,6 +153,16 @@ public class TokenizedServiceController {
 		}
 
 		return buildInvalidTokenResponse();
+	}
+
+	protected final String isUserOnlineFmtResponse(String email) {
+		for(final Pair<String, Long> v : validTokens.values()) {
+			if(v.getFirst().equals(email)) {
+				return "1";
+			}
+		}
+
+		return "0";
 	}
 
 	protected final Response buildGenericErrorResponse() {
