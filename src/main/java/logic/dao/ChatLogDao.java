@@ -11,6 +11,7 @@ import java.util.List;
 
 import logic.Database;
 import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.model.ChatLogEntryModel;
 
 public final class ChatLogDao {
@@ -25,9 +26,10 @@ public final class ChatLogDao {
 		"{ call GetChatLog(?,?,?,?) }";
 	private static final String STMT_FLG_DELIVD_CHAT_LOG_ENTRY =
 		"{ call FlagDeliveredChatLogEntry(?,?) }";
+	private static final String NON_EXISTANT_USER_ERROR = "Non-existant user";
 
 	public static void addLogEntry(ChatLogEntryModel entry) 
-			throws DataAccessException {
+			throws DataAccessException, DataLogicException {
 		try(CallableStatement stmt = CONN.prepareCall(STMT_ADD_CHAT_LOG_ENTRY)) {
 			stmt.setString(1, entry.getSenderEmail());
 			stmt.setString(2, entry.getReceiverEmail());
@@ -35,6 +37,10 @@ public final class ChatLogDao {
 			stmt.setTimestamp(4, new Timestamp(entry.getDeliveryRequestDate().getTime()));
 			stmt.execute();
 		} catch(SQLException e) {
+			if(e.getErrorCode() == 1452) {
+				throw new DataLogicException(NON_EXISTANT_USER_ERROR);
+			}
+
 			throw new DataAccessException(e);
 		}
 	}

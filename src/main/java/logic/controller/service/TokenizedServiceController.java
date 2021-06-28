@@ -18,32 +18,19 @@ import logic.util.tuple.Pair;
 public class TokenizedServiceController {
 	protected TokenizedServiceController(int listenPort){
 		this.listenPort = listenPort;
-
-		invalidTokenResponse = new Response();
-		invalidTokenResponse.addHeaderEntry(CONTENT_LENGTH, "12");
-		invalidTokenResponse.setBody("InvalidToken");
-		invalidTokenResponse.setStatus(Status.KO);
-
-		genericErrorResponse = new Response();
-		genericErrorResponse.addHeaderEntry(CONTENT_LENGTH, "12");
-		genericErrorResponse.setBody("GenericError");
-		genericErrorResponse.setStatus(Status.KO);
 	}
 
-	private static final String CONTENT_LENGTH = "Content-Length";
+	protected static final String CONTENT_LENGTH = "Content-Length";
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
 	private static final int VALID_TOKEN_INTVL_INTEGER = 
 		Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //secs
 	private static final String VALID_TOKEN_INTVL_STRING = 
 		Util.InstanceConfig.getString(Util.InstanceConfig.KEY_SVC_INTVL_TOK); //secs
-	
 
-	protected final Response invalidTokenResponse;
-	protected final Response genericErrorResponse;
 	protected static final int VALID_TOKEN_INTVL = VALID_TOKEN_INTVL_INTEGER;
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this);
 	private final Map<String, Pair<String, Long>> validTokens = new HashMap<>();
-	private final int listenPort;
+	protected final int listenPort;
 	private Thread worker;
 	private boolean isOnline = false;
 
@@ -94,7 +81,7 @@ public class TokenizedServiceController {
 		return isOnline;
 	}
 
-	protected final String addOrRefreshToken(String currentToken, String userEmail) {
+	private final String addOrRefreshToken(String currentToken, String userEmail) {
 		String token = null;
 		
 		if(currentToken == null) {
@@ -131,6 +118,10 @@ public class TokenizedServiceController {
 
 		return token.getFirst();
 	}
+
+	protected final String addToken(String userEmail) {
+		return addOrRefreshToken(null, userEmail);
+	}
 	
 	protected final String getTokenAssocUserEmailFromHeaders(Map<String, String> headers) {
 		String token = headers.get("Token");
@@ -150,19 +141,61 @@ public class TokenizedServiceController {
 		if(token != null && queryToken(token) != null) {
 			String newToken = addOrRefreshToken(token, null);
 			if(newToken == null) {
-				return genericErrorResponse;
+				return buildMissingRequiredFieldResponse();
 			}
 
-			Response okResponse = new Response();
-			okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(newToken.length()));
-			okResponse.addHeaderEntry("Expires-In", VALID_TOKEN_INTVL_STRING);
-			okResponse.setStatus(Status.OK);
-			okResponse.setBody(newToken);
-		
-			return okResponse;
+			return buildOkNewTokenResponse(newToken);
 		}
 
+		return buildInvalidTokenResponse();
+	}
 
+	protected final Response buildGenericErrorResponse() {
+		Response genericErrorResponse = new Response();
+		genericErrorResponse.addHeaderEntry(CONTENT_LENGTH, "12");
+		genericErrorResponse.setBody("GenericError");
+		genericErrorResponse.setStatus(Status.KO);
+		return genericErrorResponse;
+	}
+
+	protected final Response buildInvalidTokenResponse() {
+		Response invalidTokenResponse = new Response();
+		invalidTokenResponse.addHeaderEntry(CONTENT_LENGTH, "12");
+		invalidTokenResponse.setBody("InvalidToken");
+		invalidTokenResponse.setStatus(Status.KO);
 		return invalidTokenResponse;
+	}
+
+	protected final Response buildOkNewTokenResponse(String newToken) {
+		Response okResponse = new Response();
+		okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(newToken.length()));
+		okResponse.addHeaderEntry("Expires-In", VALID_TOKEN_INTVL_STRING);
+		okResponse.setStatus(Status.OK);
+		okResponse.setBody(newToken);
+		return okResponse;
+	}
+
+	protected final Response buildMissingRequiredFieldResponse() {
+		Response missingRequiredFieldsResponse = new Response();
+		missingRequiredFieldsResponse.addHeaderEntry(CONTENT_LENGTH, "21");
+		missingRequiredFieldsResponse.setBody("MissingRequiredFields");
+		missingRequiredFieldsResponse.setStatus(Status.KO);
+		return missingRequiredFieldsResponse;
+	}
+
+	protected final Response buildUserNotFoundResponse() {
+		Response userNotFoundResponse = new Response();
+		userNotFoundResponse.addHeaderEntry(CONTENT_LENGTH, "12");
+		userNotFoundResponse.setBody("UserNotFound");
+		userNotFoundResponse.setStatus(Status.KO);
+		return userNotFoundResponse;
+	}
+
+	protected final Response buildIllegalArgumentResponse() {
+		Response illegalArgumentResponse = new Response();
+		illegalArgumentResponse.addHeaderEntry(CONTENT_LENGTH, "15");
+		illegalArgumentResponse.setBody("IllegalArgument");
+		illegalArgumentResponse.setStatus(Status.KO);
+		return illegalArgumentResponse;
 	}
 }
