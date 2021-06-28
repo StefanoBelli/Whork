@@ -130,21 +130,17 @@ public final class ChatController extends TokenizedServiceController {
 				return buildIllegalArgumentResponse();
 			}
 
-			List<ChatLogEntryModel> senderToLogs;
-			List<ChatLogEntryModel> toSenderLogs;
+			List<ChatLogEntryModel> logs;
 
 			try {
-				senderToLogs = 
-					ChatLogDao.getLog(senderEmail, toField, tsFromLatest, tsToEarliest);
-				toSenderLogs =
-					ChatLogDao.getLog(toField, senderEmail, tsFromLatest, tsToEarliest);
+				logs = 
+					ChatLogDao.getLog(senderEmail, toField, tsToEarliest, tsFromLatest);
 			} catch(DataAccessException e) {
 				Util.exceptionLog(e);
 				return buildGenericErrorResponse();
 			}
 
-			String jsonSerializedLogs = 
-				jsonSerializeAndFlagChatLogEntries(senderToLogs, toSenderLogs);
+			String jsonSerializedLogs = jsonSerializeChatLogEntries(logs);
 			if(jsonSerializedLogs == null) {
 				return buildGenericErrorResponse();
 			}
@@ -180,49 +176,21 @@ public final class ChatController extends TokenizedServiceController {
 		return buildInvalidTokenResponse();
 	}
 
-	private Response buildOkOnlineStatusResponse(String userOnlineFmtResponse) {
-		Response okResponse = new Response();
-		okResponse.addHeaderEntry(CONTENT_LENGTH, "1");
-		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
-		okResponse.setBody(userOnlineFmtResponse);
-		okResponse.setStatus(Status.OK);
-		return okResponse;
-	}
-
-	private String jsonSerializeAndFlagChatLogEntries(List<ChatLogEntryModel> senderToLogs,
-		List<ChatLogEntryModel> toSenderLogs) {
-
+	private String jsonSerializeChatLogEntries(List<ChatLogEntryModel> logs) {
 		JSONArray jsonArray = new JSONArray();
 
-		for (final ChatLogEntryModel chatLogEntry : senderToLogs) {
-			jsonArray.put(jsonSerializeChatLogEntryModelObject(chatLogEntry));
-		}
+		for (final ChatLogEntryModel chatLogEntry : logs) {
+			JSONObject chatLogEntryJsonObject = new JSONObject();
+			chatLogEntryJsonObject.put("id", chatLogEntry.getLogEntryId());
+			chatLogEntryJsonObject.put("delivery_request_date", chatLogEntry.getDeliveryRequestTime());
+			chatLogEntryJsonObject.put("sender_email", chatLogEntry.getSenderEmail());
+			chatLogEntryJsonObject.put("receiver_email", chatLogEntry.getReceiverEmail());
+			chatLogEntryJsonObject.put("text", chatLogEntry.getText());
 
-		for (final ChatLogEntryModel chatLogEntry : toSenderLogs) {
-			if(chatLogEntry.getDeliveredTime() == 0) {
-				try {
-					ChatLogDao.flagDeliveredLogEntry(chatLogEntry);
-				} catch(DataAccessException e) {
-					Util.exceptionLog(e);
-					return null;
-				}
-			}
-			jsonArray.put(jsonSerializeChatLogEntryModelObject(chatLogEntry));
+			jsonArray.put(chatLogEntryJsonObject);
 		}
 
 		return jsonArray.toString();
-	}
-
-	private JSONObject jsonSerializeChatLogEntryModelObject(ChatLogEntryModel chatLogEntry) {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("id", chatLogEntry.getLogEntryId());
-		jsonObject.put("delivery_request_date", chatLogEntry.getDeliveryRequestTime());
-		jsonObject.put("delivered_date", chatLogEntry.getDeliveredTime());
-		jsonObject.put("sender_email", chatLogEntry.getSenderEmail());
-		jsonObject.put("receiver_email", chatLogEntry.getReceiverEmail());
-		jsonObject.put("text", chatLogEntry.getText());
-		
-		return null;
 	}
 
 	private Response buildTooBigMessageResponse() {
@@ -247,6 +215,15 @@ public final class ChatController extends TokenizedServiceController {
 		okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(jsonSerializedLogs.length()));
 		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
 		okResponse.setBody(jsonSerializedLogs);
+		okResponse.setStatus(Status.OK);
+		return okResponse;
+	}
+	
+	private Response buildOkOnlineStatusResponse(String userOnlineFmtResponse) {
+		Response okResponse = new Response();
+		okResponse.addHeaderEntry(CONTENT_LENGTH, "1");
+		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
+		okResponse.setBody(userOnlineFmtResponse);
 		okResponse.setStatus(Status.OK);
 		return okResponse;
 	}

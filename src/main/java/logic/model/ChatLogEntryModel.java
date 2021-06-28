@@ -6,7 +6,6 @@ public final class ChatLogEntryModel {
 	private String receiverEmail;
 	private String text;
 	private int deliveryRequestTime;
-	private int deliveredTime = 0;
 
 	public long getLogEntryId() {
 		return logEntryId;
@@ -22,10 +21,6 @@ public final class ChatLogEntryModel {
 
 	public int getDeliveryRequestTime() {
 		return deliveryRequestTime;
-	}
-
-	public int getDeliveredTime() {
-		return deliveredTime;
 	}
 
 	public String getText() {
@@ -46,10 +41,6 @@ public final class ChatLogEntryModel {
 
 	public void setDeliveryRequestTime(int deliveryRequestTime) {
 		this.deliveryRequestTime = deliveryRequestTime;
-	}
-
-	public void setDeliveredTime(int deliveredTime) {
-		this.deliveredTime = deliveredTime;
 	}
 
 	public void setText(String text) {

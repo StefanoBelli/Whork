@@ -23,8 +23,6 @@ public final class ChatLogDao {
 		"{ call AddChatLogEntry(?,?,?,?) }";
 	private static final String STMT_GET_CHAT_LOG = 
 		"{ call GetChatLog(?,?,?,?) }";
-	private static final String STMT_FLG_DELIVD_CHAT_LOG_ENTRY =
-		"{ call FlagDeliveredChatLogEntry(?,?) }";
 	private static final String NON_EXISTANT_USER_ERROR = "Non-existant user";
 
 	public static void addLogEntry(ChatLogEntryModel entry) 
@@ -65,7 +63,6 @@ public final class ChatLogDao {
 					model.setReceiverEmail(rs.getString(3));
 					model.setText(rs.getString(4));
 					model.setDeliveryRequestTime((int)rs.getTimestamp(5).getTime());
-					model.setDeliveredTime((int)rs.getTimestamp(6).getTime());
 
 					cle.add(model);
 				}
@@ -73,17 +70,6 @@ public final class ChatLogDao {
 				return cle;
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-	}
-
-	public static void flagDeliveredLogEntry(ChatLogEntryModel entry) 
-			throws DataAccessException {
-		try(CallableStatement stmt = CONN.prepareCall(STMT_FLG_DELIVD_CHAT_LOG_ENTRY)) {
-			stmt.setLong(1, entry.getLogEntryId());
-			stmt.setTimestamp(2, new Timestamp(entry.getDeliveredTime()));
-			stmt.execute();
-		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
 	}
