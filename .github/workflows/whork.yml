@@ -8,6 +8,11 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -15,12 +20,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: Setup MySQL without requiring root password
-      uses: shogo82148/actions-setup-mysql@v1
-      with:
-        mysql-version: '8.0'
     - name: Create whorkdb
-      run: sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
+      run: sudo mysql -h 127.0.0.1 -p password -u root -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
     - name: Static analysis scan (SonarCloud)
