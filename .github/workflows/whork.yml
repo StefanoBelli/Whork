@@ -15,12 +15,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: Start MySQ
+    - name: Start MySQL
       run: sudo /etc/init.d/mysql start
     - name: Create whorkdb
       run: sudo mysql -u root -proot -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
+    - name: Remove pom.xml (SonarCloud asks to run Maven goal instead of Action)
+      run: rm -v pom.xml
     - name: Static analysis scan (SonarCloud)
       uses: sonarsource/sonarcloud-github-action@master
       env:
