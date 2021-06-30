@@ -12,7 +12,9 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: password
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+            - 3306
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -21,7 +23,7 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Create whorkdb
-      run: sudo mysql -h 127.0.0.1 -p password -u root -e "source res/createWhorkDbSchema.sql"
+      run: sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
     - name: Static analysis scan (SonarCloud)
