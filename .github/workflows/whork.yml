@@ -8,13 +8,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-            MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        ports:
-            - 3306
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -22,6 +15,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - uses: samin/mysql-action@v1
+      with:
+        host port: 3800
+        container port: 3306
+        character set server: 'utf8'
+        collation server: 'utf8_general_ci'
+        mysql version: '8.0'
+        mysql root password: password
     - name: Create whorkdb
       run: sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
