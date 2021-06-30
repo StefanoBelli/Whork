@@ -15,14 +15,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - uses: samin/mysql-action@v1
-      with:
-        character set server: 'utf8'
-        collation server: 'utf8_general_ci'
-        mysql version: '8.0'
-        mysql root password: password
+    - name: Start MySQ
+      run: sudo /etc/init.d/mysql start
     - name: Create whorkdb
-      run: sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
+      run: sudo mysql -u root -proot -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
     - name: Static analysis scan (SonarCloud)
