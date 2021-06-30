@@ -15,6 +15,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Start MySQL server
+      run: sudo service mysql start
     - name: Create whorkdb
       run: sudo mysql -u root -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
