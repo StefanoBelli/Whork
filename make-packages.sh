@@ -4,9 +4,9 @@ ORIGIN_APP="target/whork-0.0.0-jar-with-dependencies.jar"
 ORIGIN_DOCS="docs/"
 ORIGIN_DBSCHEMA="res/createWhorkDbSchema.sql"
 
-WHORK_JAR="whork-app-$TRAVIS_TAG-noosx-linuxany-win32oraclejdk8.jar"
-WHORK_DOCS="whork-docs-$TRAVIS_TAG.zip"
-WHORK_DBSCHEMA="createWhorkDbSchema-$TRAVIS_TAG.zip"
+WHORK_JAR="whork-app-$GITHUB_SHA-noosx-linuxany-win32oraclejdk8.jar"
+WHORK_DOCS="whork-docs-$GITHUB_SHA.zip"
+WHORK_DBSCHEMA="createWhorkDbSchema-$GITHUB_SHA.zip"
 
 infopkg() {
     echo "[PACKAGE] Creating package: $1..."
