@@ -19,9 +19,7 @@ jobs:
     - name: Create whorkdb
       run: sudo mysql -u root -proot -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
-      uses: GabrielBB/xvfb-action@v1
-      with:
-          run: mvn clean compile jacoco:prepare-agent test jacoco:report
+      run: mvn clean compile jacoco:prepare-agent test jacoco:report
     - name: Rename pom.xml to pom.xml.old (SonarCloud asks to run Maven goal instead of Action)
       run: mv pom.xml pom.xml.old
     - name: Static analysis scan (SonarCloud)
