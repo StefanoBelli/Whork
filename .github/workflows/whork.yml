@@ -27,3 +27,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Make packages
+      run: bash make-packages.sh
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Whork build and docs packages
+        path: |
+          whork-app-$GITHUB_SHA-noosx-linuxany-win32oraclejdk8.jar
+          whork-docs-$GITHUB_SHA.zip
+          createWhorkDbSchema-$GITHUB_SHA.zip
+        if-no-files-found: error
