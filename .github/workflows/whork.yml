@@ -36,7 +36,7 @@ jobs:
       with:
         name: Whork build and docs packages
         path: |
-          whork-app-$GITHUB_SHA-noosx-linuxany-win32oraclejdk8.jar
-          whork-docs-$GITHUB_SHA.zip
-          createWhorkDbSchema-$GITHUB_SHA.zip
+          whork-app-${{ github.sha }}-noosx-linuxany-win32oraclejdk8.jar
+          whork-docs-${{ github.sha }}.zip
+          createWhorkDbSchema-${{ github.sha }}.zip
         if-no-files-found: error
