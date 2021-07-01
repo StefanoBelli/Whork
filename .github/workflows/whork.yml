@@ -1,6 +1,6 @@
-name: Whork build
+name: Whork build, test and code coverage
 
-on: [push, pull_request]
+on: [push, pull_request, create]
 
 jobs:
   build:
@@ -34,9 +34,15 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Whork build and docs packages
+        name: whork-${{ github.sha }}
         path: |
           whork-app-${{ github.sha }}-noosx-linuxany-win32oraclejdk8.jar
           whork-docs-${{ github.sha }}.zip
           createWhorkDbSchema-${{ github.sha }}.zip
         if-no-files-found: error
+    - name: Make release and upload build artifact
+      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: whork-${{ github.sha }}.zip
+        token: ${{ secrets.GITHUB_TOKEN }}
