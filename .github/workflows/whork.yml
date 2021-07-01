@@ -46,3 +46,4 @@ jobs:
       with:
         artifacts: whork-${{ github.sha }}.zip
         token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
