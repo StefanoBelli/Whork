@@ -53,12 +53,16 @@ public final class ChatController extends TokenizedServiceController {
 		String senderEmail = getTokenAssocUserEmailFromHeaders(headers);
 		
 		if(senderEmail != null) {
-			String receiverEmailField = headers.get("To");
+			String toField = headers.get("To");
 			String contentLengthField = headers.get(CONTENT_LENGTH);
 			String bodyField = request.getBody();
 
-			if(receiverEmailField == null || contentLengthField == null || bodyField == null) {
+			if(toField == null || contentLengthField == null || bodyField == null) {
 				return buildMissingRequiredFieldResponse();
+			}
+
+			if (senderEmail.equalsIgnoreCase(toField)) {
+				return buildIllegalArgumentResponse();
 			}
 
 			int contentLength;
@@ -80,7 +84,7 @@ public final class ChatController extends TokenizedServiceController {
 			ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
 			chatLogEntry.setText(bodyField);
 			chatLogEntry.setSenderEmail(senderEmail);
-			chatLogEntry.setReceiverEmail(receiverEmailField);
+			chatLogEntry.setReceiverEmail(toField);
 
 			try {	
 				ChatLogDao.addLogEntry(chatLogEntry);
@@ -114,6 +118,10 @@ public final class ChatController extends TokenizedServiceController {
 
 			if(toField == null || tsFromLatestField == null || tsToEarliestField == null) {
 				return buildMissingRequiredFieldResponse();
+			}
+
+			if (senderEmail.equalsIgnoreCase(toField)) {
+				return buildIllegalArgumentResponse();
 			}
 
 			int tsFromLatest;
@@ -162,6 +170,10 @@ public final class ChatController extends TokenizedServiceController {
 
 			if(toField == null) {
 				return buildMissingRequiredFieldResponse();
+			}
+
+			if (senderEmail.equalsIgnoreCase(toField)) {
+				return buildIllegalArgumentResponse();
 			}
 
 			if (contentLengthField != null && !contentLengthField.equals("0")) {
