@@ -20,13 +20,15 @@ jobs:
       run: sudo mysql -u root -proot -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
-    - name: Remove pom.xml (SonarCloud asks to run Maven goal instead of Action)
-      run: rm -v pom.xml
+    - name: Rename pom.xml to pom.xml.old (SonarCloud asks to run Maven goal instead of Action)
+      run: mv pom.xml pom.xml.old
     - name: Static analysis scan (SonarCloud)
       uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Rename pom.xml.old back to pom.xml
+      run: mv pom.xml.old pom.xml
     - name: Make packages
       run: bash make-packages.sh
     - name: Upload build artifacts
