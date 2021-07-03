@@ -80,22 +80,8 @@ public final class ChatController extends TokenizedServiceController {
 			if(contentLength != bodyField.length()) {
 				return buildIllegalArgumentResponse();
 			}
-			
-			ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
-			chatLogEntry.setText(bodyField);
-			chatLogEntry.setSenderEmail(senderEmail);
-			chatLogEntry.setReceiverEmail(toField);
 
-			try {	
-				ChatLogDao.addLogEntry(chatLogEntry);
-			} catch(DataLogicException e) {
-				return buildUserNotFoundResponse();
-			} catch(DataAccessException e) {
-				Util.exceptionLog(e);
-				return buildGenericErrorResponse();
-			}
-
-			return buildOkAcceptedForDeliveryResponse();
+			return putChatLogEntryAndGetResponse(bodyField, senderEmail, toField);
 		}
 
 		return buildInvalidTokenResponse();
@@ -138,22 +124,7 @@ public final class ChatController extends TokenizedServiceController {
 				return buildIllegalArgumentResponse();
 			}
 
-			List<ChatLogEntryModel> logs;
-
-			try {
-				logs = 
-					ChatLogDao.getLog(senderEmail, toField, tsToEarliest, tsFromLatest);
-			} catch(DataAccessException e) {
-				Util.exceptionLog(e);
-				return buildGenericErrorResponse();
-			}
-
-			String jsonSerializedLogs = jsonSerializeChatLogEntries(logs);
-			if(jsonSerializedLogs == null) {
-				return buildGenericErrorResponse();
-			}
-
-			return buildOkSerializedMsgsResponse(jsonSerializedLogs);
+			return retrieveLogAndGetJsonSerResponse(senderEmail, toField, tsToEarliest, tsFromLatest);
 		}
 
 		return buildInvalidTokenResponse();
@@ -187,6 +158,44 @@ public final class ChatController extends TokenizedServiceController {
 
 		return buildInvalidTokenResponse();
 	}
+
+	private Response retrieveLogAndGetJsonSerResponse(String senderEmail, String toField, int tsToEarliest, int tsFromLatest) {
+		List<ChatLogEntryModel> logs;
+
+		try {
+			logs = 
+				ChatLogDao.getLog(senderEmail, toField, tsToEarliest, tsFromLatest);
+		} catch(DataAccessException e) {
+			Util.exceptionLog(e);
+			return buildGenericErrorResponse();
+		}
+
+		String jsonSerializedLogs = jsonSerializeChatLogEntries(logs);
+		if(jsonSerializedLogs == null) {
+			return buildGenericErrorResponse();
+		}
+
+		return buildOkSerializedMsgsResponse(jsonSerializedLogs);
+	}
+
+	private Response putChatLogEntryAndGetResponse(String bodyField, String senderEmail, String toField) {
+		ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
+		chatLogEntry.setText(bodyField);
+		chatLogEntry.setSenderEmail(senderEmail);
+		chatLogEntry.setReceiverEmail(toField);
+
+		try {	
+			ChatLogDao.addLogEntry(chatLogEntry);
+		} catch(DataLogicException e) {
+			return buildUserNotFoundResponse();
+		} catch(DataAccessException e) {
+			Util.exceptionLog(e);
+			return buildGenericErrorResponse();
+		}
+
+		return buildOkAcceptedForDeliveryResponse();
+	}
+
 
 	private String jsonSerializeChatLogEntries(List<ChatLogEntryModel> logs) {
 		JSONArray jsonArray = new JSONArray();

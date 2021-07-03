@@ -579,9 +579,10 @@ final class App {
 		Map<String, TokenizedServiceController> services = new HashMap<>();
 		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
 
-		for(final String svcName : services.keySet()) {
+		for(final Map.Entry<String, TokenizedServiceController> svc : services.entrySet()) {
+			String svcName = svc.getKey();
 			LOGGER.info("starting {} service...", svcName);
-			if(!services.get(svcName).startService()) {
+			if(!svc.getValue().startService()) {
 				LOGGER.error("service {} failed to start, aborting now...", svcName);
 				return false;
 			}
@@ -594,9 +595,10 @@ final class App {
 		Map<String, TokenizedServiceController> services = new HashMap<>();
 		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
 
-		for(final String svcName : services.keySet()) {
+		for(final Map.Entry<String, TokenizedServiceController> svc : services.entrySet()) {
+			String svcName = svc.getKey();
 			LOGGER.info("stopping {} service...", svcName);
-			if(!services.get(svcName).stopService()) {
+			if(!svc.getValue().stopService()) {
 				LOGGER.warn("service {} failed to stop, ignoring and proceeding anyway...", svcName);
 			}
 		}
