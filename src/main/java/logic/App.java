@@ -3,6 +3,9 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import logic.controller.service.Service;
+import logic.controller.service.ServiceControllerHolder;
+import logic.controller.service.TokenizedServiceController;
 import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
@@ -10,8 +13,9 @@ import logic.util.Util;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -570,6 +574,33 @@ final class App {
 
 		return true;
 	}
+	
+	private static boolean startServicesThatRunAlong() {
+		Map<String, TokenizedServiceController> services = new HashMap<>();
+		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
+
+		for(final String svcName : services.keySet()) {
+			LOGGER.info("starting {} service...", svcName);
+			if(!services.get(svcName).startService()) {
+				LOGGER.error("service {} failed to start, aborting now...", svcName);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static void stopServicesThatRunAlong() {
+		Map<String, TokenizedServiceController> services = new HashMap<>();
+		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
+
+		for(final String svcName : services.keySet()) {
+			LOGGER.info("stopping {} service...", svcName);
+			if(!services.get(svcName).stopService()) {
+				LOGGER.warn("service {} failed to stop, ignoring and proceeding anyway...", svcName);
+			}
+		}
+	}
 
 	private static boolean initialize() {
 		if (!attemptToEstablishDbConnection()) {
@@ -582,7 +613,11 @@ final class App {
 
 		setInstanceConfigs();
 
-		return true;
+		if(launchDesktop) {
+			return true;
+		}
+
+		return startServicesThatRunAlong();
 	}
 
 	private static AssignResources assignResourcesAndLog() {
@@ -637,6 +672,10 @@ final class App {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
+				if(!launchDesktop) {
+					stopServicesThatRunAlong();
+				}
+
 				App.cleanup();
 			}
 		});
@@ -662,8 +701,13 @@ final class App {
 		if (parse(args)) {
 			setRuntimeHooks();
 			if (initialize()) {
+				LOGGER.info("Whork has been initialized!");
 				finalizeLaunch(args);
+			} else {
+				LOGGER.error("unable to initialize Whork, exiting...");
 			}
+		} else {
+			LOGGER.error("unable to parse command line for Whork, exiting...");
 		}
 	}
 }
