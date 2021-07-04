@@ -65,9 +65,9 @@ final class App {
 	private static final String SVCEDITORPORT = "svcEditorPort";
 
 	// Self-extraction properties
-	private static List<String> webResDirectory = null;
+	private static List<String> webResDirectories = null;
 	private static List<String> webResFiles = null;
-	private static List<String> dflResDirectory = null;
+	private static List<String> dflResDirectories = null;
 	private static List<String> dflResFiles = null;
 
 	// Dynamic config for whork
@@ -158,21 +158,28 @@ final class App {
 	}
 
 	private static void setResources(AssignResources res) {
-		dflResDirectory = new ArrayList<>();
+		dflResDirectories = new ArrayList<>();
 		dflResFiles = new ArrayList<>();
 		dflResFiles.add("/placeholder");
 		dflResFiles.add("/placeholder1");
 
 		if(res == AssignResources.ALL) {
-			webResDirectory = new ArrayList<>();
+			webResDirectories = new ArrayList<>();
 			webResFiles = new ArrayList<>();
 
-			webResDirectory.add("WEB-INF");
+			webResDirectories.add("WEB-INF");
+			webResDirectories.add("css");
 
 			webResFiles.add("/WEB-INF/web.xml");
+			webResFiles.add("/css/login.css");
+			webResFiles.add("/account.jsp");
+			webResFiles.add("/changepwd.jsp");
+			webResFiles.add("/chat.jsp");
+			webResFiles.add("/cpoutcome.jsp");
+			webResFiles.add("/forgotpwd.jsp");
 			webResFiles.add("/index.jsp");
+			webResFiles.add("/login.jsp");
 		}
-
 	}
 
 	private static void selfExtract(AssignResources res) 
@@ -181,9 +188,9 @@ final class App {
 
 		LOGGER.info("starting archive self-extraction...");
 
-		ArchiveSelfExtractor.extract(dflRoot, dflResDirectory, dflResFiles);
+		ArchiveSelfExtractor.extract(dflRoot, dflResDirectories, dflResFiles);
 		if(!launchDesktop) {
-			ArchiveSelfExtractor.extract(webRoot, webResDirectory, webResFiles);
+			ArchiveSelfExtractor.extract(webRoot, webResDirectories, webResFiles);
 		}
 	}
 
