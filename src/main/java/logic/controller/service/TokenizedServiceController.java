@@ -114,14 +114,18 @@ public class TokenizedServiceController {
 
 	private final String queryToken(String tok) {
 		Date nowTime = new Date();
-		Pair<String, Long> token = validTokens.get(tok);
+		Pair<String, Long> tokenPair = validTokens.get(tok);
 
-		if(nowTime.getTime() - token.getSecond() > VALID_TOKEN_INTVL_INTEGER) {
+		if(tokenPair == null) {
+			return null;
+		}
+		
+		if(nowTime.getTime() - tokenPair.getSecond() > VALID_TOKEN_INTVL_INTEGER) {
 			validTokens.remove(tok);
 			return null;
 		}
 
-		return token.getFirst();
+		return tokenPair.getFirst();
 	}
 
 	protected final String addToken(String userEmail) {
