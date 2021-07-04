@@ -19,7 +19,7 @@ import logic.net.protocol.annotation.RequestHandler;
 import logic.util.Util;
 
 public final class ChatController extends TokenizedServiceController {
-	protected ChatController() {
+	private ChatController() {
 		super(Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_CHAT_PORT));
 	}
 	

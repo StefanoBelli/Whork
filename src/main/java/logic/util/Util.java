@@ -250,6 +250,7 @@ public final class Util {
 		public static final String KEY_AUTH_FILE_PATH = "desktop.auth_file_path";
 		public static final String KEY_SVC_CHAT_PORT = "any.service.chat_port";
 		public static final String KEY_SVC_INTVL_TOK = "any.service.intvl_tok";
+		public static final String KEY_SVC_EDITOR_PORT = "any.service.editor_port";
 
 		private static Map<String, Object> config = new HashMap<>();
 		

@@ -1,6 +1,8 @@
 package logic.model;
 
-public abstract class UserModel {
+public class UserModel {
+	protected UserModel() {}
+	
 	private String name;
 	private String surname;
 	private String phoneNumber;

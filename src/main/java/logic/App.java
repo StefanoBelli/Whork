@@ -62,6 +62,7 @@ final class App {
 	private static final String DFLROOTOPT = "dflRoot";
 	private static final String SVCCHATPORT = "svcChatPort";
 	private static final String SVCTOKINTVL = "svcTokIntvl";
+	private static final String SVCEDITORPORT = "svcEditorPort";
 
 	// Self-extraction properties
 	private static List<String> webResDirectory = null;
@@ -86,6 +87,8 @@ final class App {
 	private static String mailHost = null;
 	private static int chatPort = 45612;
 	private static int tokIntvl = 300;
+	private static int editorPort = 65412;
+	private static Map<String, TokenizedServiceController> pairedServices = new HashMap<>();
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -267,13 +270,18 @@ final class App {
 
 		opt.addOption(SVCTOKINTVL, true, 
 				new StringBuilder()
-						.append("Set service token validity interval (default: ")
+						.append("Set paired service token validity interval (default: ")
 						.append(tokIntvl).append(")").toString());
 		
 		opt.addOption(SVCCHATPORT, true, 
 				new StringBuilder()
-						.append("Set chat service port (default: ")
+						.append("Set paired chat service port (default: ")
 						.append(chatPort).append(")").toString());
+
+		opt.addOption(SVCEDITORPORT, true, 
+				new StringBuilder()
+						.append("Set paired editor service port (default: ")
+						.append(editorPort).append(")").toString());
 
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
@@ -295,6 +303,16 @@ final class App {
 	private static boolean assignChatServicePort(String arg, String value) {
 		chatPort = Integer.parseInt(value);
 		if (!Util.isValidPort(chatPort)) {
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
+			return false;
+		}
+
+		return true;
+	}
+
+	private static boolean assignEditorServicePort(String arg, String value) {
+		editorPort = Integer.parseInt(value);
+		if (!Util.isValidPort(editorPort)) {
 			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
@@ -398,6 +416,8 @@ final class App {
 			assignChatServicePort(argName, opt.getValue());
 		} else if(argName.equals(SVCTOKINTVL)) {
 			tokIntvl = Integer.parseInt(opt.getValue());
+		} else if(argName.equals(SVCEDITORPORT)) {
+			assignEditorServicePort(argName, opt.getValue());
 		}
 
 		return true;
@@ -554,6 +574,7 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_EDITOR_PORT, editorPort);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
@@ -576,10 +597,10 @@ final class App {
 	}
 	
 	private static boolean startServicesThatRunAlong() {
-		Map<String, TokenizedServiceController> services = new HashMap<>();
-		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
+		pairedServices.put("chat", ServiceControllerHolder.getService(Service.CHAT));
+		pairedServices.put("editor", ServiceControllerHolder.getService(Service.EDITOR));
 
-		for(final Map.Entry<String, TokenizedServiceController> svc : services.entrySet()) {
+		for(final Map.Entry<String, TokenizedServiceController> svc : pairedServices.entrySet()) {
 			String svcName = svc.getKey();
 			LOGGER.info("starting {} service...", svcName);
 			if(!svc.getValue().startService()) {
@@ -592,10 +613,7 @@ final class App {
 	}
 
 	private static void stopServicesThatRunAlong() {
-		Map<String, TokenizedServiceController> services = new HashMap<>();
-		services.put("chat", ServiceControllerHolder.getService(Service.CHAT));
-
-		for(final Map.Entry<String, TokenizedServiceController> svc : services.entrySet()) {
+		for(final Map.Entry<String, TokenizedServiceController> svc : pairedServices.entrySet()) {
 			String svcName = svc.getKey();
 			LOGGER.info("stopping {} service...", svcName);
 			if(!svc.getValue().stopService()) {
