@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import logic.bean.ChatInitBean;
-import logic.bean.UserAuthBean;
 import logic.controller.service.TokenizedServiceController;
 import logic.dao.ChatLogDao;
 import logic.exception.DataAccessException;
@@ -37,11 +36,11 @@ public final class ChatController extends TokenizedServiceController {
 		return instance;
 	}
 	
-	public ChatInitBean newChatSession(UserAuthBean userAuthBean) {
+	public ChatInitBean newChatSession(String userEmail) {
 		ChatInitBean chatInitBean = new ChatInitBean();
 		chatInitBean.setShouldPullMessagesEvery(SHOULD_PULL_MSGS_EVERY);
 		chatInitBean.setTokenExpiresIn(VALID_TOKEN_INTVL);
-		chatInitBean.setToken(addToken(userAuthBean.getEmail()));
+		chatInitBean.setToken(addToken(userEmail));
 		chatInitBean.setServicePort(listenPort);
 
 		return chatInitBean;
@@ -58,11 +57,11 @@ public final class ChatController extends TokenizedServiceController {
 			String bodyField = request.getBody();
 
 			if(toField == null || contentLengthField == null || bodyField == null) {
-				return buildMissingRequiredFieldResponse();
+				return ResponseFactory.buildMissingRequiredFieldResponse();
 			}
 
 			if (senderEmail.equalsIgnoreCase(toField)) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			int contentLength;
@@ -70,21 +69,21 @@ public final class ChatController extends TokenizedServiceController {
 			try {
 				contentLength = Integer.parseInt(contentLengthField);
 			} catch (NumberFormatException e) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			if(contentLength > 500) {
-				return buildTooBigMessageResponse();
+				return ChatResponseFactory.buildTooBigMessageResponse();
 			}
 
 			if(contentLength != bodyField.length()) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			return putChatLogEntryAndGetResponse(bodyField, senderEmail, toField);
 		}
 
-		return buildInvalidTokenResponse();
+		return ResponseFactory.buildInvalidTokenResponse();
 	}
 
 	@RequestHandler("PullMessages")
@@ -99,15 +98,15 @@ public final class ChatController extends TokenizedServiceController {
 			String tsToEarliestField = headers.get("Ts-To-Earliest");
 
 			if(contentLengthField != null && !contentLengthField.equals("0")) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			if(toField == null || tsFromLatestField == null || tsToEarliestField == null) {
-				return buildMissingRequiredFieldResponse();
+				return ResponseFactory.buildMissingRequiredFieldResponse();
 			}
 
 			if (senderEmail.equalsIgnoreCase(toField)) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			int tsFromLatest;
@@ -117,17 +116,18 @@ public final class ChatController extends TokenizedServiceController {
 				tsFromLatest = Integer.parseInt(tsFromLatestField);
 				tsToEarliest = Integer.parseInt(tsToEarliestField);
 			} catch(NumberFormatException e) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			if(tsFromLatest < tsToEarliest) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
-			return retrieveLogAndGetJsonSerResponse(senderEmail, toField, tsToEarliest, tsFromLatest);
+			return retrieveLogAndGetJsonSerResponse(
+				senderEmail, toField, tsToEarliest, tsFromLatest);
 		}
 
-		return buildInvalidTokenResponse();
+		return ResponseFactory.buildInvalidTokenResponse();
 	}
 
 	@RequestHandler("CheckOnlineStatus")
@@ -140,26 +140,27 @@ public final class ChatController extends TokenizedServiceController {
 			String toField = headers.get("To");
 
 			if(toField == null) {
-				return buildMissingRequiredFieldResponse();
+				return ResponseFactory.buildMissingRequiredFieldResponse();
 			}
 
 			if (senderEmail.equalsIgnoreCase(toField)) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
 			if (contentLengthField != null && !contentLengthField.equals("0")) {
-				return buildIllegalArgumentResponse();
+				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
-			return buildOkOnlineStatusResponse(
+			return ChatResponseFactory.buildOkOnlineStatusResponse(
 				isUserOnlineFmtResponse(toField)
 			);
 		}
 
-		return buildInvalidTokenResponse();
+		return ResponseFactory.buildInvalidTokenResponse();
 	}
 
-	private Response retrieveLogAndGetJsonSerResponse(String senderEmail, String toField, int tsToEarliest, int tsFromLatest) {
+	private Response retrieveLogAndGetJsonSerResponse(String senderEmail, String toField, 
+			int tsToEarliest, int tsFromLatest) {
 		List<ChatLogEntryModel> logs;
 
 		try {
@@ -167,18 +168,19 @@ public final class ChatController extends TokenizedServiceController {
 				ChatLogDao.getLog(senderEmail, toField, tsToEarliest, tsFromLatest);
 		} catch(DataAccessException e) {
 			Util.exceptionLog(e);
-			return buildGenericErrorResponse();
+			return ResponseFactory.buildGenericErrorResponse();
 		}
 
 		String jsonSerializedLogs = jsonSerializeChatLogEntries(logs);
 		if(jsonSerializedLogs == null) {
-			return buildGenericErrorResponse();
+			return ResponseFactory.buildGenericErrorResponse();
 		}
 
-		return buildOkSerializedMsgsResponse(jsonSerializedLogs);
+		return ChatResponseFactory.buildOkSerializedMsgsResponse(jsonSerializedLogs);
 	}
 
-	private Response putChatLogEntryAndGetResponse(String bodyField, String senderEmail, String toField) {
+	private Response putChatLogEntryAndGetResponse(String bodyField, String senderEmail, 
+			String toField) {
 		ChatLogEntryModel chatLogEntry = new ChatLogEntryModel();
 		chatLogEntry.setText(bodyField);
 		chatLogEntry.setSenderEmail(senderEmail);
@@ -187,13 +189,13 @@ public final class ChatController extends TokenizedServiceController {
 		try {	
 			ChatLogDao.addLogEntry(chatLogEntry);
 		} catch(DataLogicException e) {
-			return buildUserNotFoundResponse();
+			return ResponseFactory.buildUserNotFoundResponse();
 		} catch(DataAccessException e) {
 			Util.exceptionLog(e);
-			return buildGenericErrorResponse();
+			return ResponseFactory.buildGenericErrorResponse();
 		}
 
-		return buildOkAcceptedForDeliveryResponse();
+		return ChatResponseFactory.buildOkAcceptedForDeliveryResponse();
 	}
 
 
@@ -214,38 +216,42 @@ public final class ChatController extends TokenizedServiceController {
 		return jsonArray.toString();
 	}
 
-	private Response buildTooBigMessageResponse() {
-		Response tooBigMessageResponse = new Response();
-		tooBigMessageResponse.addHeaderEntry(CONTENT_LENGTH, "13");
-		tooBigMessageResponse.setBody("TooBigMessage");
-		tooBigMessageResponse.setStatus(Status.KO);
-		return tooBigMessageResponse;
-	}
+	private static final class ChatResponseFactory {
+		private ChatResponseFactory() {}
 
-	private Response buildOkAcceptedForDeliveryResponse() {
-		Response okResponse = new Response();
-		okResponse.addHeaderEntry(CONTENT_LENGTH, "19");
-		okResponse.setBody("AcceptedForDelivery");
-		okResponse.setStatus(Status.OK);
-		return okResponse;
-	}
+		public static Response buildTooBigMessageResponse() {
+			Response tooBigMessageResponse = new Response();
+			tooBigMessageResponse.addHeaderEntry(CONTENT_LENGTH, "13");
+			tooBigMessageResponse.setBody("TooBigMessage");
+			tooBigMessageResponse.setStatus(Status.KO);
+			return tooBigMessageResponse;
+		}
 
-	private Response buildOkSerializedMsgsResponse(String jsonSerializedLogs) {
-		Response okResponse = new Response();
-		okResponse.addHeaderEntry("Content-Type", "text/json");
-		okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(jsonSerializedLogs.length()));
-		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
-		okResponse.setBody(jsonSerializedLogs);
-		okResponse.setStatus(Status.OK);
-		return okResponse;
-	}
+		public static Response buildOkAcceptedForDeliveryResponse() {
+			Response okResponse = new Response();
+			okResponse.addHeaderEntry(CONTENT_LENGTH, "19");
+			okResponse.setBody("AcceptedForDelivery");
+			okResponse.setStatus(Status.OK);
+			return okResponse;
+		}
+
+		public static Response buildOkSerializedMsgsResponse(String jsonSerializedLogs) {
+			Response okResponse = new Response();
+			okResponse.addHeaderEntry("Content-Type", "text/json");
+			okResponse.addHeaderEntry(CONTENT_LENGTH, Integer.toString(jsonSerializedLogs.length()));
+			okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
+			okResponse.setBody(jsonSerializedLogs);
+			okResponse.setStatus(Status.OK);
+			return okResponse;
+		}
 	
-	private Response buildOkOnlineStatusResponse(String userOnlineFmtResponse) {
-		Response okResponse = new Response();
-		okResponse.addHeaderEntry(CONTENT_LENGTH, "1");
-		okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
-		okResponse.setBody(userOnlineFmtResponse);
-		okResponse.setStatus(Status.OK);
-		return okResponse;
+		public static Response buildOkOnlineStatusResponse(String userOnlineFmtResponse) {
+			Response okResponse = new Response();
+			okResponse.addHeaderEntry(CONTENT_LENGTH, "1");
+			okResponse.addHeaderEntry("Should-Pull-Every", SHOULD_PULL_MSGS_EVERY_STRING);
+			okResponse.setBody(userOnlineFmtResponse);
+			okResponse.setStatus(Status.OK);
+			return okResponse;
+		}
 	}
 }
