@@ -3,11 +3,11 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import logic.controller.ChatController;
 import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
 import logic.util.Util;
-import logic.util.MailSender;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
@@ -56,11 +56,13 @@ final class App {
 	private static final String MAILHOSTOPT = "mailHost";
 	private static final String DFLRESOPT = "dflRes";
 	private static final String DFLROOTOPT = "dflRoot";
+	private static final String SVCCHATPORT = "svcChatPort";
+	private static final String SVCTOKINTVL = "svcTokIntvl";
 
 	// Self-extraction properties
-	private static List<String> webResDirectory = null;
+	private static List<String> webResDirectories = null;
 	private static List<String> webResFiles = null;
-	private static List<String> dflResDirectory = null;
+	private static List<String> dflResDirectories = null;
 	private static List<String> dflResFiles = null;
 
 	// Dynamic config for whork
@@ -78,12 +80,17 @@ final class App {
 	private static String mailFrom = null;
 	private static String mailPwd = null;
 	private static String mailHost = null;
+	private static int chatPort = 45612;
+	private static int tokIntvl = 300;
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
 
 	private static final String NOT_USING_PWDAUTH = "NOT using password authentication";
 	private static final String HIDE_PWD = "[HIDDEN]";
+	private static final String PORT_RANGE_ERROR_FMT = "{} number must be within range [0-65535]";
+	private static final String IGN_PROP_SELFEXT_ENABLED_FMT = "ignoring {} property because self extraction is enabled...";
+	private static final String IGN_PROP_SELFEXT_DISABLED_FMT = "ignoring {} value because self extraction is disabled...";
 
 	private static final class ArchiveSelfExtractor {
 		private ArchiveSelfExtractor() {}
@@ -144,21 +151,28 @@ final class App {
 	}
 
 	private static void setResources(AssignResources res) {
-		dflResDirectory = new ArrayList<>();
+		dflResDirectories = new ArrayList<>();
 		dflResFiles = new ArrayList<>();
 		dflResFiles.add("/placeholder");
 		dflResFiles.add("/placeholder1");
 
 		if(res == AssignResources.ALL) {
-			webResDirectory = new ArrayList<>();
+			webResDirectories = new ArrayList<>();
 			webResFiles = new ArrayList<>();
 
-			webResDirectory.add("WEB-INF");
+			webResDirectories.add("WEB-INF");
+			webResDirectories.add("css");
 
 			webResFiles.add("/WEB-INF/web.xml");
+			webResFiles.add("/css/login.css");
+			webResFiles.add("/account.jsp");
+			webResFiles.add("/changepwd.jsp");
+			webResFiles.add("/chat.jsp");
+			webResFiles.add("/cpoutcome.jsp");
+			webResFiles.add("/forgotpwd.jsp");
 			webResFiles.add("/index.jsp");
+			webResFiles.add("/login.jsp");
 		}
-
 	}
 
 	private static void selfExtract(AssignResources res) 
@@ -167,9 +181,9 @@ final class App {
 
 		LOGGER.info("starting archive self-extraction...");
 
-		ArchiveSelfExtractor.extract(dflRoot, dflResDirectory, dflResFiles);
+		ArchiveSelfExtractor.extract(dflRoot, dflResDirectories, dflResFiles);
 		if(!launchDesktop) {
-			ArchiveSelfExtractor.extract(webRoot, webResDirectory, webResFiles);
+			ArchiveSelfExtractor.extract(webRoot, webResDirectories, webResFiles);
 		}
 	}
 
@@ -254,6 +268,16 @@ final class App {
 						.append("Provide different root directory for defaults resources extraction and usage (default: ")
 						.append(dflRoot == null ? "dflRes must be provided" : dflRoot).append(")").toString());
 
+		opt.addOption(SVCTOKINTVL, true, 
+				new StringBuilder()
+						.append("Set paired service token validity interval (default: ")
+						.append(tokIntvl).append(")").toString());
+		
+		opt.addOption(SVCCHATPORT, true, 
+				new StringBuilder()
+						.append("Set paired chat service port (default: ")
+						.append(chatPort).append(")").toString());
+
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
 		return opt;
@@ -271,10 +295,20 @@ final class App {
 		return true;
 	}
 
+	private static boolean assignChatServicePort(String arg, String value) {
+		chatPort = Integer.parseInt(value);
+		if (!Util.isValidPort(chatPort)) {
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
+			return false;
+		}
+
+		return true;
+	}
+
 	private static boolean assignServerPort(String arg, String value) {
 		port = Integer.parseInt(value);
 		if (!Util.isValidPort(port)) {
-			LOGGER.error("{} number must be within range [0-65535]", arg);
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
 
@@ -284,7 +318,7 @@ final class App {
 	private static boolean assignSmtpPort(String arg, String value) {
 		mailSmtpPort = value;
 		if (!Util.isValidPort(Integer.parseInt(mailSmtpPort))) {
-			LOGGER.error("{} number must be within range [0-65535]", arg);
+			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
 
@@ -293,7 +327,7 @@ final class App {
 
 	private static void assignWebRootOnRes(String arg, String value) {
 		if (selfExtract) {
-			LOGGER.warn("ignoring {} value because self extraction is enabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_ENABLED_FMT, arg);
 		} else {
 			webRoot = new File(value).getAbsolutePath();
 		}
@@ -301,7 +335,7 @@ final class App {
 
 	private static void assignDflRootOnRes(String arg, String value) {
 		if (selfExtract) {
-			LOGGER.warn("ignoring {} value because self extraction is enabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_ENABLED_FMT, arg);
 		} else {
 			dflRoot = new File(value).getAbsolutePath();
 		}
@@ -309,7 +343,7 @@ final class App {
 
 	private static void assignWebRootOnRoot(String arg, String value) {
 		if (!selfExtract) {
-			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_DISABLED_FMT, arg);
 		} else {
 			webRoot = new File(value).getAbsolutePath();
 		}
@@ -317,7 +351,7 @@ final class App {
 
 	private static void assignDflRootOnRoot(String arg, String value) {
 		if (!selfExtract) {
-			LOGGER.warn("ignoring {} property because self extraction is disabled...", arg);
+			LOGGER.warn(IGN_PROP_SELFEXT_DISABLED_FMT, arg);
 		} else {
 			dflRoot = new File(value).getAbsolutePath();
 		}
@@ -363,6 +397,10 @@ final class App {
 			assignDflRootOnRes(argName, opt.getValue());
 		} else if (argName.equals(DFLROOTOPT)) {
 			assignDflRootOnRoot(argName, opt.getValue());
+		} else if(argName.equals(SVCCHATPORT)) {
+			assignChatServicePort(argName, opt.getValue());
+		} else if(argName.equals(SVCTOKINTVL)) {
+			tokIntvl = Integer.parseInt(opt.getValue());
 		}
 
 		return true;
@@ -377,7 +415,7 @@ final class App {
 			LOGGER.info(
 					"Settings for Whork desktop:\n--> dflroot: {}\n--> db: {}\n |--> dbuser:"
 							+ " {}\n |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost:"
-							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
+							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n",
 					dflRoot, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
 					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
 		} else {
@@ -385,10 +423,11 @@ final class App {
 					"{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> dflroot: {}\n"
 							+ "--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n"
 							+ " |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost: {}\n"
-							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}",
+							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n"
+							+ "--> chatport: {}\n--> tokenintvl: {}\n",
 					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, dflRoot,
 					selfExtract, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
-					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, chatPort, tokIntvl);
 		}
 	}
 
@@ -509,28 +548,24 @@ final class App {
 		return true;
 	}
 
-	private static void setMailSender() {
-		LOGGER.info("Setting mail sender...");
-
-		MailSender sender = new MailSender();
-		sender.setFrom(mailFrom);
-		sender.setHost(mailHost);
-		sender.setPassword(mailPwd);
-		sender.setTls(mailTls);
-		sender.setPort(mailSmtpPort);
-
-		Util.Mailer.setMailSender(sender);
+	private static void setInstanceConfigs() {
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, mailFrom);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, mailHost);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILPWD, mailPwd);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, mailTls);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, mailSmtpPort);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
 		LOGGER.info("Checking if we can correctly talk to DB...");
 		LOGGER.info("Driver: {}", Database.DRIVER);
 
-		DatabaseName.setDbName(DBNAME);
-
 		try {
 			Connection conn = Database.getInstance(dbConnect, dbUser, dbPwd).getConnection();
-			conn.setCatalog(DatabaseName.getDbName());
+			conn.setCatalog(DBNAME);
 			LOGGER.info("Yes, we're able to talk to DB!");
 		} catch (ClassNotFoundException e) {
 			exceptionMessageBeforeStart(e, "unable to load driver class, this SHOULD be reported!");
@@ -542,6 +577,23 @@ final class App {
 
 		return true;
 	}
+	
+	private static boolean startChatServiceThatRunAlong() {
+		LOGGER.info("starting chat service...");
+		if (!ChatController.getInstance().startService()) {
+			LOGGER.error("service chat failed to start, aborting now...");
+			return false;
+		}
+
+		return true;
+	}
+
+	private static void stopChatServiceThatRunAlong() {
+		LOGGER.info("stopping chat service...");
+		if (!ChatController.getInstance().stopService()) {
+			LOGGER.warn("service chat failed to stop, ignoring and proceeding anyway...");
+		}
+	}
 
 	private static boolean initialize() {
 		if (!attemptToEstablishDbConnection()) {
@@ -552,9 +604,13 @@ final class App {
 			return false;
 		}
 
-		setMailSender();
+		setInstanceConfigs();
 
-		return true;
+		if(launchDesktop) {
+			return true;
+		}
+
+		return startChatServiceThatRunAlong();
 	}
 
 	private static AssignResources assignResourcesAndLog() {
@@ -609,6 +665,10 @@ final class App {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
+				if(!launchDesktop) {
+					stopChatServiceThatRunAlong();
+				}
+
 				App.cleanup();
 			}
 		});
@@ -629,23 +689,18 @@ final class App {
 
 	/**
 	 * @param args
-	 * 
-	 * Entry point
 	 */
 	public static void main(String[] args) {
 		if (parse(args)) {
 			setRuntimeHooks();
 			if (initialize()) {
+				LOGGER.info("Whork has been initialized!");
 				finalizeLaunch(args);
+			} else {
+				LOGGER.error("unable to initialize Whork, exiting...");
 			}
+		} else {
+			LOGGER.error("unable to parse command line for Whork, exiting...");
 		}
-	}
-
-	/**
-	 * 
-	 * @return default root
-	 */
-	public static String getDflRoot() {
-		return dflRoot;
 	}
 }

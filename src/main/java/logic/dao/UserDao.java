@@ -26,7 +26,7 @@ public final class UserDao {
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
-	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED =
+	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
 
 	private static UserModel getJobSeeker(ResultSet rs) 
@@ -65,6 +65,30 @@ public final class UserDao {
 		return m;
 	}
 
+	private static void stmtSetSpecModelData(
+			CallableStatement stmt, UserModel userModel, boolean isEmployee) 
+				throws SQLException {
+		if (isEmployee) {
+			EmployeeUserModel employeeUserModel = (EmployeeUserModel) userModel;
+
+			stmt.setString(6, employeeUserModel.getCompany().getVat());
+			stmt.setBoolean(7, employeeUserModel.isRecruiter());
+			stmt.setBoolean(8, employeeUserModel.isAdmin());
+			stmt.setString(9, employeeUserModel.getNote());
+		} else {
+			JobSeekerUserModel jobSeekerUserModel = (JobSeekerUserModel) userModel;
+			ComuneModel comuneModel = jobSeekerUserModel.getComune();
+
+			stmt.setString(6, jobSeekerUserModel.getHomeAddress());
+			stmt.setDate(7, new Date(jobSeekerUserModel.getBirthday().getTime()));
+			stmt.setString(8, jobSeekerUserModel.getBiography());
+			stmt.setString(9, comuneModel.getNome());
+			stmt.setString(10, comuneModel.getCap());
+			stmt.setString(11, jobSeekerUserModel.getEmploymentStatus().getStatus());
+			stmt.setString(12, jobSeekerUserModel.getCv());
+		}
+	}
+
 	public static UserModel getUserByCf(String cf) 
 			throws DataAccessException, DataLogicException {
 		try(CallableStatement stmt = CONN.prepareCall(STMT_GETUSER_BYCF)) {
@@ -75,7 +99,7 @@ public final class UserDao {
 
 			do {
 				if(i > 2) {
-					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXEPECTED);
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);
 				}
 				
 				try(ResultSet rs = stmt.getResultSet()) {
@@ -99,15 +123,6 @@ public final class UserDao {
 	public static void registerUserDetails(UserModel userModel) 
 			throws DataAccessException {
 		boolean isEmployee = userModel.isEmployee();
-		EmployeeUserModel employeeUserModel = null;
-		JobSeekerUserModel jobSeekerUserModel = null;
-
-		if(isEmployee) {
-			employeeUserModel = (EmployeeUserModel) userModel;
-		} else {
-			jobSeekerUserModel = (JobSeekerUserModel) userModel;
-		}
-
 		String callStmt = isEmployee ? STMT_REGDET_EMPLOYEE : STMT_REGDET_JOBSEEKER;
 
 		try(CallableStatement stmt = CONN.prepareCall(callStmt)) {
@@ -116,22 +131,9 @@ public final class UserDao {
 			stmt.setString(3, userModel.getSurname());
 			stmt.setString(4, userModel.getPhoneNumber());
 			stmt.setString(5, userModel.getPhoto());
-			if(isEmployee) {
-				stmt.setString(6, employeeUserModel.getCompany().getVat());
-				stmt.setBoolean(7, employeeUserModel.isRecruiter());
-				stmt.setBoolean(8, employeeUserModel.isAdmin());
-				stmt.setString(9, employeeUserModel.getNote());
-			} else {
-				ComuneModel comuneModel = jobSeekerUserModel.getComune();
 
-				stmt.setString(6, jobSeekerUserModel.getHomeAddress());
-				stmt.setDate(7, new Date(jobSeekerUserModel.getBirthday().getTime()));
-				stmt.setString(8, jobSeekerUserModel.getBiography());
-				stmt.setString(9, comuneModel.getNome());
-				stmt.setString(10, comuneModel.getCap());
-				stmt.setString(11, jobSeekerUserModel.getEmploymentStatus().getStatus());
-				stmt.setString(12, jobSeekerUserModel.getCv());
-			}
+			stmtSetSpecModelData(stmt, userModel, isEmployee);
+			
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

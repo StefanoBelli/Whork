@@ -1,9 +1,9 @@
-package test.util;
+package test.util.tuple;
 
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import logic.util.Threeple;
+import logic.util.tuple.Threeple;
 
 public class TestThreeple {
 

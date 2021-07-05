@@ -15,7 +15,7 @@ import logic.exception.DataLogicException;
 import logic.model.PasswordRestoreModel;
 import logic.model.UserAuthModel;
 import logic.model.UserModel;
-import logic.util.Pair;
+import logic.util.tuple.Pair;
 
 public final class UserAuthDao {
 	private UserAuthDao() {}

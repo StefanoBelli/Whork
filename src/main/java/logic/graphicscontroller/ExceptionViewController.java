@@ -38,7 +38,7 @@ public final class ExceptionViewController extends GraphicsController {
 	}
 
 	private String formatMessage(String msg, String simpleName) {
-		if(msg == null || msg.isEmpty()) {
+		if(msg == null || msg.isBlank()) {
 			return simpleName + " left no message :/";
 		}
 		

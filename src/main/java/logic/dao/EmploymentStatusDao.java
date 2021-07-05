@@ -3,7 +3,7 @@ package logic.dao;
 import logic.exception.DataAccessException;
 import logic.Database;
 import logic.model.EmploymentStatusModel;
-import logic.EmploymentsStatusPool;
+import logic.pool.EmploymentsStatusPool;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;

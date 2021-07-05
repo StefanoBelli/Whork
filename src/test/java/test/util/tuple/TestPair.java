@@ -1,9 +1,9 @@
-package test.util;
+package test.util.tuple;
 
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import logic.util.Pair;
+import logic.util.tuple.Pair;
 
 public class TestPair {
 

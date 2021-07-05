@@ -1,4 +1,4 @@
-package logic.util;
+package logic.util.tuple;
 
 public final class Pair<K,V> {
 	private K first;

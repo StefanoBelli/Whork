@@ -14,12 +14,17 @@ public final class ServletUtil {
 		return value != null && value.equals("on");
 	}
 
-	public static void setUserForSession(HttpServletRequest req, UserBean userBean) {
+	public static void setUserForSession(HttpServletRequest req, UserBean userBean, String email) {
 		req.getSession().setAttribute("user", userBean);
+		req.getSession().setAttribute("user-email", email);
 	}
 
 	public static UserBean getUserForSession(HttpServletRequest req) {
 		return (UserBean) req.getSession().getAttribute("user");
+	}
+
+	public static String getUserEmailForSession(HttpServletRequest req) {
+		return (String) req.getSession().getAttribute("user-email");
 	}
 
 	/**
@@ -62,7 +67,7 @@ public final class ServletUtil {
 				return false;
 			}
 
-			ServletUtil.setUserForSession(req, userBean);
+			ServletUtil.setUserForSession(req, userBean, email);
 			return true;
 		}
 

@@ -1,12 +1,12 @@
 package logic.dao;
 
 import logic.exception.DataAccessException;
-import logic.util.Threeple;
+import logic.util.tuple.Threeple;
 import logic.model.ComuneModel;
 import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 import logic.Database;
-import logic.ComuniPool;
+import logic.pool.ComuniPool;
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;

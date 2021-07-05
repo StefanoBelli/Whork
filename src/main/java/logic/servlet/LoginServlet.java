@@ -49,7 +49,7 @@ public final class LoginServlet extends HttpServlet {
 			req.setAttribute("errorMessage", errorMessage);
 			req.getRequestDispatcher("login.jsp").forward(req, resp);
 		} else { /* successful login */
-			ServletUtil.setUserForSession(req, userBean);
+			ServletUtil.setUserForSession(req, userBean, email);
 
 			if(stayLoggedIn) {
 				Cookie ckEmail = new Cookie("email", email);

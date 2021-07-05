@@ -11,7 +11,7 @@ import logic.view.View;
 import logic.view.ViewStack;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.LoginHandler;
-import logic.util.Pair;
+import logic.util.tuple.Pair;
 import logic.util.Util;
 
 import org.json.JSONException;
@@ -20,9 +20,13 @@ import org.json.JSONObject;
 public final class WhorkDesktopLauncher extends Application {
 
 	private View mainView = null;
-	public static final String AUTH_FILE_PATH = 
-		System.getProperty("user.home") + "/.whork_desktop_auth.json";
-	
+
+	static {
+		Util.InstanceConfig.setConf(
+			Util.InstanceConfig.KEY_AUTH_FILE_PATH, 
+			System.getProperty("user.home") + "/.whork_desktop_auth.json");
+	}
+
 	public static void launchApp(String[] args) {
 		launch(args);
 	}
@@ -70,7 +74,7 @@ public final class WhorkDesktopLauncher extends Application {
 	}
 
 	private void attemptLogin(ViewStack stack) {
-		File f = new File(AUTH_FILE_PATH);
+		File f = new File(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_AUTH_FILE_PATH));
 		String jsonAuthCred;
 
 		mainView = new HomeView(stack);

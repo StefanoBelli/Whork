@@ -1,4 +1,4 @@
-package logic.util;
+package logic.util.tuple;
 
 public final class Threeple<F,S,T> {
 	private F first;
