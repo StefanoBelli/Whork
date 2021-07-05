@@ -3,9 +3,7 @@ package logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import logic.controller.service.Service;
-import logic.controller.service.ServiceControllerHolder;
-import logic.controller.service.TokenizedServiceController;
+import logic.controller.ChatController;
 import logic.dao.ComuniDao;
 import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
@@ -13,9 +11,7 @@ import logic.util.Util;
 import logic.dao.EmploymentStatusDao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -62,7 +58,6 @@ final class App {
 	private static final String DFLROOTOPT = "dflRoot";
 	private static final String SVCCHATPORT = "svcChatPort";
 	private static final String SVCTOKINTVL = "svcTokIntvl";
-	private static final String SVCEDITORPORT = "svcEditorPort";
 
 	// Self-extraction properties
 	private static List<String> webResDirectories = null;
@@ -87,8 +82,6 @@ final class App {
 	private static String mailHost = null;
 	private static int chatPort = 45612;
 	private static int tokIntvl = 300;
-	private static int editorPort = 65412;
-	private static Map<String, TokenizedServiceController> pairedServices = new HashMap<>();
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -285,11 +278,6 @@ final class App {
 						.append("Set paired chat service port (default: ")
 						.append(chatPort).append(")").toString());
 
-		opt.addOption(SVCEDITORPORT, true, 
-				new StringBuilder()
-						.append("Set paired editor service port (default: ")
-						.append(editorPort).append(")").toString());
-
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
 		return opt;
@@ -310,16 +298,6 @@ final class App {
 	private static boolean assignChatServicePort(String arg, String value) {
 		chatPort = Integer.parseInt(value);
 		if (!Util.isValidPort(chatPort)) {
-			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
-			return false;
-		}
-
-		return true;
-	}
-
-	private static boolean assignEditorServicePort(String arg, String value) {
-		editorPort = Integer.parseInt(value);
-		if (!Util.isValidPort(editorPort)) {
 			LOGGER.error(PORT_RANGE_ERROR_FMT, arg);
 			return false;
 		}
@@ -423,8 +401,6 @@ final class App {
 			assignChatServicePort(argName, opt.getValue());
 		} else if(argName.equals(SVCTOKINTVL)) {
 			tokIntvl = Integer.parseInt(opt.getValue());
-		} else if(argName.equals(SVCEDITORPORT)) {
-			assignEditorServicePort(argName, opt.getValue());
 		}
 
 		return true;
@@ -581,7 +557,6 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_EDITOR_PORT, editorPort);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
@@ -603,29 +578,20 @@ final class App {
 		return true;
 	}
 	
-	private static boolean startServicesThatRunAlong() {
-		pairedServices.put("chat", ServiceControllerHolder.getService(Service.CHAT));
-		pairedServices.put("editor", ServiceControllerHolder.getService(Service.EDITOR));
-
-		for(final Map.Entry<String, TokenizedServiceController> svc : pairedServices.entrySet()) {
-			String svcName = svc.getKey();
-			LOGGER.info("starting {} service...", svcName);
-			if(!svc.getValue().startService()) {
-				LOGGER.error("service {} failed to start, aborting now...", svcName);
-				return false;
-			}
+	private static boolean startChatServiceThatRunAlong() {
+		LOGGER.info("starting chat service...");
+		if (!ChatController.getInstance().startService()) {
+			LOGGER.error("service chat failed to start, aborting now...");
+			return false;
 		}
 
 		return true;
 	}
 
-	private static void stopServicesThatRunAlong() {
-		for(final Map.Entry<String, TokenizedServiceController> svc : pairedServices.entrySet()) {
-			String svcName = svc.getKey();
-			LOGGER.info("stopping {} service...", svcName);
-			if(!svc.getValue().stopService()) {
-				LOGGER.warn("service {} failed to stop, ignoring and proceeding anyway...", svcName);
-			}
+	private static void stopChatServiceThatRunAlong() {
+		LOGGER.info("stopping chat service...");
+		if (!ChatController.getInstance().stopService()) {
+			LOGGER.warn("service chat failed to stop, ignoring and proceeding anyway...");
 		}
 	}
 
@@ -644,7 +610,7 @@ final class App {
 			return true;
 		}
 
-		return startServicesThatRunAlong();
+		return startChatServiceThatRunAlong();
 	}
 
 	private static AssignResources assignResourcesAndLog() {
@@ -700,7 +666,7 @@ final class App {
 			@Override
 			public void run() {
 				if(!launchDesktop) {
-					stopServicesThatRunAlong();
+					stopChatServiceThatRunAlong();
 				}
 
 				App.cleanup();
