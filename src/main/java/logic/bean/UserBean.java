@@ -2,12 +2,10 @@ package logic.bean;
 
 import java.util.Date;
 import java.io.Serializable;
-import java.io.File;
 import logic.exception.SyntaxException;
 
 public final class UserBean implements Serializable {
 	private static final long serialVersionUID = -3927240997879942530L;
-	private static final String DEFAULT_USER_PHOTO_PATH = "";
 
 	private String cf;
 	private String name;
@@ -18,9 +16,9 @@ public final class UserBean implements Serializable {
 	private boolean admin;
 	private boolean recruiter;
 	private String note;
-	private File photo;
+	private String photo;
 	private Date birthday;
-	private File cv;
+	private String cv;
 	private String homeAddress;
 	private String biography;
 	private ComuneBean comune;
@@ -62,11 +60,7 @@ public final class UserBean implements Serializable {
 		return note;
 	}
 
-	public File getPhoto() {
-		if(photo == null) {
-			return new File(DEFAULT_USER_PHOTO_PATH);
-		}
-		
+	public String getPhoto() {
 		return photo;
 	}
 
@@ -74,7 +68,7 @@ public final class UserBean implements Serializable {
 		return birthday;
 	}
 
-	public File getCv() {
+	public String getCv() {
 		return cv;
 	}
 
@@ -161,7 +155,7 @@ public final class UserBean implements Serializable {
 		this.note = note;
 	}
 
-	public void setPhoto(File photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 
@@ -169,7 +163,7 @@ public final class UserBean implements Serializable {
 		this.birthday = birthday;
 	}
 
-	public void setCv(File cv) {
+	public void setCv(String cv) {
 		this.cv = cv;
 	}
 

@@ -42,18 +42,18 @@ public final class ModelFactory {
 	 * @param cvPath may be null if userBean.isEmployee() = true. Ignored anyway it that's the case
 	 * @return newly-created UserModel object
 	 */
-	public static UserModel buildUserModel(UserBean userBean, String photoPath, String logoPath, String cvPath) {
+	public static UserModel buildUserModel(UserBean userBean) {
 		UserModel userModel;
 		if(userBean.isEmployee()) {
 			userModel = new EmployeeUserModel();
 			EmployeeUserModel employeeUserModel = (EmployeeUserModel) userModel;
 			employeeUserModel.setAdmin(userBean.isAdmin());
 			employeeUserModel.setCf(userBean.getCf());
-			employeeUserModel.setCompany(buildCompanyModel(userBean.getCompany(), logoPath));
+			employeeUserModel.setCompany(buildCompanyModel(userBean.getCompany()));
 			employeeUserModel.setName(userBean.getName());
 			employeeUserModel.setNote(userBean.getNote());
 			employeeUserModel.setPhoneNumber(userBean.getPhoneNumber());
-			employeeUserModel.setPhoto(photoPath);
+			employeeUserModel.setPhoto(userBean.getPhoto());
 			employeeUserModel.setRecruiter(userBean.isRecruiter());
 			employeeUserModel.setSurname(userBean.getSurname());
 		} else {
@@ -63,12 +63,12 @@ public final class ModelFactory {
 			jobSeekerUserModel.setBirthday(userBean.getBirthday());
 			jobSeekerUserModel.setCf(userBean.getCf());
 			jobSeekerUserModel.setComune(buildComuneModel(userBean.getComune()));
-			jobSeekerUserModel.setCv(cvPath);
+			jobSeekerUserModel.setCv(userBean.getCv());
 			jobSeekerUserModel.setEmploymentStatus(buildEmploymentStatusModel(userBean.getEmploymentStatus()));
 			jobSeekerUserModel.setHomeAddress(userBean.getHomeAddress());
 			jobSeekerUserModel.setName(userBean.getName());
 			jobSeekerUserModel.setPhoneNumber(userBean.getPhoneNumber());
-			jobSeekerUserModel.setPhoto(photoPath);
+			jobSeekerUserModel.setPhoto(userBean.getPhoto());
 			jobSeekerUserModel.setSurname(userBean.getSurname());
 		}
 
@@ -106,10 +106,10 @@ public final class ModelFactory {
 		return regioneModel;
 	}
 
-	public static CompanyModel buildCompanyModel(CompanyBean companyBean, String logoPath) {
+	public static CompanyModel buildCompanyModel(CompanyBean companyBean) {
 		CompanyModel companyModel = new CompanyModel();
 		companyModel.setCf(companyBean.getCf());
-		companyModel.setLogo(logoPath);
+		companyModel.setLogo(companyBean.getLogo());
 		companyModel.setSocialReason(companyBean.getSocialReason());
 		companyModel.setVat(companyBean.getVat());
 

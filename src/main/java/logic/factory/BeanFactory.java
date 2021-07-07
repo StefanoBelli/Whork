@@ -1,7 +1,5 @@
 package logic.factory;
 
-import java.io.File;
-
 import logic.exception.SyntaxException;
 import logic.model.UserModel;
 import logic.model.CompanyModel;
@@ -21,20 +19,12 @@ import logic.bean.UserAuthBean;
 
 public final class BeanFactory {
 	private BeanFactory() {}
-
-	private static File getFile(String f) {
-		if(f == null) {
-			return null;
-		}
-
-		return new File(f);
-	}
 	
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 
 			throws SyntaxException {
 		CompanyBean companyBean = new CompanyBean();
 		companyBean.setCf(companyModel.getCf());
-		companyBean.setLogo(getFile(companyModel.getLogo()));
+		companyBean.setLogo(companyModel.getLogo());
 		companyBean.setSocialReason(companyModel.getSocialReason());
 		companyBean.setVat(companyModel.getVat());
 
@@ -79,7 +69,7 @@ public final class BeanFactory {
 		userBean.setSurname(userModel.getSurname());
 		userBean.setPhoneNumber(userModel.getPhoneNumber());
 		userBean.setCf(userModel.getCf());
-		userBean.setPhoto(getFile(userModel.getPhoto()));
+		userBean.setPhoto(userModel.getPhoto());
 		userBean.setEmployee(userModel.isEmployee());
 		
 		if (userBean.isEmployee()) {
@@ -92,7 +82,7 @@ public final class BeanFactory {
 			JobSeekerUserModel m = (JobSeekerUserModel) userModel;
 			userBean.setHomeAddress(m.getHomeAddress());
 			userBean.setPhoneNumber(m.getPhoneNumber());
-			userBean.setCv(getFile(m.getCv()));
+			userBean.setCv(m.getCv());
 			userBean.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean(m.getEmploymentStatus()));
 			userBean.setComune(BeanFactory.buildComuneBean(m.getComune()));
 			userBean.setBiography(m.getBiography());

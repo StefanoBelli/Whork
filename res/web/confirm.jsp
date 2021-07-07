@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%@ page import="logic.controller.RegisterConfirmationController" %>
+<%@ page import="logic.controller.RegisterController" %>
 <%@ page import="logic.exception.InternalException" %>
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
 		<title>Confirm registration - Whork</title>
+		<script src="js/redirect.js"></script>
 	</head>
 	
 	<body>
@@ -25,7 +26,8 @@
 
 			if(isOk) {
 %>
-				Your account is confirmed! <!-- auto redirect to login -->
+				Your account is confirmed! Redirecting you to login page in 3 seconds...
+				<script>redirect("login.jsp", 3000);</script>
 <%
 			}
 		} else {

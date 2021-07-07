@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
@@ -74,6 +76,26 @@ public final class Util {
 
 	public static boolean isValidPort(int port) {
 		return port >= 0 && port <= 65535;
+	}
+
+	public static String simpleHttpGet(String urlStr) 
+			throws IOException {
+		StringBuilder responseBuilder = new StringBuilder();
+
+		URL url = new URL(urlStr);
+		try(
+			BufferedReader in = new BufferedReader(
+									new InputStreamReader(
+										url.openConnection().getInputStream()))
+		) {
+			String inputLine;
+
+			while ((inputLine = in.readLine()) != null) {
+				responseBuilder.append(inputLine);
+			}
+		}
+		
+		return responseBuilder.toString();
 	}
 	
 	public static final class SocketChannels {
