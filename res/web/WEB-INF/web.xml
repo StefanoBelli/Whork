@@ -76,6 +76,11 @@
         <url-pattern>/changePassword</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/confirm.jsp</url-pattern>
+    </filter-mapping>
+
     <!--
         **
         SERVLETS
