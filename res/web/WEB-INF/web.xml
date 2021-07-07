@@ -81,6 +81,21 @@
         <url-pattern>/confirm.jsp</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/reg_jobseeker.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/reg_company.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/completeRegistration</url-pattern>
+    </filter-mapping>
+
     <!--
         **
         SERVLETS

@@ -76,6 +76,18 @@ public final class RegisterController {
 		sendMailWithConfirmationToken(userAuth, confirmToken);
 	}
 
+	public static void confirm(String email, String regToken) 
+			throws InternalException {
+		try {
+			UserAuthDao.confirmRegistration(email, regToken);
+		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
+			throw new InternalException(DATA_ACCESS_ERROR);
+		} catch (DataLogicException e) {
+			throw new InternalException(e.getMessage());
+		}
+	}
+
 	private static boolean isValidVatCode(CompanyModel company) {
 		String completeUrl = ISVATEU_REST_API_ENDPOINT + company.getVat();
 		String jsonResponse;
@@ -109,17 +121,6 @@ public final class RegisterController {
 		} catch(DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
-		}
-	}
-
-	public static void confirm(String email, String regToken) throws InternalException {
-		try {
-			UserAuthDao.confirmRegistration(email, regToken);
-		} catch (DataAccessException e) {
-			Util.exceptionLog(e);
-			throw new InternalException(DATA_ACCESS_ERROR);
-		} catch (DataLogicException e) {
-			throw new InternalException(e.getMessage());
 		}
 	}
 

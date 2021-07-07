@@ -3,6 +3,7 @@
 <html xml:lang="en">
 	<head>
 		<title>Whork - Change my password</title>
+		<script src="js/changepwd.js"></script>
 	</head>
 	
 	<body>
@@ -10,22 +11,15 @@
 	String token = (String) request.getParameter("token");
 	if(token != null) {
 %>
-		<script>
-			function checkPass() {
-				if (document.getElementById('pwd').value ==
-					document.getElementById('pwdConfirm').value) {
-					document.getElementById('submit').disabled = false;
-				} else {
-					document.getElementById('submit').disabled = true;
-				}
-			}
-		</script>
 		<form action="changePassword" method="post">
 			<label for="pwdFirst">Password</label>
-			<input placeholder="New password..." type="password" id="pwd" name="pwdFirst" onchange="checkPass()" required>
+			<input placeholder="New password..." type="password" id="pwd" 
+				name="pwdFirst" 
+				onchange='check_passwd_match();' required>
 
 			<label for="pwdSecond">Retype password</label>
-			<input placeholder="Retype password..." type="password" id="pwdConfirm" onchange="checkPass()" required>
+			<input placeholder="Retype password..." type="password" id="conf_pwd" 
+				onchange='check_passwd_match();' required>
 			
 			<input type="hidden" name="token" value="<%=token%>">
 
