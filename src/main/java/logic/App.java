@@ -26,6 +26,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -196,6 +197,12 @@ final class App {
 
 		tomcat.setPort(port);
 		tomcat.addWebapp(base, webRoot);
+
+		Connector connector = tomcat.getConnector();
+		connector.setProperty("compression", "on");
+		connector.setProperty("compressionMinSize", "1024");
+		connector.setProperty("noCompressionUserAgents", "gozilla, traviata");
+		connector.setProperty("compressableMimeType", "text/html,text/xml, text/css, application/json, application/javascript");
 
 		try {
 			tomcat.start();

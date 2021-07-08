@@ -16,6 +16,7 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 		//perform files upload
 		//just call controller
 		//done. nothing more to do
+		super.doPost(req, resp);
 	}
 	
 }
