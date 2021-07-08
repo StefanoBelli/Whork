@@ -5,7 +5,7 @@
 <html lang="en">
 	<head>
 		<title>Confirm registration - Whork</title>
-		<script src="js/redirect.js"></script>
+		<script src="js/common.js"></script>
 	</head>
 	
 	<body>

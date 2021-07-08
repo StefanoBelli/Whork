@@ -14,12 +14,11 @@
 		<form action="changePassword" method="post">
 			<label for="pwdFirst">Password</label>
 			<input placeholder="New password..." type="password" id="pwd" 
-				name="pwdFirst" 
-				onchange='check_passwd_match();' required>
+				name="pwdFirst" onchange='pwdm();' required>
 
 			<label for="pwdSecond">Retype password</label>
-			<input placeholder="Retype password..." type="password" id="conf_pwd" 
-				onchange='check_passwd_match();' required>
+			<input placeholder="Retype password..." type="password" 
+				id="conf_pwd" onchange='pwdm();' required>
 			
 			<input type="hidden" name="token" value="<%=token%>">
 

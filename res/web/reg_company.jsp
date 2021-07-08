@@ -4,11 +4,13 @@
 	<head>
 		<title>Register as a company - Whork</title>
 		<script src="js/reg_company.js"></script>
+		<script src="js/common.js"></script>
 	</head>
 
 	<body>
 <% %> <!-- root error-->
-		<form action="/completeRegistration" method="post" onsubmit="return check_company_fields();">
+		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
+				onsubmit="return check_company_fields();">
 			<h2>Authentication</h2>
 <% %> <!-- error -->
 			<label for="email">Email</label>
@@ -68,8 +70,10 @@
 			<label for="company_logo">Company logo</label>
 			<input type="file" name="company_logo" accept="image/png, image/jpeg" required>
 
+			<h2>Privacy policy</h2>
+			
 			<input type="checkbox" id="ppolicy" 
-				name="privacy_policy" onchange="toggle_submit();">
+				name="privacy_policy" onchange="reg_toggle_submit();">
 			<label for="privacy_policy">
 			I have read the Customer Privacy Policy and consent to the processing
 			of my personal data for the purposes related to the management of the contractual relationship and
@@ -79,5 +83,7 @@
 			<input disabled type="submit"
 				id="submit" name="submit" value="Confirm">
 		</form>
+		<br/>
+		<p id="error"></p>
 	</body>
 </html>
