@@ -75,14 +75,14 @@ public final class ModelFactory {
 		return userModel;
 	}
 
-	private static EmploymentStatusModel buildEmploymentStatusModel(EmploymentStatusBean employmentStatusBean) {
+	public static EmploymentStatusModel buildEmploymentStatusModel(EmploymentStatusBean employmentStatusBean) {
 		EmploymentStatusModel employmentStatusModel = new EmploymentStatusModel();
 		employmentStatusModel.setStatus(employmentStatusBean.getStatus());
 
 		return employmentStatusModel;
 	}
 
-	private static ComuneModel buildComuneModel(ComuneBean comuneBean) {
+	public static ComuneModel buildComuneModel(ComuneBean comuneBean) {
 		ComuneModel comuneModel = new ComuneModel();
 		comuneModel.setCap(comuneBean.getCap());
 		comuneModel.setNome(comuneBean.getNome());

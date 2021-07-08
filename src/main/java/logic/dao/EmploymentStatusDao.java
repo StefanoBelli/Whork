@@ -3,7 +3,9 @@ package logic.dao;
 import logic.exception.DataAccessException;
 import logic.Database;
 import logic.model.EmploymentStatusModel;
+import logic.bean.EmploymentStatusBean;
 import logic.pool.EmploymentsStatusPool;
+import logic.factory.ModelFactory;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -25,10 +27,10 @@ public final class EmploymentStatusDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				List<EmploymentStatusModel> esl = new ArrayList<>();
+				List<EmploymentStatusBean> esl = new ArrayList<>();
 
 				while (rs.next()) {
-					EmploymentStatusModel m = new EmploymentStatusModel();
+					EmploymentStatusBean m = new EmploymentStatusBean();
 					m.setStatus(rs.getString(1));
 					esl.add(m);
 				}
@@ -42,9 +44,9 @@ public final class EmploymentStatusDao {
 	}
 
 	public static EmploymentStatusModel getEmploymentStatus(String name) {
-		for(final EmploymentStatusModel m : EmploymentsStatusPool.getEmploymentsStatus()) {
+		for(final EmploymentStatusBean m : EmploymentsStatusPool.getEmploymentsStatus()) {
 			if(m.getStatus().equals(name))
-				return m;
+				return ModelFactory.buildEmploymentStatusModel(m);
 		}
 
 		return null;

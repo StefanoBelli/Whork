@@ -3,7 +3,8 @@
 <%@ page import="logic.bean.ProvinciaBean" %>
 <%@ page import="logic.bean.RegioneBean" %>
 <%@ page import="logic.bean.EmploymentStatusBean" %>
-<%@ page import="logic.controller.PoolRetrController" %>
+<%@ page import="logic.pool.EmploymentsStatusPool" %>
+<%@ page import="logic.pool.ComuniPool" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -14,22 +15,31 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href="/resources/demos/style.css">
+		<link rel="stylesheet" href="css/reg_jobseeker.css">
 		<script>
 		$( function() {
-		var ittowns = [
+			var ittowns = [
 <%
-		for(final ComuneBean comune : PoolRetrController.getComuni()) {
-			ProvinciaBean provincia = comune.getProvincia();
-			RegioneBean regione = provincia.getRegione();
+for(final ComuneBean comune : ComuniPool.getComuni()) {
+	ProvinciaBean provincia = comune.getProvincia();
+	RegioneBean regione = provincia.getRegione();
 %>
-			"<%=comune.getNome()%> <%=provincia.getSigla()%> - <%=comune.getCap()%>, <%=regione.getNome()%>",
+				"<%=comune.getNome()%> <%=provincia.getSigla()%> - <%=comune.getCap()%>, <%=regione.getNome()%>",
 <%
-		}
+}
 %>
-		];
-		$("#town").autocomplete({
-		    source: ittowns
-		});
+			];
+			$("#town").autocomplete({
+				minLength: 2,
+		    	source: function (request, response) {
+		    		var matches = $.map(ittowns, function (town) {
+		    			if (town.toUpperCase().indexOf(request.term.toUpperCase()) === 0) {
+		    				return town;
+		    			}
+		    		});
+		    		response(matches);
+		    	}
+			});
 		});
 		</script>
 
@@ -88,7 +98,14 @@
 			<h2>Employment status</h2>
 
 			<select name="employment_status" size="1">
-<% %> <!-- populate -->
+<%
+for(final EmploymentStatusBean status : EmploymentsStatusPool.getEmploymentsStatus()) {
+	String s = status.getStatus();
+%>
+				<option value="<%=s%>"><%=s%></option>
+<%
+}
+%>
 			</select>
 
 <% %> <!-- error -->

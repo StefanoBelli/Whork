@@ -3,10 +3,12 @@ package logic.dao;
 import logic.exception.DataAccessException;
 import logic.util.tuple.Threeple;
 import logic.model.ComuneModel;
-import logic.model.ProvinciaModel;
-import logic.model.RegioneModel;
+import logic.bean.ComuneBean;
+import logic.bean.ProvinciaBean;
+import logic.bean.RegioneBean;
 import logic.Database;
 import logic.pool.ComuniPool;
+import logic.factory.ModelFactory;
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -23,17 +25,17 @@ public final class ComuniDao {
 	private static final String STMT_MAIN_POPULATE_POOL = 
 		"{ call GetComuni() }";
 	
-	private static Threeple<RegioneModel, ProvinciaModel, ComuneModel> 
+	private static Threeple<RegioneBean, ProvinciaBean, ComuneBean> 
 		getModels(String c, String n, String p, String r) {
 		
-		RegioneModel rm = new RegioneModel();
+		RegioneBean rm = new RegioneBean();
 		rm.setNome(r);
 
-		ProvinciaModel pm = new ProvinciaModel();
+		ProvinciaBean pm = new ProvinciaBean();
 		pm.setSigla(p);
 		pm.setRegione(rm);
 
-		ComuneModel cm = new ComuneModel();
+		ComuneBean cm = new ComuneBean();
 		cm.setCap(c);
 		cm.setNome(n);
 		cm.setProvincia(pm);
@@ -41,16 +43,16 @@ public final class ComuniDao {
 		return new Threeple<>(rm, pm, cm);
 	}
 
-	private static void realPopulatePool(List<ComuneModel> sscm, 
-		List<ProvinciaModel> sspm, List<RegioneModel> ssrm) {
+	private static void realPopulatePool(List<ComuneBean> sscm, 
+		List<ProvinciaBean> sspm, List<RegioneBean> ssrm) {
 		
 		ComuniPool.setComuni(sscm);
 		ComuniPool.setProvince(sspm);
 		ComuniPool.setRegioni(ssrm);
 	}
 
-	private static boolean provinceContains(List<ProvinciaModel> p, String sigla) {
-		for(final ProvinciaModel provincia : p) {
+	private static boolean provinceContains(List<ProvinciaBean> p, String sigla) {
+		for(final ProvinciaBean provincia : p) {
 			if(provincia.getSigla().equals(sigla)) {
 				return true;
 			}
@@ -59,8 +61,8 @@ public final class ComuniDao {
 		return false;
 	}
 
-	private static boolean regioniContains(List<RegioneModel> r, String nome) {
-		for(final RegioneModel regione : r) {
+	private static boolean regioniContains(List<RegioneBean> r, String nome) {
+		for(final RegioneBean regione : r) {
 			if(regione.getNome().equals(nome)) {
 				return true;
 			}
@@ -75,17 +77,17 @@ public final class ComuniDao {
 			stmt.execute();
 
 			try(ResultSet rs = stmt.getResultSet()) {
-				List<ComuneModel> c = new ArrayList<>();
-				List<ProvinciaModel> p = new ArrayList<>();
-				List<RegioneModel> r = new ArrayList<>();
+				List<ComuneBean> c = new ArrayList<>();
+				List<ProvinciaBean> p = new ArrayList<>();
+				List<RegioneBean> r = new ArrayList<>();
 				
 				while(rs.next()) {
-					Threeple<RegioneModel, ProvinciaModel, ComuneModel> models = getModels(
+					Threeple<RegioneBean, ProvinciaBean, ComuneBean> models = getModels(
 							rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
 
 					c.add(models.getThird());
-					ProvinciaModel pms = models.getSecond();
-					RegioneModel rms = models.getFirst();
+					ProvinciaBean pms = models.getSecond();
+					RegioneBean rms = models.getFirst();
 
 					if(!provinceContains(p, pms.getSigla())) {
 						p.add(pms);
@@ -105,9 +107,9 @@ public final class ComuniDao {
 	}
 
 	public static ComuneModel getComune(String name, String cap) {
-		for(final ComuneModel m : ComuniPool.getComuni()) {
+		for(final ComuneBean m : ComuniPool.getComuni()) {
 			if(m.getNome().equals(name) && m.getCap().equals(cap))
-				return m;
+				return ModelFactory.buildComuneModel(m);
 		}
 
 		return null;

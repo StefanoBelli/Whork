@@ -96,6 +96,11 @@
         <url-pattern>/completeRegistration</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/register.html</url-pattern>
+    </filter-mapping>
+
     <!--
         **
         SERVLETS

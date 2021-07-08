@@ -1,38 +1,38 @@
 package logic.pool;
 
 import java.util.List;
-import logic.model.ComuneModel;
-import logic.model.ProvinciaModel;
-import logic.model.RegioneModel;
+import logic.bean.ComuneBean;
+import logic.bean.ProvinciaBean;
+import logic.bean.RegioneBean;
 
 public final class ComuniPool {
 	private ComuniPool() {}
 	
-	private static List<ComuneModel> comuni;
-	private static List<ProvinciaModel> province;
-	private static List<RegioneModel> regioni;
+	private static List<ComuneBean> comuni;
+	private static List<ProvinciaBean> province;
+	private static List<RegioneBean> regioni;
 
-	public static void setComuni(List<ComuneModel> comuni) {
+	public static void setComuni(List<ComuneBean> comuni) {
 		ComuniPool.comuni = comuni;
 	}
 
-	public static void setProvince(List<ProvinciaModel> province) {
+	public static void setProvince(List<ProvinciaBean> province) {
 		ComuniPool.province = province;
 	}
 
-	public static void setRegioni(List<RegioneModel> regioni) {
+	public static void setRegioni(List<RegioneBean> regioni) {
 		ComuniPool.regioni = regioni;
 	}
 
-	public static List<ComuneModel> getComuni() {
+	public static List<ComuneBean> getComuni() {
 		return comuni;
 	}
 
-	public static List<ProvinciaModel> getProvince() {
+	public static List<ProvinciaBean> getProvince() {
 		return province;
 	}
 
-	public static List<RegioneModel> getRegioni() {
+	public static List<RegioneBean> getRegioni() {
 		return regioni;
 	}
 }
