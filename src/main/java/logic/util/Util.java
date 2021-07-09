@@ -21,9 +21,12 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -96,6 +99,45 @@ public final class Util {
 		}
 		
 		return responseBuilder.toString();
+	}
+
+	public static Date deriveBirthdayFromFiscalCode(String fiscalCode) 
+			throws IllegalArgumentException {
+		String day = fiscalCode.substring(9, 11); // DAY
+		int dayIntegerLess40 = Integer.parseInt(day) - 40;
+		
+		if (dayIntegerLess40 >= 0) {
+			day = String.valueOf(dayIntegerLess40);
+		}
+		
+		String month; //MONTH
+		switch(fiscalCode.charAt(8)) {
+			case('A'): month = "01"; break;
+			case('B'): month = "02"; break;
+			case('C'): month = "03"; break;
+			case('D'): month = "04"; break;
+			case('E'): month = "05"; break;
+			case('H'): month = "06"; break;
+			case('L'): month = "07"; break;
+			case('M'): month = "08"; break;
+			case('P'): month = "09"; break;
+			case('R'): month = "10"; break;
+			case('S'): month = "11"; break;
+			case('T'): month = "12"; break;
+			default: throw new IllegalArgumentException("Invalid month encoding for fiscal code");
+		}
+
+		String year = fiscalCode.substring(6, 8); //YEAR
+
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
+		dateFormat.setLenient(false);		
+
+		try {
+			return dateFormat.parse(new StringBuilder()
+				.append(day).append("/").append(month).append("/").append(year).toString());
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Unable to parse date for fiscal code");
+		}
 	}
 	
 	public static final class SocketChannels {
