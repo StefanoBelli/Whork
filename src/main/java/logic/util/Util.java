@@ -273,6 +273,7 @@ public final class Util {
 		public static final String KEY_SVC_CHAT_PORT = "any.service.chat_port";
 		public static final String KEY_SVC_INTVL_TOK = "any.service.intvl_tok";
 		public static final String KEY_SVC_EDITOR_PORT = "any.service.editor_port";
+		public static final String KEY_USR_DATA = "any.usr_data";
 
 		private static Map<String, Object> config = new HashMap<>();
 		
