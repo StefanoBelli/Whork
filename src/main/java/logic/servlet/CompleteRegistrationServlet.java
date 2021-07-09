@@ -15,9 +15,11 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		//TODO NOTES:
+		// * get files
 		// * derivate birthday from fiscal code
 		// * recruiter for company is also an admin
 		// * null biography
+		// * null note
 		
 		//common
 		req.getParameter("email");

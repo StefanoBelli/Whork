@@ -45,11 +45,11 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 		</script>
 
 		<body>
-<% %> <!-- root error-->
+<% %> <!-- general error -->
 		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
 			onsubmit='return check_jobseeker_fields();'>
 			<h2>Authentication</h2>
-<% %> <!-- error -->
+<% %> <!-- error existant -->
 			<label for="email">Email</label>
 			<input type="email" name="email" placeholder="Enter your email here ..." 
 					maxlength=255 required>
@@ -69,10 +69,10 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 					placeholder="Enter your name here..." maxlength=45 required>
 
 			<label for="surname">Surname</label>
-			<input type="text" name="surname" 
+			<input type="text" name="surname"
 					placeholder="Enter your surname here..." maxlength=45 required>
 
-<% %> <!-- error -->
+<% %> <!-- error existant -->
 			<label for="fiscal_code">Fiscal code</label>
 			<input type="text" id="my_fc" name="fiscal_code" 
 					placeholder="Enter your fiscal code here..." maxlength=16 minlength=16 required>
@@ -81,7 +81,6 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 			<input type="text" name="phone_number" onkeypress="return is_digit(event);"
 					placeholder="Enter phone number here..." minlength=9 maxlength=10 required>
 
-<% %> <!-- error -->
 			<label for="your_photo">Your profile photo</label>
 			<input type="file" name="your_photo" accept="image/png, image/jpeg">
 
@@ -106,8 +105,7 @@ for(final EmploymentStatusBean status : EmploymentsStatusPool.getEmploymentsStat
 %>
 			</select>
 
-<% %> <!-- error -->
-			<label for="CV">Attach your curriculum</label>
+			<label for="cv">Attach your curriculum</label>
 			<input type="file" name="cv" accept=".pdf" required>
 
 			<h2>Privacy policy</h2>

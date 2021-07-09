@@ -8,11 +8,11 @@
 	</head>
 
 	<body>
-<% %> <!-- root error-->
+<% %> <!-- general error-->
 		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
 				onsubmit="return check_company_fields();">
 			<h2>Authentication</h2>
-<% %> <!-- error -->
+<% %> <!-- error existant -->
 			<label for="email">Email</label>
 			<input type="email" name="email" placeholder="Enter your email here ..." 
 				maxlength=255 required>
@@ -35,7 +35,7 @@
 			<input type="text" name="surname" 
 				placeholder="Enter your surname here..." maxlength=45 required>
 
-<% %> <!-- error -->
+<% %> <!-- error existant -->
 			<label for="fiscal_code">Fiscal code</label>
 			<input type="text" id="my_fc" name="fiscal_code" 
 				placeholder="Enter your fiscal code here..." maxlength=16 minlength=16 required>
@@ -47,7 +47,6 @@
 			<label for="are_you_recruiter">Are you a recruiter for your company?</label>
 			<input type="checkbox" name="are_you_recruiter" checked="true">
 
-<% %> <!-- error -->
 			<label for="your_photo">Your profile photo</label>
 			<input type="file" name="your_photo" accept="image/png, image/jpeg">
 
@@ -67,7 +66,6 @@
 			<input type="text" id="company_fc" name="company_fiscal_code" 
 				placeholder="Enter company fiscal code here ..." maxlength=16 required>
 
-<% %> <!-- error -->
 			<label for="company_logo">Company logo</label>
 			<input type="file" name="company_logo" accept="image/png, image/jpeg" required>
 
