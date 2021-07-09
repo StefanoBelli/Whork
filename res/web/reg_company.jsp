@@ -57,11 +57,12 @@
 			<input type="text" name="business_name" 
 				placeholder="Enter business name here..." maxlength=45 required>
 
+<% %> <!-- error existant / nonvalid -->
 			<label for="vat_number">VAT number</label>
 			<input type="text" name="vat_number" onkeypress="return is_digit(event);"
 				placeholder="Enter company VAT number here ..." maxlength=11 minlength=11 required>
 
-<% %> <!-- error -->
+<% %> <!-- error existant -->
 			<label for="company_fiscal_code">Fiscal code</label>
 			<input type="text" id="company_fc" name="company_fiscal_code" 
 				placeholder="Enter company fiscal code here ..." maxlength=16 required>

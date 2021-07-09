@@ -4,7 +4,7 @@ function check_company_fields() {
 	const my_fc = document.getElementById("my_fc").value;
 	const company_fc = document.getElementById("company_fc").value;
 	const error_field = document.getElementById("error");
-
+	
 	var ok = true;
 
 	error_field.innerHTML = "";

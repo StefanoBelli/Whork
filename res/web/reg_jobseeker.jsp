@@ -79,7 +79,7 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 			
 			<label for="phone_number">Phone number</label>
 			<input type="text" name="phone_number" onkeypress="return is_digit(event);"
-				placeholder="Enter phone number here..." minlength=9 maxlength=10 required>
+					placeholder="Enter phone number here..." minlength=9 maxlength=10 required>
 
 <% %> <!-- error -->
 			<label for="your_photo">Your profile photo</label>

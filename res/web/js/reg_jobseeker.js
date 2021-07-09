@@ -19,21 +19,22 @@ function check_jobseeker_fields() {
 		error_field.innerHTML += "Your fiscal code is not passing our validity test<br/>";
 	}
 
-	var found = false;
-
-	for(let t of ittowns) {
-		if(t == town) {
-			found = true;
-			break;
-		}
-	}
-
-	if(!found) {
+	if(!found_town(town)) {
 		ok = false;
 		error_field.innerHTML += "Could not find your town! Use autocompletion to fullfill<br/>";
 	}
 
 	return ok;
+}
+
+function found_town(town) {
+	for(let t of ittowns) {
+		if(t == town) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 function refresh_maps() {
