@@ -13,3 +13,8 @@ function reg_toggle_submit() {
 	document.getElementById("submit").disabled = 
 		!document.getElementById("ppolicy").checked
 }
+
+function is_digit(e) {
+	const c = e.which ? e.which : e.keyCode;
+	return c < 58 && c > 47;
+}

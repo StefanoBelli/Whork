@@ -13,10 +13,7 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-		//perform files upload
-		//just call controller
-		//done. nothing more to do
-		super.doPost(req, resp);
+		//TODO here
 	}
 	
 }

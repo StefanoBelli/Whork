@@ -9,16 +9,15 @@
 <html lang="en">
 	<head>
 		<title>Register as a job seeker - Whork</title>
-		<script src="js/reg_jobseeker.js"></script>
 		<script src="js/common.js"></script>
+		<script src="js/reg_jobseeker.js"></script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href="/resources/demos/style.css">
 		<link rel="stylesheet" href="css/reg_jobseeker.css">
 		<script>
-		$( function() {
-			var ittowns = [
+		var ittowns = [
 <%
 for(final ComuneBean comune : ComuniPool.getComuni()) {
 	ProvinciaBean provincia = comune.getProvincia();
@@ -28,7 +27,8 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 <%
 }
 %>
-			];
+		];
+		$( function() {
 			$("#town").autocomplete({
 				minLength: 2,
 		    	source: function (request, response) {
@@ -40,28 +40,26 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 		    		response(matches);
 		    	}
 			});
+			refresh_maps();
 		});
 		</script>
 
 		<body>
-
 <% %> <!-- root error-->
-		<h2>Authentication</h2>
-
-<% %> <!-- error -->
 		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
-			onsubmit="return check_jobseeker_fields(ittowns);">
-
+			onsubmit='return check_jobseeker_fields();'>
+			<h2>Authentication</h2>
+<% %> <!-- error -->
 			<label for="email">Email</label>
 			<input type="email" name="email" placeholder="Enter your email here ..." 
 					maxlength=255 required>
 
 			<label for="password">Password</label>
-			<input type="password" id="pwd" name="password" 
+			<input type="password" id="pwd" name="pwd" 
 					placeholder="Enter your password here ..." required>
 
 			<label for="confirm_password">Confirm your password</label>
-			<input type="password" id="conf_pwd" name="confirm_password" 
+			<input type="password" id="conf_pwd" name="conf_pwd" 
 					placeholder="Confirm your password here..." required>
 
 			<h2>About you</h2>
@@ -80,20 +78,20 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 					placeholder="Enter your fiscal code here..." maxlength=16 minlength=16 required>
 			
 			<label for="phone_number">Phone number</label>
-			<input type="text" name="phone_number" 
+			<input type="text" name="phone_number" onkeypress="return is_digit(event);"
 				placeholder="Enter phone number here..." minlength=9 maxlength=10 required>
 
 <% %> <!-- error -->
 			<label for="your_photo">Your profile photo</label>
 			<input type="file" name="your_photo" accept="image/png, image/jpeg">
 
-			<label for="address">Address</label>
-			<input type="text" name="address" 
-				placeholder="Enter your address here..." maxlength=45 required>
-
 			<label for="town">Town</label>
 			<input type="text" id="town" name="town" 
-				placeholder="Enter your town here..." maxlength=34 required>
+				placeholder="Enter your town here..." maxlength=34 required onchange='refresh_maps();''>
+
+			<label for="address">Address</label>
+			<input type="text" name="address" id="address"
+				placeholder="Enter your address here..." maxlength=45 required oninput='refresh_maps();'>
 
 			<h2>Employment status</h2>
 
@@ -121,6 +119,11 @@ for(final EmploymentStatusBean status : EmploymentsStatusPool.getEmploymentsStat
 
 			<input type="submit" id="submit" name="submit" value="Confirm" disabled>
 		</form>
+
+		<iframe title="whereareyou" width="300" height="300" style="border:0" loading="lazy" allowfullscreen id="maps"
+			src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=Italy">
+		</iframe>
+
 		<br/>
 		<p id="error"></p>
 	</body>

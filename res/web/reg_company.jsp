@@ -18,11 +18,11 @@
 				maxlength=255 required>
 			
 			<label for="password">Password</label>
-			<input type="password" id="pwd" name="password" 
+			<input type="password" id="pwd" name="pwd" 
 				placeholder="Enter your password here ..." required>
 			
 			<label for="confirm_password">Confirm your password</label>
-			<input type="password" id="conf_pwd" name="confirm_password" 
+			<input type="password" id="conf_pwd" name="conf_pwd" 
 				placeholder="Confirm your password here..." required>
 
 			<h2>About you</h2>
@@ -41,7 +41,7 @@
 				placeholder="Enter your fiscal code here..." maxlength=16 minlength=16 required>
 			
 			<label for="phone_number">Phone number</label>
-			<input type="text" name="phone_number" 
+			<input type="text" name="phone_number" onkeypress="return is_digit(event);"
 				placeholder="Enter phone number here..." minlength=9 maxlength=10 required>
 
 			<label for="are_you_recruiter">Are you a recruiter for your company?</label>
@@ -58,7 +58,7 @@
 				placeholder="Enter business name here..." maxlength=45 required>
 
 			<label for="vat_number">VAT number</label>
-			<input type="text" name="vat_number"
+			<input type="text" name="vat_number" onkeypress="return is_digit(event);"
 				placeholder="Enter company VAT number here ..." maxlength=11 minlength=11 required>
 
 <% %> <!-- error -->
@@ -83,6 +83,7 @@
 			<input disabled type="submit"
 				id="submit" name="submit" value="Confirm">
 		</form>
+
 		<br/>
 		<p id="error"></p>
 	</body>
