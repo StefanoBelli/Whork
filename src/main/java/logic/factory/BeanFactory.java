@@ -19,6 +19,17 @@ import logic.bean.UserAuthBean;
 
 public final class BeanFactory {
 	private BeanFactory() {}
+
+	public static CompanyBean buildCompanyBean(String cf, String logo, String socialReason, String vat) 
+			throws SyntaxException {
+		CompanyBean companyBean = new CompanyBean();
+		companyBean.setCf(cf);
+		companyBean.setLogo(logo);
+		companyBean.setSocialReason(socialReason);
+		companyBean.setVat(vat);
+
+		return companyBean;
+	}
 	
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 
 			throws SyntaxException {
@@ -54,11 +65,45 @@ public final class BeanFactory {
 
 		return comuneBean;
 	}
+
+	/**
+	 * Builds a ComuneBean object from a correctly-formatted string "parsed"
+	 * @param parsed - str like "Nome del comune Italiano PR - 00000, Regione"
+	 * @return newly-created ComuneBean object
+	 */
+	public static ComuneBean buildComuneBean(String parsed) {
+		int lastSpc = parsed.lastIndexOf(' ');
+		String regioneName = parsed.substring(lastSpc + 1, parsed.length());
+		String cap = parsed.substring(lastSpc - 6, lastSpc - 1);
+		String provinciaSigla = parsed.substring(lastSpc - 11, lastSpc - 9);
+		String comuneName = parsed.substring(0, lastSpc - 12);
+
+		RegioneBean regioneBean = new RegioneBean();
+		regioneBean.setNome(regioneName);
+
+		ProvinciaBean provinciaBean = new ProvinciaBean();
+		provinciaBean.setSigla(provinciaSigla);
+		provinciaBean.setRegione(regioneBean);
+
+		ComuneBean comuneBean = new ComuneBean();
+		comuneBean.setNome(comuneName);
+		comuneBean.setCap(cap);
+		comuneBean.setProvincia(provinciaBean);
+
+		return comuneBean;
+	}
 	
 	public static EmploymentStatusBean buildEmploymentStatusBean(
 			EmploymentStatusModel employmentStatusModel) {
 		EmploymentStatusBean employmentStatusBean = new EmploymentStatusBean();
 		employmentStatusBean.setStatus(employmentStatusModel.getStatus());
+
+		return employmentStatusBean;
+	}
+
+	public static EmploymentStatusBean buildEmploymentStatusBean(String status) {
+		EmploymentStatusBean employmentStatusBean = new EmploymentStatusBean();
+		employmentStatusBean.setStatus(status);
 
 		return employmentStatusBean;
 	}
