@@ -86,22 +86,24 @@ public final class ServletUtil {
 		return false;
 	}
 
-	public static void saveUserFile(HttpServletRequest req, String fieldName, String userCf) 
+	public static String saveUserFile(HttpServletRequest req, String fieldName, String userCf) 
 			throws IOException, ServletException {
 		Part filePart = req.getPart(fieldName);
-		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+		if(filePart == null) {
+			return null;
+		}
 		
-		StringBuilder completeFilenameBuilder = new StringBuilder();
-		completeFilenameBuilder
-			.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA))
-			.append("/")
-			.append(userCf)
-			.append("_-_")
+		String userChosenFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+		String fileName = new StringBuilder().append(userCf).append("_-_")
 			.append(Long.toString(new Date().getTime()))
-			.append("_-_")
-			.append(fileName);
+			.append("_-_").append(userChosenFileName).toString();
+
+		String completeFileName = new StringBuilder()
+			.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA))
+			.append("/").append(fileName).toString();
 			
-		File newSubmittedFile = new File(completeFilenameBuilder.toString());
+		File newSubmittedFile = new File(completeFileName);
 		if (newSubmittedFile.createNewFile()) {
 			try (InputStream istream = new BufferedInputStream(filePart.getInputStream())) {
 				try (OutputStream ostream = new BufferedOutputStream(new FileOutputStream(newSubmittedFile))) {
@@ -111,5 +113,7 @@ public final class ServletUtil {
 		} else {
 			throw new IOException();
 		}
+
+		return fileName;
 	}
 }
