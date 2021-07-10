@@ -98,7 +98,12 @@
 
     <filter-mapping>
         <filter-name>AlreadyLoggedInFilter</filter-name>
-        <url-pattern>/register.html</url-pattern>
+        <url-pattern>/register.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/success.jsp</url-pattern>
     </filter-mapping>
 
     <!--

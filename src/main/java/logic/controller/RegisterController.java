@@ -24,6 +24,7 @@ import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.model.EmployeeUserModel;
 import logic.util.Util;
+import logic.util.tuple.Pair;
 
 public final class RegisterController {
 	private RegisterController(){}
@@ -37,12 +38,12 @@ public final class RegisterController {
 	private static final String ISVATEU_REST_API_ENDPOINT =
 		"https://www.isvat.eu/live/IT/";
 
-	public static void register(UserBean userBean, UserAuthBean userAuthBean) 
+	public static void register(Pair<UserBean, UserAuthBean> pairedBeans) 
 			throws InternalException, InvalidVatCodeException, 
 				AlreadyExistantCompanyException, AlreadyExistantUserException {
 
-		UserModel user = ModelFactory.buildUserModel(userBean); 
-		UserAuthModel userAuth = ModelFactory.buildUserAuthModel(userAuthBean);
+		UserModel user = ModelFactory.buildUserModel(pairedBeans.getFirst()); 
+		UserAuthModel userAuth = ModelFactory.buildUserAuthModel(pairedBeans.getSecond());
 		String confirmToken = Util.generateToken();
 		CompanyModel company = null;
 

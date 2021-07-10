@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -11,6 +12,7 @@
 	</head>
 	
 	<body>
+<% %> <!-- internal error -->
 		<div>
 			<div class="rectangle">
 				<h1 id="signup_title">Sign Up</h1>

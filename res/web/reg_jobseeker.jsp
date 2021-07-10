@@ -49,7 +49,6 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
 			onsubmit='return check_jobseeker_fields();'>
 			<h2>Authentication</h2>
-<% %> <!-- error existant -->
 			<label for="email">Email</label>
 			<input type="email" name="email" placeholder="Enter your email here ..." 
 					maxlength=255 required>
@@ -72,7 +71,6 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 			<input type="text" name="surname"
 					placeholder="Enter your surname here..." maxlength=45 required>
 
-<% %> <!-- error existant -->
 			<label for="fiscal_code">Fiscal code</label>
 			<input type="text" id="my_fc" name="fiscal_code" 
 					placeholder="Enter your fiscal code here..." maxlength=16 minlength=16 required>
