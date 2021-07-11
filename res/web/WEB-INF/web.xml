@@ -76,6 +76,36 @@
         <url-pattern>/changePassword</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/confirm.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/reg_jobseeker.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/reg_company.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/completeRegistration</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/register.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AlreadyLoggedInFilter</filter-name>
+        <url-pattern>/success.jsp</url-pattern>
+    </filter-mapping>
+
     <!--
         **
         SERVLETS
@@ -100,6 +130,11 @@
     <servlet>
         <servlet-name>ChangePasswordServlet</servlet-name>
         <servlet-class>logic.servlet.ChangePasswordServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CompleteRegistrationServlet</servlet-name>
+        <servlet-class>logic.servlet.CompleteRegistrationServlet</servlet-class>
     </servlet>
 
     <!--
@@ -128,4 +163,8 @@
         <url-pattern>/changePassword</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>CompleteRegistrationServlet</servlet-name>
+        <url-pattern>/completeRegistration</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -1,7 +1,6 @@
 package logic.bean;
 
 import java.io.Serializable;
-import java.io.File;
 import logic.exception.SyntaxException;
 
 public final class CompanyBean implements Serializable {
@@ -10,7 +9,7 @@ public final class CompanyBean implements Serializable {
 	private String vat;
 	private String socialReason;
 	private String cf;
-	private File logo;
+	private String logo;
 
 	public String getVat() {
 		return vat;
@@ -24,7 +23,7 @@ public final class CompanyBean implements Serializable {
 		return cf;
 	}
 
-	public File getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 
@@ -55,7 +54,7 @@ public final class CompanyBean implements Serializable {
 		this.cf = cf;
 	}
 
-	public void setLogo(File logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 }

@@ -26,6 +26,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -56,8 +57,9 @@ final class App {
 	private static final String MAILHOSTOPT = "mailHost";
 	private static final String DFLRESOPT = "dflRes";
 	private static final String DFLROOTOPT = "dflRoot";
-	private static final String SVCCHATPORT = "svcChatPort";
-	private static final String SVCTOKINTVL = "svcTokIntvl";
+	private static final String SVCCHATPORTOPT = "svcChatPort";
+	private static final String SVCTOKINTVLOPT = "svcTokIntvl";
+	private static final String USRDATAOPT = "usrData";
 
 	// Self-extraction properties
 	private static List<String> webResDirectories = null;
@@ -75,13 +77,14 @@ final class App {
 	private static String dbUser = null;
 	private static String dbPwd = null;
 	private static boolean launchDesktop = false;
-	private static String mailTls = "true";
+	private static boolean mailTls = true;
 	private static String mailSmtpPort = "587";
 	private static String mailFrom = null;
 	private static String mailPwd = null;
 	private static String mailHost = null;
 	private static int chatPort = 45612;
 	private static int tokIntvl = 300;
+	private static String usrData = "whork_usrdata";
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -197,6 +200,12 @@ final class App {
 		tomcat.setPort(port);
 		tomcat.addWebapp(base, webRoot);
 
+		Connector connector = tomcat.getConnector();
+		connector.setProperty("compression", "on");
+		connector.setProperty("compressionMinSize", "1024");
+		connector.setProperty("noCompressionUserAgents", "gozilla, traviata");
+		connector.setProperty("compressableMimeType", "text/html,text/xml, text/css, application/json, application/javascript");
+
 		try {
 			tomcat.start();
 		} catch (LifecycleException e) {
@@ -268,15 +277,20 @@ final class App {
 						.append("Provide different root directory for defaults resources extraction and usage (default: ")
 						.append(dflRoot == null ? "dflRes must be provided" : dflRoot).append(")").toString());
 
-		opt.addOption(SVCTOKINTVL, true, 
+		opt.addOption(SVCTOKINTVLOPT, true, 
 				new StringBuilder()
 						.append("Set paired service token validity interval (default: ")
 						.append(tokIntvl).append(")").toString());
 		
-		opt.addOption(SVCCHATPORT, true, 
+		opt.addOption(SVCCHATPORTOPT, true, 
 				new StringBuilder()
 						.append("Set paired chat service port (default: ")
 						.append(chatPort).append(")").toString());
+
+		opt.addOption(USRDATAOPT, true, 
+				new StringBuilder()
+						.append("Set user data directory (default: ")
+						.append(usrData).append(")").toString());
 
 		opt.addOption(HELPOPT, false, "Print this help and immediately exit");
 
@@ -385,7 +399,7 @@ final class App {
 		} else if (argName.equals(MAILHOSTOPT)) {
 			mailHost = opt.getValue();
 		} else if (argName.equals(MAILNOTLSOPT)) {
-			mailTls = "false";
+			mailTls = false;
 		} else if (argName.equals(MAILSMTPPORTOPT) && 
 				!assignSmtpPort(argName, opt.getValue())) {
 			return false;
@@ -397,10 +411,12 @@ final class App {
 			assignDflRootOnRes(argName, opt.getValue());
 		} else if (argName.equals(DFLROOTOPT)) {
 			assignDflRootOnRoot(argName, opt.getValue());
-		} else if(argName.equals(SVCCHATPORT)) {
+		} else if(argName.equals(SVCCHATPORTOPT)) {
 			assignChatServicePort(argName, opt.getValue());
-		} else if(argName.equals(SVCTOKINTVL)) {
+		} else if(argName.equals(SVCTOKINTVLOPT)) {
 			tokIntvl = Integer.parseInt(opt.getValue());
+		} else if(argName.equals(USRDATAOPT)) {
+			usrData = opt.getValue();
 		}
 
 		return true;
@@ -415,19 +431,19 @@ final class App {
 			LOGGER.info(
 					"Settings for Whork desktop:\n--> dflroot: {}\n--> db: {}\n |--> dbuser:"
 							+ " {}\n |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost:"
-							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n",
+							+ " {}\n--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n--> usrdata: {}\n",
 					dflRoot, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
-					getPasswordBanner(mailPwd), mailTls, mailSmtpPort);
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, usrData);
 		} else {
 			LOGGER.info(
 					"{}:\n--> port: {}\n--> base: {}\n--> webroot: {}\n--> dflroot: {}\n"
 							+ "--> self-extract? {}\n--> db: {}\n |--> dbuser: {}\n"
 							+ " |--> dbpwd: {}\n--> mailfrom: {}\n--> mailhost: {}\n"
 							+ "--> mailpwd: {}\n--> mailtls: {}\n--> smtpport: {}\n"
-							+ "--> chatport: {}\n--> tokenintvl: {}\n",
+							+ "--> chatport: {}\n--> tokenintvl: {}\n--> usrdata: {}\n",
 					"Settings for Whork webapp", port, base.isEmpty() ? "/" : base, webRoot, dflRoot,
 					selfExtract, dbConnect, dbUser, getPasswordBanner(dbPwd), mailFrom, mailHost, 
-					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, chatPort, tokIntvl);
+					getPasswordBanner(mailPwd), mailTls, mailSmtpPort, chatPort, tokIntvl, usrData);
 		}
 	}
 
@@ -557,6 +573,7 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_DFL_ROOT, dflRoot);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_USR_DATA, usrData);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {
@@ -606,11 +623,21 @@ final class App {
 
 		setInstanceConfigs();
 
+		createUserDataDirectoryIfNonExistant();
+
 		if(launchDesktop) {
 			return true;
 		}
 
 		return startChatServiceThatRunAlong();
+	}
+
+	private static void createUserDataDirectoryIfNonExistant() {
+		File usrDataDir = new File(usrData);
+		if (!usrDataDir.exists()){
+			LOGGER.info("creating user data directory...");
+			usrDataDir.mkdir();
+		}
 	}
 
 	private static AssignResources assignResourcesAndLog() {

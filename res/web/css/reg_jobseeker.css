@@ -1,0 +1,16 @@
+.ui-autocomplete {
+	max-height: 300px;
+  	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+* html .ui-autocomplete {
+	height: 300px;
+}
+
+select {
+	text-overflow: ellipsis;
+	width: 250px;
+	display: block;
+	white-space:nowrap;
+}

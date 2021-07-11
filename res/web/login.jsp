@@ -42,6 +42,9 @@
 				<br/><br/>
 				<input type="submit" value="Login">
 			</form>
+			<form action="/register.jsp" method="get">
+				<input type="submit" value="I don't have an account">
+			</form>
 		</div>
 
 		<div id="errors">

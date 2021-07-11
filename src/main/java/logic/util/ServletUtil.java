@@ -1,7 +1,19 @@
 package logic.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Paths;
+import java.util.Date;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import logic.bean.UserBean;
 import logic.controller.LoginController;
@@ -72,5 +84,39 @@ public final class ServletUtil {
 		}
 
 		return false;
+	}
+
+	public static String saveUserFile(HttpServletRequest req, String fieldName, String userCf) 
+			throws IOException, ServletException {
+		Part filePart = req.getPart(fieldName);
+		if(filePart == null) {
+			return null;
+		}
+		
+		String userChosenFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+		if(userChosenFileName.isBlank()) {
+			return null;
+		}
+
+		String fileName = new StringBuilder().append(userCf).append("_-_")
+			.append(Long.toString(new Date().getTime()))
+			.append("_-_").append(userChosenFileName).toString();
+
+		String completeFileName = new StringBuilder()
+			.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA))
+			.append("/").append(fileName).toString();
+			
+		File newSubmittedFile = new File(completeFileName);
+		if (newSubmittedFile.createNewFile()) {
+			try (InputStream istream = new BufferedInputStream(filePart.getInputStream())) {
+				try (OutputStream ostream = new BufferedOutputStream(new FileOutputStream(newSubmittedFile))) {
+					ostream.write(istream.readAllBytes());
+				}
+			}
+		} else {
+			throw new IOException();
+		}
+
+		return fileName;
 	}
 }
