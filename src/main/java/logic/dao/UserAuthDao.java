@@ -24,7 +24,7 @@ public final class UserAuthDao {
 		Database.getInstance().getConnection();
 
 	private static final String STMT_GETUSERCF_AND_PWD_BYEMAIL = 
-		"{ call GetUserCfAndPwdByEmail(?) }";
+		"{ call GetUserCfAndPwdByEmail(?,?) }";
 	private static final String STMT_CONFIRM_REG = 
 		"{ call ConfirmRegistration(?,?) }";
 	private static final String STMT_REGAUTH_JOBSEEKER = 
@@ -71,10 +71,21 @@ public final class UserAuthDao {
 		return target;
 	}
 
-	public static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmail(String email)
+	public static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmail(String email) 
+			throws DataAccessException, DataLogicException {
+		return getUserCfAndBcryPwdByEmail(email, false);
+	}
+
+	public static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmailIgnRegPending(String email) 
+			throws DataAccessException, DataLogicException {
+		return getUserCfAndBcryPwdByEmail(email, true);
+	}
+
+	private static Pair<String, ByteArrayInputStream> getUserCfAndBcryPwdByEmail(String email, boolean ignRegPending)
 			throws DataAccessException, DataLogicException {
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GETUSERCF_AND_PWD_BYEMAIL)) {
 			stmt.setString(1, email);
+			stmt.setBoolean(2, ignRegPending);
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {

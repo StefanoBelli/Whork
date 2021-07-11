@@ -34,7 +34,7 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 			RegisterController.register(beans);
 		} catch(AlreadyExistantCompanyException e) {
 			descriptiveError = 
-				"VAT number is already registered for this company!";
+				"VAT number, fiscal code or name (or some/all three of them) is already registered for this company!";
 		} catch(AlreadyExistantUserException e) {
 			descriptiveError = 
 				"An email address and/or fiscal code is already registered for this user!";

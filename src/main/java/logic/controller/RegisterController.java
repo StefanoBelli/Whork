@@ -106,22 +106,27 @@ public final class RegisterController {
 		return new JSONObject(jsonResponse).getBoolean("valid");
 	}
 
-	private static boolean alreadyExistantUser(UserModel user, UserAuthModel userAuth) 
+	private static boolean alreadyExistantUser(UserModel user, UserAuthModel userAuth)
 			throws InternalException {
 		try {
 			boolean userDetailsExist = UserDao.getUserByCf(user.getCf()) != null;
-			boolean userEmailExists = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuth.getEmail()) != null;
-			return userDetailsExist || userEmailExists;
+			boolean userEmailExists = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending(userAuth.getEmail()) != null;
+
+			return userEmailExists || userDetailsExist;
 		} catch(DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
 
-	private static boolean alreadyExistantCompany(CompanyModel company) 
+	private static boolean alreadyExistantCompany(CompanyModel company)
 			throws InternalException {
 		try {
-			return CompanyDao.getCompanyByVat(company.getVat()) != null;
+			boolean companyVatExists = CompanyDao.getCompanyByVat(company.getVat()) != null;
+			boolean companyFcExists = CompanyDao.getCompanyByCf(company.getCf()) != null;
+			boolean companyNameExists = CompanyDao.getCompanyByName(company.getSocialReason()) != null;
+
+			return companyNameExists || companyVatExists || companyFcExists;
 		} catch(DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
