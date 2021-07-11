@@ -102,14 +102,15 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 		user.setPhoto(ServletUtil.saveUserFile(req, "your_photo", userCf));
 		user.setPhoneNumber(req.getParameter("phone_number"));
 
-		String areYouRecruiter = req.getParameter("are_you_recruiter");
-		if(areYouRecruiter != null) {
+		String businessName = req.getParameter("business_name");
+		if(businessName != null) {
 			user.setAdmin(true);
-			user.setRecruiter(ServletUtil.checkboxToBoolean(areYouRecruiter));
+			user.setEmployee(true);
+			user.setRecruiter(ServletUtil.checkboxToBoolean(req.getParameter("are_you_recruiter")));
 			user.setCompany(
 				BeanFactory.buildCompanyBean(
 					req.getParameter("company_fiscal_code"), ServletUtil.saveUserFile(req, "company_logo", userCf),
-					req.getParameter("business_name"), req.getParameter("vat_number")));
+					businessName, req.getParameter("vat_number")));
 			user.setNote(null);
 		} else {
 			user.setBiography(null);
@@ -121,7 +122,7 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 		}
 		
 		UserAuthBean userAuth = 
-			BeanFactory.buildUserAuthBean(req.getParameter("email"), req.getParameter("password"));
+			BeanFactory.buildUserAuthBean(req.getParameter("email"), req.getParameter("pwd"));
 
 		return new Pair<>(user, userAuth);
 	}

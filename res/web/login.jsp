@@ -42,7 +42,7 @@
 				<br/><br/>
 				<input type="submit" value="Login">
 			</form>
-			<form action="/register.html" method="get">
+			<form action="/register.jsp" method="get">
 				<input type="submit" value="I don't have an account">
 			</form>
 		</div>

@@ -94,6 +94,9 @@ public final class ServletUtil {
 		}
 		
 		String userChosenFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+		if(userChosenFileName.isBlank()) {
+			return null;
+		}
 
 		String fileName = new StringBuilder().append(userCf).append("_-_")
 			.append(Long.toString(new Date().getTime()))

@@ -12,7 +12,14 @@
 	</head>
 	
 	<body>
-<% %> <!-- internal error -->
+<%
+String descError = (String) request.getAttribute("descriptive_error");
+if(descError != null) {
+%>
+		<h3><%=descError%></h3>
+<%
+}
+%>
 		<div>
 			<div class="rectangle">
 				<h1 id="signup_title">Sign Up</h1>

@@ -1,5 +1,6 @@
 package logic.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -95,6 +96,8 @@ public final class RegisterController {
 
 		try {
 			jsonResponse = Util.simpleHttpGet(completeUrl);
+		} catch(FileNotFoundException e) {
+			return false;
 		} catch (IOException e) {
 			Util.exceptionLog(e);
 			return false;

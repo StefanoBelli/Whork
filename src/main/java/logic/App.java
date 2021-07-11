@@ -77,7 +77,7 @@ final class App {
 	private static String dbUser = null;
 	private static String dbPwd = null;
 	private static boolean launchDesktop = false;
-	private static String mailTls = "true";
+	private static boolean mailTls = true;
 	private static String mailSmtpPort = "587";
 	private static String mailFrom = null;
 	private static String mailPwd = null;
@@ -399,7 +399,7 @@ final class App {
 		} else if (argName.equals(MAILHOSTOPT)) {
 			mailHost = opt.getValue();
 		} else if (argName.equals(MAILNOTLSOPT)) {
-			mailTls = "false";
+			mailTls = false;
 		} else if (argName.equals(MAILSMTPPORTOPT) && 
 				!assignSmtpPort(argName, opt.getValue())) {
 			return false;

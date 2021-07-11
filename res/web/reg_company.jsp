@@ -8,7 +8,14 @@
 	</head>
 
 	<body>
-<% %> <!-- general error-->
+<%
+String descError = (String) request.getAttribute("descriptive_error");
+if(descError != null) {
+%>
+		<h3><%=descError%></h3>
+<%
+}
+%>
 		<form enctype="multipart/form-data" action="/completeRegistration" method="post"
 				onsubmit="return check_company_fields();">
 			<h2>Authentication</h2>

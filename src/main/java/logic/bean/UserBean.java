@@ -148,7 +148,7 @@ public final class UserBean implements Serializable {
 
 	public void setNote(String note) 
 			throws SyntaxException {
-		if(note.length() > 45) {
+		if(note != null && note.length() > 45) {
 			throw new SyntaxException("Note length cannot be greater than 45");
 		}
 
@@ -178,7 +178,7 @@ public final class UserBean implements Serializable {
 
 	public void setBiography(String biography) 
 			throws SyntaxException {
-		if(homeAddress.length() > 250) {
+		if(biography != null && biography.length() > 250) {
 			throw new SyntaxException("Biography length cannot be greater than 250");
 		}
 		this.biography = biography;

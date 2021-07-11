@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ page import="logic.controller.RegisterController" %>
 <%@ page import="logic.exception.InternalException" %>
+<%
+String token = (String) request.getParameter("token");
+String email = (String) request.getParameter("email");
+if(token != null && email != null) {
+%>
 <!DOCTYPE HTML> <!-- TODO use same approach as success.jsp -->
 <html lang="en">
 	<head>
@@ -13,26 +18,19 @@
 	
 	<body>
 <%
-		String token = (String) request.getParameter("token");
-		String email = (String) request.getParameter("email");
-
-		if(token != null && email != null) {
-			try {
-				RegisterConfirmationController.confirm(email, token);
+	try {
+		RegisterController.confirm(email, token);
 %>
 		Your account is confirmed! Redirecting you to login page in 3 seconds...
 <%
-			} catch(InternalException e) {
+	} catch(InternalException e) {
 %>
-		Error: <%=e.getMessage()%>
+		Error: <%=e.getMessage()%> Redirecting you to login page in 3 seconds...
 <%
-			}
-		} else {
+	}
 %>
-		Error: missing one or both of needed parameters: token, email
-<%
-		}
-%>
-
 	</body>
 </html>
+<%
+}
+%>
