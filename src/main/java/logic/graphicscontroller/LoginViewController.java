@@ -18,6 +18,7 @@ import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
 import logic.view.PasswordRecoveryView;
+import logic.view.RegisterView;
 import logic.view.ViewStack;
 
 public final class LoginViewController extends GraphicsController {
@@ -42,6 +43,7 @@ public final class LoginViewController extends GraphicsController {
 		stayLoggedInBox = (CheckBox) n[4];
 		emailField.textProperty().addListener(new HandleChangedTextFields());
 		passwordField.textProperty().addListener(new HandleChangedTextFields());
+		((Button)n[5]).setOnMouseClicked(new HandleRegisterRequest());
 	}
 	
 	@Override
@@ -115,6 +117,18 @@ public final class LoginViewController extends GraphicsController {
 				passwordField.getText().isBlank() ||
 				email.length() > 255 ||
 				!Util.EMAIL_PATTERN.matcher(email).matches());
+		}
+	}
+
+	private static final class HandleRegisterRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {
+			Stage stage = new Stage();
+			ViewStack stack = new ViewStack(stage);
+			stack.push(new RegisterView(stack));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
 		}
 	}
 }

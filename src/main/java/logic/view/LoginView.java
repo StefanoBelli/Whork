@@ -23,6 +23,8 @@ public final class LoginView implements ControllableView {
 	private static final String PASSWORD_PROMPT_MSG = "Type your password...";
 	private static final String FORGOT_PASSWORD_MSG = "Forgot your password?";
 	private static final String FORGOT_PASSWORD_BTN_MSG = "Recover my password";
+	private static final String REGISTER_MSG = "Register for Whork";
+	private static final String REGISTER_BTN_MSG = "Register";
 	private static final String STAY_LOGGED_IN_MSG = "Stay logged in";
 	private static final String LOGIN_BTN_MSG = "Login";
 	private static final int CONFIG_WIN_WIDTH = 265;
@@ -37,6 +39,8 @@ public final class LoginView implements ControllableView {
 	private Label passwordMessage;
 	private TextField passwordField;
 	private Label forgotPasswordMessage;
+	private Label registerMessage;
+	private Button registerButton;
 	private Button forgotPasswordButton;
 	private Button loginButton;
 	private CheckBox stayLoggedInBox;
@@ -60,6 +64,8 @@ public final class LoginView implements ControllableView {
 		forgotPasswordButton = new Button(FORGOT_PASSWORD_BTN_MSG);
 		loginButton = new Button(LOGIN_BTN_MSG);
 		stayLoggedInBox = new CheckBox(STAY_LOGGED_IN_MSG);
+		registerButton = new Button(REGISTER_BTN_MSG);
+		registerMessage = new Label(REGISTER_MSG);
 		controller.setup();
 	}
 
@@ -87,11 +93,16 @@ public final class LoginView implements ControllableView {
 		vboxlg.getChildren().add(loginButton);
 		vboxlg.getChildren().add(stayLoggedInBox);
 
+		HBox hboxrg = new HBox();
+		hboxrg.getChildren().add(registerMessage);
+		hboxrg.getChildren().add(registerButton);
+
 		HBox hbox = new HBox();
 		hbox.getChildren().add(vboxlg);
 		hbox.getChildren().add(vboxfp);
 
 		vbox.getChildren().add(hbox);
+		vbox.getChildren().add(hboxrg);
 
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
@@ -114,7 +125,8 @@ public final class LoginView implements ControllableView {
 			passwordField,
 			loginButton,
 			forgotPasswordButton,
-			stayLoggedInBox
+			stayLoggedInBox,
+			registerButton
 		};
 	}
 
