@@ -64,6 +64,11 @@
          <version>${openjfx.version}</version>
       </dependency>
       <dependency>
+         <groupId>org.openjfx</groupId>
+         <artifactId>javafx-web</artifactId>
+         <version>${openjfx.version}</version>
+     </dependency>
+      <dependency>
          <groupId>at.favre.lib</groupId>
          <artifactId>bcrypt</artifactId>
          <version>${bcrypt.version}</version>

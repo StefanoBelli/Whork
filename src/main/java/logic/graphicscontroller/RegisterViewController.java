@@ -8,6 +8,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.view.ConfirmRegistrationView;
 import logic.view.ControllableView;
+import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
 public final class RegisterViewController extends GraphicsController {
@@ -33,7 +34,11 @@ public final class RegisterViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub
+			Stage stage = new Stage();
+			ViewStack stack = new ViewStack(stage);
+			stack.push(new RegisterJobSeekerView(stack));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
 		}
 	}
 
