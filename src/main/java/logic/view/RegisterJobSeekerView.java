@@ -10,10 +10,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.RegisterJobSeekerViewController;
+import logic.util.GraphicsUtil;
 
 public final class RegisterJobSeekerView implements ControllableView {
 	private static final String WIN_TITLE = "Register as a job seeker - Whork";
@@ -48,21 +51,21 @@ public final class RegisterJobSeekerView implements ControllableView {
 	private static final String TYPE_PHONE_NUMBER_HINT = "Type your phone number here...";
 	private static final String TYPE_TOWN_HINT = "Type your town here...";
 	private static final String TYPE_ADDRESS_HINT = "Type your address here...";
-	private static final double CONFIG_WIN_WIDTH = 600;
-	private static final double CONFIG_WIN_HEIGHT = 800;
-	private static final double WEBVIEW_MAX_HEIGHT = 300;
-	private static final double WEBVIEW_MAX_WIDTH = 300;
+	private static final double CONFIG_WIN_WIDTH = 520;
+	private static final double CONFIG_WIN_HEIGHT = 575;
+	private static final double WEBVIEW_MAX_HEIGHT = 200;
+	private static final double WEBVIEW_MAX_WIDTH = 200;
 
 	private Scene scene;
 
-	private Label authMessage;
+	private Text authMessage;
 	private Label emailMessage;
 	private TextField emailField;
 	private Label passwordMessage;
 	private PasswordField passwordField;
 	private Label retypePasswordMessage;
 	private PasswordField retypePasswordField;
-	private Label aboutYouMessage;
+	private Text aboutYouMessage;
 	private Label nameMessage;
 	private TextField nameField;
 	private Label surnameMessage;
@@ -79,16 +82,16 @@ public final class RegisterJobSeekerView implements ControllableView {
 	private Label addressMessage;
 	private TextField addressField;
 	private WebView mapWebView;
-	private Label employmentStatusMessage;
+	private Text employmentStatusMessage;
 	private ChoiceBox<String> employmentStatusChoiceBox;
 	private Label attachYourCvMessage;
 	private Button attachYourCvButton;
 	private Label cvFileLabel;
-	private Label privacyPolicyMessage;
+	private Text privacyPolicyMessage;
 	private Label privacyPolicyDisclaimer;
 	private CheckBox privacyPolicyCheckBox;
 	private Button confirmButton;
-	private Label errorMessages;
+	private Text errorMessages;
 	
 	private GraphicsController controller;
 
@@ -100,7 +103,7 @@ public final class RegisterJobSeekerView implements ControllableView {
 	}
 
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(5);
 		vbox.getChildren().add(authMessage);
 		vbox.getChildren().add(getHBox(emailMessage, emailField));
 		vbox.getChildren().add(getHBox(passwordMessage, passwordField));
@@ -113,15 +116,24 @@ public final class RegisterJobSeekerView implements ControllableView {
 		vbox.getChildren().add(getHBox(profilePhotoMessage, profilePhotoButton, profilePhotoFileLabel));
 		vbox.getChildren().add(getHBox(townMessage, townField));
 		vbox.getChildren().add(getHBox(addressMessage, addressField));
-		vbox.getChildren().add(mapWebView);
-		vbox.getChildren().add(employmentStatusMessage);
-		vbox.getChildren().add(employmentStatusChoiceBox);
-		vbox.getChildren().add(getHBox(attachYourCvMessage, attachYourCvButton, cvFileLabel));
-		vbox.getChildren().add(privacyPolicyMessage);
-		vbox.getChildren().add(getHBox(privacyPolicyCheckBox, privacyPolicyDisclaimer));
-		vbox.getChildren().add(getHBox(errorMessages, confirmButton));
 
-		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
+		VBox finalVbox = new VBox(5);
+		finalVbox.getChildren().add(employmentStatusMessage);
+		finalVbox.getChildren().add(employmentStatusChoiceBox);
+		finalVbox.getChildren().add(getHBox(attachYourCvMessage, attachYourCvButton, cvFileLabel));
+		finalVbox.getChildren().add(privacyPolicyMessage);
+		finalVbox.getChildren().add(getHBox(privacyPolicyCheckBox, privacyPolicyDisclaimer));
+		finalVbox.getChildren().add(getHBox(confirmButton, errorMessages));
+
+		HBox hbox = new HBox(30);
+		hbox.getChildren().add(vbox);
+		hbox.getChildren().add(mapWebView);
+
+		VBox rootVbox = new VBox(5);
+		rootVbox.getChildren().add(hbox);
+		rootVbox.getChildren().add(finalVbox);
+
+		scene = new Scene(rootVbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
 
 	private void setNodesProps() {
@@ -138,17 +150,24 @@ public final class RegisterJobSeekerView implements ControllableView {
 		confirmButton.setDisable(true);
 		mapWebView.setMaxHeight(WEBVIEW_MAX_HEIGHT);
 		mapWebView.setMaxWidth(WEBVIEW_MAX_WIDTH);
+
+		Font boldFont = GraphicsUtil.getBoldFont();
+		authMessage.setFont(boldFont);
+		aboutYouMessage.setFont(boldFont);
+		employmentStatusMessage.setFont(boldFont);
+		privacyPolicyMessage.setFont(boldFont);
+		errorMessages.setFont(boldFont);
 	}
 
 	private void init() {
-		authMessage = new Label(AUTH_MESSAGE);
+		authMessage = new Text(AUTH_MESSAGE);
 		emailMessage = new Label(EMAIL_MESSAGE);
 		emailField = new TextField();
 		passwordMessage = new Label(PASSWORD_MESSAGE);
 		passwordField = new PasswordField();
 		retypePasswordMessage = new Label(RETYPE_PASSWORD_MESSAGE);
 		retypePasswordField = new PasswordField();
-		aboutYouMessage = new Label(ABOUT_YOU_MESSAGE);
+		aboutYouMessage = new Text(ABOUT_YOU_MESSAGE);
 		nameMessage = new Label(NAME_MESSAGE);
 		nameField = new TextField();
 		surnameMessage = new Label(SURNAME_MESSAGE);
@@ -165,16 +184,16 @@ public final class RegisterJobSeekerView implements ControllableView {
 		addressMessage = new Label(ADDRESS_MESSAGE);
 		addressField = new TextField();
 		mapWebView = new WebView();
-		employmentStatusMessage = new Label(EMPLOYMENT_STATUS_MESSAGE);
+		employmentStatusMessage = new Text(EMPLOYMENT_STATUS_MESSAGE);
 		employmentStatusChoiceBox = new ChoiceBox<>();
 		attachYourCvMessage = new Label(ATTACH_YOUR_CV_MESSAGE);
 		attachYourCvButton = new Button(CHOOSE_FILE_BTN);
 		cvFileLabel = new Label(SELECT_FILE_MESSAGE);
-		privacyPolicyMessage = new Label(PRIVACY_POLICY_MESSAGE);
+		privacyPolicyMessage = new Text(PRIVACY_POLICY_MESSAGE);
 		privacyPolicyDisclaimer = new Label(PRIVACY_POLICY_DISCLAIMER);
 		privacyPolicyCheckBox = new CheckBox();
 		confirmButton = new Button(CONFIRM_BTN);
-		errorMessages = new Label();
+		errorMessages = new Text();
 		controller.setup();
 	}
 
@@ -213,17 +232,17 @@ public final class RegisterJobSeekerView implements ControllableView {
 			attachYourCvButton,
 			cvFileLabel,
 			privacyPolicyCheckBox,
-			confirmButton
+			confirmButton,
+			errorMessages
 		};
 	}
 
 	private static HBox getHBox(Node... nodes) {
-		HBox hbox = new HBox();
+		HBox hbox = new HBox(10);
 		for(final Node node : nodes) {
 			hbox.getChildren().add(node);
 		}
 
 		return hbox;
 	}
-	
 }

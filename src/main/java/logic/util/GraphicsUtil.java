@@ -3,6 +3,8 @@ package logic.util;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.view.ExceptionView;
@@ -23,5 +25,10 @@ public final class GraphicsUtil {
 	public static void closeStageByMouseEvent(MouseEvent event) {
 		Stage s = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		s.close();
+	}
+
+	public static Font getBoldFont() {
+		Font dflFont = Font.getDefault();
+		return Font.font(dflFont.getFamily(), FontWeight.BOLD, dflFont.getSize());
 	}
 }

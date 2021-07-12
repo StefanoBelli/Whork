@@ -20,6 +20,7 @@
       <bcrypt.version>0.9.0</bcrypt.version>
       <junit.version>4.13.2</junit.version>
       <javax.mail.version>1.6.2</javax.mail.version>
+      <controlsfx.version>11.1.0</controlsfx.version>
    </properties>
    <dependencies>
       <dependency>
@@ -82,6 +83,11 @@
          <groupId>com.sun.mail</groupId>
          <artifactId>javax.mail</artifactId>
          <version>${javax.mail.version}</version>
+     </dependency>
+     <dependency>
+         <groupId>org.controlsfx</groupId>
+         <artifactId>controlsfx</artifactId>
+         <version>${controlsfx.version}</version>
      </dependency>
    </dependencies>
    <build>
