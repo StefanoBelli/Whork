@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 import logic.bean.UserAuthBean;
@@ -36,8 +35,6 @@ public final class LoginServlet extends HttpServlet {
 			userBean = LoginController.basicLogin(userAuthBean);
 		} catch(InternalException e) { /* should never happen */
 			errorMessage = "Internal processing error: " + e.getMessage();
-		} catch(SyntaxException e) { /* should never happen */
-			errorMessage = e.getMessage(); 
 		}
 
 		if(userBean == null) { /* wrong creds or internal error */

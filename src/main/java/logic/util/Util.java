@@ -12,10 +12,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -43,7 +49,9 @@ public final class Util {
 	private Util() {}
 
 	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
+	private static final String FC_REGEX = "^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$";
 	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+	public static final Pattern FC_PATTERN = Pattern.compile(FC_REGEX);
 	public static final String INADDR_ANY = "0.0.0.0";
 
 	public static void exceptionLog(Exception e) {
@@ -211,6 +219,33 @@ public final class Util {
 			obj.put("password", password);
 
 			overWrite(obj.toString(), f);
+		}
+
+		public static String saveUserFile(String userCf, File file) 
+				throws IOException {
+			if(file == null) {
+				return null;
+			}
+			
+			String fileName = new StringBuilder().append(userCf).append("_-_")
+					.append(Long.toString(new Date().getTime())).append("_-_").append(file.getName()).toString();
+
+			String completeFileName = new StringBuilder()
+					.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA)).append("/")
+					.append(fileName).toString();
+
+			File newSubmittedFile = new File(completeFileName);
+			if (newSubmittedFile.createNewFile()) {
+				try (InputStream istream = new BufferedInputStream(new FileInputStream(file))) {
+					try (OutputStream ostream = new BufferedOutputStream(new FileOutputStream(newSubmittedFile))) {
+						ostream.write(istream.readAllBytes());
+					}
+				}
+			} else {
+				throw new IOException();
+			}
+
+			return fileName;
 		}
 	}
 

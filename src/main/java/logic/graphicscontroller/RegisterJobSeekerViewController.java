@@ -1,6 +1,9 @@
 package logic.graphicscontroller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -8,21 +11,37 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.scene.input.MouseEvent;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import logic.bean.ComuneBean;
 import logic.bean.ProvinciaBean;
+import logic.bean.UserAuthBean;
+import logic.bean.UserBean;
+import logic.controller.RegisterController;
+import logic.exception.AlreadyExistantCompanyException;
+import logic.exception.AlreadyExistantUserException;
+import logic.exception.InternalException;
+import logic.exception.InvalidVatCodeException;
+import logic.factory.BeanFactory;
+import logic.factory.DialogFactory;
 import logic.pool.ComuniPool;
 import logic.pool.EmploymentsStatusPool;
+import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
+import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
+import logic.util.tuple.Pair;
 import java.util.stream.Collectors;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -45,8 +64,13 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	private Label cvFileLabel;
 	private CheckBox privacyPolicyCheckBox;
 	private Button confirmButton;
-	private Text errorMessages;
 	private List<String> itTowns;
+
+	private File cv;
+	private File photo;
+
+	private static final String BASIC_SEARCH_TERM = "Italy";
+	private String currentMapQuery = "";
 	
 	public RegisterJobSeekerViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
@@ -72,16 +96,16 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		cvFileLabel = (Label) n[14];
 		privacyPolicyCheckBox = (CheckBox) n[15];
 		confirmButton = (Button) n[16];
-		errorMessages = (Text) n[17];
 
 		loadItTownsAutoCompletion();
-		loadMap("Italy");
+		loadMap(BASIC_SEARCH_TERM);
 		loadEmploymentStatuses();
+		setListeners();
 	}
 
 	@Override
 	public void update() {
-		
+		//no need to update anything
 	}
 
 	private static String getMapsIframe(String query) {
@@ -103,7 +127,10 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	}
 
 	private void loadMap(String query) {
-		mapWebView.getEngine().loadContent(getMapsIframe(query));
+		if(!query.equalsIgnoreCase(currentMapQuery)) {
+			currentMapQuery = query;
+			mapWebView.getEngine().loadContent(getMapsIframe(query));
+		}
 	}
 
 	private void loadItTownsAutoCompletion() {
@@ -134,5 +161,265 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		EmploymentsStatusPool.getEmploymentsStatus().forEach(e -> status.add(e.getStatus()));
 		employmentStatusChoiceBox.setItems(FXCollections.observableArrayList(status));
 		employmentStatusChoiceBox.getSelectionModel().select(0);
+	}
+
+	private void setListeners() {
+		privacyPolicyCheckBox.setOnMouseClicked(new HandlePrivacyPolicyCheckBoxClicked());
+		confirmButton.setOnMouseClicked(new HandleConfirmButtonClicked());
+		attachYourCvButton.setOnMouseClicked(new HandleAttachYourCvButtonClicked());
+		profilePhotoButton.setOnMouseClicked(new HandleProfilePhotoButtonClicked());
+		townField.textProperty().addListener(new HandleTownFieldTextChanged());
+		addressField.textProperty().addListener(new HandleAddressFieldTextChanged());
+	}
+
+	private final class HandlePrivacyPolicyCheckBoxClicked implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			confirmButton.setDisable(!privacyPolicyCheckBox.isSelected());
+		}
+	}
+
+	private final class HandleConfirmButtonClicked implements EventHandler<MouseEvent> {
+		private String email;
+		private String password;
+		private String retypedPassword;
+		private String name;
+		private String surname;
+		private String fiscalCode;
+		private String phoneNumber;
+		private String town;
+		private String address;
+		private String employmentStatus;
+
+		@Override
+		public void handle(MouseEvent event) {
+			email = emailField.getText();
+			password = passwordField.getText();
+			retypedPassword = retypePasswordField.getText();
+			name = nameField.getText();
+			surname = surnameField.getText();
+			fiscalCode = fiscalCodeField.getText();
+			phoneNumber = phoneNumberField.getText();
+			town = townField.getText();
+			address = addressField.getText();
+			employmentStatus = employmentStatusChoiceBox.getSelectionModel().getSelectedItem();
+			
+			if(checksArePassing()) {
+				try {
+					RegisterController.register(createBeans());
+				} catch (InternalException e) {
+					Util.exceptionLog(e);
+					DialogFactory.error(
+						"Internal exception", 
+						"Something bad just happened, we don't know much about it",
+						e.getMessage()).showAndWait();
+					return;
+				} catch (InvalidVatCodeException | AlreadyExistantCompanyException e) { //should not happen here
+					Util.exceptionLog(e);
+					GraphicsUtil.showExceptionStage(e);
+					return;
+				} catch (AlreadyExistantUserException e) {
+					DialogFactory.error(
+						"Error", 
+						"Already existant user", 
+						"Another user with same email and/or fiscal code already exists").showAndWait();
+					return;
+				} catch (IOException e) {
+					Util.exceptionLog(e);
+					DialogFactory.error(
+						"Error", 
+						"Unable to copy one or more file", 
+						"Check logs to get more infos").showAndWait();
+					return;
+				}
+
+				showSuccessDialogAndCloseStage();
+			}
+		}
+
+		private void showSuccessDialogAndCloseStage() {
+			DialogFactory.info(
+				"Success",
+				new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
+				new StringBuilder("You successfully signed up for Whork. ")
+					.append("Now it is time to confirm your request to join us by checking for a mail ")
+					.append("we sent you at the address you just gave us: ").append(email)
+					.append(", be sure to check spam also.\nThe Whork team.").toString()
+			).showAndWait();
+			((Stage) view.getScene().getWindow()).close();
+		}
+
+		private Pair<UserBean, UserAuthBean> createBeans() 
+				throws IOException {
+			UserBean user = new UserBean();
+			user.setCf(fiscalCode);
+			user.setName(name);
+			user.setSurname(surname);
+			user.setPhoto(Util.Files.saveUserFile(fiscalCode, photo));
+			user.setPhoneNumber(phoneNumber);
+			user.setBiography(null);
+			user.setHomeAddress(address);
+			user.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean(employmentStatus));
+			user.setCv(Util.Files.saveUserFile(fiscalCode, cv));
+			user.setBirthday(Util.deriveBirthdayFromFiscalCode(fiscalCode));
+			user.setComune(BeanFactory.buildComuneBean(town));
+
+			UserAuthBean userAuth = 
+				BeanFactory.buildUserAuthBean(email, password);
+
+			return new Pair<>(user, userAuth);
+		}
+
+		private boolean checksArePassing() {
+			boolean passing = true;
+			StringBuilder errorBuilder = new StringBuilder();
+
+			if(email.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Email field is blank\n");
+			} else if(email.length() > 255) {
+				passing = false;
+				errorBuilder.append(" * Email is longer than 255 chars\n");
+			} else if(!Util.EMAIL_PATTERN.matcher(email).matches()) {
+				passing = false;
+				errorBuilder.append(" * Email is not a valid one\n");
+			}
+
+			if(password.isBlank() || retypedPassword.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Password and/or retype password fields are blank\n");
+			} else if(!password.equals(retypedPassword)) {
+				passing = false;
+				errorBuilder.append(" * Password is not matching the retyped one\n");
+			}
+
+			if(name.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Name field is blank\n");
+			} else if(name.length() > 45) {
+				passing = false;
+				errorBuilder.append(" * Name is longer than 45 chars\n");
+			}
+
+			if(surname.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Surname field is blank\n");
+			} else if(surname.length() > 45) {
+				passing = false;
+				errorBuilder.append(" * Surname is longer than 45 chars\n");
+			}
+
+			if(fiscalCode.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Fiscal code field is blank\n");
+			} else if(!Util.FC_PATTERN.matcher(fiscalCode).matches()) {
+				passing = false;
+				errorBuilder.append(" * Fiscal code is not a valid one\n");
+			}
+
+			if(phoneNumber.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Phone number field is blank\n");
+			} else {
+				int phoneNumberLen = phoneNumber.length();
+				if(phoneNumberLen < 9 || phoneNumberLen > 10) {
+					passing = false;
+					errorBuilder.append(" * Phone number length is not either 9 or 10\n");
+				}
+			}
+
+			if(town.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Town field is blank\n");
+			} else if(!findTown()) {
+				passing = false;
+				errorBuilder.append(" * Town is not in the form we were expecting, use autocompletion\n");
+			}
+
+			if(address.isBlank()) {
+				passing = false;
+				errorBuilder.append(" * Address field is blank\n");
+			} else if(address.length() > 45) {
+				passing = false;
+				errorBuilder.append(" * Address field is longer than 45 chars\n");
+			}
+
+			if(cv == null) {
+				passing = false;
+				errorBuilder.append(" * You didn't choose your CV\n");
+			}
+
+			if(!passing) {
+				DialogFactory.error(
+					"Form does not pass checks", 
+					"Errors are following, fix them all", 
+					errorBuilder.toString()).showAndWait();
+			}
+
+			return passing;
+		}
+
+		private boolean findTown() {
+			for(final String itTown : itTowns) {
+				if(town.equals(itTown)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	private final class HandleAttachYourCvButtonClicked implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			cv = GraphicsUtil.showFileChooser((Stage)view.getScene().getWindow(), 
+				"Choose your CV", new ExtensionFilter("PDF Files", "*.pdf"));
+
+			if(cv != null) {
+				cvFileLabel.setText(new StringBuilder("Selected: ").append(cv.getName()).toString());
+			} else {
+				cvFileLabel.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
+			}
+		}
+	}
+
+	private final class HandleProfilePhotoButtonClicked implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			photo = GraphicsUtil.showFileChooser((Stage)view.getScene().getWindow(), 
+				"Choose your profile photo", new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+
+			if(photo != null) {
+				profilePhotoFileLabel.setText(new StringBuilder("Selected: ").append(photo.getName()).toString());
+			} else {
+				profilePhotoFileLabel.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
+			}
+		}
+	}
+
+	private final class HandleTownFieldTextChanged implements ChangeListener<String> {
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			if(!newValue.isBlank()) {
+				String addressText = addressField.getText();
+				loadMap(new StringBuilder(newValue)
+					.append(", ").append(addressText).toString());
+			} else {
+				loadMap(BASIC_SEARCH_TERM);
+			}
+		}
+	}
+
+	private final class HandleAddressFieldTextChanged implements ChangeListener<String> {
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			String townText = townField.getText();
+			if(!townText.isBlank()) {
+				loadMap(new StringBuilder(townText)
+					.append(", ").append(newValue).toString());
+			} else {
+				loadMap(BASIC_SEARCH_TERM);
+			}
+		}
 	}
 }

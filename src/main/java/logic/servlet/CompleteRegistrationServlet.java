@@ -15,7 +15,6 @@ import logic.controller.RegisterController;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.InvalidVatCodeException;
-import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 import logic.util.Util;
@@ -92,7 +91,7 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 	 * @throws ServletException - ??? just log, show InternalException
 	 */
 	private Pair<UserBean, UserAuthBean> createBeansFromRequest(HttpServletRequest req) 
-			throws SyntaxException, IOException, ServletException {
+			throws IOException, ServletException {
 		String userCf = req.getParameter("fiscal_code");
 
 		UserBean user = new UserBean();

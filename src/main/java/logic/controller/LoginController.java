@@ -6,7 +6,6 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.SendMailException;
-import logic.exception.SyntaxException;
 import logic.factory.BeanFactory;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
@@ -78,9 +77,6 @@ public final class LoginController {
 		} catch(DataLogicException e) {
 			Util.exceptionLog(e);
 			throw new InternalException("Data logic error");
-		} catch(SyntaxException e) {
-			Util.exceptionLog(e);
-			throw new InternalException("Data syntax error");
 		}
 	}
 

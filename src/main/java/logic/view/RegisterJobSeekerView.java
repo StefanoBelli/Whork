@@ -30,7 +30,7 @@ public final class RegisterJobSeekerView implements ControllableView {
 	private static final String FISCAL_CODE_MESSAGE = "Fiscal code:";
 	private static final String PHONE_NUMBER_MESSAGE = "Phone number:";
 	private static final String PROFILE_PHOTO_MESSAGE = "Profile photo:";
-	public static final String CHOOSE_FILE_BTN = "Choose...";
+	private static final String CHOOSE_FILE_BTN = "Choose...";
 	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private static final String TOWN_MESSAGE = "Town:";
 	private static final String ADDRESS_MESSAGE = "Address:";
@@ -91,7 +91,6 @@ public final class RegisterJobSeekerView implements ControllableView {
 	private Label privacyPolicyDisclaimer;
 	private CheckBox privacyPolicyCheckBox;
 	private Button confirmButton;
-	private Text errorMessages;
 	
 	private GraphicsController controller;
 
@@ -123,7 +122,7 @@ public final class RegisterJobSeekerView implements ControllableView {
 		finalVbox.getChildren().add(getHBox(attachYourCvMessage, attachYourCvButton, cvFileLabel));
 		finalVbox.getChildren().add(privacyPolicyMessage);
 		finalVbox.getChildren().add(getHBox(privacyPolicyCheckBox, privacyPolicyDisclaimer));
-		finalVbox.getChildren().add(getHBox(confirmButton, errorMessages));
+		finalVbox.getChildren().add(confirmButton);
 
 		HBox hbox = new HBox(30);
 		hbox.getChildren().add(vbox);
@@ -146,17 +145,18 @@ public final class RegisterJobSeekerView implements ControllableView {
 		phoneNumberField.setPromptText(TYPE_PHONE_NUMBER_HINT);
 		townField.setPromptText(TYPE_TOWN_HINT);
 		addressField.setPromptText(TYPE_ADDRESS_HINT);
-		errorMessages.setVisible(false);
 		confirmButton.setDisable(true);
 		mapWebView.setMaxHeight(WEBVIEW_MAX_HEIGHT);
 		mapWebView.setMaxWidth(WEBVIEW_MAX_WIDTH);
+		mapWebView.setDisable(true);
+		phoneNumberField.textProperty().addListener(
+			new GraphicsUtil.OnlyNumbersChangeListener(phoneNumberField));
 
 		Font boldFont = GraphicsUtil.getBoldFont();
 		authMessage.setFont(boldFont);
 		aboutYouMessage.setFont(boldFont);
 		employmentStatusMessage.setFont(boldFont);
 		privacyPolicyMessage.setFont(boldFont);
-		errorMessages.setFont(boldFont);
 	}
 
 	private void init() {
@@ -193,7 +193,6 @@ public final class RegisterJobSeekerView implements ControllableView {
 		privacyPolicyDisclaimer = new Label(PRIVACY_POLICY_DISCLAIMER);
 		privacyPolicyCheckBox = new CheckBox();
 		confirmButton = new Button(CONFIRM_BTN);
-		errorMessages = new Text();
 		controller.setup();
 	}
 
@@ -233,7 +232,6 @@ public final class RegisterJobSeekerView implements ControllableView {
 			cvFileLabel,
 			privacyPolicyCheckBox,
 			confirmButton,
-			errorMessages
 		};
 	}
 

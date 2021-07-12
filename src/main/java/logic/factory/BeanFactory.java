@@ -1,6 +1,5 @@
 package logic.factory;
 
-import logic.exception.SyntaxException;
 import logic.model.UserModel;
 import logic.model.CompanyModel;
 import logic.model.ComuneModel;
@@ -20,8 +19,7 @@ import logic.bean.UserAuthBean;
 public final class BeanFactory {
 	private BeanFactory() {}
 
-	public static CompanyBean buildCompanyBean(String cf, String logo, String socialReason, String vat) 
-			throws SyntaxException {
+	public static CompanyBean buildCompanyBean(String cf, String logo, String socialReason, String vat) {
 		CompanyBean companyBean = new CompanyBean();
 		companyBean.setCf(cf);
 		companyBean.setLogo(logo);
@@ -31,8 +29,7 @@ public final class BeanFactory {
 		return companyBean;
 	}
 	
-	public static CompanyBean buildCompanyBean(CompanyModel companyModel) 
-			throws SyntaxException {
+	public static CompanyBean buildCompanyBean(CompanyModel companyModel) {
 		CompanyBean companyBean = new CompanyBean();
 		companyBean.setCf(companyModel.getCf());
 		companyBean.setLogo(companyModel.getLogo());
@@ -108,7 +105,7 @@ public final class BeanFactory {
 		return employmentStatusBean;
 	}
 
-	public static UserBean buildUserBean(UserModel userModel) throws SyntaxException {
+	public static UserBean buildUserBean(UserModel userModel) {
 		UserBean userBean = new UserBean();
 		userBean.setName(userModel.getName());
 		userBean.setSurname(userModel.getSurname());
@@ -137,8 +134,7 @@ public final class BeanFactory {
 		return userBean;
 	}
 
-	public static UserAuthBean buildUserAuthBean(String email, String password) 
-			throws SyntaxException {
+	public static UserAuthBean buildUserAuthBean(String email, String password) {
 		UserAuthBean userAuthBean = new UserAuthBean();
 		userAuthBean.setEmail(email);
 		userAuthBean.setPassword(password);

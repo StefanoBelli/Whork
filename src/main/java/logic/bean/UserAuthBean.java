@@ -2,8 +2,6 @@ package logic.bean;
 
 import java.io.Serializable;
 
-import logic.exception.SyntaxException;
-
 public final class UserAuthBean implements Serializable {
 	private static final long serialVersionUID = 6053272591238153999L;
 	
@@ -18,12 +16,7 @@ public final class UserAuthBean implements Serializable {
 		return password;
 	}
 
-	public void setEmail(String email) 
-			throws SyntaxException {
-		if(email.length() > 255) {
-			throw new SyntaxException("Email length must be less or equal than 255 chars!");
-		}
-
+	public void setEmail(String email) {
 		this.email = email;
 	}
 	

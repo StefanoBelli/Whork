@@ -2,7 +2,6 @@ package logic.bean;
 
 import java.util.Date;
 import java.io.Serializable;
-import logic.exception.SyntaxException;
 
 public final class UserBean implements Serializable {
 	private static final long serialVersionUID = -3927240997879942530L;
@@ -88,45 +87,19 @@ public final class UserBean implements Serializable {
 		return employmentStatus;
 	}
 
-	public void setCf(String cf) 
-			throws SyntaxException {
-		if(cf.length() != 16) {
-			throw new SyntaxException("CF length must be equal to 16");
-		}
+	public void setCf(String cf) {
 		this.cf = cf;
 	}
 
-	public void setName(String name) 
-			throws SyntaxException {
-		if(name.length() > 45) {
-			throw new SyntaxException("Name length must be max. 45 chars");
-		}
-
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setSurname(String surname) 
-			throws SyntaxException {
-		if(surname.length() > 45) {
-			throw new SyntaxException("Surname length must be max. 45 chars");
-		}
-
+	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
-	public void setPhoneNumber(String phoneNumber) 
-			throws SyntaxException {
-		
-		if(phoneNumber.length() < 9 || phoneNumber.length() > 10) {
-			throw new SyntaxException("Valid italian phone number format is 9-10 chars");
-		}
-
-		for(int i = 0; i < phoneNumber.length(); ++i) {
-			if(!Character.isDigit(phoneNumber.charAt(i))) {
-				throw new SyntaxException("Only digits are allowed");
-			}
-		}
-		
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -146,12 +119,7 @@ public final class UserBean implements Serializable {
 		this.recruiter = recruiter;
 	}
 
-	public void setNote(String note) 
-			throws SyntaxException {
-		if(note != null && note.length() > 45) {
-			throw new SyntaxException("Note length cannot be greater than 45");
-		}
-
+	public void setNote(String note) {
 		this.note = note;
 	}
 
@@ -167,20 +135,11 @@ public final class UserBean implements Serializable {
 		this.cv = cv;
 	}
 
-	public void setHomeAddress(String homeAddress) 
-			throws SyntaxException {
-		if(homeAddress.length() > 45) {
-			throw new SyntaxException("Home address length cannot be greater than 45");
-		}
-
+	public void setHomeAddress(String homeAddress) {
 		this.homeAddress = homeAddress;
 	}
 
-	public void setBiography(String biography) 
-			throws SyntaxException {
-		if(biography != null && biography.length() > 250) {
-			throw new SyntaxException("Biography length cannot be greater than 250");
-		}
+	public void setBiography(String biography) {
 		this.biography = biography;
 	}
 	
