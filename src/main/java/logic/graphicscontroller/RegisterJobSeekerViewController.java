@@ -64,6 +64,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	private Label cvFileLabel;
 	private CheckBox privacyPolicyCheckBox;
 	private Button confirmButton;
+	
 	private List<String> itTowns;
 
 	private File cv;
@@ -181,6 +182,8 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	}
 
 	private final class HandleConfirmButtonClicked implements EventHandler<MouseEvent> {
+		private static final String ERROR = "Error";
+
 		private String email;
 		private String password;
 		private String retypedPassword;
@@ -221,14 +224,14 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 					return;
 				} catch (AlreadyExistantUserException e) {
 					DialogFactory.error(
-						"Error", 
+						ERROR, 
 						"Already existant user", 
 						"Another user with same email and/or fiscal code already exists").showAndWait();
 					return;
 				} catch (IOException e) {
 					Util.exceptionLog(e);
 					DialogFactory.error(
-						"Error", 
+						ERROR, 
 						"Unable to copy one or more file", 
 						"Check logs to get more infos").showAndWait();
 					return;

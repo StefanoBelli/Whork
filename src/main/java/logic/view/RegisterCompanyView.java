@@ -39,7 +39,7 @@ public final class RegisterCompanyView implements ControllableView {
 	private static final String PHONE_NUMBER_MESSAGE = "Phone number:";
 	private static final String PROFILE_PHOTO_MESSAGE = "Profile photo:";
 	private static final String CHOOSE_FILE_BTN = "Choose...";
-	private static final String SELECT_FILE_MESSAGE = "(Select a file)";
+	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private static final String ABOUT_COMPANY_MESSAGE = "About the company";
 	private static final String BUSINESS_NAME_MESSAGE = "Business name:";
 	private static final String VAT_MESSAGE = "VAT:";

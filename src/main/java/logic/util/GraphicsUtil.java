@@ -94,10 +94,30 @@ public final class GraphicsUtil {
 		}
 
 		@Override
-		public void changed(ObservableValue<? extends String> observable, String oldValue, 
-			String newValue) {
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			if (!newValue.matches("\\d*")) {
 				textField.setText(newValue.replaceAll("[^\\d]", ""));
+			}
+		}
+	}
+
+	public static final class LimitLengthChangeListener implements ChangeListener<String> {
+		private final TextField textField;
+		private final int maxLength;
+		
+		public LimitLengthChangeListener(TextField textField, int maxLength) {
+			if(maxLength < 1) {
+				throw new IllegalArgumentException("maxLength must be greater than or equal to 1");
+			}
+
+			this.textField = textField;
+			this.maxLength = maxLength;
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			if(newValue.length() > maxLength) {
+				textField.setText(oldValue);
 			}
 		}
 	}
