@@ -82,6 +82,7 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 		@Override
 		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			continueButton.setDisable(
+				newValue == null ||
 				newValue.isBlank() ||
 				newValue.length() > 255 ||
 				!Util.EMAIL_PATTERN.matcher(newValue).matches()

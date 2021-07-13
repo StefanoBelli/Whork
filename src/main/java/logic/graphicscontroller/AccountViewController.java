@@ -37,6 +37,7 @@ public final class AccountViewController extends GraphicsController {
 			try {
 				Util.Files.overWriteJsonAuth(null, null);
 			} catch(IOException e) {
+				Util.exceptionLog(e);
 				GraphicsUtil.closeStageByMouseEvent(event);
 				GraphicsUtil.showExceptionStage(e);
 			}

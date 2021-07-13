@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.PasswordRecoveryViewController;
-import logic.util.Util;
 
 public final class PasswordRecoveryView implements ControllableView {
 
@@ -27,10 +26,7 @@ public final class PasswordRecoveryView implements ControllableView {
 
 	private GraphicsController controller;
 
-	private String emailAddressPreset;
-
-	public PasswordRecoveryView(ViewStack viewStack, String email) {
-		emailAddressPreset = email;
+	public PasswordRecoveryView(ViewStack viewStack) {
 		controller = new PasswordRecoveryViewController(this, viewStack);
 		init();
 		setNodesProps();
@@ -46,15 +42,6 @@ public final class PasswordRecoveryView implements ControllableView {
 
 	private void setNodesProps() {
 		emailAddressTextField.setPromptText(EMAIL_PROMPT_MSG);
-		if(!emailAddressPreset.isBlank() && 
-			emailAddressPreset.length() < 256 &&
-			Util.EMAIL_PATTERN.matcher(emailAddressPreset).matches()) {
-
-			emailAddressTextField.setText(emailAddressPreset);
-			sendRequestButton.setDisable(false);
-		} else {
-			sendRequestButton.setDisable(true);
-		}
 	}
 
 	private void populateScene() {
@@ -88,5 +75,9 @@ public final class PasswordRecoveryView implements ControllableView {
 			sendRequestButton,
 			alreadyHaveTokenButton
 		};
+	}
+
+	public void setPresetEmail(String emailAddress) {
+		emailAddressTextField.setText(emailAddress);
 	}
 }

@@ -96,7 +96,9 @@ public final class LoginViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(PasswordRecoveryView.class);
+			String emailFieldText = emailField.getText();
+			String email = emailFieldText.isBlank() ? null : emailFieldText;
+			GraphicsUtil.showAndWaitWindow(PasswordRecoveryView.class, "setPresetEmail", email);
 		}
 	}
 

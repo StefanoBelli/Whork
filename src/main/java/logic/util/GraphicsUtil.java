@@ -59,15 +59,29 @@ public final class GraphicsUtil {
 		return hbox;
 	}
 
-	public static void showAndWaitWindow(Class<?> cls) {
+	public static void showAndWaitWindow(Class<?> cls, String ... kvProps) {
+		if(kvProps.length % 2 != 0) {
+			throw new IllegalArgumentException("kvProps.length must be even");
+		}
+
+		View instance;
+
 		Stage stage = new Stage();
 		ViewStack stack = new ViewStack(stage);
+		
 		try {
-			stack.push((View) cls.getConstructor(ViewStack.class).newInstance(stack));
+			instance = (View) cls.getConstructor(ViewStack.class).newInstance(stack);
+			for(int i = 0; i < kvProps.length; i += 2) {
+				cls.getMethod(kvProps[i], String.class).invoke(instance, kvProps[i + 1]);
+			}
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
+			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
+			return; //unreachable
 		}
+
+		stack.push(instance);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.showAndWait();
 	}
