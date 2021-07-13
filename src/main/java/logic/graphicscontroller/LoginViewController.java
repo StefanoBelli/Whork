@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
@@ -98,11 +96,7 @@ public final class LoginViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Stage stage = new Stage();
-			ViewStack stack = new ViewStack(stage);
-			stack.push(new PasswordRecoveryView(stack, emailField.getText()));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
+			GraphicsUtil.showAndWaitWindow(PasswordRecoveryView.class);
 		}
 	}
 
@@ -124,11 +118,7 @@ public final class LoginViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Stage stage = new Stage();
-			ViewStack stack = new ViewStack(stage);
-			stack.push(new RegisterView(stack));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
+			GraphicsUtil.showAndWaitWindow(RegisterView.class);
 		}
 	}
 }

@@ -73,7 +73,7 @@ public final class ExceptionView implements ControllableView {
 		vbox.getChildren().add(stackTraceFollowsMessage);
 		vbox.getChildren().add(exceptionStackTrace);
 		vbox.getChildren().add(exitApp);
-		scene = new Scene(vbox, WindowSize.WIDTH, WindowSize.HEIGHT);
+		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
 	}
 
 	@Override

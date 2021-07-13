@@ -1,19 +1,23 @@
 package logic.util;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.view.ExceptionView;
+import logic.view.View;
 import logic.view.ViewStack;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -44,6 +48,28 @@ public final class GraphicsUtil {
 		fileChooser.getExtensionFilters().addAll(filters);
 
 		return fileChooser.showOpenDialog(owner);
+	}
+
+	public static HBox getHBox(int spacing, Node... nodes) {
+		HBox hbox = new HBox(spacing);
+		for(final Node node : nodes) {
+			hbox.getChildren().add(node);
+		}
+
+		return hbox;
+	}
+
+	public static void showAndWaitWindow(Class<?> cls) {
+		Stage stage = new Stage();
+		ViewStack stack = new ViewStack(stage);
+		try {
+			stack.push((View) cls.getConstructor(ViewStack.class).newInstance(stack));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			GraphicsUtil.showExceptionStage(e);
+		}
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.showAndWait();
 	}
 
 	public static final class OnlyNumbersChangeListener implements ChangeListener<String> {

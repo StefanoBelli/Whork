@@ -4,8 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import logic.util.GraphicsUtil;
 import logic.view.AccountView;
 import logic.view.ControllableView;
 import logic.view.LoginView;
@@ -38,12 +37,7 @@ public final class HomeViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {
 			if(LoginHandler.getSessionUser() == null) {
-				Stage newStage = new Stage();
-				ViewStack stack = new ViewStack(newStage);
-				stack.push(new LoginView(stack));
-				newStage.initModality(Modality.APPLICATION_MODAL);
-				newStage.showAndWait();
-				
+				GraphicsUtil.showAndWaitWindow(LoginView.class);
 				dynamicViewUpdate();
 			} else {
 				viewStack.push(new AccountView(viewStack));

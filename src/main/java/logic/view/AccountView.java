@@ -36,7 +36,7 @@ public final class AccountView implements ControllableView {
 		VBox vbox = new VBox();
 		vbox.getChildren().add(logoutBtn);
 
-		scene = new Scene(vbox, WindowSize.WIDTH, WindowSize.HEIGHT);
+		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
 	}
 
 	@Override

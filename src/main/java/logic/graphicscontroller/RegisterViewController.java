@@ -4,10 +4,10 @@ import javafx.scene.Node;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import logic.util.GraphicsUtil;
 import logic.view.ConfirmRegistrationView;
 import logic.view.ControllableView;
+import logic.view.RegisterCompanyView;
 import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
@@ -34,11 +34,7 @@ public final class RegisterViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Stage stage = new Stage();
-			ViewStack stack = new ViewStack(stage);
-			stack.push(new RegisterJobSeekerView(stack));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
+			GraphicsUtil.showAndWaitWindow(RegisterJobSeekerView.class);
 		}
 	}
 
@@ -46,7 +42,7 @@ public final class RegisterViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			// TODO Auto-generated method stub	
+			GraphicsUtil.showAndWaitWindow(RegisterCompanyView.class);
 		}
 	}
 
@@ -54,11 +50,7 @@ public final class RegisterViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Stage stage = new Stage();
-			ViewStack stack = new ViewStack(stage);
-			stack.push(new ConfirmRegistrationView(stack));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
+			GraphicsUtil.showAndWaitWindow(ConfirmRegistrationView.class);
 		}
 	}
 	

@@ -236,11 +236,6 @@ public final class RegisterJobSeekerView implements ControllableView {
 	}
 
 	private static HBox getHBox(Node... nodes) {
-		HBox hbox = new HBox(10);
-		for(final Node node : nodes) {
-			hbox.getChildren().add(node);
-		}
-
-		return hbox;
+		return GraphicsUtil.getHBox(10, nodes);
 	}
 }

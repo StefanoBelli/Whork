@@ -76,6 +76,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		super(view, viewStack);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setup() {
 		Node[] n = view.getNodes();
@@ -91,7 +92,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		townField = (TextField) n[9];
 		addressField = (TextField) n[10];
 		mapWebView = (WebView) n[11];
-		employmentStatusChoiceBox = (ChoiceBox) n[12];
+		employmentStatusChoiceBox = (ChoiceBox<String>) n[12];
 		attachYourCvButton = (Button) n[13];
 		cvFileLabel = (Label) n[14];
 		privacyPolicyCheckBox = (CheckBox) n[15];
