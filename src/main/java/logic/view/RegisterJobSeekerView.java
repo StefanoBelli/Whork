@@ -58,10 +58,10 @@ public final class RegisterJobSeekerView implements ControllableView {
 
 	private Scene scene;
 
-	private Text authMessage;
-	private Label emailMessage;
 	private TextField emailField;
 	private Label passwordMessage;
+	private Text authMessage;
+	private Label emailMessage;
 	private PasswordField passwordField;
 	private Label retypePasswordMessage;
 	private PasswordField retypePasswordField;
