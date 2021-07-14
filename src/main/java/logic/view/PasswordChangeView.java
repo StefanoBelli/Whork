@@ -96,15 +96,16 @@ public final class PasswordChangeView implements ControllableView {
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
 
-	@Override
-	public Scene getScene() {
-		return scene;
-	}
-
+	
 	@Override
 	public void setWindowProperties(Stage stage) {
 		stage.setTitle(WIN_TITLE);
 		stage.setResizable(false);
+	}
+	
+	@Override
+	public Scene getScene() {
+		return scene;
 	}
 
 	@Override
