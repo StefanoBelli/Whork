@@ -57,15 +57,16 @@ public final class RegisterView implements ControllableView {
 		controller.setup();
 	}
 
+	
+	@Override
+	public Scene getScene() {
+		return scene;
+	}
+	
 	@Override
 	public void setWindowProperties(Stage stage) {
 		stage.setTitle(WIN_TITLE);
 		stage.setResizable(false);
-	}
-
-	@Override
-	public Scene getScene() {
-		return scene;
 	}
 
 	@Override

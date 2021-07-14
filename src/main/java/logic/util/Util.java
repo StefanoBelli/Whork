@@ -109,6 +109,24 @@ public final class Util {
 		return responseBuilder.toString();
 	}
 
+	private static String getBirthMonthFromEncoding(char c) {
+		switch(c) {
+			case('A'): return "01";
+			case('B'): return "02";
+			case('C'): return "03";
+			case('D'): return "04";
+			case('E'): return "05";
+			case('H'): return "06";
+			case('L'): return "07";
+			case('M'): return "08";
+			case('P'): return "09";
+			case('R'): return "10";
+			case('S'): return "11";
+			case('T'): return "12";
+			default: throw new IllegalArgumentException("Invalid month encoding for fiscal code");
+		}
+	}
+
 	public static Date deriveBirthdayFromFiscalCode(String fiscalCode) 
 			throws IllegalArgumentException {
 		String day = fiscalCode.substring(9, 11); // DAY
@@ -118,22 +136,7 @@ public final class Util {
 			day = String.valueOf(dayIntegerLess40);
 		}
 		
-		String month; //MONTH
-		switch(fiscalCode.charAt(8)) {
-			case('A'): month = "01"; break;
-			case('B'): month = "02"; break;
-			case('C'): month = "03"; break;
-			case('D'): month = "04"; break;
-			case('E'): month = "05"; break;
-			case('H'): month = "06"; break;
-			case('L'): month = "07"; break;
-			case('M'): month = "08"; break;
-			case('P'): month = "09"; break;
-			case('R'): month = "10"; break;
-			case('S'): month = "11"; break;
-			case('T'): month = "12"; break;
-			default: throw new IllegalArgumentException("Invalid month encoding for fiscal code");
-		}
+		String month = getBirthMonthFromEncoding(fiscalCode.charAt(8)); // MONTH
 
 		String year = fiscalCode.substring(6, 8); //YEAR
 

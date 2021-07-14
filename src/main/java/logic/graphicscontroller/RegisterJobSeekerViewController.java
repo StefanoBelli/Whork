@@ -86,10 +86,10 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		Node[] n = view.getNodes();
 		emailField = (TextField) n[0];
 		passwordField = (PasswordField) n[1];
-		retypePasswordField = (PasswordField) n[2];
-		nameField = (TextField) n[3];
 		surnameField = (TextField) n[4];
 		fiscalCodeField = (TextField) n[5];
+		retypePasswordField = (PasswordField) n[2];
+		nameField = (TextField) n[3];
 		phoneNumberField = (TextField) n[6];
 		profilePhotoButton = (Button) n[7];
 		profilePhotoFileLabel = (Label) n[8];
@@ -187,12 +187,12 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	private final class HandleConfirmButtonClicked implements EventHandler<MouseEvent> {
 		private static final String ERROR = "Error";
 
-		private String email;
-		private String password;
-		private String retypedPassword;
 		private String name;
 		private String surname;
 		private String fiscalCode;
+		private String email;
+		private String password;
+		private String retypedPassword;
 		private String phoneNumber;
 		private String town;
 		private String address;
