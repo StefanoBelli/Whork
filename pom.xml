@@ -21,6 +21,7 @@
       <junit.version>4.13.2</junit.version>
       <javax.mail.version>1.6.2</javax.mail.version>
       <controlsfx.version>11.1.0</controlsfx.version>
+      <websocket.version>1.5.1</websocket.version>
    </properties>
    <dependencies>
       <dependency>
@@ -88,6 +89,11 @@
          <groupId>org.controlsfx</groupId>
          <artifactId>controlsfx</artifactId>
          <version>${controlsfx.version}</version>
+     </dependency>
+     <dependency>
+        <groupId>org.java-websocket</groupId>
+        <artifactId>Java-WebSocket</artifactId>
+        <version>${websocket.version}</version>
      </dependency>
    </dependencies>
    <build>

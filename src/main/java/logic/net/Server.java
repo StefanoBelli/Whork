@@ -1,33 +1,27 @@
 package logic.net;
 
+
 import java.io.IOException;
-import java.nio.channels.SocketChannel;
+
+import org.java_websocket.WebSocket;
 
 import logic.net.protocol.StatelessProtocol;
-import logic.util.Util;
 import logic.util.tuple.Pair;
 
-public final class Server implements Runnable {
-	private final TcpSocketServerChannels serverChannels;
+public final class Server {
+	private final WSServer webSocketServer;
 	
-	//may support SSL "SslSocketServerChannels" in the future... maybe
-	public Server(TcpSocketServerChannels serverChannels) {
-		this.serverChannels = serverChannels;
+	public Server(WSServer webSocketServer) {
+		this.webSocketServer = webSocketServer;
 	}
 
-	@Override
-	public void run() {
-		Thread curThread = Thread.currentThread();
-		while(!curThread.isInterrupted()){
-			try{
-				serverChannels.process();
-			} catch (IOException e) {
-				Util.exceptionLog(e);
-				break;
-			}
-		}
+	public void start() {
+		webSocketServer.start();
+	}
 
-		serverChannels.close();
+	public void stop() 
+			throws IOException, InterruptedException {
+		webSocketServer.stop();
 	}
 
 	public static final class OnReceiveEventHandler implements ReceiveEvent {
@@ -37,39 +31,18 @@ public final class Server implements Runnable {
 			this.protocol = protocol;
 		}
 
-		private void socketChannelCloseWithLogging(SocketChannel socketChannel) {
-			try {
-				socketChannel.close();
-			} catch(IOException e) {
-				Util.exceptionLog(e);
-			}
-		}
-
 		@Override
-		public void onReceive(SocketChannel socketChannel) {
-			String recvWhat;
-			try {
-				recvWhat = Util.SocketChannels.read(socketChannel);
-			} catch(IOException e) {
-				socketChannelCloseWithLogging(socketChannel);
-				return;
-			}
-
-			Pair<String, Boolean> next = protocol.onMessage(recvWhat);
+		public void onReceive(WebSocket clientWs, String message) {
+			Pair<String, Boolean> next = protocol.onMessage(message);
 			String sendWhat = next.getFirst();
 			boolean closeNow = Boolean.TRUE.equals(next.getSecond());
 
 			if(sendWhat != null) {
-				try {
-					Util.SocketChannels.write(socketChannel, next.getFirst());
-				} catch (IOException e) {
-					socketChannelCloseWithLogging(socketChannel);
-					return;
-				}
+				clientWs.send(next.getFirst());
 			}
 
 			if(closeNow) {
-				socketChannelCloseWithLogging(socketChannel);
+				clientWs.close();
 			}
 		}
 		
