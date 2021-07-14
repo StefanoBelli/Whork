@@ -113,17 +113,45 @@ public final class RegisterCompanyView implements ControllableView {
 		businessNameField.setPromptText(TYPE_BUSINESS_NAME_HINT);
 		vatField.setPromptText(TYPE_VAT_HINT);
 		companyFcField.setPromptText(TYPE_COMPANY_FC_HINT);
-		phoneNumberField.textProperty().addListener(
-			new GraphicsUtil.OnlyNumbersChangeListener(phoneNumberField));
-		vatField.textProperty().addListener(
-			new GraphicsUtil.OnlyNumbersChangeListener(vatField));
 		confirmButton.setDisable(true);
+
+		setTextProperties();
 
 		Font boldFont = GraphicsUtil.getBoldFont();
 		authMessage.setFont(boldFont);
 		aboutYouMessage.setFont(boldFont);
 		aboutCompanyMessage.setFont(boldFont);
 		privacyPolicyMessage.setFont(boldFont);
+	}
+
+	private void setTextProperties() {
+		emailField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(emailField, 255));
+
+		nameField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(nameField, 45));
+
+		surnameField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(surnameField, 45));
+
+		fiscalCodeField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(fiscalCodeField, 16));
+
+		companyFcField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(companyFcField, 16));
+
+		businessNameField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(businessNameField, 45));
+
+		vatField.textProperty().addListener(
+			new GraphicsUtil.OnlyNumbersChangeListener(vatField));
+		vatField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(vatField, 11));
+	
+		phoneNumberField.textProperty().addListener(
+			new GraphicsUtil.OnlyNumbersChangeListener(phoneNumberField));
+		phoneNumberField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(phoneNumberField, 10));
 	}
 
 	private void setNodesProps() {

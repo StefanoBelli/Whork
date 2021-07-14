@@ -25,6 +25,9 @@ import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
+import logic.graphicscontroller.formchecker.BasicFormChecker;
+import logic.graphicscontroller.formchecker.CompanyFormCheckerDecorator;
+import logic.graphicscontroller.formchecker.FormChecker;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
@@ -204,100 +207,21 @@ public final class RegisterCompanyViewController extends GraphicsController {
 		}
 
 		private boolean checksArePassing() {
-			boolean passing = true;
-			StringBuilder errorBuilder = new StringBuilder();
+			FormChecker checker = new CompanyFormCheckerDecorator(new BasicFormChecker());
+			String errorString = checker.doChecks(new Object[] {
+				email, password, retypedPassword, name, surname, fiscalCode, phoneNumber, businessName,
+				vatNumber, companyFc, companyLogo
+			});
 
-			if(email.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Email field is blank\n");
-			} else if(email.length() > 255) {
-				passing = false;
-				errorBuilder.append(" * Email is longer than 255 chars\n");
-			} else if(!Util.EMAIL_PATTERN.matcher(email).matches()) {
-				passing = false;
-				errorBuilder.append(" * Email is not a valid one\n");
-			}
-
-			if(password.isBlank() || retypedPassword.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Password and/or retype password fields are blank\n");
-			} else if(!password.equals(retypedPassword)) {
-				passing = false;
-				errorBuilder.append(" * Password is not matching the retyped one\n");
-			}
-
-			if(name.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Name field is blank\n");
-			} else if(name.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Name is longer than 45 chars\n");
-			}
-
-			if(surname.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Surname field is blank\n");
-			} else if(surname.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Surname is longer than 45 chars\n");
-			}
-
-			if(fiscalCode.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Fiscal code field is blank\n");
-			} else if(!Util.FC_PATTERN.matcher(fiscalCode).matches()) {
-				passing = false;
-				errorBuilder.append(" * Fiscal code is not a valid one\n");
-			}
-
-			if(phoneNumber.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Phone number field is blank\n");
-			} else {
-				int phoneNumberLen = phoneNumber.length();
-				if(phoneNumberLen < 9 || phoneNumberLen > 10) {
-					passing = false;
-					errorBuilder.append(" * Phone number length is not either 9 or 10\n");
-				}
-			}
-
-			if(businessName.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Business name field is blank\n");
-			} else if(businessName.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Business name is longer than 45 chars\n");
-			}
-
-			if(vatNumber.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * VAT number field is blank\n");
-			} else if(vatNumber.length() != 11) {
-				passing = false;
-				errorBuilder.append(" * VAT number length is different than 11 chars\n");
-			}
-
-			if(companyFc.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Company fiscal code field is blank\n");
-			} else if(!Util.FC_PATTERN.matcher(companyFc).matches()) {
-				passing = false;
-				errorBuilder.append(" * Company fiscal code is not a valid one\n");
-			}
-
-			if(companyLogo == null) {
-				passing = false;
-				errorBuilder.append(" * You didn't choose your company logo\n");
-			}
-
-			if(!passing) {
+			if(!errorString.equals("")) {
 				DialogFactory.error(
 					"Form does not pass checks", 
 					"Errors are following, fix them all", 
-					errorBuilder.toString()).showAndWait();
+					errorString).showAndWait();
+				return false;
 			}
 
-			return passing;
+			return true;
 		}
 	}
 

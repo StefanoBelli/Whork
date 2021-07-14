@@ -149,8 +149,8 @@ public final class RegisterJobSeekerView implements ControllableView {
 		mapWebView.setMaxHeight(WEBVIEW_MAX_HEIGHT);
 		mapWebView.setMaxWidth(WEBVIEW_MAX_WIDTH);
 		mapWebView.setDisable(true);
-		phoneNumberField.textProperty().addListener(
-			new GraphicsUtil.OnlyNumbersChangeListener(phoneNumberField));
+
+		setTextProperties();
 
 		Font boldFont = GraphicsUtil.getBoldFont();
 		authMessage.setFont(boldFont);
@@ -194,6 +194,28 @@ public final class RegisterJobSeekerView implements ControllableView {
 		privacyPolicyCheckBox = new CheckBox();
 		confirmButton = new Button(CONFIRM_BTN);
 		controller.setup();
+	}
+
+	private void setTextProperties() {
+		emailField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(emailField, 255));
+
+		nameField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(nameField, 45));
+
+		surnameField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(surnameField, 45));
+
+		fiscalCodeField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(fiscalCodeField, 16));
+
+		addressField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(addressField, 45));
+	
+		phoneNumberField.textProperty().addListener(
+			new GraphicsUtil.OnlyNumbersChangeListener(phoneNumberField));
+		phoneNumberField.textProperty().addListener(
+			new GraphicsUtil.LimitLengthChangeListener(phoneNumberField, 10));
 	}
 
 	@Override

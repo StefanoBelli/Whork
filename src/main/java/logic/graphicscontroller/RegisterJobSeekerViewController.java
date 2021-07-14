@@ -34,6 +34,9 @@ import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
+import logic.graphicscontroller.formchecker.BasicFormChecker;
+import logic.graphicscontroller.formchecker.FormChecker;
+import logic.graphicscontroller.formchecker.JobSeekerFormCheckerDecorator;
 import logic.pool.ComuniPool;
 import logic.pool.EmploymentsStatusPool;
 import logic.util.GraphicsUtil;
@@ -241,6 +244,24 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 			}
 		}
 
+		private boolean checksArePassing() {
+			FormChecker checker = new JobSeekerFormCheckerDecorator(new BasicFormChecker(), itTowns);
+			String errorString = checker.doChecks(new Object[] {
+				email, password, retypedPassword, name, surname, fiscalCode, phoneNumber, town, address,
+				cv
+			});
+
+			if(!errorString.equals("")) {
+				DialogFactory.error(
+					"Form does not pass checks", 
+					"Errors are following, fix them all", 
+					errorString).showAndWait();
+				return false;
+			}
+
+			return true;
+		}
+
 		private void showSuccessDialogAndCloseStage() {
 			DialogFactory.info(
 				"Success",
@@ -272,104 +293,6 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 				BeanFactory.buildUserAuthBean(email, password);
 
 			return new Pair<>(user, userAuth);
-		}
-
-		private boolean checksArePassing() {
-			boolean passing = true;
-			StringBuilder errorBuilder = new StringBuilder();
-
-			if(email.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Email field is blank\n");
-			} else if(email.length() > 255) {
-				passing = false;
-				errorBuilder.append(" * Email is longer than 255 chars\n");
-			} else if(!Util.EMAIL_PATTERN.matcher(email).matches()) {
-				passing = false;
-				errorBuilder.append(" * Email is not a valid one\n");
-			}
-
-			if(password.isBlank() || retypedPassword.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Password and/or retype password fields are blank\n");
-			} else if(!password.equals(retypedPassword)) {
-				passing = false;
-				errorBuilder.append(" * Password is not matching the retyped one\n");
-			}
-
-			if(name.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Name field is blank\n");
-			} else if(name.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Name is longer than 45 chars\n");
-			}
-
-			if(surname.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Surname field is blank\n");
-			} else if(surname.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Surname is longer than 45 chars\n");
-			}
-
-			if(fiscalCode.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Fiscal code field is blank\n");
-			} else if(!Util.FC_PATTERN.matcher(fiscalCode).matches()) {
-				passing = false;
-				errorBuilder.append(" * Fiscal code is not a valid one\n");
-			}
-
-			if(phoneNumber.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Phone number field is blank\n");
-			} else {
-				int phoneNumberLen = phoneNumber.length();
-				if(phoneNumberLen < 9 || phoneNumberLen > 10) {
-					passing = false;
-					errorBuilder.append(" * Phone number length is not either 9 or 10\n");
-				}
-			}
-
-			if(town.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Town field is blank\n");
-			} else if(!findTown()) {
-				passing = false;
-				errorBuilder.append(" * Town is not in the form we were expecting, use autocompletion\n");
-			}
-
-			if(address.isBlank()) {
-				passing = false;
-				errorBuilder.append(" * Address field is blank\n");
-			} else if(address.length() > 45) {
-				passing = false;
-				errorBuilder.append(" * Address field is longer than 45 chars\n");
-			}
-
-			if(cv == null) {
-				passing = false;
-				errorBuilder.append(" * You didn't choose your CV\n");
-			}
-
-			if(!passing) {
-				DialogFactory.error(
-					"Form does not pass checks", 
-					"Errors are following, fix them all", 
-					errorBuilder.toString()).showAndWait();
-			}
-
-			return passing;
-		}
-
-		private boolean findTown() {
-			for(final String itTown : itTowns) {
-				if(town.equals(itTown)) {
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 
