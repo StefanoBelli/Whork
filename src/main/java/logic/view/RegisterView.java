@@ -58,19 +58,14 @@ public final class RegisterView implements ControllableView {
 	}
 
 	@Override
+	public void setWindowProperties(Stage stage) {
+		stage.setTitle(WIN_TITLE);
+		stage.setResizable(false);
+	}
+
+	@Override
 	public Scene getScene() {
 		return scene;
-	}
-
-	@Override
-	public void setWindowProperties(Stage stage) {
-		stage.setResizable(false);
-		stage.setTitle(WIN_TITLE);
-	}
-
-	@Override
-	public void visible() {
-		//no need to update anything
 	}
 
 	@Override
@@ -81,5 +76,9 @@ public final class RegisterView implements ControllableView {
 			confirmBtn
 		};
 	}
-	
+
+	@Override
+	public void visible() {
+		//no need to update anything
+	}
 }

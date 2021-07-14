@@ -5,18 +5,10 @@ import java.io.Serializable;
 public final class CompanyBean implements Serializable {
 	private static final long serialVersionUID = 143762902979557477L;
 	
-	private String vat;
-	private String socialReason;
 	private String cf;
 	private String logo;
-
-	public String getVat() {
-		return vat;
-	}
-
-	public String getSocialReason() {
-		return socialReason;
-	}
+	private String vat;
+	private String socialReason;
 
 	public String getCf() {
 		return cf;
@@ -26,12 +18,12 @@ public final class CompanyBean implements Serializable {
 		return logo;
 	}
 
-	public void setVat(String vat) {
-		this.vat = vat;
+	public String getVat() {
+		return vat;
 	}
 
-	public void setSocialReason(String socialReason) {
-		this.socialReason = socialReason;
+	public String getSocialReason() {
+		return socialReason;
 	}
 
 	public void setCf(String cf) {
@@ -40,5 +32,13 @@ public final class CompanyBean implements Serializable {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+	
+	public void setVat(String vat) {
+		this.vat = vat;
+	}
+
+	public void setSocialReason(String socialReason) {
+		this.socialReason = socialReason;
 	}
 }

@@ -53,19 +53,14 @@ public final class PasswordRecoveryView implements ControllableView {
 	}
 	
 	@Override
-	public Scene getScene() {
-		return scene;
-	}
-
-	@Override
 	public void setWindowProperties(Stage stage) {
 		stage.setTitle(WIN_TITLE);
 		stage.setResizable(false);
 	}
-
+	
 	@Override
-	public void visible() {
-		// no need to update anything
+	public Scene getScene() {
+		return scene;
 	}
 
 	@Override
@@ -75,6 +70,11 @@ public final class PasswordRecoveryView implements ControllableView {
 			sendRequestButton,
 			alreadyHaveTokenButton
 		};
+	}
+
+	@Override
+	public void visible() {
+		// no need to update anything
 	}
 
 	public void setPresetEmail(String emailAddress) {
