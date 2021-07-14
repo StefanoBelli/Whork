@@ -53,6 +53,15 @@ public final class PasswordRecoveryView implements ControllableView {
 	}
 	
 	@Override
+	public Node[] getNodes() {
+		return new Node[] {
+			emailAddressTextField,
+			sendRequestButton,
+			alreadyHaveTokenButton
+		};
+	}
+
+	@Override
 	public void setWindowProperties(Stage stage) {
 		stage.setTitle(WIN_TITLE);
 		stage.setResizable(false);
@@ -61,15 +70,6 @@ public final class PasswordRecoveryView implements ControllableView {
 	@Override
 	public Scene getScene() {
 		return scene;
-	}
-
-	@Override
-	public Node[] getNodes() {
-		return new Node[] {
-			emailAddressTextField,
-			sendRequestButton,
-			alreadyHaveTokenButton
-		};
 	}
 
 	@Override
