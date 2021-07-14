@@ -17,6 +17,13 @@ import logic.graphicscontroller.RegisterCompanyViewController;
 import logic.util.GraphicsUtil;
 
 public final class RegisterCompanyView implements ControllableView {
+	private static final String TYPE_VAT_HINT = "Type VAT here...";
+	private static final String TYPE_COMPANY_FC_HINT = "Type company fiscal code here...";
+	private static final String AUTH_MESSAGE = "Authentication";
+	private static final String EMAIL_MESSAGE = "Email:";
+	private static final String PASSWORD_MESSAGE = "Password:";
+	private static final String RETYPE_PASSWORD_MESSAGE = "Retype password:";
+	private static final String ABOUT_YOU_MESSAGE = "About you";
 	private static final String WIN_TITLE = "Register as a company - Whork";
 	private static final String TYPE_EMAIL_HINT = "Type your email here...";
 	private static final String TYPE_PASSWORD_HINT = "Type your password here...";
@@ -26,13 +33,6 @@ public final class RegisterCompanyView implements ControllableView {
 	private static final String TYPE_FISCAL_CODE_HINT = "Type your fiscal code here...";
 	private static final String TYPE_PHONE_NUMBER_HINT = "Type your phone number here...";
 	private static final String TYPE_BUSINESS_NAME_HINT = "Type business name here...";
-	private static final String TYPE_VAT_HINT = "Type VAT here...";
-	private static final String TYPE_COMPANY_FC_HINT = "Type company fiscal code here...";
-	private static final String AUTH_MESSAGE = "Authentication";
-	private static final String EMAIL_MESSAGE = "Email:";
-	private static final String PASSWORD_MESSAGE = "Password:";
-	private static final String RETYPE_PASSWORD_MESSAGE = "Retype password:";
-	private static final String ABOUT_YOU_MESSAGE = "About you";
 	private static final String NAME_MESSAGE = "Name:";
 	private static final String SURNAME_MESSAGE = "Surname:";
 	private static final String FISCAL_CODE_MESSAGE = "Fiscal code:";
@@ -56,7 +56,14 @@ public final class RegisterCompanyView implements ControllableView {
 	private static final double CONFIG_WIN_HEIGTH = 443;
 
 	private Scene scene;
-
+	
+	private TextField surnameField;
+	private Label fiscalCodeMessage;
+	private TextField fiscalCodeField;
+	private Label phoneNumberMessage;
+	private TextField phoneNumberField;
+	private Label profilePhotoMessage;
+	private Button profilePhotoButton;
 	private Text authMessage;
 	private Label emailMessage;
 	private TextField emailField;
@@ -68,13 +75,6 @@ public final class RegisterCompanyView implements ControllableView {
 	private Label nameMessage;
 	private TextField nameField;
 	private Label surnameMessage;
-	private TextField surnameField;
-	private Label fiscalCodeMessage;
-	private TextField fiscalCodeField;
-	private Label phoneNumberMessage;
-	private TextField phoneNumberField;
-	private Label profilePhotoMessage;
-	private Button profilePhotoButton;
 	private Label profilePhotoFileLabel;
 	private Label areYouRecruiterMessage;
 	private CheckBox areYouRecruiterCheckBox;
@@ -195,6 +195,12 @@ public final class RegisterCompanyView implements ControllableView {
 	}
 
 	private void init() {
+		nameMessage = new Label(NAME_MESSAGE);
+		nameField = new TextField();
+		surnameMessage = new Label(SURNAME_MESSAGE);
+		surnameField = new TextField();
+		fiscalCodeMessage = new Label(FISCAL_CODE_MESSAGE);
+		fiscalCodeField = new TextField();
 		authMessage = new Text(AUTH_MESSAGE);
 		emailMessage = new Label(EMAIL_MESSAGE);
 		emailField = new TextField();
@@ -203,12 +209,6 @@ public final class RegisterCompanyView implements ControllableView {
 		retypePasswordMessage = new Label(RETYPE_PASSWORD_MESSAGE);
 		retypePasswordField = new PasswordField();
 		aboutYouMessage = new Text(ABOUT_YOU_MESSAGE);
-		nameMessage = new Label(NAME_MESSAGE);
-		nameField = new TextField();
-		surnameMessage = new Label(SURNAME_MESSAGE);
-		surnameField = new TextField();
-		fiscalCodeMessage = new Label(FISCAL_CODE_MESSAGE);
-		fiscalCodeField = new TextField();
 		phoneNumberMessage = new Label(PHONE_NUMBER_MESSAGE);
 		phoneNumberField = new TextField();
 		profilePhotoMessage = new Label(PROFILE_PHOTO_MESSAGE);
@@ -234,14 +234,15 @@ public final class RegisterCompanyView implements ControllableView {
 	}
 
 	@Override
-	public Scene getScene() {
-		return scene;
-	}
-
-	@Override
 	public void setWindowProperties(Stage stage) {
 		stage.setTitle(WIN_TITLE);
 		stage.setResizable(false);
+	}
+
+	
+	@Override
+	public Scene getScene() {
+		return scene;
 	}
 
 	@Override
