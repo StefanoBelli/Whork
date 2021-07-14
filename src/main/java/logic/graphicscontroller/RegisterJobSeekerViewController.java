@@ -33,7 +33,6 @@ import logic.exception.AlreadyExistantUserException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
-import logic.factory.DialogFactory;
 import logic.graphicscontroller.formchecker.BasicFormChecker;
 import logic.graphicscontroller.formchecker.FormChecker;
 import logic.graphicscontroller.formchecker.JobSeekerFormCheckerDecorator;
@@ -45,6 +44,8 @@ import logic.view.ControllableView;
 import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 import logic.util.tuple.Pair;
+import static logic.graphicscontroller.commons.RegisterCommons.HandlePrivacyPolicyCheckBoxClicked;
+import logic.graphicscontroller.commons.RegisterCommons;
 import java.util.stream.Collectors;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -169,7 +170,8 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 	}
 
 	private void setListeners() {
-		privacyPolicyCheckBox.setOnMouseClicked(new HandlePrivacyPolicyCheckBoxClicked());
+		privacyPolicyCheckBox.setOnMouseClicked(
+			new HandlePrivacyPolicyCheckBoxClicked(confirmButton, privacyPolicyCheckBox));
 		confirmButton.setOnMouseClicked(new HandleConfirmButtonClicked());
 		attachYourCvButton.setOnMouseClicked(new HandleAttachYourCvButtonClicked());
 		profilePhotoButton.setOnMouseClicked(new HandleProfilePhotoButtonClicked());
@@ -177,16 +179,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		addressField.textProperty().addListener(new HandleAddressFieldTextChanged());
 	}
 
-	private final class HandlePrivacyPolicyCheckBoxClicked implements EventHandler<MouseEvent> {
-		@Override
-		public void handle(MouseEvent event) {
-			confirmButton.setDisable(!privacyPolicyCheckBox.isSelected());
-		}
-	}
-
 	private final class HandleConfirmButtonClicked implements EventHandler<MouseEvent> {
-		private static final String ERROR = "Error";
-
 		private String name;
 		private String surname;
 		private String fiscalCode;
@@ -216,27 +209,18 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 					RegisterController.register(createBeans());
 				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					DialogFactory.error(
-						"Internal exception", 
-						"Something bad just happened, we don't know much about it",
-						e.getMessage()).showAndWait();
+					RegisterCommons.ShowAndWaitDialog.internalException(e);
 					return;
 				} catch (InvalidVatCodeException | AlreadyExistantCompanyException e) { //should not happen here
 					Util.exceptionLog(e);
 					GraphicsUtil.showExceptionStage(e);
 					return;
 				} catch (AlreadyExistantUserException e) {
-					DialogFactory.error(
-						ERROR, 
-						"Already existant user", 
-						"Another user with same email and/or fiscal code already exists").showAndWait();
+					RegisterCommons.ShowAndWaitDialog.alreadyExistantUser();
 					return;
 				} catch (IOException e) {
 					Util.exceptionLog(e);
-					DialogFactory.error(
-						ERROR, 
-						"Unable to copy one or more file", 
-						"Check logs to get more infos").showAndWait();
+					RegisterCommons.ShowAndWaitDialog.ioException();
 					return;
 				}
 
@@ -252,10 +236,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 			});
 
 			if(!errorString.equals("")) {
-				DialogFactory.error(
-					"Form does not pass checks", 
-					"Errors are following, fix them all", 
-					errorString).showAndWait();
+				RegisterCommons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
 				return false;
 			}
 
@@ -263,14 +244,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		}
 
 		private void showSuccessDialogAndCloseStage() {
-			DialogFactory.info(
-				"Success",
-				new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
-				new StringBuilder("You successfully signed up for Whork. ")
-					.append("Now it is time to confirm your request to join us by checking for a mail ")
-					.append("we sent you at the address you just gave us: ").append(email)
-					.append(", be sure to check spam also.\nThe Whork team.").toString()
-			).showAndWait();
+			RegisterCommons.ShowAndWaitDialog.success(name, email);
 			((Stage) view.getScene().getWindow()).close();
 		}
 

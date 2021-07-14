@@ -31,6 +31,8 @@ import logic.graphicscontroller.formchecker.FormChecker;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
+import static logic.graphicscontroller.commons.RegisterCommons.HandlePrivacyPolicyCheckBoxClicked;
+import logic.graphicscontroller.commons.RegisterCommons;
 
 public final class RegisterCompanyViewController extends GraphicsController {
 	private TextField emailField;
@@ -88,18 +90,11 @@ public final class RegisterCompanyViewController extends GraphicsController {
 	}
 	
 	private void setListeners() {
-		privacyPolicyCheckBox.setOnMouseClicked(new HandlePrivacyPolicyCheckBoxClicked());
+		privacyPolicyCheckBox.setOnMouseClicked(
+			new HandlePrivacyPolicyCheckBoxClicked(confirmButton, privacyPolicyCheckBox));
 		confirmButton.setOnMouseClicked(new HandleConfirmButtonClicked());
 		companyLogoButton.setOnMouseClicked(new HandleCompanyLogoButtonClicked());
 		profilePhotoButton.setOnMouseClicked(new HandleProfilePhotoButtonClicked());
-	}
-
-	private final class HandlePrivacyPolicyCheckBoxClicked implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {
-			confirmButton.setDisable(!privacyPolicyCheckBox.isSelected());
-		}
 	}
 
 	private final class HandleConfirmButtonClicked implements EventHandler<MouseEvent> {
@@ -136,10 +131,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 					RegisterController.register(createBeans());
 				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					DialogFactory.error(
-						"Internal exception", 
-						"Something bad just happened, we don't know much about it",
-						e.getMessage()).showAndWait();
+					RegisterCommons.ShowAndWaitDialog.internalException(e);
 					return;
 				} catch (AlreadyExistantCompanyException e) {
 					DialogFactory.error(
@@ -154,17 +146,11 @@ public final class RegisterCompanyViewController extends GraphicsController {
 						"We tried to check your VAT code but it seems invalid, therefore, we are rejecting your signup request").showAndWait();
 					return;
 				} catch (AlreadyExistantUserException e) {
-					DialogFactory.error(
-						ERROR, 
-						"Already existant user", 
-						"Another user with same email and/or fiscal code already exists").showAndWait();
+					RegisterCommons.ShowAndWaitDialog.alreadyExistantUser();
 					return;
 				} catch (IOException e) {
 					Util.exceptionLog(e);
-					DialogFactory.error(
-						ERROR, 
-						"Unable to copy one or more file", 
-						"Check logs to get more infos").showAndWait();
+					RegisterCommons.ShowAndWaitDialog.ioException();
 					return;
 				}
 
@@ -193,16 +179,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 		}
 
 		private void showSuccessDialogAndCloseStage() {
-			DialogFactory.info(
-				"Success",
-				new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
-				new StringBuilder("You successfully signed up for Whork. ")
-					.append("Now it is time to confirm your request to join us by checking for a mail ")
-					.append("we sent you at the address you just gave us: ").append(email)
-					.append(", be sure to check spam also.\nThe Whork team.")
-					.append("\n\nAbout your company\nJust to be sure, we registered your company: ")
-					.append(businessName).toString()
-			).showAndWait();
+			RegisterCommons.ShowAndWaitDialog.success(name, email, businessName);
 			((Stage) view.getScene().getWindow()).close();
 		}
 
@@ -214,10 +191,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 			});
 
 			if(!errorString.equals("")) {
-				DialogFactory.error(
-					"Form does not pass checks", 
-					"Errors are following, fix them all", 
-					errorString).showAndWait();
+				RegisterCommons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
 				return false;
 			}
 
