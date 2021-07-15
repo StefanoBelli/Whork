@@ -1,7 +1,7 @@
 package logic.controller;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +93,7 @@ public final class ChatController {
 			if (userEmail != null) {
 				removePreExistantTokenForUserEmail(userEmail);
 				token = Util.generateToken();
-				validTokens.put(token, new Pair<>(userEmail, new Date().getTime()));
+				validTokens.put(token, new Pair<>(userEmail, Instant.now().getEpochSecond()));
 			} else {
 				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NULL);
 			}
@@ -103,7 +103,7 @@ public final class ChatController {
 				if (currentTokenRecord != null) {
 					token = Util.generateToken();
 					validTokens.remove(currentToken);
-					validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), new Date().getTime()));
+					validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), Instant.now().getEpochSecond()));
 				}
 			} else {
 				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NOT_NULL);
@@ -123,14 +123,14 @@ public final class ChatController {
 	}
 
 	private final String queryToken(String tok) {
-		Date nowTime = new Date();
 		Pair<String, Long> tokenPair = validTokens.get(tok);
 
 		if (tokenPair == null) {
 			return null;
 		}
 
-		if (nowTime.getTime() - tokenPair.getSecond() > VALID_TOKEN_INTVL_INTEGER) {
+		long t = Instant.now().getEpochSecond() - tokenPair.getSecond();
+		if (t > VALID_TOKEN_INTVL_INTEGER) {
 			validTokens.remove(tok);
 			return null;
 		}
