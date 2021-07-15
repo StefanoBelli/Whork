@@ -13,23 +13,23 @@
 }
 
 #menu {
-	text-align: center;
+  text-align: center;
 }
 
 #ctrl {
-	height: auto;
-	display: flex;
-	text-align: center;
-	align-items: center;
-	justify-content:center;
+  height: auto;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 #mymsg {
-	width:592px;
-	height:30px;
+  width: 592px;
+  height: 30px;
 }
 
 #sendbtn {
-	width:57px;
-	height:39px;
+  width: 57px;
+  height: 39px;
 }

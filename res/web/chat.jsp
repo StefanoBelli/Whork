@@ -39,6 +39,9 @@ if(chatController.isOnlineService()) {
 				ws.addEventListener('open', function (event) {
 					console.log("open"); //DEBUG
 					tokenRefresh();
+
+					document.getElementById("chatbox").appendChild(document.createTextNode("opened"));
+					document.getElementById("chatbox").appendChild(document.createElement("br"));
 				});
 
 				ws.addEventListener('message', function (event) {
