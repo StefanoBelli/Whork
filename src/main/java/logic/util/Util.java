@@ -10,7 +10,6 @@ import javax.mail.Transport;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -23,10 +22,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -148,39 +143,6 @@ public final class Util {
 				.append(day).append("/").append(month).append("/").append(year).toString());
 		} catch (ParseException e) {
 			throw new IllegalArgumentException("Unable to parse date for fiscal code");
-		}
-	}
-	
-	public static final class SocketChannels {
-		private SocketChannels() {}
-		
-		public static String read(SocketChannel socketChannel) 
-				throws IOException {
-			ByteBuffer buffer = ByteBuffer.allocate(8192);
-
-			buffer.clear();
-
-			if (socketChannel.read(buffer) == -1) {
-				throw new EOFException();
-			}
-
-			buffer.flip();
-			return StandardCharsets.UTF_8.decode(buffer).toString();
-		}
-
-		public static void write(SocketChannel socketChannel, String what) 
-				throws IOException {
-
-			CharBuffer buffer = CharBuffer.allocate(what.length());
-			buffer.clear();
-			buffer.put(what);
-			buffer.flip();
-
-			ByteBuffer bytes = StandardCharsets.UTF_8.encode(buffer);
-
-			while (bytes.hasRemaining()) {
-				socketChannel.write(bytes);
-			}
 		}
 	}
 

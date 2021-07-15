@@ -1,7 +1,7 @@
 package logic.net;
 
-import java.nio.channels.SocketChannel;
+import org.java_websocket.WebSocket;
 
 public interface ReceiveEvent {
-	void onReceive(SocketChannel socketChannel);
+	void onReceive(WebSocket clientWs, String message);
 }

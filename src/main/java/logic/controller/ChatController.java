@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import logic.bean.ChatInitBean;
 import logic.model.ChatLogEntryModel;
 import logic.net.Server;
-import logic.net.TcpSocketServerChannels;
+import logic.net.WSServer;
 import logic.net.protocol.StatelessProtocol;
 import logic.net.protocol.StatelessProtocol.Request;
 import logic.net.protocol.StatelessProtocol.Response;
@@ -49,23 +49,18 @@ public final class ChatController {
 	private final StatelessProtocol statelessProtocol = new StatelessProtocol(this); //that's why we need a singleton
 	private final Map<String, Pair<String, Long>> validTokens = new HashMap<>();
 	private final int listenPort = Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_CHAT_PORT);
-	private Thread worker;
+	private Server server;
 	private boolean isOnline = false;
 
 	public final boolean startService() {
 		if (isOnline) {
 			return false;
 		}
+		
+		server = new Server(new WSServer(LISTEN_ADDR, listenPort,
+				new Server.OnReceiveEventHandler(statelessProtocol)));
 
-		try {
-			worker = new Thread(new Server(new TcpSocketServerChannels(LISTEN_ADDR, listenPort,
-					new Server.OnReceiveEventHandler(statelessProtocol))));
-
-			worker.start();
-		} catch (IOException | IllegalThreadStateException e) {
-			Util.exceptionLog(e);
-			return false;
-		}
+		server.start();
 
 		isOnline = true;
 		return true;
@@ -74,14 +69,9 @@ public final class ChatController {
 	public final boolean stopService() {
 		if (isOnline) {
 			try {
-				worker.interrupt();
-				worker.join();
-			} catch (SecurityException e) {
+				server.stop();
+			} catch (IOException | InterruptedException e) {
 				Util.exceptionLog(e);
-				return false;
-			} catch (InterruptedException e) {
-				Util.exceptionLog(e);
-				isOnline = false;
 				Thread.currentThread().interrupt();
 			}
 
