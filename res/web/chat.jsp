@@ -17,28 +17,32 @@ if(chatController.isOnlineService()) {
 <html lang="en">
 	<head>
 		<title>Chat - Whork</title>
+		<link rel="stylesheet" type="text/css" href="css/chat.css"></link>
 		<script>
 			var ws;
 			var token = "<%=chatInit.getToken()%>";
+
+			function handleError() {
+
+			}
+
 			function tokenRefresh() {
 				var req = "TokenRefresh\tToken:" + token + "\nContent-Length:0\n\0";
 				console.log(req);
 				ws.send(req);
 			}
 
-			window.onload = function() {
+			window.onload = function() { //main parser
 				const endpoint = "ws://" + window.location.hostname + ":" + "<%=chatInit.getServicePort()%>";
 				ws = new WebSocket(endpoint);
-				
-				console.log("onload()");
 
 				ws.addEventListener('open', function (event) {
-					console.log("open");
+					console.log("open"); //DEBUG
 					tokenRefresh();
 				});
 
 				ws.addEventListener('message', function (event) {
-					console.log(event.data);
+					console.log(event.data); //DEBUG
 					const response = event.data;
 					const arr = response.split("\t");
 					if(arr[0] === "OK") {
@@ -49,35 +53,35 @@ if(chatController.isOnlineService()) {
 								token = fields[2].split("\0")[1];
 								setTimeout(tokenRefresh, (parseInt(kv[1]) - 15) * 1000);
 								return;
-							}
-							/*
-							const kv = field.split(":");
-							if(kv[0] === "Expires-In") {
-								console.log("ok");
-								//token = arr[1].split("\0")[1];
-								//setTimeout(tokenRefresh, parseInt(kv[1] - 15) * 1000);
-								return;
 							} else if(kv[0] === "Content-Type" && kv[1] === "text/json") {
-								//handleRequestedMessages(arr[1].split("\0")[1]);
 								return;
 							} else if(kv[0] === "Content-Length" && kv[1] === "1") {
-								//handleOnlineStatusReport(parseInt(arr[1].split("\0")[1]));
 								return;
 							} else {
-								//handleMessageDelivered();
 								return;
-							}*/
+							}
 						}
 					} else {
 						alert("Something went bad while receiving a response from chat service!");
-						//handleError(arr[1]);
+						handleError(arr[1]);
 					}
 				});
 			}
 		</script>
 	</head>
 	<body>
+		<div id="wrapper">
+			<div id="menu">
+                <p class="chatting_with">Chatting with: </p>
+            </div>
+ 
+			<div id="chatbox"></div>
 		
+			<div id="ctrl">
+				<textarea rows="2" cols="60" id="mymsg"></textarea>
+				<button id="sendbtn">Send</button>
+			</div>
+		</div>
 	</body>
 </html>
 <%
