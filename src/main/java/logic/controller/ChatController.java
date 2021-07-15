@@ -273,7 +273,7 @@ public final class ChatController {
 			}
 
 			return retrieveLogAndGetJsonSerResponse(
-				senderEmail, toField, tsToEarliest, tsFromLatest);
+				senderEmail, toField, tsFromLatest, tsToEarliest);
 		}
 
 		return ResponseFactory.buildInvalidTokenResponse();
@@ -309,12 +309,12 @@ public final class ChatController {
 	}
 
 	private Response retrieveLogAndGetJsonSerResponse(String senderEmail, String toField, 
-			long tsToEarliest, long tsFromLatest) {
+			long tsFromLatest, long tsToEarliest) {
 		List<ChatLogEntryModel> logs;
 
 		try {
 			logs = 
-				ChatLogDao.getLog(senderEmail, toField, tsToEarliest, tsFromLatest);
+				ChatLogDao.getLog(senderEmail, toField, tsFromLatest, tsToEarliest);
 		} catch(DataAccessException e) {
 			Util.exceptionLog(e);
 			return ResponseFactory.buildGenericErrorResponse();

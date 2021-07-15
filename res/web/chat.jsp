@@ -24,6 +24,27 @@ if(chatController.isOnlineService()) {
 			const myEmail = "<%=userEmail%>";
 			const toEmail = "sa.belli@hotmail.it"; //DEBUG
 			var tokenExpiresInMs = <%=(chatInit.getTokenExpiresIn() - 15) * 1000%>;
+			var latestMessageTime = 0;
+			var earliestMessageTime = 0;
+
+			function parseRequestedMsgs(msgsEncoded) {
+				const msgs = JSON.parse(msgsEncoded);
+				if(msgs.length > 0) {
+					latestMessageTime = msgs[0].delivery_request_date;
+					earliestMessageTime = msgs[msgs.length - 1].delivery_request_date;
+
+					console.log(latestMessageTime);
+					console.log(earliestMessageTime);
+
+					for(let msg in msgs) {
+						//msg.id
+						//msg.delivery_request_date
+						//msg.sender_email
+						//msg.receiver_email
+						//msg.text
+					}
+				}
+			}
 
 			function handleError() {
 
@@ -72,7 +93,8 @@ if(chatController.isOnlineService()) {
 					console.log("open"); //DEBUG
 					setTimeout(checkOnlineStatus, <%=chatInit.getShouldPullMessagesEvery()%>);
 					setTimeout(tokenRefresh, tokenExpiresInMs);
-					pullMessages(Date.now(), 0);
+					const curtime = Date.now();
+					pullMessages(curtime, curtime - 43200000);
 				});
 
 				ws.addEventListener('message', function (event) {
@@ -90,7 +112,10 @@ if(chatController.isOnlineService()) {
 								return;
 							} else if(kv[0] === "Content-Type" && kv[1] === "text/json") {
 								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
-								console.log(fields[3].split("\0")[1]); //msgs
+								parseRequestedMsgs(fields[3].split("\0")[1]);
+								setTimeout(function() {
+									pullMessages(Date.now(), latestMessageTime + 1000);
+								}, shouldPullEveryMs);
 								return;
 							} else if(kv[0] === "Content-Length" && kv[1] === "1") {
 								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
