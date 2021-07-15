@@ -2,6 +2,7 @@ package logic.controller;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +156,11 @@ public final class ChatController {
 	private final String isUserOnlineFmtResponse(String email) {
 		for (final Pair<String, Long> v : validTokens.values()) {
 			if (v.getFirst().equals(email)) {
+				long t = Instant.now().getEpochSecond() - v.getSecond();
+				if (t > VALID_TOKEN_INTVL_INTEGER) {
+					return "0";
+				}
+				
 				return "1";
 			}
 		}
@@ -328,6 +334,7 @@ public final class ChatController {
 		chatLogEntry.setText(bodyField);
 		chatLogEntry.setSenderEmail(senderEmail);
 		chatLogEntry.setReceiverEmail(toField);
+		chatLogEntry.setDeliveryRequestTime(new Date().getTime());
 
 		try {	
 			ChatLogDao.addLogEntry(chatLogEntry);

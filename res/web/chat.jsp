@@ -21,14 +21,43 @@ if(chatController.isOnlineService()) {
 		<script>
 			var ws;
 			var token = "<%=chatInit.getToken()%>";
+			const myEmail = "<%=userEmail%>";
+			const toEmail = "sa.belli@hotmail.it"; //DEBUG
+			var tokenExpiresInMs = <%=(chatInit.getTokenExpiresIn() - 15) * 1000%>;
 
 			function handleError() {
 
 			}
 
+			function pullMessages() {
+				
+			}
+
+			/*
+			function place(id) {
+				var node = document.createTextNode("opened #" + id);
+				var elem = document.getElementById("chatbox");
+				elem.insertBefore(node, elem.lastChild);
+				elem.insertBefore(document.createElement("br"), elem.lastChild);
+			}*/
+
 			function tokenRefresh() {
 				var req = "TokenRefresh\tToken:" + token + "\nContent-Length:0\n\0";
-				console.log(req);
+				console.log(req); //DEBUG
+				ws.send(req);
+			}
+
+			function pushMessage(msg) {
+				var req = "PushMessage\tToken:" + token + "\nTo:" + toEmail + "\nContent-Length:"
+							+ msg.length + "\n\0" + msg;
+				console.log(req); //DEBUG
+				ws.send(req);
+			}
+
+			function checkOnlineStatus() {
+				var req = "CheckOnlineStatus\tToken:" + token + "\nContent-Length:0\nTo:" 
+							+ toEmail + "\n\0";
+				console.log(req); //DEBUG
 				ws.send(req);
 			}
 
@@ -38,10 +67,8 @@ if(chatController.isOnlineService()) {
 
 				ws.addEventListener('open', function (event) {
 					console.log("open"); //DEBUG
-					tokenRefresh();
-
-					document.getElementById("chatbox").appendChild(document.createTextNode("opened"));
-					document.getElementById("chatbox").appendChild(document.createElement("br"));
+					setTimeout(checkOnlineStatus, <%=chatInit.getShouldPullMessagesEvery()%>);
+					setTimeout(tokenRefresh, tokenExpiresInMs);
 				});
 
 				ws.addEventListener('message', function (event) {
@@ -54,19 +81,30 @@ if(chatController.isOnlineService()) {
 							const kv = fields[i].split(":");
 							if(kv[0] === "Expires-In") {
 								token = fields[2].split("\0")[1];
-								setTimeout(tokenRefresh, (parseInt(kv[1]) - 15) * 1000);
+								tokenExpiresInMs = (parseInt(kv[1]) - 15) * 1000;
+								setTimeout(tokenRefresh, tokenExpiresInMs);
 								return;
 							} else if(kv[0] === "Content-Type" && kv[1] === "text/json") {
 								return;
 							} else if(kv[0] === "Content-Length" && kv[1] === "1") {
-								return;
-							} else {
+								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
+								console.log(fields[2].split("\0")[1]); //online status
+								setTimeout(checkOnlineStatus, (shouldPullEveryMs + tokenExpiresInMs) / 2);
 								return;
 							}
 						}
+						//message accepted for delivery, otherwise
 					} else {
 						alert("Something went bad while receiving a response from chat service!");
 						handleError(arr[1]);
+					}
+				});
+				
+				document.getElementById("sendbtn").addEventListener("click", function() {
+					const area = document.getElementById("mymsg");
+					if(area.value.length > 0) {
+						pushMessage(area.value);
+						area.value = "";
 					}
 				});
 			}
