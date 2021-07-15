@@ -29,8 +29,11 @@ if(chatController.isOnlineService()) {
 
 			}
 
-			function pullMessages() {
-				
+			function pullMessages(fromLatest, toEarliest) {
+				var req = "PullMessages\tToken:" + token + "\nTo:" + toEmail + 
+					"\nContent-Length:0\nTs-From-Latest:" + fromLatest + "\nTs-To-Earliest:" + toEarliest + "\n\0";
+				console.log(req); //DEBUG
+				ws.send(req);
 			}
 
 			/*
@@ -69,6 +72,7 @@ if(chatController.isOnlineService()) {
 					console.log("open"); //DEBUG
 					setTimeout(checkOnlineStatus, <%=chatInit.getShouldPullMessagesEvery()%>);
 					setTimeout(tokenRefresh, tokenExpiresInMs);
+					pullMessages(Date.now(), 0);
 				});
 
 				ws.addEventListener('message', function (event) {
@@ -85,6 +89,8 @@ if(chatController.isOnlineService()) {
 								setTimeout(tokenRefresh, tokenExpiresInMs);
 								return;
 							} else if(kv[0] === "Content-Type" && kv[1] === "text/json") {
+								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
+								console.log(fields[3].split("\0")[1]); //msgs
 								return;
 							} else if(kv[0] === "Content-Length" && kv[1] === "1") {
 								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);

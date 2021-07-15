@@ -258,12 +258,12 @@ public final class ChatController {
 				return ResponseFactory.buildIllegalArgumentResponse();
 			}
 
-			int tsFromLatest;
-			int tsToEarliest;
+			long tsFromLatest;
+			long tsToEarliest;
 			
 			try {
-				tsFromLatest = Integer.parseInt(tsFromLatestField);
-				tsToEarliest = Integer.parseInt(tsToEarliestField);
+				tsFromLatest = Long.parseLong(tsFromLatestField);
+				tsToEarliest = Long.parseLong(tsToEarliestField);
 			} catch(NumberFormatException e) {
 				return ResponseFactory.buildIllegalArgumentResponse();
 			}
@@ -309,7 +309,7 @@ public final class ChatController {
 	}
 
 	private Response retrieveLogAndGetJsonSerResponse(String senderEmail, String toField, 
-			int tsToEarliest, int tsFromLatest) {
+			long tsToEarliest, long tsFromLatest) {
 		List<ChatLogEntryModel> logs;
 
 		try {

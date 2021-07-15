@@ -44,7 +44,7 @@ public final class ChatLogDao {
 
 	public static List<ChatLogEntryModel> getLog(
 			String senderEmail, String receiverEmail, 
-			int deliverRequestFromTime, int deliverRequestToTime) 
+			long deliverRequestFromTime, long deliverRequestToTime) 
 				throws DataAccessException {
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_CHAT_LOG)) {
 			stmt.setString(1, senderEmail);
@@ -56,13 +56,13 @@ public final class ChatLogDao {
 			try(ResultSet rs = stmt.getResultSet()) {
 				List<ChatLogEntryModel> cle = new ArrayList<>();
 
-				ChatLogEntryModel model = new ChatLogEntryModel();
 				while(rs.next()) {
+					ChatLogEntryModel model = new ChatLogEntryModel();
 					model.setLogEntryId(rs.getLong(1));
 					model.setSenderEmail(rs.getString(2));
 					model.setReceiverEmail(rs.getString(3));
 					model.setText(rs.getString(4));
-					model.setDeliveryRequestTime((int)rs.getTimestamp(5).getTime());
+					model.setDeliveryRequestTime(rs.getTimestamp(5).getTime());
 
 					cle.add(model);
 				}
