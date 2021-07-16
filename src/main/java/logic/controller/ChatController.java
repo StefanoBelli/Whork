@@ -42,8 +42,6 @@ public final class ChatController {
 	private static final String LISTEN_ADDR = Util.INADDR_ANY;
 	private static final int VALID_TOKEN_INTVL_INTEGER = Util.InstanceConfig.getInt(Util.InstanceConfig.KEY_SVC_INTVL_TOK); // secs
 	private static final String VALID_TOKEN_INTVL_STRING = Integer.toString(VALID_TOKEN_INTVL_INTEGER);
-	private static final String CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NULL = "Either currentToken or userEmail is null, not both";
-	private static final String CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NOT_NULL = "Either currentToken or userEmail is NOT null, not both";
 	private static final int SHOULD_PULL_MSGS_EVERY = 1000; //ms
 	private static final String SHOULD_PULL_MSGS_EVERY_STRING = Integer.toString(SHOULD_PULL_MSGS_EVERY);
 	private static final int VALID_TOKEN_INTVL = VALID_TOKEN_INTVL_INTEGER;
@@ -87,27 +85,40 @@ public final class ChatController {
 		return isOnline;
 	}
 
+	/**
+	 * it is caller responsibility to ensure that:
+	 *  EITHER currentToken OR userEmail are NOT null
+	 * BOTH CANNOT be null or NOT null - just one of them.
+	 * @param currentToken
+	 * @param userEmail
+	 * @return newly-generated token
+	 */
 	private final String addOrRefreshToken(String currentToken, String userEmail) {
 		String token = null;
 
-		if (currentToken == null) {
-			if (userEmail != null) {
-				removePreExistantTokenForUserEmail(userEmail);
+		if (currentToken == null /*&& userEmail != null*/) {
+			removePreExistantTokenForUserEmail(userEmail);
+			token = Util.generateToken();
+			validTokens.put(token, new Pair<>(userEmail, Instant.now().getEpochSecond()));
+		} else { /*currentToken != null AND userEmail == null* */
+			Pair<String, Long> currentTokenRecord = validTokens.get(currentToken);
+			if (currentTokenRecord != null) {
 				token = Util.generateToken();
-				validTokens.put(token, new Pair<>(userEmail, Instant.now().getEpochSecond()));
-			} else {
-				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NULL);
-			}
-		} else {
-			if (userEmail == null) {
-				Pair<String, Long> currentTokenRecord = validTokens.get(currentToken);
-				if (currentTokenRecord != null) {
-					token = Util.generateToken();
-					validTokens.remove(currentToken);
-					validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), Instant.now().getEpochSecond()));
-				}
-			} else {
-				throw new IllegalArgumentException(CURRENT_TOKEN_AND_USER_EMAIL_CANNOT_BOTH_NOT_NULL);
+				Thread delayedRemovalThread = new Thread(() -> {
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						Util.exceptionLog(e);
+						Thread.currentThread().interrupt();
+					}
+					
+					validTokens.remove(currentToken);						
+				});
+
+				delayedRemovalThread.setDaemon(true);
+				delayedRemovalThread.start();
+
+				validTokens.put(token, new Pair<>(currentTokenRecord.getFirst(), Instant.now().getEpochSecond()));
 			}
 		}
 
@@ -123,6 +134,10 @@ public final class ChatController {
 		}
 	}
 
+	private static boolean invalidToken(long tokInsertTime) {
+		return Instant.now().getEpochSecond() - tokInsertTime > VALID_TOKEN_INTVL_INTEGER;
+	}
+
 	private final String queryToken(String tok) {
 		Pair<String, Long> tokenPair = validTokens.get(tok);
 
@@ -130,8 +145,7 @@ public final class ChatController {
 			return null;
 		}
 
-		long t = Instant.now().getEpochSecond() - tokenPair.getSecond();
-		if (t > VALID_TOKEN_INTVL_INTEGER) {
+		if (invalidToken(tokenPair.getSecond())) {
 			validTokens.remove(tok);
 			return null;
 		}
@@ -156,8 +170,7 @@ public final class ChatController {
 	private final String isUserOnlineFmtResponse(String email) {
 		for (final Pair<String, Long> v : validTokens.values()) {
 			if (v.getFirst().equals(email)) {
-				long t = Instant.now().getEpochSecond() - v.getSecond();
-				if (t > VALID_TOKEN_INTVL_INTEGER) {
+				if(invalidToken(v.getSecond())) {
 					return "0";
 				}
 				

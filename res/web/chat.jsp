@@ -26,22 +26,67 @@ if(chatController.isOnlineService()) {
 			var tokenExpiresInMs = <%=(chatInit.getTokenExpiresIn() - 15) * 1000%>;
 			var latestMessageTime = 0;
 			var earliestMessageTime = 0;
+			var delayTimePullMs = 0;
+			var noMsgsCounter = 0;
+
+			function padTime(s) {
+				return String(s).padStart(2, '0');
+			}
+
+			function createMessageElement(msg) {
+				if(msg.sender_email == myEmail) {
+					msg.sender_email = "Me";
+				} else {
+					msg.sender_email = "Remote"
+				}
+				
+				const date = new Date(msg.delivery_request_date);
+				const hhmm = padTime(date.getHours()) + ":" + padTime(date.getMinutes());
+
+				return document.createTextNode(msg.sender_email + "(" + hhmm + "): " + msg.text);
+			}
+
+			function createDateElement(date) {
+				return document.createTextNode("[" + date.toLocaleDateString() + "]");
+			}
+
+			function notSameDay(d, d1) {
+				return d.getDay() != d1.getDay() || d.getMonth() != d1.getMonth() || d.getYear() != d1.getYear();
+			}
 
 			function parseRequestedMsgs(msgsEncoded) {
 				const msgs = JSON.parse(msgsEncoded);
 				if(msgs.length > 0) {
+					delayTimePullMs = 0;
+					noMsgsCounter = 0;
 					latestMessageTime = msgs[0].delivery_request_date;
 					earliestMessageTime = msgs[msgs.length - 1].delivery_request_date;
 
-					console.log(latestMessageTime);
-					console.log(earliestMessageTime);
+					console.log(latestMessageTime); //DEBUG
+					console.log(earliestMessageTime); //DEBUG
+					console.log(msgs.length); //DEBUG
 
-					for(let msg in msgs) {
-						//msg.id
-						//msg.delivery_request_date
-						//msg.sender_email
-						//msg.receiver_email
-						//msg.text
+					var currentDate = new Date(0);
+					
+					for(var i = msgs.length - 1; i >= 0; --i) {
+						var thisDate = new Date(msgs[i].delivery_request_date);
+						
+						if(notSameDay(thisDate, currentDate)) {
+							console.log(thisDate); //DEBUG
+							console.log("cur"); //DEBUG
+							console.log(currentDate); //DEBUG
+							appendNode(createDateElement(thisDate));
+							currentDate = thisDate;
+						}
+
+						appendNode(createMessageElement(msgs[i]));
+					}
+				} else {
+					++noMsgsCounter;
+					if(noMsgsCounter == 3) {
+						delayTimePullMs = 500;
+					} else if(noMsgsCounter >= 9) {
+						delayTimePullMs = 1000;
 					}
 				}
 			}
@@ -57,13 +102,11 @@ if(chatController.isOnlineService()) {
 				ws.send(req);
 			}
 
-			/*
-			function place(id) {
-				var node = document.createTextNode("opened #" + id);
+			function appendNode(node) {
 				var elem = document.getElementById("chatbox");
-				elem.insertBefore(node, elem.lastChild);
-				elem.insertBefore(document.createElement("br"), elem.lastChild);
-			}*/
+				elem.appendChild(node);
+				elem.appendChild(document.createElement("br"));
+			}
 
 			function tokenRefresh() {
 				var req = "TokenRefresh\tToken:" + token + "\nContent-Length:0\n\0";
@@ -111,7 +154,7 @@ if(chatController.isOnlineService()) {
 								setTimeout(tokenRefresh, tokenExpiresInMs);
 								return;
 							} else if(kv[0] === "Content-Type" && kv[1] === "text/json") {
-								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
+								shouldPullEveryMs = parseInt(fields[0].split(":")[1]) + delayTimePullMs;
 								parseRequestedMsgs(fields[3].split("\0")[1]);
 								setTimeout(function() {
 									pullMessages(Date.now(), latestMessageTime + 1000);
