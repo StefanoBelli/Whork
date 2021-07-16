@@ -22,7 +22,18 @@ if(chatController.isOnlineService()) {
 			var ws;
 			var token = "<%=chatInit.getToken()%>";
 			const myEmail = "<%=userEmail%>";
-			const toEmail = "sa.belli@hotmail.it"; //DEBUG
+<%
+	String toEmail = (String) request.getParameter("toEmail");
+	if(toEmail == null) {
+%>
+			var toEmail = null;
+<%	
+	} else {
+%>
+			var toEmail = "<%=toEmail%>";
+<%
+	}
+%>
 			var tokenExpiresInMs = <%=(chatInit.getTokenExpiresIn() - 15) * 1000%>;
 			var latestMessageTime = 0;
 			var earliestMessageTime = Number.MAX_VALUE;
@@ -83,6 +94,7 @@ if(chatController.isOnlineService()) {
 
 							appendNode(createMessageElement(msgs[i])).appendChild(document.createElement("br"));
 							currentLatestDate = thisDate;
+							explicitDownScroll();
 						} else {
 							insertBeforeNode(createMessageElement(msgs[endIndex - i]));
 
@@ -110,10 +122,8 @@ if(chatController.isOnlineService()) {
 			}
 
 			function pullMessages(fromLatest, toEarliest) {
-				var req = "PullMessages\tToken:" + token + "\nTo:" + toEmail + 
-					"\nContent-Length:0\nTs-From-Latest:" + fromLatest + "\nTs-To-Earliest:" + toEarliest + "\n\0";
-				console.log(req); //DEBUG
-				ws.send(req);
+				ws.send("PullMessages\tToken:" + token + "\nTo:" + toEmail + 
+					"\nContent-Length:0\nTs-From-Latest:" + fromLatest + "\nTs-To-Earliest:" + toEarliest + "\n\0");
 			}
 
 			function appendNode(node) {
@@ -129,32 +139,34 @@ if(chatController.isOnlineService()) {
 			}
 
 			function tokenRefresh() {
-				var req = "TokenRefresh\tToken:" + token + "\nContent-Length:0\n\0";
-				console.log(req); //DEBUG
-				ws.send(req);
+				ws.send("TokenRefresh\tToken:" + token + "\nContent-Length:0\n\0");
 			}
 
 			function pushMessage(msg) {
-				var req = "PushMessage\tToken:" + token + "\nTo:" + toEmail + "\nContent-Length:"
-							+ msg.length + "\n\0" + msg;
-				console.log(req); //DEBUG
-				ws.send(req);
+				ws.send("PushMessage\tToken:" + token + "\nTo:" + toEmail + "\nContent-Length:"
+							+ msg.length + "\n\0" + msg);
 			}
 
 			function checkOnlineStatus() {
-				var req = "CheckOnlineStatus\tToken:" + token + "\nContent-Length:0\nTo:" 
-							+ toEmail + "\n\0";
-				console.log(req); //DEBUG
-				ws.send(req);
+				ws.send("CheckOnlineStatus\tToken:" + token + "\nContent-Length:0\nTo:" 
+							+ toEmail + "\n\0");
 			}
 
-			window.onload = function() { //main parser
+			window.onload = function() {
 				const endpoint = "ws://" + window.location.hostname + ":" + "<%=chatInit.getServicePort()%>";
 				ws = new WebSocket(endpoint);
+				document.getElementById("sendbtn").disabled = true;
+				document.getElementById("mymsg").disabled = true;
 
 				ws.addEventListener('open', function (event) {
-					console.log("open"); //DEBUG
-					setTimeout(function() { location.reload(); }, 600000);
+					if(!goodprompt()) {
+						ws.close();
+						return;
+					}
+					document.getElementById("chatting_with").innerHTML += " " + toEmail;
+					checkOnlineStatus();
+					document.getElementById("sendbtn").disabled = false;
+					document.getElementById("mymsg").disabled = false;
 					setTimeout(checkOnlineStatus, <%=chatInit.getShouldPullMessagesEvery()%>);
 					setTimeout(tokenRefresh, tokenExpiresInMs);
 					const curtime = Date.now();
@@ -162,7 +174,6 @@ if(chatController.isOnlineService()) {
 				});
 
 				ws.addEventListener('message', function (event) {
-					console.log(event.data); //DEBUG
 					const response = event.data;
 					const arr = response.split("\t");
 					if(arr[0] === "OK") {
@@ -183,8 +194,8 @@ if(chatController.isOnlineService()) {
 								return;
 							} else if(kv[0] === "Content-Length" && kv[1] === "1") {
 								shouldPullEveryMs = parseInt(fields[0].split(":")[1]);
-								console.log(fields[2].split("\0")[1]); //online status
-								setTimeout(checkOnlineStatus, (shouldPullEveryMs + tokenExpiresInMs) / 2);
+								setOnlineStatus(fields[2].split("\0")[1]);
+								setTimeout(checkOnlineStatus, shouldPullEveryMs + 1000);
 								return;
 							}
 						}
@@ -193,6 +204,13 @@ if(chatController.isOnlineService()) {
 						alert("Something went bad while receiving a response from chat service!");
 						handleError(arr[1]);
 					}
+				});
+
+				ws.addEventListener('close', function () {
+					document.getElementById("sendbtn").disabled = true;
+					document.getElementById("mymsg").disabled = true;
+					document.getElementById("chatting_with").innerHTML = "Chatting with:";
+					alert("Connection closed");
 				});
 				
 				document.getElementById("sendbtn").addEventListener("click", function() {
@@ -205,19 +223,38 @@ if(chatController.isOnlineService()) {
 			}
 
 			function chatboxScroll() {
-				var x = document.getElementById("chatbox").scrollTop; //DEBUG
-				console.log(x); //DEBUG
-				
-				if(x === 0) {
+				if(document.getElementById("chatbox").scrollTop === 0) {
 					pullMessages(earliestMessageTime - 1000, earliestMessageTime - 1000 - 43200000);
 				}
+			}
+
+			function explicitDownScroll() {
+				const elem = document.getElementById("chatbox");
+				elem.scrollBy(0,elem.scrollHeight);
+			}
+
+			function goodprompt() {
+				if(toEmail == null) {
+					toEmail = prompt("Type in remote's 'email address","");
+					return toEmail !== null && toEmail !== "";
+				}
+				
+				return true;
+			}
+
+			function setOnlineStatus(v) {
+				const color = v === "1" ? "#008000" : "#ff0000";
+				document.getElementById("chatting_with").style.color = color;
 			}
 		</script>
 	</head>
 	<body>
 		<div id="wrapper">
 			<div id="menu">
-                <p class="chatting_with">Chatting with: </p>
+                <span>
+					<p id="online_status"></p>
+					<p id="chatting_with" class="chatting_with">Chatting with: </p>
+				</span>
             </div>
  
 			<div id="chatbox" onscroll="chatboxScroll();"></div>
