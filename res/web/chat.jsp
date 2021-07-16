@@ -25,9 +25,10 @@ if(chatController.isOnlineService()) {
 			const toEmail = "sa.belli@hotmail.it"; //DEBUG
 			var tokenExpiresInMs = <%=(chatInit.getTokenExpiresIn() - 15) * 1000%>;
 			var latestMessageTime = 0;
-			var earliestMessageTime = 0;
+			var earliestMessageTime = Number.MAX_VALUE;
 			var delayTimePullMs = 0;
 			var noMsgsCounter = 0;
+			var currentLatestDate = 0;
 
 			function padTime(s) {
 				return String(s).padStart(2, '0');
@@ -47,9 +48,11 @@ if(chatController.isOnlineService()) {
 			}
 
 			function createDateElement(date) {
-				return document.createTextNode("[" + date.toLocaleDateString() + "]");
+				const elem = document.createElement("p");
+				elem.appendChild(document.createTextNode("[" + date.toLocaleDateString() + "]"));
+				return elem;
 			}
-
+			
 			function notSameDay(d, d1) {
 				return d.getDay() != d1.getDay() || d.getMonth() != d1.getMonth() || d.getYear() != d1.getYear();
 			}
@@ -57,29 +60,40 @@ if(chatController.isOnlineService()) {
 			function parseRequestedMsgs(msgsEncoded) {
 				const msgs = JSON.parse(msgsEncoded);
 				if(msgs.length > 0) {
+					const endIndex = msgs.length - 1;
 					delayTimePullMs = 0;
 					noMsgsCounter = 0;
-					latestMessageTime = msgs[0].delivery_request_date;
-					earliestMessageTime = msgs[msgs.length - 1].delivery_request_date;
 
-					console.log(latestMessageTime); //DEBUG
-					console.log(earliestMessageTime); //DEBUG
-					console.log(msgs.length); //DEBUG
+					if(latestMessageTime < msgs[0].delivery_request_date) {
+						latestMessageTime = msgs[0].delivery_request_date;
+					}
 
-					var currentDate = new Date(0);
+					if(msgs[endIndex].delivery_request_date < earliestMessageTime) {
+						earliestMessageTime = msgs[endIndex].delivery_request_date;
+					}
 					
-					for(var i = msgs.length - 1; i >= 0; --i) {
-						var thisDate = new Date(msgs[i].delivery_request_date);
+					var currentDate = msgs[endIndex].delivery_request_date;
+					for(var i = endIndex; i >= 0; --i) {
+						var thisDate = msgs[i].delivery_request_date;
 						
-						if(notSameDay(thisDate, currentDate)) {
-							console.log(thisDate); //DEBUG
-							console.log("cur"); //DEBUG
-							console.log(currentDate); //DEBUG
-							appendNode(createDateElement(thisDate));
-							currentDate = thisDate;
-						}
+						if(thisDate >= currentLatestDate) {
+							if(notSameDay(new Date(thisDate), new Date(currentLatestDate))) {
+								appendNode(createDateElement(new Date(thisDate)));
+							}
 
-						appendNode(createMessageElement(msgs[i]));
+							appendNode(createMessageElement(msgs[i])).appendChild(document.createElement("br"));
+							currentLatestDate = thisDate;
+						} else {
+							insertBeforeNode(createMessageElement(msgs[endIndex - i]));
+
+							if(i == 0) {
+								currentDate = 0;
+							}
+
+							if(notSameDay(new Date(thisDate), new Date(currentDate))) {
+								document.getElementById("chatbox").prepend(createDateElement(new Date(thisDate)));
+							}
+						}
 					}
 				} else {
 					++noMsgsCounter;
@@ -105,7 +119,13 @@ if(chatController.isOnlineService()) {
 			function appendNode(node) {
 				var elem = document.getElementById("chatbox");
 				elem.appendChild(node);
-				elem.appendChild(document.createElement("br"));
+				return elem;
+			}
+
+			function insertBeforeNode(node) {
+				var elem = document.getElementById("chatbox");
+				elem.insertBefore(document.createElement("br"), elem.firstChild);
+				elem.insertBefore(node, elem.firstChild);
 			}
 
 			function tokenRefresh() {
@@ -134,6 +154,7 @@ if(chatController.isOnlineService()) {
 
 				ws.addEventListener('open', function (event) {
 					console.log("open"); //DEBUG
+					setTimeout(function() { location.reload(); }, 600000);
 					setTimeout(checkOnlineStatus, <%=chatInit.getShouldPullMessagesEvery()%>);
 					setTimeout(tokenRefresh, tokenExpiresInMs);
 					const curtime = Date.now();
@@ -182,6 +203,15 @@ if(chatController.isOnlineService()) {
 					}
 				});
 			}
+
+			function chatboxScroll() {
+				var x = document.getElementById("chatbox").scrollTop; //DEBUG
+				console.log(x); //DEBUG
+				
+				if(x === 0) {
+					pullMessages(earliestMessageTime - 1000, earliestMessageTime - 1000 - 43200000);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -190,7 +220,7 @@ if(chatController.isOnlineService()) {
                 <p class="chatting_with">Chatting with: </p>
             </div>
  
-			<div id="chatbox"></div>
+			<div id="chatbox" onscroll="chatboxScroll();"></div>
 		
 			<div id="ctrl">
 				<textarea rows="2" cols="60" id="mymsg"></textarea>
