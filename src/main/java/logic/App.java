@@ -60,6 +60,10 @@ final class App {
 	private static final String SVCCHATPORTOPT = "svcChatPort";
 	private static final String SVCTOKINTVLOPT = "svcTokIntvl";
 	private static final String USRDATAOPT = "usrData";
+	
+	// tomcat contexts
+	private static final String DFLROOT_CONTEXT = "/default";
+	private static final String USR_DATA_CONTEXT = "/usrdata";
 
 	// Self-extraction properties
 	private static List<String> webResDirectories = null;
@@ -84,7 +88,7 @@ final class App {
 	private static String mailHost = null;
 	private static int chatPort = 45612;
 	private static int tokIntvl = 300;
-	private static String usrData = "whork_usrdata";
+	private static String usrData = new File("whork_usrdata").getAbsolutePath();
 
 	// Static config for whork
 	private static final String DBNAME = "whorkdb";
@@ -196,10 +200,11 @@ final class App {
 
 	private static boolean startTomcat() {
 		Tomcat tomcat = new Tomcat();
-
 		tomcat.setPort(port);
+		tomcat.addWebapp(USR_DATA_CONTEXT, usrData);
+		tomcat.addWebapp(DFLROOT_CONTEXT, dflRoot);
 		tomcat.addWebapp(base, webRoot);
-
+		
 		Connector connector = tomcat.getConnector();
 		connector.setProperty("compression", "on");
 		connector.setProperty("compressionMinSize", "1024");
@@ -416,7 +421,7 @@ final class App {
 		} else if(argName.equals(SVCTOKINTVLOPT)) {
 			tokIntvl = Integer.parseInt(opt.getValue());
 		} else if(argName.equals(USRDATAOPT)) {
-			usrData = opt.getValue();
+			usrData = new File(opt.getValue()).getAbsolutePath();
 		}
 
 		return true;
@@ -574,6 +579,8 @@ final class App {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_INTVL_TOK, tokIntvl);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_SVC_CHAT_PORT, chatPort);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_USR_DATA, usrData);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_CTX_USR_DATA, USR_DATA_CONTEXT);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_CTX_DFL_ROOT, DFLROOT_CONTEXT);
 	}
 
 	private static boolean attemptToEstablishDbConnection() {

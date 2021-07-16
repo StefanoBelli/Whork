@@ -316,6 +316,8 @@ public final class Util {
 		public static final String KEY_SVC_INTVL_TOK = "any.service.intvl_tok";
 		public static final String KEY_SVC_EDITOR_PORT = "any.service.editor_port";
 		public static final String KEY_USR_DATA = "any.usr_data";
+		public static final String KEY_CTX_USR_DATA = "web.tomcat.usr_data_context";
+		public static final String KEY_CTX_DFL_ROOT = "web.tomcat.dfl_root_context";
 
 		private static Map<String, Object> config = new HashMap<>();
 		

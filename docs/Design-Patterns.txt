@@ -1,0 +1,2 @@
+ste: logic.graphicscontroller.formchecker - Decorator pattern
+ste: logic.factory.DialogFactory - "FactoryMethod" pattern
