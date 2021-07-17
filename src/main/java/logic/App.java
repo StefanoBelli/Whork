@@ -175,7 +175,7 @@ final class App {
 			webResFiles.add("/css/login.css");
 			webResFiles.add("/css/chat.css");
 			webResFiles.add("/css/reg_jobseeker.css");
-			webResFiles.add("/css/registers.css");
+			webResFiles.add("/css/register.css");
 			webResFiles.add("/css/whork.css");
 			webResFiles.add("/js/changepwd.js");
 			webResFiles.add("/js/common.js");
@@ -701,7 +701,7 @@ final class App {
 			try {
 				selfExtract(res);
 			} catch (IOException e) {
-				exceptionMessageBeforeStart(e, "unable to correclty self-extract");
+				exceptionMessageBeforeStart(e, "unable to correctly self-extract");
 				return false;
 			}
 		}
