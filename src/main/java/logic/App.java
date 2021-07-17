@@ -169,9 +169,18 @@ final class App {
 
 			webResDirectories.add("WEB-INF");
 			webResDirectories.add("css");
+			webResDirectories.add("js");
 
 			webResFiles.add("/WEB-INF/web.xml");
 			webResFiles.add("/css/login.css");
+			webResFiles.add("/css/chat.css");
+			webResFiles.add("/css/reg_jobseeker.css");
+			webResFiles.add("/css/registers.css");
+			webResFiles.add("/css/whork.css");
+			webResFiles.add("/js/changepwd.js");
+			webResFiles.add("/js/common.js");
+			webResFiles.add("/js/reg_company.js");
+			webResFiles.add("/js/reg_jobseeker.js");
 			webResFiles.add("/account.jsp");
 			webResFiles.add("/changepwd.jsp");
 			webResFiles.add("/chat.jsp");
@@ -179,6 +188,11 @@ final class App {
 			webResFiles.add("/forgotpwd.jsp");
 			webResFiles.add("/index.jsp");
 			webResFiles.add("/login.jsp");
+			webResFiles.add("/confirm.jsp");
+			webResFiles.add("/reg_jobseeker.jsp");
+			webResFiles.add("/reg_company.jsp");
+			webResFiles.add("/register.jsp");
+			webResFiles.add("/success.jsp");
 		}
 	}
 

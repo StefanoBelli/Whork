@@ -235,7 +235,7 @@ if(chatController.isOnlineService()) {
 
 			function goodprompt() {
 				if(toEmail == null) {
-					toEmail = prompt("Type in remote's 'email address","");
+					toEmail = prompt("Type in remote's email address","");
 					return toEmail !== null && toEmail !== "";
 				}
 				
