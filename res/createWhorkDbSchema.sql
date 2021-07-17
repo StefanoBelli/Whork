@@ -1088,6 +1088,62 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetOfferByID
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetOfferByID`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOfferByID`(IN var_id INT)
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		*
+	FROM
+		Offer
+	WHERE
+		ID = var_id;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetOffers
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetOffers`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOffers`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+	START TRANSACTION;  
+  
+    SELECT
+		*
+	FROM
+		Offer;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+
 USE `whorkdb`;
 
 DELIMITER $$
