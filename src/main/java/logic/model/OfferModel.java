@@ -2,34 +2,34 @@ package logic.model;
 
 import java.util.Date;
 
-public class OfferModel {
-	private Integer id;
+public final class OfferModel {
+	private int id;
 	private String description;
 	private String companyHeadQuarterAddress;
 	private String employeeMail;
 	private String companyVat;
 	private String salary;
 	private String photo;
-	private Boolean otherTime;
+	private boolean otherTime;
 	private String workShift;
 	private String jobPosition;
 	private String qualification;
 	private String typeOfContract;
-	private Boolean yearSalary;
+	private boolean yearSalary;
 	private String offerName;
-	private Integer numberOfCandidatures;
+	private int numberOfCandidatures;
 	private Date data;
-	private Integer clickNumber;
+	private int clickNumber;
 	private String note;
 	private String numberSaved;
-	private Boolean checked;
+	private boolean checked;
 	
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -49,11 +49,11 @@ public class OfferModel {
 		this.description = description;
 	}
 
-	public Boolean getYearSalary() {
+	public boolean getYearSalary() {
 		return yearSalary;
 	}
 
-	public void setYearSalary(Boolean yearSalary) {
+	public void setYearSalary(boolean yearSalary) {
 		this.yearSalary = yearSalary;
 	}
 
@@ -81,11 +81,11 @@ public class OfferModel {
 		this.employeeMail = employeeMail;
 	}
 
-	public Integer getClickNumber() {
+	public int getClickNumber() {
 		return clickNumber;
 	}
 
-	public void setClickNumber(Integer clickNumber) {
+	public void setClickNumber(int clickNumber) {
 		this.clickNumber = clickNumber;
 	}
 
@@ -105,11 +105,11 @@ public class OfferModel {
 		this.note = note;
 	}
 
-	public Integer getNumberOfCandidatures() {
+	public int getNumberOfCandidatures() {
 		return numberOfCandidatures;
 	}
 
-	public void setNumberOfCandidatures(Integer numberOfCandidatures) {
+	public void setNumberOfCandidatures(int numberOfCandidatures) {
 		this.numberOfCandidatures = numberOfCandidatures;
 	}
 
@@ -129,11 +129,11 @@ public class OfferModel {
 		this.companyVat = companyVat;
 	}
 
-	public Boolean getOtherTime() {
+	public boolean getOtherTime() {
 		return otherTime;
 	}
 
-	public void setOtherTime(Boolean otherTime) {
+	public void setOtherTime(boolean otherTime) {
 		this.otherTime = otherTime;
 	}
 
@@ -169,11 +169,11 @@ public class OfferModel {
 		this.typeOfContract = typeOfContract;
 	}
 
-	public Boolean getChecked() {
+	public boolean getChecked() {
 		return checked;
 	}
 
-	public void setChecked(Boolean checked) {
+	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
 
