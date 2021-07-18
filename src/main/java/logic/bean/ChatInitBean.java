@@ -3,6 +3,8 @@ package logic.bean;
 import java.io.Serializable;
 
 public final class ChatInitBean implements Serializable {
+	private static final long serialVersionUID = 679762904459557489L;
+
 	private String token;
 	private int tokenExpiresIn;
 	private int shouldPullMessagesEvery;

@@ -1,6 +1,9 @@
 package test;
 
 import logic.Database;
+import logic.dao.ComuniDao;
+import logic.dao.EmploymentStatusDao;
+import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
 
 import org.junit.Test;
@@ -57,7 +60,10 @@ public class TestDatabase {
 
 	@AfterClass
 	public static void chooseDb() 
-			throws SQLException {
+			throws SQLException, DataAccessException {
 		Database.getInstance().getConnection().setCatalog(DbmsConfig.DB_NAME);
+		
+		ComuniDao.populatePool();
+		EmploymentStatusDao.populatePool();
 	}
 }
