@@ -40,25 +40,25 @@ public final class OfferDao {
 
 		
 				OfferModel om= new OfferModel();
-				om.setDescription(rs.getString(1));
-				om.setCompanyHeadQuarterAddress(rs.getString(2));
-				om.setEmployeeMail(rs.getString(3));
-				om.setCompanyVat(rs.getString(4));
-				om.setSalary(rs.getString(5));
-				om.setPhoto(rs.getString(6));
-				om.setOtherTime(rs.getBoolean(7));
-				om.setWorkShit(rs.getString(8));
-				om.setJobPosition(rs.getString(9));
-				om.setQualification(rs.getString(10));
-				om.setTypeOfContract(rs.getString(11));
-				om.setYearSalary(rs.getBoolean(12));
-				om.setOfferName(rs.getString(13));
-				om.setNumberOfCandidatures(rs.getInt(14));
-				om.setData(rs.getDate(15));
-				om.setClickNumber(rs.getInt(16));
-				om.setNote(rs.getString(17));
-				om.setNumberSaved(rs.getString(18));
-				om.setChecked(rs.getBoolean(19));
+				om.setDescription(rs.getString(2));
+				om.setCompanyHeadQuarterAddress(rs.getString(3));
+				om.setEmployeeMail(rs.getString(4));
+				om.setCompanyVat(rs.getString(5));
+				om.setSalary(rs.getString(6));
+				om.setPhoto(rs.getString(7));
+				om.setOtherTime(rs.getBoolean(8));
+				om.setWorkShit(rs.getString(9));
+				om.setJobPosition(rs.getString(10));
+				om.setQualification(rs.getString(11));
+				om.setTypeOfContract(rs.getString(12));
+				om.setYearSalary(rs.getBoolean(13));
+				om.setOfferName(rs.getString(14));
+				om.setNumberOfCandidatures(rs.getInt(15));
+				om.setData(rs.getDate(16));
+				om.setClickNumber(rs.getInt(17));
+				om.setNote(rs.getString(18));
+				om.setNumberSaved(rs.getString(19));
+				om.setChecked(rs.getBoolean(20));
 				
 				om.setId(id);
 
@@ -73,41 +73,43 @@ public final class OfferDao {
 		}		
 	}
 	
-	public List<OfferModel> getOffers()
+	public static List<OfferModel> getOffers()
 			throws DataAccessException{
 		List<OfferModel> offers= new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_ALL_OFFERS)) {
 			stmt.execute();
-
 			try (ResultSet rs = stmt.getResultSet()) {
-				while(rs.next()) {			
+				if(!rs.next()) {
+					return offers;
+				}
+				do {			
 
 		
 					OfferModel om= new OfferModel();
-					om.setId(rs.getInt(0));
-					om.setDescription(rs.getString(1));
-					om.setCompanyHeadQuarterAddress(rs.getString(2));
-					om.setEmployeeMail(rs.getString(3));
-					om.setCompanyVat(rs.getString(4));
-					om.setSalary(rs.getString(5));
-					om.setPhoto(rs.getString(6));
-					om.setOtherTime(rs.getBoolean(7));
-					om.setWorkShit(rs.getString(8));
-					om.setJobPosition(rs.getString(9));
-					om.setQualification(rs.getString(10));
-					om.setTypeOfContract(rs.getString(11));
-					om.setYearSalary(rs.getBoolean(12));
-					om.setOfferName(rs.getString(13));
-					om.setNumberOfCandidatures(rs.getInt(14));
-					om.setData(rs.getDate(15));
-					om.setClickNumber(rs.getInt(16));
-					om.setNote(rs.getString(17));
-					om.setNumberSaved(rs.getString(18));
-					om.setChecked(rs.getBoolean(19));
+					om.setId(rs.getInt(1));
+					om.setDescription(rs.getString(2));
+					om.setCompanyHeadQuarterAddress(rs.getString(3));
+					om.setEmployeeMail(rs.getString(4));
+					om.setCompanyVat(rs.getString(5));
+					om.setSalary(rs.getString(6));
+					om.setPhoto(rs.getString(7));
+					om.setOtherTime(rs.getBoolean(8));
+					om.setWorkShit(rs.getString(9));
+					om.setJobPosition(rs.getString(10));
+					om.setQualification(rs.getString(11));
+					om.setTypeOfContract(rs.getString(12));
+					om.setYearSalary(rs.getBoolean(13));
+					om.setOfferName(rs.getString(14));
+					om.setNumberOfCandidatures(rs.getInt(15));
+					om.setData(rs.getDate(16));
+					om.setClickNumber(rs.getInt(17));
+					om.setNote(rs.getString(18));
+					om.setNumberSaved(rs.getString(19));
+					om.setChecked(rs.getBoolean(20));
 					
 					
 					offers.add(om);
-				}
+				}while(rs.next());
 			}
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

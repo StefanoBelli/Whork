@@ -6,12 +6,18 @@ import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
+import logic.model.OfferModel;
 import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 import logic.bean.UserBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
+import logic.bean.OfferBean;
 import logic.bean.ProvinciaBean;
 import logic.bean.RegioneBean;
 import logic.bean.UserAuthBean;
@@ -61,6 +67,36 @@ public final class BeanFactory {
 		comuneBean.setProvincia(BeanFactory.buildProvinciaBean(comuneModel.getProvincia()));
 
 		return comuneBean;
+	}
+	
+	public static List<OfferBean> buildOfferBean(List<OfferModel> offers) {
+		List<OfferBean> offersBean = new ArrayList<>();
+		for(OfferModel offerModel : offers) {
+			OfferBean offerBean = new OfferBean();
+			offerBean.setId(offerModel.getId());
+			offerBean.setOfferName(offerModel.getOfferName());
+			offerBean.setData(offerModel.getData());
+			offerBean.setNote(offerModel.getNote());
+			offerBean.setChecked(offerModel.getChecked());
+			offerBean.setClickNumber(offerModel.getClickNumber());
+			offerBean.setCompanyHeadQuarterAddress(offerModel.getCompanyHeadQuarterAddress());
+			offerBean.setCompanyVat(offerModel.getCompanyVat());
+			offerBean.setJobPosition(offerModel.getJobPosition());
+			offerBean.setDescription(offerModel.getDescription());
+			offerBean.setEmployeeMail(offerModel.getEmployeeMail());
+			offerBean.setYearSalary(offerModel.getYearSalary());
+			offerBean.setWorkShit(offerModel.getWorkShit());
+			offerBean.setTypeOfContract(offerModel.getTypeOfContract());
+			offerBean.setSalary(offerModel.getSalary());
+			offerBean.setQualification(offerModel.getQualification());
+			offerBean.setPhoto(offerModel.getPhoto());
+			offerBean.setOtherTime(offerModel.getOtherTime());
+			offerBean.setNumberSaved(offerModel.getNumberSaved());
+			offerBean.setNumberOfCandidatures(offerModel.getNumberOfCandidatures());
+			
+			offersBean.add(offerBean);
+		}
+		return offersBean;
 	}
 
 	/**
