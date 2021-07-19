@@ -16,6 +16,7 @@ ISPW project a.y. 2020/2021
  * Browser automated testing is available on Windows and Linux only
  * Project will be compiled iff using JDK version >= 11
  * Project will be run iff JRE version >= 11
+ * Database schema requires MySQL Server version >= 8
 
 ## Testing
 Testing is achieved on two "levels":
