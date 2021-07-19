@@ -10,17 +10,27 @@
 		
 
 	<body>
+	
+	<form name="searchForm" action="search" method="get">
+		
+		<input type="text" name="searchVal" value="" />
+		
+		<input type="submit" name="submit" value="Search"/>
+		
+	</form>
 <%
 if(OfferController.getOffers().size()==0){
 %>
+
 <h3>Non sono presenti offerte! Torna più tardi!</h3>
+
 <%
 }else{
 	for(final OfferBean offer : OfferController.getOffers()) {
 %>
 	<div class="offer">
 		<div class="immagine">
-			<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + offer.getPhoto() %>" alt="Image offer">
+			<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + offer.getPhoto() %>" alt="Image offer">
 		</div>	
 		<div class="name">
 			<b>Name: <%=offer.getOfferName()%></b>
