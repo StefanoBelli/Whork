@@ -12,6 +12,11 @@
 # Whork
 ISPW project a.y. 2020/2021
 
+## Compatability notes
+ * Browser automated testing is available on Windows and Linux only
+ * Project will be compiled iff using JDK version >= 11
+ * Project will be run iff JRE version >= 11
+
 ## Testing
 Testing is achieved on two "levels":
  * Unit testing
@@ -19,7 +24,9 @@ Testing is achieved on two "levels":
 
 ### How to run tests manually
 ~~~
-$ mvn test
-$ mvn test -Dtest=test.selenium.Selenium*
+$ pwd # ensure we are inside root project directory (which includes pom.xml)
+*/Whork
+$ mvn test # runs unit tests
+$ mvn test -Dtest=test.selenium.Selenium* # runs Selenium API tests
 $ chromium . # from there open project (in side/whork-*.side) using Selenium IDE plugin
 ~~~
