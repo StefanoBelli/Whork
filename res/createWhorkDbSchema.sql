@@ -966,6 +966,60 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure GetOfferByID
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetOfferByID`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetOfferByID`(IN var_id INT)
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		*
+	FROM
+		Offer
+	WHERE
+		ID = var_id;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetOffers
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetOffers`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetOffers`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+	START TRANSACTION;  
+  
+    SELECT
+		*
+	FROM
+		Offer;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure GetCompanyByCF
 -- -----------------------------------------------------
 
@@ -9250,313 +9304,4 @@ INSERT INTO Comune(CAP, Nome, Provincia_Sigla) VALUES("47921","Rimini","RN");
 INSERT INTO Comune(CAP, Nome, Provincia_Sigla) VALUES("47924","Rimini","RN");
 INSERT INTO Comune(CAP, Nome, Provincia_Sigla) VALUES("28921","Verbania","VB");
 INSERT INTO Comune(CAP, Nome, Provincia_Sigla) VALUES("28925","Verbania","VB");
-
-
-INSERT INTO JobPosition(Position) VALUES ("Controller");
-INSERT INTO JobPosition(Position) VALUES ("Financial Analyst");
-INSERT INTO JobPosition(Position) VALUES ("Finance Manager");
-INSERT INTO JobPosition(Position) VALUES ("Economist");
-INSERT INTO JobPosition(Position) VALUES ("Payroll Manager");
-INSERT INTO JobPosition(Position) VALUES ("Payroll Clerk");
-INSERT INTO JobPosition(Position) VALUES ("Financial Planner");
-INSERT INTO JobPosition(Position) VALUES ("Financial Services Representative");
-INSERT INTO JobPosition(Position) VALUES ("Finance Director");
-INSERT INTO JobPosition(Position) VALUES ("Commercial Loan Officer");
-INSERT INTO JobPosition(Position) VALUES ("Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Mechanical Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Civil Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Electrical Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Assistant Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Chemical Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Chief Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Drafter");
-INSERT INTO JobPosition(Position) VALUES ("Engineering Technician");
-INSERT INTO JobPosition(Position) VALUES ("Geological Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Biological Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Maintenance Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Mining Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Nuclear Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Petroleum Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Plant Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Production Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Quality Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Safety Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Sales Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Chief People Officer");
-INSERT INTO JobPosition(Position) VALUES ("VP of Miscellaneous Stuff");
-INSERT INTO JobPosition(Position) VALUES ("Chief Robot Whisperer");
-INSERT INTO JobPosition(Position) VALUES ("Director of First Impressions");
-INSERT INTO JobPosition(Position) VALUES ("Culture Operations Manager");
-INSERT INTO JobPosition(Position) VALUES ("Director of Ethical Hacking");
-INSERT INTO JobPosition(Position) VALUES ("Software Ninjaneer");
-INSERT INTO JobPosition(Position) VALUES ("Director of Bean Counting");
-INSERT INTO JobPosition(Position) VALUES ("Digital Overlord");
-INSERT INTO JobPosition(Position) VALUES ("Director of Storytelling");
-INSERT INTO JobPosition(Position) VALUES ("Researcher");
-INSERT INTO JobPosition(Position) VALUES ("Research Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Data Analyst");
-INSERT INTO JobPosition(Position) VALUES ("Business Analyst");
-INSERT INTO JobPosition(Position) VALUES ("Financial Analyst");
-INSERT INTO JobPosition(Position) VALUES ("Biostatistician");
-INSERT INTO JobPosition(Position) VALUES ("Title Researcher");
-INSERT INTO JobPosition(Position) VALUES ("Market Researcher");
-INSERT INTO JobPosition(Position) VALUES ("Title Analyst");
-INSERT INTO JobPosition(Position) VALUES ("Medical Researcher");
-INSERT INTO JobPosition(Position) VALUES ("Mentor");
-INSERT INTO JobPosition(Position) VALUES ("Tutor/Online Tutor");
-INSERT INTO JobPosition(Position) VALUES ("Teacher");
-INSERT INTO JobPosition(Position) VALUES ("Teaching Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Substitute Teacher");
-INSERT INTO JobPosition(Position) VALUES ("Preschool Teacher");
-INSERT INTO JobPosition(Position) VALUES ("Test Scorer");
-INSERT INTO JobPosition(Position) VALUES ("Online ESL Instructor");
-INSERT INTO JobPosition(Position) VALUES ("Professor");
-INSERT INTO JobPosition(Position) VALUES ("Assistant Professor");
-INSERT INTO JobPosition(Position) VALUES ("Graphic Designer");
-INSERT INTO JobPosition(Position) VALUES ("Artist");
-INSERT INTO JobPosition(Position) VALUES ("Interior Designer");
-INSERT INTO JobPosition(Position) VALUES ("Video Editor");
-INSERT INTO JobPosition(Position) VALUES ("Video or Film Producer");
-INSERT INTO JobPosition(Position) VALUES ("Playwright");
-INSERT INTO JobPosition(Position) VALUES ("Musician");
-INSERT INTO JobPosition(Position) VALUES ("Novelist/Writer");
-INSERT INTO JobPosition(Position) VALUES ("Computer Animator");
-INSERT INTO JobPosition(Position) VALUES ("Photographer");
-INSERT INTO JobPosition(Position) VALUES ("Camera Operator");
-INSERT INTO JobPosition(Position) VALUES ("Sound Engineer");
-INSERT INTO JobPosition(Position) VALUES ("Motion Picture Director");
-INSERT INTO JobPosition(Position) VALUES ("Actor");
-INSERT INTO JobPosition(Position) VALUES ("Music Producer");
-INSERT INTO JobPosition(Position) VALUES ("Director of Photography");
-INSERT INTO JobPosition(Position) VALUES ("Nurse");
-INSERT INTO JobPosition(Position) VALUES ("Travel Nurse");
-INSERT INTO JobPosition(Position) VALUES ("Nurse Practitioner");
-INSERT INTO JobPosition(Position) VALUES ("Doctor");
-INSERT INTO JobPosition(Position) VALUES ("Caregiver");
-INSERT INTO JobPosition(Position) VALUES ("CNA");
-INSERT INTO JobPosition(Position) VALUES ("Physical Therapist");
-INSERT INTO JobPosition(Position) VALUES ("Pharmacist");
-INSERT INTO JobPosition(Position) VALUES ("Pharmacy Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Medical Administrator");
-INSERT INTO JobPosition(Position) VALUES ("Medical Laboratory Tech");
-INSERT INTO JobPosition(Position) VALUES ("Physical Therapy Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Massage Therapy");
-INSERT INTO JobPosition(Position) VALUES ("Dental Hygienist");
-INSERT INTO JobPosition(Position) VALUES ("Orderly");
-INSERT INTO JobPosition(Position) VALUES ("Personal Trainer");
-INSERT INTO JobPosition(Position) VALUES ("Massage Therapy");
-INSERT INTO JobPosition(Position) VALUES ("Medical Laboratory Tech");
-INSERT INTO JobPosition(Position) VALUES ("Phlebotomist");
-INSERT INTO JobPosition(Position) VALUES ("Medical Transcriptionist");
-INSERT INTO JobPosition(Position) VALUES ("Telework Nurse/Doctor");
-INSERT INTO JobPosition(Position) VALUES ("Reiki Practitioner");
-INSERT INTO JobPosition(Position) VALUES ("Housekeeper");
-INSERT INTO JobPosition(Position) VALUES ("Flight Attendant");
-INSERT INTO JobPosition(Position) VALUES ("Travel Agent");
-INSERT INTO JobPosition(Position) VALUES ("Hotel Front Door Greeter");
-INSERT INTO JobPosition(Position) VALUES ("Bellhop");
-INSERT INTO JobPosition(Position) VALUES ("Cruise Director");
-INSERT INTO JobPosition(Position) VALUES ("Entertainment Specialist");
-INSERT INTO JobPosition(Position) VALUES ("Hotel Manager");
-INSERT INTO JobPosition(Position) VALUES ("Front Desk Associate");
-INSERT INTO JobPosition(Position) VALUES ("Front Desk Manager");
-INSERT INTO JobPosition(Position) VALUES ("Concierge");
-INSERT INTO JobPosition(Position) VALUES ("Group Sales");
-INSERT INTO JobPosition(Position) VALUES ("Event Planner");
-INSERT INTO JobPosition(Position) VALUES ("Porter");
-INSERT INTO JobPosition(Position) VALUES ("Spa Manager");
-INSERT INTO JobPosition(Position) VALUES ("Wedding Coordinator");
-INSERT INTO JobPosition(Position) VALUES ("Cruise Ship Attendant");
-INSERT INTO JobPosition(Position) VALUES ("Casino Host");
-INSERT INTO JobPosition(Position) VALUES ("Hotel Receptionist");
-INSERT INTO JobPosition(Position) VALUES ("Reservationist");
-INSERT INTO JobPosition(Position) VALUES ("Events Manager");
-INSERT INTO JobPosition(Position) VALUES ("Meeting Planner");
-INSERT INTO JobPosition(Position) VALUES ("Lodging Manager");
-INSERT INTO JobPosition(Position) VALUES ("Director of Maintenance");
-INSERT INTO JobPosition(Position) VALUES ("Valet");
-INSERT INTO JobPosition(Position) VALUES ("Waiter/Waitress");
-INSERT INTO JobPosition(Position) VALUES ("Server");
-INSERT INTO JobPosition(Position) VALUES ("Chef");
-INSERT INTO JobPosition(Position) VALUES ("Fast Food Worker");
-INSERT INTO JobPosition(Position) VALUES ("Barista");
-INSERT INTO JobPosition(Position) VALUES ("Line Cook");
-INSERT INTO JobPosition(Position) VALUES ("Cafeteria Worker");
-INSERT INTO JobPosition(Position) VALUES ("Restaurant Manager");
-INSERT INTO JobPosition(Position) VALUES ("Wait Staff Manager");
-INSERT INTO JobPosition(Position) VALUES ("Bus Person");
-INSERT INTO JobPosition(Position) VALUES ("Restaurant Chain Executive");
-INSERT INTO JobPosition(Position) VALUES ("Political Scientist");
-INSERT INTO JobPosition(Position) VALUES ("Chemist");
-INSERT INTO JobPosition(Position) VALUES ("Conservation Scientist");
-INSERT INTO JobPosition(Position) VALUES ("Sociologist");
-INSERT INTO JobPosition(Position) VALUES ("Biologist");
-INSERT INTO JobPosition(Position) VALUES ("Geologist");
-INSERT INTO JobPosition(Position) VALUES ("Physicist");
-INSERT INTO JobPosition(Position) VALUES ("Astronomer");
-INSERT INTO JobPosition(Position) VALUES ("Atmospheric Scientist");
-INSERT INTO JobPosition(Position) VALUES ("Molecular Scientist");
-INSERT INTO JobPosition(Position) VALUES ("Call Center Representative");
-INSERT INTO JobPosition(Position) VALUES ("Customer Service");
-INSERT INTO JobPosition(Position) VALUES ("Telemarketer");
-INSERT INTO JobPosition(Position) VALUES ("Telephone Operator");
-INSERT INTO JobPosition(Position) VALUES ("Phone Survey Conductor");
-INSERT INTO JobPosition(Position) VALUES ("Dispatcher for Trucks or Taxis");
-INSERT INTO JobPosition(Position) VALUES ("Customer Support Representative");
-INSERT INTO JobPosition(Position) VALUES ("Over the Phone Interpreter");
-INSERT INTO JobPosition(Position) VALUES ("Phone Sales Specialist");
-INSERT INTO JobPosition(Position) VALUES ("Mortgage Loan Processor");
-INSERT INTO JobPosition(Position) VALUES ("Counselor");
-INSERT INTO JobPosition(Position) VALUES ("Mental Health Counselor");
-INSERT INTO JobPosition(Position) VALUES ("Addiction Counselor");
-INSERT INTO JobPosition(Position) VALUES ("School Counselor");
-INSERT INTO JobPosition(Position) VALUES ("Speech Pathologist");
-INSERT INTO JobPosition(Position) VALUES ("Guidance Counselor");
-INSERT INTO JobPosition(Position) VALUES ("Social Worker");
-INSERT INTO JobPosition(Position) VALUES ("Therapist");
-INSERT INTO JobPosition(Position) VALUES ("Life Coach");
-INSERT INTO JobPosition(Position) VALUES ("Couples Counselor");
-INSERT INTO JobPosition(Position) VALUES ("Beautician");
-INSERT INTO JobPosition(Position) VALUES ("Hair Stylist");
-INSERT INTO JobPosition(Position) VALUES ("Nail Technician");
-INSERT INTO JobPosition(Position) VALUES ("Cosmetologist");
-INSERT INTO JobPosition(Position) VALUES ("Salon Manager");
-INSERT INTO JobPosition(Position) VALUES ("Makeup Artist");
-INSERT INTO JobPosition(Position) VALUES ("Esthetician");
-INSERT INTO JobPosition(Position) VALUES ("Skin Care Specialist");
-INSERT INTO JobPosition(Position) VALUES ("Manicurist");
-INSERT INTO JobPosition(Position) VALUES ("Barber");
-INSERT INTO JobPosition(Position) VALUES ("Journalist");
-INSERT INTO JobPosition(Position) VALUES ("Copy Editor");
-INSERT INTO JobPosition(Position) VALUES ("Editor/Proofreader");
-INSERT INTO JobPosition(Position) VALUES ("Content Creator");
-INSERT INTO JobPosition(Position) VALUES ("Speechwriter");
-INSERT INTO JobPosition(Position) VALUES ("Communications Director");
-INSERT INTO JobPosition(Position) VALUES ("Screenwriter");
-INSERT INTO JobPosition(Position) VALUES ("Technical Writer");
-INSERT INTO JobPosition(Position) VALUES ("Columnist");
-INSERT INTO JobPosition(Position) VALUES ("Public Relations Specialist");
-INSERT INTO JobPosition(Position) VALUES ("Proposal Writer");
-INSERT INTO JobPosition(Position) VALUES ("Content Strategist");
-INSERT INTO JobPosition(Position) VALUES ("Grant Writer");
-INSERT INTO JobPosition(Position) VALUES ("Video Game Writer");
-INSERT INTO JobPosition(Position) VALUES ("Translator");
-INSERT INTO JobPosition(Position) VALUES ("Film Critic");
-INSERT INTO JobPosition(Position) VALUES ("Copywriter");
-INSERT INTO JobPosition(Position) VALUES ("Travel Writer");
-INSERT INTO JobPosition(Position) VALUES ("Social Media Specialist");
-INSERT INTO JobPosition(Position) VALUES ("Ghostwriter");
-INSERT INTO JobPosition(Position) VALUES ("Warehouse Worker");
-INSERT INTO JobPosition(Position) VALUES ("Painter");
-INSERT INTO JobPosition(Position) VALUES ("Truck Driver");
-INSERT INTO JobPosition(Position) VALUES ("Heavy Equipment Operator");
-INSERT INTO JobPosition(Position) VALUES ("Welding");
-INSERT INTO JobPosition(Position) VALUES ("Physical Therapy Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Housekeeper");
-INSERT INTO JobPosition(Position) VALUES ("Landscaping Worker");
-INSERT INTO JobPosition(Position) VALUES ("Landscaping Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Mover");
-INSERT INTO JobPosition(Position) VALUES ("Animal Breeder");
-INSERT INTO JobPosition(Position) VALUES ("Veterinary Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Farm Worker");
-INSERT INTO JobPosition(Position) VALUES ("Animal Shelter Worker");
-INSERT INTO JobPosition(Position) VALUES ("Dog Walker / Pet Sitter");
-INSERT INTO JobPosition(Position) VALUES ("Zoologist");
-INSERT INTO JobPosition(Position) VALUES ("Animal Trainer");
-INSERT INTO JobPosition(Position) VALUES ("Service Dog Trainer");
-INSERT INTO JobPosition(Position) VALUES ("Animal Shelter Manager");
-INSERT INTO JobPosition(Position) VALUES ("Animal Control Officer");
-INSERT INTO JobPosition(Position) VALUES ("Delivery Driver");
-INSERT INTO JobPosition(Position) VALUES ("School Bus Driver");
-INSERT INTO JobPosition(Position) VALUES ("Truck Driver");
-INSERT INTO JobPosition(Position) VALUES ("Tow Truck Operator");
-INSERT INTO JobPosition(Position) VALUES ("UPS Driver");
-INSERT INTO JobPosition(Position) VALUES ("Mail Carrier");
-INSERT INTO JobPosition(Position) VALUES ("Recyclables Collector");
-INSERT INTO JobPosition(Position) VALUES ("Courier");
-INSERT INTO JobPosition(Position) VALUES ("Bus Driver");
-INSERT INTO JobPosition(Position) VALUES ("Cab Driver");
-INSERT INTO JobPosition(Position) VALUES ("Animal Shelter Board Member");
-INSERT INTO JobPosition(Position) VALUES ("Office Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Animal Shelter Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Hospital Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Youth Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Food Kitchen Worker");
-INSERT INTO JobPosition(Position) VALUES ("Homeless Shelter Worker");
-INSERT INTO JobPosition(Position) VALUES ("Conservation Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Meals on Wheels Driver");
-INSERT INTO JobPosition(Position) VALUES ("Habitat for Humanity Builder");
-INSERT INTO JobPosition(Position) VALUES ("Emergency Relief Worker");
-INSERT INTO JobPosition(Position) VALUES ("Red Cross Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Community Food Project Worker");
-INSERT INTO JobPosition(Position) VALUES ("Women’s Shelter Jobs");
-INSERT INTO JobPosition(Position) VALUES ("Suicide Hotline Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("School Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Community Volunteer Jobs");
-INSERT INTO JobPosition(Position) VALUES ("Sports Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Church Volunteer");
-INSERT INTO JobPosition(Position) VALUES ("Archivist");
-INSERT INTO JobPosition(Position) VALUES ("Actuary");
-INSERT INTO JobPosition(Position) VALUES ("Architect");
-INSERT INTO JobPosition(Position) VALUES ("Personal Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Entrepreneur");
-INSERT INTO JobPosition(Position) VALUES ("Security Guard");
-INSERT INTO JobPosition(Position) VALUES ("Mechanic");
-INSERT INTO JobPosition(Position) VALUES ("Recruiter");
-INSERT INTO JobPosition(Position) VALUES ("Mathematician");
-INSERT INTO JobPosition(Position) VALUES ("Locksmith");
-INSERT INTO JobPosition(Position) VALUES ("Management Consultant");
-INSERT INTO JobPosition(Position) VALUES ("Shelf Stocker");
-INSERT INTO JobPosition(Position) VALUES ("Caretaker or House Sitter");
-INSERT INTO JobPosition(Position) VALUES ("Library Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Translator");
-INSERT INTO JobPosition(Position) VALUES ("HVAC Technician");
-INSERT INTO JobPosition(Position) VALUES ("Attorney");
-INSERT INTO JobPosition(Position) VALUES ("Paralegal");
-INSERT INTO JobPosition(Position) VALUES ("Executive Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Personal Assistant");
-INSERT INTO JobPosition(Position) VALUES ("Bank Teller");
-INSERT INTO JobPosition(Position) VALUES ("Parking Attendant");
-INSERT INTO JobPosition(Position) VALUES ("Machinery Operator");
-INSERT INTO JobPosition(Position) VALUES ("Manufacturing Assembler");
-INSERT INTO JobPosition(Position) VALUES ("Funeral Attendant");
-INSERT INTO JobPosition(Position) VALUES ("Assistant Golf Professional");
-INSERT INTO JobPosition(Position) VALUES ("Yoga Instructor");
-
-
-INSERT INTO TypeOfContract(ContractType) VALUES ("Full Time");
-INSERT INTO TypeOfContract(ContractType) VALUES ("Part Time");
-
-
-INSERT INTO JobCategory(FIELD1) VALUES ("Purchasing, logistics, warehouse");
-INSERT INTO JobCategory(FIELD1) VALUES ("Legal business");
-INSERT INTO JobCategory(FIELD1) VALUES ("Accounting administration, secretariat");
-INSERT INTO JobCategory(FIELD1) VALUES ("Graphic arts, design");
-INSERT INTO JobCategory(FIELD1) VALUES ("Attention to the customer");
-INSERT INTO JobCategory(FIELD1) VALUES ("Retail trade, GDO, Retail");
-INSERT INTO JobCategory(FIELD1) VALUES ("Construction");
-INSERT INTO JobCategory(FIELD1) VALUES ("Pharmacy, medicine, health");
-INSERT INTO JobCategory(FIELD1) VALUES ("Finance, banking and credit");
-INSERT INTO JobCategory(FIELD1) VALUES ("Training, education");
-INSERT INTO JobCategory(FIELD1) VALUES ("IT, IT and telecommunications");
-INSERT INTO JobCategory(FIELD1) VALUES ("Engineering");
-INSERT INTO JobCategory(FIELD1) VALUES ("Marketing, communication");
-INSERT INTO JobCategory(FIELD1) VALUES ("Workers, production, quality");
-INSERT INTO JobCategory(FIELD1) VALUES ("Professions and trades");
-INSERT INTO JobCategory(FIELD1) VALUES ("Public administration");
-INSERT INTO JobCategory(FIELD1) VALUES ("Human resources, recruiting");
-INSERT INTO JobCategory(FIELD1) VALUES ("Pharmaceutical sector");
-INSERT INTO JobCategory(FIELD1) VALUES ("Tourism, catering");
-INSERT INTO JobCategory(FIELD1) VALUES ("Sales");
-INSERT INTO JobCategory(FIELD1) VALUES ("Others");
-
-
-INSERT INTO Qualification(Qualify) VALUES ("Primary school diploma");
-INSERT INTO Qualification(Qualify) VALUES ("Middle School diploma");
-INSERT INTO Qualification(Qualify) VALUES ("High school diploma");
-INSERT INTO Qualification(Qualify) VALUES ("First Level Degree Diploma");
-INSERT INTO Qualification(Qualify) VALUES ("Second Level Degree Diploma");
-INSERT INTO Qualification(Qualify) VALUES ("Master's degree");
-INSERT INTO Qualification(Qualify) VALUES ("Ph.D");
-
 
