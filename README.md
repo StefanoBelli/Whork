@@ -11,3 +11,15 @@
 
 # Whork
 ISPW project a.y. 2020/2021
+
+## Testing
+Testing is achieved on two "levels":
+ * Unit testing
+ * "Browser automated" testing (via Selenium API and IDE)
+
+### How to run tests manually
+~~~
+$ mvn test
+$ mvn test -Dtest=test.selenium.Selenium*
+$ chromium . # from there open project (in side/whork-*.side) using Selenium IDE plugin
+~~~
