@@ -18,9 +18,9 @@
 		String email = (String) request.getAttribute("reqEmail");
 		if(email != null) {
 %>
-		A password reset request has been made.
+		<p name="pwd_reset">A password reset request has been made.
 		If "<%=email%>" is a valid and registered email address, then you will find an
-		email in your inbox (check spam) with instructions.
+		email in your inbox (check spam) with instructions.</p>
 <%
 		}
 %>

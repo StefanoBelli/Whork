@@ -22,6 +22,7 @@
       <javax.mail.version>1.6.2</javax.mail.version>
       <controlsfx.version>11.1.0</controlsfx.version>
       <websocket.version>1.5.1</websocket.version>
+      <selenium.version>3.141.59</selenium.version>
    </properties>
    <dependencies>
       <dependency>
@@ -94,6 +95,12 @@
         <groupId>org.java-websocket</groupId>
         <artifactId>Java-WebSocket</artifactId>
         <version>${websocket.version}</version>
+     </dependency>
+     <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>${selenium.version}</version>
+        <scope>test</scope>
      </dependency>
    </dependencies>
    <build>
