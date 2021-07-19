@@ -4,9 +4,13 @@ import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
+import logic.model.JobCategoryModel;
+import logic.model.JobPositionModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.ProvinciaModel;
+import logic.model.QualificationModel;
 import logic.model.RegioneModel;
+import logic.model.TypeOfContractModel;
 import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.util.Util;
@@ -16,8 +20,12 @@ import java.io.ByteArrayInputStream;
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
+import logic.bean.JobCategoryBean;
+import logic.bean.JobPositionBean;
 import logic.bean.ProvinciaBean;
+import logic.bean.QualificationBean;
 import logic.bean.RegioneBean;
+import logic.bean.TypeOfContractBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 
@@ -114,5 +122,33 @@ public final class ModelFactory {
 		companyModel.setVat(companyBean.getVat());
 
 		return companyModel;
+	}
+	
+	public static TypeOfContractModel buildTypeOfContractModel(TypeOfContractBean typeOfContractBean) {
+		TypeOfContractModel typeOfContractModel = new TypeOfContractModel();
+		typeOfContractModel.setContract(typeOfContractBean.getContract());
+
+		return typeOfContractModel;
+	}
+	
+	public static JobCategoryModel buildJobCategoryModel(JobCategoryBean jobCategoryBean) {
+		JobCategoryModel jobCategoryModel = new JobCategoryModel();
+		jobCategoryModel.setCategory(jobCategoryBean.getCategory());
+
+		return jobCategoryModel;
+	}
+	
+	public static JobPositionModel buildJobPositionModel(JobPositionBean jobPositionBean) {
+		JobPositionModel jobPositionModel = new JobPositionModel();
+		jobPositionModel.setPosition(jobPositionBean.getPosition());
+
+		return jobPositionModel;
+	}
+	
+	public static QualificationModel buildQualificationModel(QualificationBean qualificationBean) {
+		QualificationModel qualificationModel = new QualificationModel();
+		qualificationModel.setQualify(qualificationBean.getQualify());
+
+		return qualificationModel;
 	}
 }
