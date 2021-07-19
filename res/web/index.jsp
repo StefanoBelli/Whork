@@ -10,19 +10,23 @@
 		
 
 	<body>
+	<div class="searchDiv">
 	
-	<form name="searchForm" action="search" method="get">
+		<form name="searchForm" action="search" method="get">
 		
-		<input type="text" name="searchVal" value="" />
+			<input type="text" name="searchVal" value="" />
 		
-		<input type="submit" name="submit" value="Search"/>
+			<input type="submit" name="submit" value="Search"/>
 		
-	</form>
+		</form>
+		
+	</div>
+	
 <%
 if(OfferController.getOffers().size()==0){
 %>
 
-<h3>Non sono presenti offerte! Torna più tardi!</h3>
+<h3>There aren't offers!</h3>
 
 <%
 }else{
