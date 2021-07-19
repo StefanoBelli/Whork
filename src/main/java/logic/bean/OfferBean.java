@@ -8,58 +8,45 @@ public final class OfferBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 145847504079594489L;
+	
 	private int id;
+	private String offerName;
 	private String description;
-	private String companyHeadQuarterAddress;
-	private String employeeMail;
+	private String jobPhysicalLocationFullAddress;
 	private String companyVat;
-	private String salary;
+	private int salaryEUR;
 	private String photo;
-	private boolean otherTime;
 	private String workShift;
 	private String jobPosition;
 	private String qualification;
 	private String typeOfContract;
-	private boolean yearSalary;
-	private String offerName;
-	private int numberOfCandidatures;
-	private Date data;
-	private int clickNumber;
+	private Date publishDate;
+	private int clickStats;
 	private String note;
-	private String numberSaved;
-	private boolean checked;
-	
+	private boolean verifiedByWhork;
+	private String jobCategory;
+	private String employeeCF;
+		
 
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+		public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getOfferName() {
+		public String getOfferName() {
 		return offerName;
 	}
-
+		
 	public void setOfferName(String offerName) {
 		this.offerName = offerName;
 	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public boolean getYearSalary() {
-		return yearSalary;
-	}
-
-	public void setYearSalary(boolean yearSalary) {
-		this.yearSalary = yearSalary;
 	}
 
 	public String getPhoto() {
@@ -70,37 +57,6 @@ public final class OfferBean implements Serializable {
 		this.photo = photo;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date date) {
-		this.data = date;
-	}
-
-	public String getEmployeeMail() {
-		return employeeMail;
-	}
-
-	public void setEmployeeMail(String employeeMail) {
-		this.employeeMail = employeeMail;
-	}
-
-	public int getClickNumber() {
-		return clickNumber;
-	}
-
-	public void setClickNumber(int clickNumber) {
-		this.clickNumber = clickNumber;
-	}
-
-	public String getNumberSaved() {
-		return numberSaved;
-	}
-
-	public void setNumberSaved(String numberSaved) {
-		this.numberSaved = numberSaved;
-	}
 
 	public String getNote() {
 		return note;
@@ -108,22 +64,6 @@ public final class OfferBean implements Serializable {
 
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	public int getNumberOfCandidatures() {
-		return numberOfCandidatures;
-	}
-
-	public void setNumberOfCandidatures(int numberOfCandidatures) {
-		this.numberOfCandidatures = numberOfCandidatures;
-	}
-
-	public String getCompanyHeadQuarterAddress() {
-		return companyHeadQuarterAddress;
-	}
-
-	public void setCompanyHeadQuarterAddress(String companyHeadQuarterAddress) {
-		this.companyHeadQuarterAddress = companyHeadQuarterAddress;
 	}
 
 	public String getCompanyVat() {
@@ -134,14 +74,13 @@ public final class OfferBean implements Serializable {
 		this.companyVat = companyVat;
 	}
 
-	public boolean getOtherTime() {
-		return otherTime;
+	public String getWorkShit() {
+		return workShift;
 	}
-
-	public void setOtherTime(boolean otherTime) {
-		this.otherTime = otherTime;
+	
+	public void setWorkShit(String workShift) {
+		this.workShift = workShift;
 	}
-
 
 	public String getJobPosition() {
 		return jobPosition;
@@ -163,36 +102,64 @@ public final class OfferBean implements Serializable {
 		return typeOfContract;
 	}
 
-	public String getSalary() {
-		return salary;
-	}
-
-	public void setSalary(String salary) {
-		this.salary = salary;
-	}
-	
 	public void setTypeOfContract(String typeOfContract) {
 		this.typeOfContract = typeOfContract;
 	}
-	
-	public String getWorkShit() {
-		return workShift;
+
+	public String getJobPhysicalLocationFullAddress() {
+		return jobPhysicalLocationFullAddress;
 	}
 
-	public void setWorkShit(String workShift) {
-		this.workShift = workShift;
+	public void setJobPhysicalLocationFullAddress(String jobPhysicalLocationFullAddress) {
+		this.jobPhysicalLocationFullAddress = jobPhysicalLocationFullAddress;
 	}
 
-	public boolean getChecked() {
-		return checked;
+	public int getSalaryEUR() {
+		return salaryEUR;
 	}
 
-	public void setChecked(boolean checked) {
-		this.checked = checked;
+	public void setSalaryEUR(int salaryEUR) {
+		this.salaryEUR = salaryEUR;
 	}
 
-	
-	
-	
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public int getClickStats() {
+		return clickStats;
+	}
+
+	public void setClickStats(int clickStats) {
+		this.clickStats = clickStats;
+	}
+
+	public boolean isVerifiedByWhork() {
+		return verifiedByWhork;
+	}
+
+	public void setVerifiedByWhork(boolean verifiedByWhork) {
+		this.verifiedByWhork = verifiedByWhork;
+	}
+
+	public String getJobCategory() {
+		return jobCategory;
+	}
+
+	public void setJobCategory(String jobCategory) {
+		this.jobCategory = jobCategory;
+	}
+
+	public String getEmployeeCF() {
+		return employeeCF;
+	}
+
+	public void setEmployeeCF(String employeeCF) {
+		this.employeeCF = employeeCF;
+	}
 		
 }

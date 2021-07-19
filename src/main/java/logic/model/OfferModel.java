@@ -4,25 +4,22 @@ import java.util.Date;
 
 public final class OfferModel {
 	private int id;
+	private String offerName;
 	private String description;
-	private String companyHeadQuarterAddress;
-	private String employeeMail;
+	private String jobPhysicalLocationFullAddress;
 	private String companyVat;
-	private String salary;
+	private int salaryEUR;
 	private String photo;
-	private boolean otherTime;
 	private String workShift;
 	private String jobPosition;
 	private String qualification;
 	private String typeOfContract;
-	private boolean yearSalary;
-	private String offerName;
-	private int numberOfCandidatures;
-	private Date data;
-	private int clickNumber;
+	private Date publishDate;
+	private int clickStats;
 	private String note;
-	private String numberSaved;
-	private boolean checked;
+	private boolean verifiedByWhork;
+	private String jobCategory;
+	private String employeeCF;
 	
 
 	public int getId() {
@@ -49,14 +46,6 @@ public final class OfferModel {
 		this.description = description;
 	}
 
-	public boolean getYearSalary() {
-		return yearSalary;
-	}
-
-	public void setYearSalary(boolean yearSalary) {
-		this.yearSalary = yearSalary;
-	}
-
 	public String getPhoto() {
 		return photo;
 	}
@@ -65,37 +54,6 @@ public final class OfferModel {
 		this.photo = photo;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date date) {
-		this.data = date;
-	}
-
-	public String getEmployeeMail() {
-		return employeeMail;
-	}
-
-	public void setEmployeeMail(String employeeMail) {
-		this.employeeMail = employeeMail;
-	}
-
-	public int getClickNumber() {
-		return clickNumber;
-	}
-
-	public void setClickNumber(int clickNumber) {
-		this.clickNumber = clickNumber;
-	}
-
-	public String getNumberSaved() {
-		return numberSaved;
-	}
-
-	public void setNumberSaved(String numberSaved) {
-		this.numberSaved = numberSaved;
-	}
 
 	public String getNote() {
 		return note;
@@ -105,21 +63,6 @@ public final class OfferModel {
 		this.note = note;
 	}
 
-	public int getNumberOfCandidatures() {
-		return numberOfCandidatures;
-	}
-
-	public void setNumberOfCandidatures(int numberOfCandidatures) {
-		this.numberOfCandidatures = numberOfCandidatures;
-	}
-
-	public String getCompanyHeadQuarterAddress() {
-		return companyHeadQuarterAddress;
-	}
-
-	public void setCompanyHeadQuarterAddress(String companyHeadQuarterAddress) {
-		this.companyHeadQuarterAddress = companyHeadQuarterAddress;
-	}
 
 	public String getCompanyVat() {
 		return companyVat;
@@ -127,14 +70,6 @@ public final class OfferModel {
 
 	public void setCompanyVat(String companyVat) {
 		this.companyVat = companyVat;
-	}
-
-	public boolean getOtherTime() {
-		return otherTime;
-	}
-
-	public void setOtherTime(boolean otherTime) {
-		this.otherTime = otherTime;
 	}
 
 	public String getWorkShit() {
@@ -169,20 +104,60 @@ public final class OfferModel {
 		this.typeOfContract = typeOfContract;
 	}
 
-	public boolean getChecked() {
-		return checked;
+	public String getJobPhysicalLocationFullAddress() {
+		return jobPhysicalLocationFullAddress;
 	}
 
-	public void setChecked(boolean checked) {
-		this.checked = checked;
+	public void setJobPhysicalLocationFullAddress(String jobPhysicalLocationFullAddress) {
+		this.jobPhysicalLocationFullAddress = jobPhysicalLocationFullAddress;
 	}
 
-	public String getSalary() {
-		return salary;
+	public int getSalaryEUR() {
+		return salaryEUR;
 	}
 
-	public void setSalary(String salary) {
-		this.salary = salary;
+	public void setSalaryEUR(int salaryEUR) {
+		this.salaryEUR = salaryEUR;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public int getClickStats() {
+		return clickStats;
+	}
+
+	public void setClickStats(int clickStats) {
+		this.clickStats = clickStats;
+	}
+
+	public boolean isVerifiedByWhork() {
+		return verifiedByWhork;
+	}
+
+	public void setVerifiedByWhork(boolean verifiedByWhork) {
+		this.verifiedByWhork = verifiedByWhork;
+	}
+
+	public String getJobCategory() {
+		return jobCategory;
+	}
+
+	public void setJobCategory(String jobCategory) {
+		this.jobCategory = jobCategory;
+	}
+
+	public String getEmployeeCF() {
+		return employeeCF;
+	}
+
+	public void setEmployeeCF(String employeeCF) {
+		this.employeeCF = employeeCF;
 	}
 	
 	

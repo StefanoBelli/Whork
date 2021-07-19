@@ -75,24 +75,21 @@ public final class BeanFactory {
 			OfferBean offerBean = new OfferBean();
 			offerBean.setId(offerModel.getId());
 			offerBean.setOfferName(offerModel.getOfferName());
-			offerBean.setData(offerModel.getData());
-			offerBean.setNote(offerModel.getNote());
-			offerBean.setChecked(offerModel.getChecked());
-			offerBean.setClickNumber(offerModel.getClickNumber());
-			offerBean.setCompanyHeadQuarterAddress(offerModel.getCompanyHeadQuarterAddress());
-			offerBean.setCompanyVat(offerModel.getCompanyVat());
-			offerBean.setJobPosition(offerModel.getJobPosition());
 			offerBean.setDescription(offerModel.getDescription());
-			offerBean.setEmployeeMail(offerModel.getEmployeeMail());
-			offerBean.setYearSalary(offerModel.getYearSalary());
-			offerBean.setWorkShit(offerModel.getWorkShit());
-			offerBean.setTypeOfContract(offerModel.getTypeOfContract());
-			offerBean.setSalary(offerModel.getSalary());
-			offerBean.setQualification(offerModel.getQualification());
+			offerBean.setJobPhysicalLocationFullAddress(offerModel.getJobPhysicalLocationFullAddress());
+			offerBean.setCompanyVat(offerModel.getCompanyVat());
+			offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 			offerBean.setPhoto(offerModel.getPhoto());
-			offerBean.setOtherTime(offerModel.getOtherTime());
-			offerBean.setNumberSaved(offerModel.getNumberSaved());
-			offerBean.setNumberOfCandidatures(offerModel.getNumberOfCandidatures());
+			offerBean.setWorkShit(offerModel.getWorkShit());
+			offerBean.setJobPosition(offerModel.getJobPosition());
+			offerBean.setQualification(offerModel.getQualification());
+			offerBean.setTypeOfContract(offerModel.getTypeOfContract());
+			offerBean.setPublishDate(offerModel.getPublishDate());
+			offerBean.setClickStats(offerModel.getClickStats());
+			offerBean.setNote(offerModel.getNote());
+			offerBean.setVerifiedByWhork(offerModel.isVerifiedByWhork());
+			offerBean.setJobCategory(offerModel.getJobCategory());
+			offerBean.setEmployeeCF(offerModel.getEmployeeCF());
 			
 			offersBean.add(offerBean);
 		}

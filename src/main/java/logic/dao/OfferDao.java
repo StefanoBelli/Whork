@@ -40,25 +40,22 @@ public final class OfferDao {
 
 		
 				OfferModel om= new OfferModel();
-				om.setDescription(rs.getString(2));
-				om.setCompanyHeadQuarterAddress(rs.getString(3));
-				om.setEmployeeMail(rs.getString(4));
+				om.setOfferName(rs.getString(2));
+				om.setDescription(rs.getString(3));
+				om.setJobPhysicalLocationFullAddress(rs.getString(4));
 				om.setCompanyVat(rs.getString(5));
-				om.setSalary(rs.getString(6));
+				om.setSalaryEUR(rs.getInt(6));
 				om.setPhoto(rs.getString(7));
-				om.setOtherTime(rs.getBoolean(8));
-				om.setWorkShit(rs.getString(9));
-				om.setJobPosition(rs.getString(10));
-				om.setQualification(rs.getString(11));
-				om.setTypeOfContract(rs.getString(12));
-				om.setYearSalary(rs.getBoolean(13));
-				om.setOfferName(rs.getString(14));
-				om.setNumberOfCandidatures(rs.getInt(15));
-				om.setData(rs.getDate(16));
-				om.setClickNumber(rs.getInt(17));
-				om.setNote(rs.getString(18));
-				om.setNumberSaved(rs.getString(19));
-				om.setChecked(rs.getBoolean(20));
+				om.setWorkShit(rs.getString(8));
+				om.setJobPosition(rs.getString(9));
+				om.setQualification(rs.getString(10));
+				om.setTypeOfContract(rs.getString(11));
+				om.setPublishDate(rs.getDate(12));
+				om.setClickStats(rs.getInt(13));
+				om.setNote(rs.getString(14));
+				om.setVerifiedByWhork(rs.getBoolean(15));
+				om.setJobCategory(rs.getString(16));
+				om.setEmployeeCF(rs.getString(17));
 				
 				om.setId(id);
 
@@ -87,25 +84,22 @@ public final class OfferDao {
 		
 					OfferModel om= new OfferModel();
 					om.setId(rs.getInt(1));
-					om.setDescription(rs.getString(2));
-					om.setCompanyHeadQuarterAddress(rs.getString(3));
-					om.setEmployeeMail(rs.getString(4));
+					om.setOfferName(rs.getString(2));
+					om.setDescription(rs.getString(3));
+					om.setJobPhysicalLocationFullAddress(rs.getString(4));
 					om.setCompanyVat(rs.getString(5));
-					om.setSalary(rs.getString(6));
+					om.setSalaryEUR(rs.getInt(6));
 					om.setPhoto(rs.getString(7));
-					om.setOtherTime(rs.getBoolean(8));
-					om.setWorkShit(rs.getString(9));
-					om.setJobPosition(rs.getString(10));
-					om.setQualification(rs.getString(11));
-					om.setTypeOfContract(rs.getString(12));
-					om.setYearSalary(rs.getBoolean(13));
-					om.setOfferName(rs.getString(14));
-					om.setNumberOfCandidatures(rs.getInt(15));
-					om.setData(rs.getDate(16));
-					om.setClickNumber(rs.getInt(17));
-					om.setNote(rs.getString(18));
-					om.setNumberSaved(rs.getString(19));
-					om.setChecked(rs.getBoolean(20));
+					om.setWorkShit(rs.getString(8));
+					om.setJobPosition(rs.getString(9));
+					om.setQualification(rs.getString(10));
+					om.setTypeOfContract(rs.getString(11));
+					om.setPublishDate(rs.getDate(12));
+					om.setClickStats(rs.getInt(13));
+					om.setNote(rs.getString(14));
+					om.setVerifiedByWhork(rs.getBoolean(15));
+					om.setJobCategory(rs.getString(16));
+					om.setEmployeeCF(rs.getString(17));
 					
 					
 					offers.add(om);
