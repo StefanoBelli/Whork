@@ -1020,6 +1020,29 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure GetJobCategories
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetJobCategories`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Category
+	FROM
+		JobCategory;
+
+	COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure GetCompanyByCF
 -- -----------------------------------------------------
 
@@ -1046,6 +1069,100 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetJobCategories
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetJobCategories`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Category
+	FROM
+		JobCategory;
+
+	COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetJobPositions
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetJobPositions`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Position
+	FROM
+		JobPosition;
+
+	COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetQualifications
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetQualifications`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Qualify
+	FROM
+		Qualification;
+
+	COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetTypesOfContract
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetTypesOfContract`()
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		ContractType
+	FROM
+		TypeOfContract;
+
+	COMMIT;
+END$$
+
+DELIMITER ;
+
+
 USE `whorkdb`;
 
 DELIMITER $$
