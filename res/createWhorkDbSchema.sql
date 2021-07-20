@@ -1019,28 +1019,6 @@ END$$
 
 DELIMITER ;
 
--- -----------------------------------------------------
--- procedure GetJobCategories
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `whorkdb`$$
-CREATE PROCEDURE `GetJobCategories`()
-BEGIN
-	SET TRANSACTION READ ONLY;
-    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-    
-    START TRANSACTION;
-    
-    SELECT
-		Category
-	FROM
-		JobCategory;
-
-	COMMIT;
-END$$
-
-DELIMITER ;
 
 -- -----------------------------------------------------
 -- procedure GetCompanyByCF
