@@ -3955,8 +3955,8 @@
 									"left": 16,
 									"top": 1128,
 									"width": 153,
-									"height": 90,
-									"text": "setProps riassume tutti gli attributi settati per la bean e il model, il loro pattern di sequenza sarebbe identico"
+									"height": 142,
+									"text": "setProps summarizes every setted attribute for bean/model: their setX sequence pattern would be identical, repeated N times, where N is the # of attrs to be set by the object responsible for their creation."
 								},
 								{
 									"_type": "UMLNoteView",
@@ -3968,8 +3968,8 @@
 									"left": 176,
 									"top": 1128,
 									"width": 185,
-									"height": 90,
-									"text": "LoginHandler, LoginController, UserDao, UserAuthDao, BeanFactory, Util.Bcrypt, non vengono mai istanziate perchè forniscono metodi statici"
+									"height": 181,
+									"text": "LoginHandler, LoginController, UserDao, UserAuthDao, BeanFactory, Util.Bcrypt, are never created explicitly in this sequence diagram because they are actually never created by the calling object, who just uses a static method for these classes. Their unique \"global instance\" is provided by the JVM on first class usage."
 								},
 								{
 									"_type": "UMLNoteView",
@@ -3981,8 +3981,8 @@
 									"left": 368,
 									"top": 1128,
 									"width": 209,
-									"height": 77,
-									"text": "L'istanza ub (type UserBean) non viene mai distrutta perchè viene mantenuta in memoria finchè l'utente non si disconnette e/o cambia utenza corrente"
+									"height": 207,
+									"text": "ub object (type UserBean) is never destroyed in the sequence diagram because it is placed in memory while the user is online and using the system with its account. The only occourrence of freeing (destroying) is responsibility of the JVM: when the user disconnects or another user gets successfully logged in, reference to the current ub object is replaced with null => no more reference to the object => JVM is able to destroy object and free memory"
 								}
 							]
 						}
@@ -4478,7 +4478,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role1"
+					"name": "Role1",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4486,7 +4487,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role2"
+					"name": "Role2",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4494,7 +4496,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role3"
+					"name": "Role3",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4502,7 +4505,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role4"
+					"name": "Role4",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4510,7 +4514,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role5"
+					"name": "Role5",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4518,7 +4523,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role6"
+					"name": "Role6",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4526,7 +4532,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role7"
+					"name": "Role7",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4534,7 +4541,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role8"
+					"name": "Role8",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4542,7 +4550,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role9"
+					"name": "Role9",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4550,7 +4559,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role10"
+					"name": "Role10",
+					"type": ""
 				}
 			]
 		}
