@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="logic.bean.OfferBean" %>
+<%@ page import="java.util.List" %>
 <%@ page import="logic.controller.OfferController" %>
 <%@ page import="logic.util.Util" %>
 <%@ page import="logic.util.ServletUtil" %>
@@ -19,74 +20,119 @@
 		
 
 	<body>
+	
+<%
+String searchVal=(String) request.getParameter("searchVal");
+String jobCategory = (String) request.getParameter("jobCategories");
+String jobPosition = (String) request.getParameter("jobPositions");
+String qualification = (String) request.getParameter("qualifications");
+String typeOfContract = (String) request.getParameter("typesOfContract");
+List<OfferBean> offers = OfferController.getOffers(searchVal,jobCategory,jobPosition,qualification,typeOfContract);
+
+%>
+	
 	<div class="searchDiv">
 	
-		<form name="searchForm" action="search" method="get">
-		
-			<input type="text" name="searchVal" value="" />
-		
+		<form name="searchForm" action="/index.jsp" method="get">
+			<%if(searchVal!=null && searchVal!=""){ %>
+			<input type="text" name="searchVal" value="<%=searchVal %>" />
+		<%}else{ %>
+					<input type="text" name="searchVal" value="" />
+		<%} %>
 			<input type="submit" name="submit" value="Search"/>
 			
 			<br>
 			<br>
 			
+
 			<label for="jobCategories">Choose a job category:</label>
-			<select name="jobCategories" id="categories" >
-				<option value="selectAnOption">--select an option--</option>
-				<%
-					for(final JobCategoryBean category : JobCategoryPool.getJobCategories()){
-				%>	
+			
+				<select name="jobCategories" id="categories">
+			
+					<option value="">--select an option--</option>
+					<%
+						for(final JobCategoryBean category : JobCategoryPool.getJobCategories()){
+						if(jobCategory!=null && jobCategory.equals(category.getCategory())){
+					%>	
+					
+						<option value="<%=category.getCategory() %>" selected><%=category.getCategory() %></option>	
+				<%}else{%>
 					<option value="<%=category.getCategory() %>"><%=category.getCategory() %></option>	
-				<%}%>
+				<%}
+				}%>
 				
 			</select>
 			
-			<label for="jobPosition">Choose a job position:</label>
-			<select name="jobPosition" id="positions" >
-				<option value="selectAnOption">--select an option--</option>
+			<label for="jobPositions">Choose a job position:</label>
+			<select name="jobPositions" id="positions" >
+				<option value="">--select an option--</option>
 				<%
 					for(final JobPositionBean position : JobPositionPool.getJobPositions()){
-				%>	
-					<option value="<%=position.getPosition() %>"><%=position.getPosition() %></option>	
-				<%}%>
+					if(jobPosition!=null && jobPosition.equals(position.getPosition())){
+					%>	
+					
+						<option value="<%=position.getPosition() %>" selected><%=position.getPosition() %></option>	
+				<%}else{%>
+					<option value="<%=position.getPosition()%>" > <%=position.getPosition() %></option>	
+				<%}
+				}%>
 				
 			</select>
 			
-			<label for="qualification">Choose a qualification:</label>
-			<select name="qualification" id="qualifies" >
-				<option value="selectAnOption">--select an option--</option>
+			<label for="qualifications">Choose a qualification:</label>
+			<select name="qualifications" id="qualifies" >
+				<option value="">--select an option--</option>
 				<%
 					for(final QualificationBean qualify : QualificationPool.getQualifications()){
-				%>	
-					<option value="<%=qualify.getQualify() %>"><%=qualify.getQualify() %></option>	
-				<%}%>
+				if(qualification!=null && qualification.equals(qualify.getQualify())){
+					%>	
+					
+						<option value="<%=qualify.getQualify() %>" selected><%=qualify.getQualify() %></option>	
+				<%}else{%>
+					<option value="<%=qualify.getQualify()%>"><%=qualify.getQualify() %></option>	
+				<%}
+				}%>
 				
 			</select>
 			
-			<label for="typeOfContract">Choose a type of contract:</label>
-			<select name="typeOfContract" id="contracts" >
-				<option value="selectAnOption">--select an option--</option>
+			<label for="typesOfContract">Choose a type of contract:</label>
+			<select name="typesOfContract" id="contracts" >
+				<option value="">--select an option--</option>
 				<%
 					for(final TypeOfContractBean contract : TypeOfContractPool.getTypesOfContract()){
-				%>	
-					<option value="<%=contract.getContract() %>"><%=contract.getContract() %></option>	
-				<%}%>
+				if(typeOfContract!=null && typeOfContract.equals(contract.getContract())){
+					%>	
+					
+						<option value="<%=contract.getContract() %>" selected><%=contract.getContract() %></option>	
+				<%}else{%>
+					<option value="<%=contract.getContract()%>"><%=contract.getContract() %></option>	
+				<%}
+				}%>
 				
 			</select>
 		
 		</form>
 		
+		<form action="/index.jsp" method="post">
+		
+			<input type="submit" name="reset" value="Reset filters">
+		</form>
+		
+		<form action="/login.jsp" method="post">
+			<input type="submit" name="login" value="Login">
+		</form>
+		
 	</div>
 	
 <%
-if(OfferController.getOffers().size()==0){
+if(offers.size()==0){
 %>
 
 <h3>There aren't offers!</h3>
 
 <%
 }else{
-	for(final OfferBean offer : OfferController.getOffers()) {
+	for(final OfferBean offer : offers) {
 %>
 
 	<div class="offer">
@@ -143,11 +189,11 @@ if(OfferController.getOffers().size()==0){
 		</form>
 		<%}else{ %>
 		
-		<form action="#" method="get">
+		<form action="/chat.jsp?toEmail=<%=OfferController.getEmployeeEmail(offer.getId()) %>" method="get">
 			<input type="submit" value="Chat"/>
 		</form>
-		<form action="#" method="get">
-			<input type="submit" value="Candidate"/>
+		<form action="#" method="post">
+			<input type="submit" value="Candidate" onclick="<%OfferController.insertCandidature(offer.getId(), ServletUtil.getUserForSession(request).getCf()); OfferController.updateClickStats(offer.getId());%>"/>
 		</form>
 		<%}%>
 		

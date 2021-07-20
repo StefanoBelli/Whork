@@ -994,27 +994,28 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure GetOffers
+-- procedure FilterOffers
 -- -----------------------------------------------------
-
-USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`GetOffers`;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `GetOffers`()
+CREATE PROCEDURE `FilterOffers` (in var_searchVal varchar(45), in var_jobCategory varchar(45), in var_jobPosition varchar(45), in var_qualification  varchar(45), in var_typeOfContract varchar(45))
 BEGIN
 	SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
     
 	START TRANSACTION;  
-  
-    SELECT
-		*
-	FROM
-		Offer;
     
-    COMMIT;
+    select *
+    from Offer
+    where ((`Name` like var_searchVal or var_searchval is null) and 
+		(JobCategory_Category=var_jobCategory or var_jobCategory is null) and
+        (JobPosition=var_jobPosition or var_jobPosition is null) and
+        (Qualification=var_qualification or var_qualification is null) and
+        (TypeOfContract=var_typeOfContract or var_typeOfContract is null));
+    
+    commit;
+    
 END$$
 
 DELIMITER ;
@@ -1113,6 +1114,67 @@ BEGIN
 		Qualification;
 
 	COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure UpdateNumClick
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `UpdateNumClick` (in var_id int)
+BEGIN
+
+update Offer
+set ClickStats=ClickStats+1
+where OfferID=var_id;
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetEmployeeEmail
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetEmployeeEmail` (in var_id int)
+BEGIN
+SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Email
+	FROM
+		Offer join Auth on Offer.EmployeeUserDetails_CF=Auth.EmployeeUserDetails_CF
+	WHERE
+		OfferID=var_id;
+
+	COMMIT;
+
+
+END$$
+
+DELIMITER ;
+
+
+-- -----------------------------------------------------
+-- procedure InsertCandidature
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `InsertCandidature` (in var_id int, in var_jobSeekerCF char(16), in var_date datetime)
+BEGIN
+
+insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
+values (var_id, var_jobSeekerCF, var_date);
+
 END$$
 
 DELIMITER ;
@@ -1232,11 +1294,15 @@ GRANT EXECUTE ON procedure `whorkdb`.`AddChatLogEntry` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByName` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByCF` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetOfferByID` TO 'whork';
-GRANT EXECUTE ON procedure `whorkdb`.`GetOffers` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`FilterOffers` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobCategories` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobPositions` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetQualifications` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`UpdateNumClick` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmail` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`InsertCandidature` TO 'whork';
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
