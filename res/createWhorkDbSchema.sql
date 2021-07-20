@@ -1253,6 +1253,13 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetChatLog` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`AddChatLogEntry` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByName` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByCF` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetOfferByID` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetOffers` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetJobCategories` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetJobPositions` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetQualifications` TO 'whork';
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
