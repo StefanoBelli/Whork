@@ -9677,27 +9677,27 @@ INSERT INTO TypeOfContract(ContractType) VALUES ("Full Time");
 INSERT INTO TypeOfContract(ContractType) VALUES ("Part Time");
 
 
-INSERT INTO JobCategory(FIELD1) VALUES ("Purchasing, logistics, warehouse");
-INSERT INTO JobCategory(FIELD1) VALUES ("Legal business");
-INSERT INTO JobCategory(FIELD1) VALUES ("Accounting administration, secretariat");
-INSERT INTO JobCategory(FIELD1) VALUES ("Graphic arts, design");
-INSERT INTO JobCategory(FIELD1) VALUES ("Attention to the customer");
-INSERT INTO JobCategory(FIELD1) VALUES ("Retail trade, GDO, Retail");
-INSERT INTO JobCategory(FIELD1) VALUES ("Construction");
-INSERT INTO JobCategory(FIELD1) VALUES ("Pharmacy, medicine, health");
-INSERT INTO JobCategory(FIELD1) VALUES ("Finance, banking and credit");
-INSERT INTO JobCategory(FIELD1) VALUES ("Training, education");
-INSERT INTO JobCategory(FIELD1) VALUES ("IT, IT and telecommunications");
-INSERT INTO JobCategory(FIELD1) VALUES ("Engineering");
-INSERT INTO JobCategory(FIELD1) VALUES ("Marketing, communication");
-INSERT INTO JobCategory(FIELD1) VALUES ("Workers, production, quality");
-INSERT INTO JobCategory(FIELD1) VALUES ("Professions and trades");
-INSERT INTO JobCategory(FIELD1) VALUES ("Public administration");
-INSERT INTO JobCategory(FIELD1) VALUES ("Human resources, recruiting");
-INSERT INTO JobCategory(FIELD1) VALUES ("Pharmaceutical sector");
-INSERT INTO JobCategory(FIELD1) VALUES ("Tourism, catering");
-INSERT INTO JobCategory(FIELD1) VALUES ("Sales");
-INSERT INTO JobCategory(FIELD1) VALUES ("Others");
+INSERT INTO JobCategory(Category) VALUES ("Purchasing, logistics, warehouse");
+INSERT INTO JobCategory(Category) VALUES ("Legal business");
+INSERT INTO JobCategory(Category) VALUES ("Accounting administration, secretariat");
+INSERT INTO JobCategory(Category) VALUES ("Graphic arts, design");
+INSERT INTO JobCategory(Category) VALUES ("Attention to the customer");
+INSERT INTO JobCategory(Category) VALUES ("Retail trade, GDO, Retail");
+INSERT INTO JobCategory(Category) VALUES ("Construction");
+INSERT INTO JobCategory(Category) VALUES ("Pharmacy, medicine, health");
+INSERT INTO JobCategory(Category) VALUES ("Finance, banking and credit");
+INSERT INTO JobCategory(Category) VALUES ("Training, education");
+INSERT INTO JobCategory(Category) VALUES ("IT, IT and telecommunications");
+INSERT INTO JobCategory(Category) VALUES ("Engineering");
+INSERT INTO JobCategory(Category) VALUES ("Marketing, communication");
+INSERT INTO JobCategory(Category) VALUES ("Workers, production, quality");
+INSERT INTO JobCategory(Category) VALUES ("Professions and trades");
+INSERT INTO JobCategory(Category) VALUES ("Public administration");
+INSERT INTO JobCategory(Category) VALUES ("Human resources, recruiting");
+INSERT INTO JobCategory(Category) VALUES ("Pharmaceutical sector");
+INSERT INTO JobCategory(Category) VALUES ("Tourism, catering");
+INSERT INTO JobCategory(Category) VALUES ("Sales");
+INSERT INTO JobCategory(Category) VALUES ("Others");
 
 
 INSERT INTO Qualification(Qualify) VALUES ("Primary school diploma");
