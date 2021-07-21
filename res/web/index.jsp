@@ -28,7 +28,11 @@ String jobPosition = (String) request.getParameter("jobPositions");
 String qualification = (String) request.getParameter("qualifications");
 String typeOfContract = (String) request.getParameter("typesOfContract");
 List<OfferBean> offers = OfferController.getOffers(searchVal,jobCategory,jobPosition,qualification,typeOfContract);
+String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 
+if(candidateToOffer!=null){
+	OfferController.insertCandidature(Integer.parseInt(candidateToOffer), ServletUtil.getUserForSession(request).getCf());
+}
 %>
 	
 	<div class="searchDiv">
@@ -125,7 +129,7 @@ List<OfferBean> offers = OfferController.getOffers(searchVal,jobCategory,jobPosi
 	</div>
 	
 <%
-if(offers.size()==0){
+if(offers.isEmpty()){
 %>
 
 <h3>There aren't offers!</h3>
@@ -190,8 +194,10 @@ if(offers.size()==0){
 		<%}else{ %>
 		
 		<button  onclick="window.open('/chat.jsp?toEmail=<%=OfferController.getEmployeeEmailByOffer(offer.getId())%>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
-		<form action="#" method="post">
-			<input type="submit" value="Candidate" onclick="<%OfferController.insertCandidature(offer.getId(), ServletUtil.getUserForSession(request).getCf()); OfferController.updateClickStats(offer.getId());%>"/>
+		
+		<form action="/index.jsp" method="post">
+			<input type="hidden" id="candidate_offer_id" name="candidate_offer_id" value=<%=offer.getId()%>>
+			<input type="submit" name="candidate_button" value="Candidate">
 		</form>
 		<%}%>
 		
