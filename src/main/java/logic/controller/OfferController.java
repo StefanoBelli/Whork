@@ -25,12 +25,10 @@ public final class OfferController {
 	public static void insertCandidature(Integer id, String cf) throws DataAccessException, DataLogicException {
 		OfferDao.insertCandidature(id, cf);
 		updateClickStats(id);
-		return;
 	}
 
 	private static void updateClickStats(Integer id) throws DataAccessException, DataLogicException {
 		OfferDao.updateClickStats(id);
-		return;
 	}
 	
 	public static CompanyBean getCompanyByVAT(OfferBean offerBean) throws DataAccessException, DataLogicException {
