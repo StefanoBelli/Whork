@@ -18,16 +18,17 @@ public final class OfferController {
 		
 	}
 	
-	public static String getEmployeeEmail(int id) throws DataAccessException, DataLogicException {
-		return OfferDao.getEmployeeEmail(id);
+	public static String getEmployeeEmailByOffer(int id) throws DataAccessException, DataLogicException {
+		return OfferDao.getEmployeeEmailByOffer(id);
 	}
 	
 	public static void insertCandidature(Integer id, String cf) throws DataAccessException, DataLogicException {
 		OfferDao.insertCandidature(id, cf);
+		updateClickStats(id);
 		return;
 	}
 
-	public static void updateClickStats(Integer id) throws DataAccessException, DataLogicException {
+	private static void updateClickStats(Integer id) throws DataAccessException, DataLogicException {
 		OfferDao.updateClickStats(id);
 		return;
 	}
