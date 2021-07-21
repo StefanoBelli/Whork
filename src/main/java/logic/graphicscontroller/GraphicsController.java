@@ -4,8 +4,8 @@ import logic.view.ControllableView;
 import logic.view.ViewStack;
 
 public abstract class GraphicsController {
-	protected ControllableView view;
-	protected ViewStack viewStack;
+	protected final ControllableView view;
+	protected final ViewStack viewStack;
 
 	protected GraphicsController(ControllableView view, ViewStack viewStack) {
 		this.view = view;
