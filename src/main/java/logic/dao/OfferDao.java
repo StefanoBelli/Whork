@@ -25,8 +25,8 @@ public final class OfferDao {
 			"{ call GetOfferByID(?) }";
 	private static final String MAIN_STMT_GET_FILTERED_OFFERS = 
 			"{ call FilterOffers(?,?,?,?,?) }";
-	private static final String MAIN_STMT_GET_EMPLOYEE_MAIL = 
-			"{ call GetEmployeeEmail(?) }";
+	private static final String MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER = 
+			"{ call GetEmployeeEmailByOffer(?) }";
 	private static final String MAIN_STMT_INSERT_CANDIDATURE = 
 			"{ call InsertCandidature(?,?,?) }";
 	private static final String MAIN_STMT_UPDATE_CLICK_STATS = 
@@ -64,10 +64,10 @@ public final class OfferDao {
 
 	
 	
-	public static String getEmployeeEmail(Integer id) 
+	public static String getEmployeeEmailByOffer(Integer id) 
 			throws DataAccessException, DataLogicException{
 		
-		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_EMPLOYEE_MAIL)) {
+		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER)) {
 			stmt.setInt(1, id);
 			stmt.execute();
 
