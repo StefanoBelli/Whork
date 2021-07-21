@@ -150,7 +150,7 @@ if(offers.isEmpty()){
 			<%=offer.getDescription()%>
 		</div>
 		<div class="socialReason">
-			<%=OfferController.getCompanyByVAT(offer) %>
+			<%=OfferController.getCompanyByVAT(offer).getSocialReason() %>
 		</div>
 		<div class="salary">
 			<%=offer.getSalaryEUR() %>
