@@ -36,7 +36,7 @@ public final class OfferDao {
 	
 	
 	public static void updateClickStats(Integer id) 
-			throws DataAccessException, DataLogicException{
+			throws DataAccessException{
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_UPDATE_CLICK_STATS)) {
 			stmt.setInt(1, id);
@@ -49,7 +49,7 @@ public final class OfferDao {
 	
 
 	public static void insertCandidature(Integer id, String cf) 
-			throws DataAccessException, DataLogicException{
+			throws DataAccessException{
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_INSERT_CANDIDATURE)) {
 			stmt.setInt(1, id);
@@ -106,21 +106,21 @@ public final class OfferDao {
 		
 				OfferModel om= new OfferModel();
 				om.setOfferName(rs.getString(2));
-				om.setDescription(rs.getString(3));
-				om.setJobPhysicalLocationFullAddress(rs.getString(4));
-				om.setCompanyVat(rs.getString(5));
-				om.setSalaryEUR(rs.getInt(6));
-				om.setPhoto(rs.getString(7));
-				om.setWorkShit(rs.getString(8));
-				om.setJobPosition(rs.getString(9));
-				om.setQualification(rs.getString(10));
-				om.setTypeOfContract(rs.getString(11));
-				om.setPublishDate(rs.getDate(12));
-				om.setClickStats(rs.getInt(13));
-				om.setNote(rs.getString(14));
-				om.setVerifiedByWhork(rs.getBoolean(15));
-				om.setJobCategory(rs.getString(16));
 				om.setEmployeeCF(rs.getString(17));
+				om.setJobCategory(rs.getString(16));
+				om.setClickStats(rs.getInt(13));
+				om.setSalaryEUR(rs.getInt(6));
+				om.setPublishDate(rs.getDate(12));
+				om.setWorkShit(rs.getString(8));
+				om.setTypeOfContract(rs.getString(11));
+				om.setQualification(rs.getString(10));
+				om.setJobPosition(rs.getString(9));
+				om.setPhoto(rs.getString(7));
+				om.setNote(rs.getString(14));
+				om.setCompanyVat(rs.getString(5));
+				om.setVerifiedByWhork(rs.getBoolean(15));
+				om.setJobPhysicalLocationFullAddress(rs.getString(4));
+				om.setDescription(rs.getString(3));
 				
 				om.setId(id);
 

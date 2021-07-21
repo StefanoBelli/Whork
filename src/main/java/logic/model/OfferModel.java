@@ -4,85 +4,94 @@ import java.util.Date;
 
 public final class OfferModel {
 	private int id;
-	private String offerName;
+	
 	private String description;
 	private String jobPhysicalLocationFullAddress;
-	private String companyVat;
-	private int salaryEUR;
-	private String photo;
-	private String workShift;
-	private String jobPosition;
-	private String qualification;
-	private String typeOfContract;
-	private Date publishDate;
-	private int clickStats;
-	private String note;
-	private boolean verifiedByWhork;
 	private String jobCategory;
+	private String companyVat;
+	private String photo;
+	private String note;
+	private String typeOfContract;
+	private String workShift;
+	private String qualification;
+	private Date publishDate;
+	private String jobPosition;
+	private int clickStats;
+	private boolean verifiedByWhork;
+	private int salaryEUR;
+	private String offerName;
 	private String employeeCF;
 	
 
-	public int getId() {
-		return id;
-	}
 
+
+	public String getEmployeeCF() {
+		return employeeCF;
+	}
+	
+	public String getOfferName() {
+		return offerName;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getOfferName() {
-		return offerName;
-	}
-
-	public void setOfferName(String offerName) {
-		this.offerName = offerName;
-	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	
 
+	public String getJobCategory() {
+		return jobCategory;
+	}
+	
 	public String getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public boolean isVerifiedByWhork() {
+		return verifiedByWhork;
 	}
-
 
 	public String getNote() {
 		return note;
 	}
+
+
+
+	public String getCompanyVat() {
+		return companyVat;
+	}
+	
 
 	public void setNote(String note) {
 		this.note = note;
 	}
 
 
-	public String getCompanyVat() {
-		return companyVat;
-	}
-
-	public void setCompanyVat(String companyVat) {
-		this.companyVat = companyVat;
-	}
-
 	public String getWorkShit() {
 		return workShift;
 	}
 
-	public void setWorkShit(String workShift) {
-		this.workShift = workShift;
+
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public String getJobPosition() {
 		return jobPosition;
 	}
+	
+	
+	public void setWorkShit(String workShift) {
+		this.workShift = workShift;
+	}
+
+
 
 	public void setJobPosition(String jobPosition) {
 		this.jobPosition = jobPosition;
@@ -92,14 +101,25 @@ public final class OfferModel {
 		return qualification;
 	}
 
-	public void setQualification(String qualification) {
-		this.qualification = qualification;
-	}
+
 
 	public String getTypeOfContract() {
 		return typeOfContract;
 	}
 
+	
+
+
+	public int getSalaryEUR() {
+		return salaryEUR;
+	}
+
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
+	
+	
 	public void setTypeOfContract(String typeOfContract) {
 		this.typeOfContract = typeOfContract;
 	}
@@ -108,13 +128,6 @@ public final class OfferModel {
 		return jobPhysicalLocationFullAddress;
 	}
 
-	public void setJobPhysicalLocationFullAddress(String jobPhysicalLocationFullAddress) {
-		this.jobPhysicalLocationFullAddress = jobPhysicalLocationFullAddress;
-	}
-
-	public int getSalaryEUR() {
-		return salaryEUR;
-	}
 
 	public void setSalaryEUR(int salaryEUR) {
 		this.salaryEUR = salaryEUR;
@@ -124,42 +137,54 @@ public final class OfferModel {
 		return publishDate;
 	}
 
-	public void setPublishDate(Date publishDate) {
-		this.publishDate = publishDate;
-	}
-
 	public int getClickStats() {
 		return clickStats;
+	}
+
+	public void setCompanyVat(String companyVat) {
+		this.companyVat = companyVat;
 	}
 
 	public void setClickStats(int clickStats) {
 		this.clickStats = clickStats;
 	}
 
-	public boolean isVerifiedByWhork() {
-		return verifiedByWhork;
+
+	public void setJobPhysicalLocationFullAddress(String jobPhysicalLocationFullAddress) {
+		this.jobPhysicalLocationFullAddress = jobPhysicalLocationFullAddress;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
+	
 	public void setVerifiedByWhork(boolean verifiedByWhork) {
 		this.verifiedByWhork = verifiedByWhork;
 	}
 
-	public String getJobCategory() {
-		return jobCategory;
+	
+	public void setOfferName(String offerName) {
+		this.offerName = offerName;
 	}
 
 	public void setJobCategory(String jobCategory) {
 		this.jobCategory = jobCategory;
 	}
 
-	public String getEmployeeCF() {
-		return employeeCF;
-	}
+
 
 	public void setEmployeeCF(String employeeCF) {
 		this.employeeCF = employeeCF;
 	}
 	
+
+	public int getId() {
+		return id;
+	}
 	
-		
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+	
 }
