@@ -32,7 +32,7 @@ List<OfferBean> offers = OfferController.getOffers(searchVal,jobCategory,jobPosi
 %>
 	
 	<div class="searchDiv">
-	
+		
 		<form name="searchForm" action="/index.jsp" method="get">
 			<%if(searchVal!=null && searchVal!=""){ %>
 			<input type="text" name="searchVal" value="<%=searchVal %>" />
@@ -189,9 +189,7 @@ if(offers.size()==0){
 		</form>
 		<%}else{ %>
 		
-		<form action="/chat.jsp?toEmail=<%=OfferController.getEmployeeEmail(offer.getId()) %>" method="get">
-			<input type="submit" value="Chat"/>
-		</form>
+		<button  onclick="window.open('/chat.jsp?toEmail=<%=OfferController.getEmployeeEmailByOffer(offer.getId())%>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
 		<form action="#" method="post">
 			<input type="submit" value="Candidate" onclick="<%OfferController.insertCandidature(offer.getId(), ServletUtil.getUserForSession(request).getCf()); OfferController.updateClickStats(offer.getId());%>"/>
 		</form>

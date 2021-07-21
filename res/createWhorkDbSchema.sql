@@ -1136,12 +1136,12 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure GetEmployeeEmail
+-- procedure GetEmployeeEmailByOffer
 -- -----------------------------------------------------
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `GetEmployeeEmail` (in var_id int)
+CREATE PROCEDURE `GetEmployeeEmailByOffer` (in var_id int)
 BEGIN
 SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1300,7 +1300,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetJobCategories` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobPositions` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetQualifications` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`UpdateNumClick` TO 'whork';
-GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmail` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmailByOffer` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`InsertCandidature` TO 'whork';
 
 
