@@ -3,19 +3,18 @@ package logic.view;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import logic.bean.OfferBean;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.graphicscontroller.AccountViewController;
 import logic.graphicscontroller.LoginHandler;
 import logic.util.Util;
 
@@ -94,29 +93,13 @@ public class OfferItem {
 			candidateBtn.setDisable(false);
 		}	
 		
-		setListeners();
+		setListeners(itemBean);
 	}
 
-	private void setListeners() {
-		chatBtn.setOnMouseClicked(new HandleChatButtonRequest());
-		candidateBtn.setOnMouseClicked(new HandleCandidateButtonRequest());
+	private void setListeners(OfferBean itemBean) {
+		chatBtn.setOnMouseClicked(new AccountViewController.HandleChatRequest(itemBean));
+		candidateBtn.setOnMouseClicked(new AccountViewController.HandleCandidateRequest(itemBean));
 		
-	}
-
-	private final class HandleChatButtonRequest implements EventHandler<MouseEvent> {
-		
-		@Override
-		public void handle(MouseEvent event) {
-			//TODO
-		}
-	}
-	
-	private final class HandleCandidateButtonRequest implements EventHandler<MouseEvent> {
-		
-		@Override
-		public void handle(MouseEvent event) {
-			//TODO
-		}
 	}
 
 	
