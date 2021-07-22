@@ -20,11 +20,11 @@ import logic.util.Util;
 
 public final class OfferItem {
 	private boolean isNoUserLoggedIn;
-	private boolean isUserCandidate;
+	private boolean isCandidateBtnDisable;
 
-	public OfferItem(boolean isNoUserLoggedIn, boolean isUserCandidate) {
+	public OfferItem(boolean isNoUserLoggedIn, boolean isCandidateBtnDisable) {
 		this.isNoUserLoggedIn = isNoUserLoggedIn;
-		this.isUserCandidate = isUserCandidate;
+		this.isCandidateBtnDisable = isCandidateBtnDisable;
 	}
 
 	private HBox itemBox;
@@ -69,7 +69,7 @@ public final class OfferItem {
 		verifiedByWhorkLbl.setText(itemBean.isVerifiedByWhork() ? "Verified by Whork" : "");
 		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
 		chatBtn.setDisable(isNoUserLoggedIn);
-		candidateBtn.setDisable(isNoUserLoggedIn || isUserCandidate);
+		candidateBtn.setDisable(isCandidateBtnDisable);
 		
 		setListeners(itemBean);
 	}

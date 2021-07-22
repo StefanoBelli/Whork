@@ -230,14 +230,22 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
+						boolean isCandidateBtnDisable;
 						OfferItem newItem;
 						try {
-							newItem = new OfferItem(LoginHandler.getSessionUser() == null, 
-									CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null);
+							if(LoginHandler.getSessionUser() == null) {
+								isCandidateBtnDisable= true;
+							}else if(CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null) {
+								isCandidateBtnDisable= true;								
+							}else {
+								isCandidateBtnDisable= false;
+							}
+						
+							newItem = new OfferItem(LoginHandler.getSessionUser() == null, isCandidateBtnDisable);
 							newItem.setInfo(itemBean);
 							setGraphic(newItem.getBox());
 						} catch (DataAccessException | DataLogicException e) {
-							e.getSuppressed();
+							GraphicsUtil.showExceptionStage(e);
 						}
 					}
 				}
