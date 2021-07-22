@@ -23,6 +23,7 @@ import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.AccountView;
+import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.LoginView;
 import logic.view.OfferItem;
@@ -146,7 +147,7 @@ public final class HomeViewController extends GraphicsController {
 		}
 	}
 
-	//TODO impl
+	@SuppressWarnings("unused")
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
 		private OfferBean offer;
 
@@ -156,7 +157,7 @@ public final class HomeViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			// TODO
+			GraphicsUtil.showAndWaitWindow(ChatView.class);
 		}
 	}
 
@@ -219,10 +220,10 @@ public final class HomeViewController extends GraphicsController {
 		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
 	
+	@SuppressWarnings("squid:S110")
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
-		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> {
-			return new ListCell<OfferBean>() {
+		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> new ListCell<OfferBean>() {
 				@Override
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
@@ -232,7 +233,7 @@ public final class HomeViewController extends GraphicsController {
 						setGraphic(newItem.getBox());
 					}
 				}
-			};
-		});
+			}
+		);
 	}
 }

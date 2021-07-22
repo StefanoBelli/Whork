@@ -22,7 +22,8 @@ public final class HomeView implements ControllableView {
 	private static final String POSITION_MSG = "Select a Position: ";
 	private static final String QUALIFICATION_MSG = "Select a qualify: ";
 	private static final String TYPE_OF_CONTRACT_MSG = "Select a Type of Contract: ";
-	
+	private static final String HINT_SEARCH_MSG = "Type a search term...";
+
 	private Button accountBtn;
 	private TextField searchField;
 	private Button searchBtn;
@@ -65,7 +66,7 @@ public final class HomeView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-		//not for now
+		searchField.setPromptText(HINT_SEARCH_MSG);
 	}
 
 	private void populateScene() {
