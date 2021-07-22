@@ -99,4 +99,3 @@ public final class WhorkDesktopLauncher extends Application {
 		}
 	}
 }
-
