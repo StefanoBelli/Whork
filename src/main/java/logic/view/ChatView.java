@@ -43,20 +43,25 @@ public final class ChatView implements ControllableView {
 
 		rootVbox.getChildren().add(sndHbox);
 
-		scene = new Scene(rootVbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
+		scene = new Scene(rootVbox, 600, 400);
 	}
 
 	private void setNodesProps() {
 		chatTextArea.setDisable(true);
+		chatTextArea.setMinSize(600, 330);
 		sndTextArea.setDisable(true);
+		sndTextArea.setMinSize(550, 70);
 		sndButton.setDisable(true);
+		sndButton.setMinSize(50, 70);
+		chatTextArea.setText("CHAT SERVER IS OFFLINE, SORRY FOR THE INCONVENIENCE");
+		sndTextArea.setPromptText("Type in your message...");
 	}
 
 	private void init() {
 		sndButton = new Button(BTN_SEND_MSG);
 		chatTextArea = new TextArea();
 		sndTextArea = new TextArea();
-		chattingWithLabel = new Label();
+		chattingWithLabel = new Label("Chatting with:");
 		controller.setup();
 	}
 
@@ -66,9 +71,8 @@ public final class ChatView implements ControllableView {
 	}
 
 	@Override
-	public void setWindowProperties(Stage stage) {
-		stage.setTitle(WIN_TITLE);
-		stage.setResizable(false);
+	public Node[] getNodes() {
+		return new Node[] { chattingWithLabel, chatTextArea, sndTextArea, sndButton };
 	}
 
 	@Override
@@ -77,13 +81,8 @@ public final class ChatView implements ControllableView {
 	}
 
 	@Override
-	public Node[] getNodes() {
-		return new Node[] {
-			chattingWithLabel,
-			chatTextArea,
-			sndTextArea,
-			sndButton
-		};
+	public void setWindowProperties(Stage stage) {
+		stage.setTitle(WIN_TITLE);
+		stage.setResizable(false);
 	}
-	
 }
