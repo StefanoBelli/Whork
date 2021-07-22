@@ -28,12 +28,6 @@ public final class OfferController {
 		return OfferDao.getEmployeeEmailByOffer(id);
 	}
 	
-	public static void insertCandidature(int id, String cf) 
-			throws DataAccessException {
-		
-		OfferDao.insertCandidature(id, cf);
-		OfferDao.updateClickStats(id);
-	}
 	
 	public static CompanyBean getCompanyByVAT(OfferBean offerBean) 
 			throws DataAccessException, DataLogicException {

@@ -13,6 +13,7 @@
 <%@ page import="logic.bean.QualificationBean" %>
 <%@ page import="logic.pool.TypeOfContractPool" %>
 <%@ page import="logic.bean.TypeOfContractBean" %>
+<%@ page import="logic.controller.CandidatureController" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -30,7 +31,7 @@ List<OfferBean> offers = OfferController.getOffers(searchVal,
 			jobCategory, jobPosition, qualification, typeOfContract);
 String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 if(candidateToOffer != null && sessionUser != null) {
-	OfferController.insertCandidature(
+	CandidatureController.insertCandidature(
 			Integer.parseInt(candidateToOffer), sessionUser.getCf());
 }
 %>
@@ -125,9 +126,16 @@ for(final TypeOfContractBean contract : TypeOfContractPool.getTypesOfContract())
 			<input type="submit" name="reset" value="Reset filters">
 		</form>
 		
-		<form action="/login.jsp" method="post">
-			<input type="submit" name="login" value="Login">
-		</form>
+		<%if(sessionUser==null){ %>
+			<form action="/login.jsp" method="post">
+				<input type="submit" name="login" value="Login">
+			</form>
+		<%}else{ %>
+			<form action="/account.jsp" method="post">
+				<input type="submit" name="account" value="My Account">
+			</form>
+		<%}%>
+		
 	</div>
 <%
 if(offers.isEmpty()){
@@ -192,11 +200,17 @@ if(sessionUser == null){
 } else { 
 %>
 		<button onclick="window.open('/chat.jsp?toEmail=<%=OfferController.getEmployeeEmailByOffer(offer.getId())%>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
-		
+		<%if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { %>
 		<form action="/index.jsp" method="post">
 			<input type="hidden" id="candidate_offer_id" name="candidate_offer_id" value=<%=offer.getId()%>>
 			<input type="submit" name="candidate_button" value="Candidate">
 		</form>
+		<%}else{ %>
+		<form action="/index.jsp" method="post">
+			<input type="submit" name="candidate_button" value="Candidate" title="You are candidate yet" disabled/>
+		</form>
+		<%} %>
+		
 <%
 }
 %>

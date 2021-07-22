@@ -11,10 +11,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import logic.bean.OfferBean;
+import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.graphicscontroller.HomeViewController;
+import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
@@ -68,6 +70,13 @@ public final class OfferItem {
 		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
 		chatBtn.setDisable(isNoUserLoggedIn);
 		candidateBtn.setDisable(isNoUserLoggedIn);
+		try {
+			if(CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null) {
+				candidateBtn.setDisable(true);
+			}
+		} catch (DataAccessException | DataLogicException e) {
+			e.getSuppressed();
+		}
 
 		setListeners(itemBean);
 	}

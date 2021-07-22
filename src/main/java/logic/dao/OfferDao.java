@@ -4,9 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import logic.Database;
@@ -27,8 +25,6 @@ public final class OfferDao {
 			"{ call FilterOffers(?,?,?,?,?) }";
 	private static final String MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER = 
 			"{ call GetEmployeeEmailByOffer(?) }";
-	private static final String MAIN_STMT_INSERT_CANDIDATURE = 
-			"{ call InsertCandidature(?,?,?) }";
 	private static final String MAIN_STMT_UPDATE_CLICK_STATS = 
 			"{ call UpdateNumClick(?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
@@ -46,19 +42,6 @@ public final class OfferDao {
 		}		
 	}
 	
-	public static void insertCandidature(int id, String cf) 
-			throws DataAccessException {
-		
-		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_INSERT_CANDIDATURE)) {
-			stmt.setInt(1, id);
-			stmt.setString(2, cf);
-			stmt.setTimestamp(3, new Timestamp(new Date().getTime()));
-			stmt.execute();
-
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}		
-	}
 
 	public static String getEmployeeEmailByOffer(int id) 
 			throws DataAccessException, DataLogicException {

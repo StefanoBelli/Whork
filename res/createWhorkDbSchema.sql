@@ -404,6 +404,34 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure GetCandidature
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetCandidature` (in var_id int, in var_cf char(16))
+BEGIN
+	
+    SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate
+	FROM
+		Candidature
+	WHERE
+		Offer_OfferID=var_id and JobSeekerUserDetails_CF=var_cf;
+
+	COMMIT;
+    
+END$$
+
+DELIMITER ;
+
+
+-- -----------------------------------------------------
 -- procedure GetUserDetails
 -- -----------------------------------------------------
 
@@ -1322,6 +1350,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`UpdateNumClick` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetQualifications` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobPositions` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetCandidature` TO 'whork';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

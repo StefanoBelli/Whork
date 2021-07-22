@@ -14,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import logic.bean.OfferBean;
+import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.pool.JobCategoryPool;
@@ -171,7 +172,7 @@ public final class HomeViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {
 			try {
-				OfferController.insertCandidature(offer.getId(), LoginHandler.getSessionUser().getCf());
+				CandidatureController.insertCandidature(offer.getId(), LoginHandler.getSessionUser().getCf());
 			} catch (DataAccessException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
