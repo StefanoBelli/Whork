@@ -9,6 +9,10 @@ public class UserModel {
 	private String cf;
 	private String photo;
 	private boolean employee;
+	private String website;
+	private String twitter;
+	private String facebook;
+	private String instagram;
 
 	public String getCf() {
 		return cf;
@@ -56,5 +60,36 @@ public class UserModel {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getInstagram() {
+		return instagram;
+	}
+
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
 	}
 }

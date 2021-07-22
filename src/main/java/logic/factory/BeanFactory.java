@@ -9,6 +9,7 @@ import logic.model.JobSeekerUserModel;
 import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 import logic.bean.UserBean;
+import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
@@ -140,5 +141,16 @@ public final class BeanFactory {
 		userAuthBean.setPassword(password);
 
 		return userAuthBean;
+	}
+	
+	public static CandidatureBean buildCandidatureBean(String socialReason, String candidatureDate, String typeOfContract, String jobOccupation, String email) {
+		CandidatureBean candidatureBean = new CandidatureBean();
+		candidatureBean.setCandidatureDate(candidatureDate);
+		candidatureBean.setJobOccupation(jobOccupation);
+		candidatureBean.setSocialReason(socialReason);
+		candidatureBean.setTypeOfContract(typeOfContract);
+		candidatureBean.setEmail(email);
+		
+		return candidatureBean;
 	}
 }

@@ -136,7 +136,7 @@
         <servlet-name>CompleteRegistrationServlet</servlet-name>
         <servlet-class>logic.servlet.CompleteRegistrationServlet</servlet-class>
     </servlet>
-
+    
     <!--
         **
         SERVLET MAPPINGS
@@ -166,5 +166,6 @@
     <servlet-mapping>
         <servlet-name>CompleteRegistrationServlet</servlet-name>
         <url-pattern>/completeRegistration</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>    
+    
 </web-app>

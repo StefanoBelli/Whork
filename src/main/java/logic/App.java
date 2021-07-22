@@ -173,6 +173,7 @@ final class App {
 
 			webResFiles.add("/WEB-INF/web.xml");
 			webResFiles.add("/css/login.css");
+			webResFiles.add("/css/account.css");
 			webResFiles.add("/css/chat.css");
 			webResFiles.add("/css/reg_jobseeker.css");
 			webResFiles.add("/css/register.css");
@@ -233,9 +234,9 @@ final class App {
 		}
 
 		LOGGER.info("startup successful: up and running!");
-
-		tomcat.getServer().await();
-
+		
+		tomcat.getServer().await();		
+		
 		return true;
 	}
 
@@ -749,6 +750,7 @@ final class App {
 			}
 		} else {
 			LOGGER.error("unable to parse command line for Whork, exiting...");
-		}
+		}		
+		
 	}
 }
