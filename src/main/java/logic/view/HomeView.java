@@ -75,7 +75,6 @@ public final class HomeView implements ControllableView {
 		hboxsrc.getChildren().add(searchField);
 		hboxsrc.getChildren().add(searchBtn);
 		
-		
 		hboxsrc.getChildren().add(resetBtn);
 		hboxsrc.getChildren().add(accountBtn);
 		hboxsrc.setPadding(new Insets(10, 0, 0, 10));
@@ -98,15 +97,12 @@ public final class HomeView implements ControllableView {
 		vboxfltcnt.getChildren().add(typeOfContractMessage);
 		vboxfltcnt.getChildren().add(typeOfContractCB);
 		
-		
 		hboxflt.getChildren().add(vboxfltctg);
 		hboxflt.getChildren().add(vboxfltps);
 		hboxflt.getChildren().add(vboxfltqlf);
 		hboxflt.getChildren().add(vboxfltcnt);
 		
 		hboxflt.setPadding(new Insets(10,0,0,10));
-		
-		
 		
 		VBox vboxol = new VBox();
 		vboxol.setPadding(new Insets(10,10,10,10));
@@ -115,6 +111,7 @@ public final class HomeView implements ControllableView {
 		vbox.getChildren().add(hboxsrc);
 		vbox.getChildren().add(hboxflt);
 		vbox.getChildren().add(vboxol);
+		
 		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
 	}
 

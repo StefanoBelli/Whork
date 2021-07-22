@@ -6,10 +6,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import logic.bean.OfferBean;
-import logic.controller.OfferController;
-import logic.exception.DataAccessException;
-import logic.exception.DataLogicException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
@@ -49,35 +45,4 @@ public final class AccountViewController extends GraphicsController {
 			viewStack.pop();
 		}
 	}
-	
-	public static final class HandleChatRequest implements EventHandler<MouseEvent>{
-		private OfferBean offer;
-		
-		public HandleChatRequest(OfferBean offer){
-			this.offer=offer;
-		}
-
-		@Override
-		public void handle(MouseEvent event) {
-			//TODO
-		}
-	}
-	
-	public static final class HandleCandidateRequest implements EventHandler<MouseEvent>{
-		private OfferBean offer;
-		
-		public HandleCandidateRequest(OfferBean offer){
-			this.offer=offer;
-		}
-
-		@Override
-		public void handle(MouseEvent event) {
-			try {
-				OfferController.insertCandidature(offer.getId(), LoginHandler.getSessionUser().getCf());
-			} catch (DataAccessException | DataLogicException e) {
-				e.getSuppressed();
-			}
-		}
-	}
-	
 }

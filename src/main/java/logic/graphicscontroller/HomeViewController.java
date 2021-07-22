@@ -3,7 +3,6 @@ package logic.graphicscontroller;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -14,7 +13,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 import logic.bean.OfferBean;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
@@ -23,10 +21,11 @@ import logic.pool.JobPositionPool;
 import logic.pool.QualificationPool;
 import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
+import logic.util.Util;
 import logic.view.AccountView;
 import logic.view.ControllableView;
 import logic.view.LoginView;
-import logic.view.OffersListCell;
+import logic.view.OfferItem;
 import logic.view.ViewStack;
 
 public final class HomeViewController extends GraphicsController {
@@ -43,9 +42,8 @@ public final class HomeViewController extends GraphicsController {
 	private ChoiceBox<String> qualificationCB;
 	private ChoiceBox<String> typeOfContractCB;
 	
-	private List<OfferBean> offers=new ArrayList<>();
+	private List<OfferBean> offers = new ArrayList<>();
 	
-
 	public HomeViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
@@ -64,13 +62,11 @@ public final class HomeViewController extends GraphicsController {
 		typeOfContractCB=(ChoiceBox<String>) n[7];
 		resetBtn = (Button) n[8];
 		
-		
-		
 		loadJobCategories();
 		loadJobPositions();
 		loadQualifications();
 		loadTypesOfContract();
-		fillListView(FXCollections.observableArrayList(offers));
+
 		setListeners();
 	}
 
@@ -78,7 +74,6 @@ public final class HomeViewController extends GraphicsController {
 		accountBtn.setOnMouseClicked(new HandleAccountButtonRequest());
 		searchBtn.setOnMouseClicked(new HandleSearchButtonRequest());
 		resetBtn.setOnMouseClicked(new HandleResetButtonRequest());
-		
 	}
 
 	private void dynamicViewUpdate() {
@@ -87,23 +82,32 @@ public final class HomeViewController extends GraphicsController {
 		} else {
 			accountBtn.setText("Login");
 		}
+
+		loadOffersNoFilters();
+	}
+
+	private void loadOffersNoFilters() {
+		searchField.setText("");
+		jobCategoryCB.setValue(SELECT_AN_OPTION);
+		jobPositionCB.setValue(SELECT_AN_OPTION);
+		qualificationCB.setValue(SELECT_AN_OPTION);
+		typeOfContractCB.setValue(SELECT_AN_OPTION);
+
+		try {
+			offers = OfferController.getOffers(null, null, null, null, null);
+		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		fillListView(FXCollections.observableArrayList(offers));
 	}
 	
-private final class HandleResetButtonRequest implements EventHandler<MouseEvent> {
-		
+	private final class HandleResetButtonRequest implements EventHandler<MouseEvent> {
+
 		@Override
 		public void handle(MouseEvent event) {
-			try {
-				searchField.setText("");
-				jobCategoryCB.setValue(SELECT_AN_OPTION);
-				jobPositionCB.setValue(SELECT_AN_OPTION);
-				qualificationCB.setValue(SELECT_AN_OPTION);
-				typeOfContractCB.setValue(SELECT_AN_OPTION);
-				offers = OfferController.getOffers(null, null, null, null, null);
-				fillListView(FXCollections.observableArrayList(offers));
-			} catch (DataAccessException e) {
-				e.addSuppressed(e);
-			}
+			loadOffersNoFilters();
 		}
 	}
 	
@@ -112,16 +116,22 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 		@Override
 		public void handle(MouseEvent event) {
 			try {
-				offers = OfferController.getOffers(searchField.getText(),strOrNull(jobCategoryCB.getValue()),
-						strOrNull(jobPositionCB.getValue()),strOrNull(qualificationCB.getValue()),
+				String searchTerm = searchField.getText();
+				if(!searchTerm.isBlank()) {
+					offers = OfferController.getOffers(
+						searchTerm,
+						strOrNull(jobCategoryCB.getValue()),
+						strOrNull(jobPositionCB.getValue()),
+						strOrNull(qualificationCB.getValue()),
 						strOrNull(typeOfContractCB.getValue()));
-				fillListView(FXCollections.observableArrayList(offers));
+					fillListView(FXCollections.observableArrayList(offers));
+				}
 			} catch (DataAccessException e) {
-				e.addSuppressed(e);
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
 			}
 		}
 	}
-	
 	
 	private final class HandleAccountButtonRequest implements EventHandler<MouseEvent> {
 
@@ -132,6 +142,38 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 				dynamicViewUpdate();
 			} else {
 				viewStack.push(new AccountView(viewStack));
+			}
+		}
+	}
+
+	//TODO impl
+	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
+		private OfferBean offer;
+
+		public HandleChatRequest(OfferBean offer) {
+			this.offer = offer;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			// TODO
+		}
+	}
+
+	public static final class HandleCandidateRequest implements EventHandler<MouseEvent> {
+		private OfferBean offer;
+
+		public HandleCandidateRequest(OfferBean offer) {
+			this.offer = offer;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			try {
+				OfferController.insertCandidature(offer.getId(), LoginHandler.getSessionUser().getCf());
+			} catch (DataAccessException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
 			}
 		}
 	}
@@ -157,7 +199,6 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 		jobPositionCB.getSelectionModel().select(0);
 	}
 	
-	
 	private void loadQualifications() {
 		List<String> qualify = new ArrayList<>();
 		qualify.add(SELECT_AN_OPTION);
@@ -165,7 +206,6 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 		qualificationCB.setItems(FXCollections.observableArrayList(qualify));
 		qualificationCB.getSelectionModel().select(0);
 	}
-	
 	
 	private void loadTypesOfContract() {
 		List<String> contract = new ArrayList<>();
@@ -175,19 +215,24 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 		typeOfContractCB.getSelectionModel().select(0);
 	}
 	
-	public static String strOrNull(String s) {
-		return (s.equals(SELECT_AN_OPTION))? null:s;
+	private static String strOrNull(String s) {
+		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
-	
 	
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
-		offersLst.setCellFactory(new Callback<ListView<OfferBean>, ListCell<OfferBean>>() {
-            @Override
-            public ListCell<OfferBean> call(ListView<OfferBean> offers) {
-                return new OffersListCell();
-            }
-        });
+		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> {
+			return new ListCell<OfferBean>() {
+				@Override
+				public void updateItem(OfferBean itemBean, boolean empty) {
+					super.updateItem(itemBean, empty);
+					if (itemBean != null) {
+						OfferItem newItem = new OfferItem(LoginHandler.getSessionUser() == null);
+						newItem.setInfo(itemBean);
+						setGraphic(newItem.getBox());
+					}
+				}
+			};
+		});
 	}
-	
 }

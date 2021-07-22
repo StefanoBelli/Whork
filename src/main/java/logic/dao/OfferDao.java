@@ -34,9 +34,8 @@ public final class OfferDao {
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
 			"Multiple offers detected with same Id";
 	
-	
-	public static void updateClickStats(Integer id) 
-			throws DataAccessException{
+	public static void updateClickStats(int id) 
+			throws DataAccessException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_UPDATE_CLICK_STATS)) {
 			stmt.setInt(1, id);
@@ -47,9 +46,8 @@ public final class OfferDao {
 		}		
 	}
 	
-
-	public static void insertCandidature(Integer id, String cf) 
-			throws DataAccessException{
+	public static void insertCandidature(int id, String cf) 
+			throws DataAccessException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_INSERT_CANDIDATURE)) {
 			stmt.setInt(1, id);
@@ -62,10 +60,8 @@ public final class OfferDao {
 		}		
 	}
 
-	
-	
-	public static String getEmployeeEmailByOffer(Integer id) 
-			throws DataAccessException, DataLogicException{
+	public static String getEmployeeEmailByOffer(int id) 
+			throws DataAccessException, DataLogicException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER)) {
 			stmt.setInt(1, id);
@@ -76,23 +72,19 @@ public final class OfferDao {
 					return null;
 				}
 
-
 				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEID_MOREOFFERS);
 				}
+
 				return rs.getString(1);
-				
 			}
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}		
 	}
 
-	
-	
-	
-	public static OfferModel getOfferById(Integer id) 
-			throws DataAccessException, DataLogicException{
+	public static OfferModel getOfferById(int id) 
+			throws DataAccessException, DataLogicException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_OFFER_BYID)) {
 			stmt.setInt(1, id);
@@ -102,9 +94,8 @@ public final class OfferDao {
 				if(!rs.next()) {
 					return null;
 				}
-
 		
-				OfferModel om= new OfferModel();
+				OfferModel om = new OfferModel();
 				om.setOfferName(rs.getString(2));
 				om.setEmployeeCF(rs.getString(17));
 				om.setJobCategory(rs.getString(16));
@@ -121,7 +112,6 @@ public final class OfferDao {
 				om.setVerifiedByWhork(rs.getBoolean(15));
 				om.setJobPhysicalLocationFullAddress(rs.getString(4));
 				om.setDescription(rs.getString(3));
-				
 				om.setId(id);
 
 				if(rs.next()) {
@@ -135,10 +125,12 @@ public final class OfferDao {
 		}		
 	}
 
-	
-	public static List<OfferModel> getOffers(String searchVal, String jobCategory, String jobPosition, String qualification, String typeOfContract)
-			throws DataAccessException{
-		List<OfferModel> offers= new ArrayList<>();
+	public static List<OfferModel> getOffers(
+		String searchVal, String jobCategory, String jobPosition, 
+		String qualification, String typeOfContract)
+			throws DataAccessException {
+
+		List<OfferModel> offers = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_FILTERED_OFFERS)) {
 			stmt.setString(1, strOrNull(searchVal));
 			stmt.setString(2, strOrNull(jobCategory));
@@ -150,10 +142,10 @@ public final class OfferDao {
 				if(!rs.next()) {
 					return offers;
 				}
+				
 				do {			
+					OfferModel om = new OfferModel();
 
-					
-					OfferModel om= new OfferModel();
 					om.setId(rs.getInt(1));
 					om.setOfferName(rs.getString(2));
 					om.setDescription(rs.getString(3));
@@ -172,7 +164,6 @@ public final class OfferDao {
 					om.setJobCategory(rs.getString(16));
 					om.setEmployeeCF(rs.getString(17));
 					
-					
 					offers.add(om);
 				}while(rs.next());
 			}
@@ -180,16 +171,14 @@ public final class OfferDao {
 			throw new DataAccessException(e);
 		}		
 		
-		
 		return offers;
-		
 	}
 	
-
 	private static String strOrNull(String s) {
-		if(s==null)
+		if(s == null) {
 			return null;
-		return s.isBlank()? null : s;
-	}
+		}
 
+		return s.isBlank() ? null : s;
+	}
 }

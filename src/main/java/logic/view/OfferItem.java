@@ -14,95 +14,69 @@ import logic.bean.OfferBean;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
-import logic.graphicscontroller.AccountViewController;
-import logic.graphicscontroller.LoginHandler;
+import logic.graphicscontroller.HomeViewController;
+import logic.util.GraphicsUtil;
 import logic.util.Util;
 
-public class OfferItem {
+public final class OfferItem {
+	private boolean isNoUserLoggedIn;
+
+	public OfferItem(boolean isNoUserLoggedIn) {
+		this.isNoUserLoggedIn = isNoUserLoggedIn;
+	}
 	
 	private HBox itemBox;
-	
 	private ImageView offerImg;
-	
 	private Label offerNameLbl;
-	
 	private Label offerDescriptionLbl;
-	
 	private Label socialReasonLbl;
-	
 	private Label salaryLbl;
-	
 	private Label workShiftLbl;
-	
 	private Label jobPositionLbl;
-	
 	private Label jobCategoryLbl;
-
 	private Label qualificationLbl;
-	
 	private Label typeOfContractLbl;
-
 	private Label publishDateLbl;
-	
 	private Label verifiedByWhorkLbl;
-
 	private WebView mapWebView;
-	
 	private Button chatBtn;
-	
 	private Button candidateBtn;
 	
-
-	
-	
-
 	public void setInfo(OfferBean itemBean) {
-		offerImg.setImage(new Image(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + itemBean.getPhoto()));
+		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
+
+		offerImg.setImage(
+			new Image(new StringBuilder(usrData).append("/").append(itemBean.getPhoto()).toString()));
 		offerNameLbl.setText(itemBean.getOfferName());
 		offerDescriptionLbl.setText(itemBean.getDescription());
 		
 		try {
 			socialReasonLbl.setText(OfferController.getCompanyByVAT(itemBean).getSocialReason());
 		} catch (DataAccessException | DataLogicException e) {
-			e.addSuppressed(e);
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
 		}
 		
 		salaryLbl.setText(Integer.toString(itemBean.getSalaryEUR()));
-		
 		workShiftLbl.setText(itemBean.getWorkShit());
-		
 		jobPositionLbl.setText(itemBean.getJobPosition());
-		
 		jobCategoryLbl.setText(itemBean.getJobCategory());
-		
 		qualificationLbl.setText(itemBean.getQualification());
-		
 		typeOfContractLbl.setText(itemBean.getTypeOfContract());
-
 		publishDateLbl.setText(itemBean.getPublishDate().toString());
-		
-		verifiedByWhorkLbl.setText(itemBean.isVerifiedByWhork()?"Verified by Whork":"");
-		
+		verifiedByWhorkLbl.setText(itemBean.isVerifiedByWhork() ? "Verified by Whork" : "");
 		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
-		
-		if(LoginHandler.getSessionUser() == null) {
-			chatBtn.setDisable(true);
-			candidateBtn.setDisable(true);
-		}else {
-			chatBtn.setDisable(false);
-			candidateBtn.setDisable(false);
-		}	
-		
+		chatBtn.setDisable(isNoUserLoggedIn);
+		candidateBtn.setDisable(isNoUserLoggedIn);
+
 		setListeners(itemBean);
 	}
 
 	private void setListeners(OfferBean itemBean) {
-		chatBtn.setOnMouseClicked(new AccountViewController.HandleChatRequest(itemBean));
-		candidateBtn.setOnMouseClicked(new AccountViewController.HandleCandidateRequest(itemBean));
-		
+		chatBtn.setOnMouseClicked(new HomeViewController.HandleChatRequest(itemBean));
+		candidateBtn.setOnMouseClicked(new HomeViewController.HandleCandidateRequest(itemBean));
 	}
 
-	
 	public Node getBox() {
 		return itemBox;
 	}
@@ -124,5 +98,4 @@ public class OfferItem {
 
 		return builder.toString();
 	}
-
 }

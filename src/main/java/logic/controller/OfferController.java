@@ -13,26 +13,31 @@ import logic.factory.BeanFactory;
 public final class OfferController {
 	private OfferController() {}
 	
-	public static List<OfferBean> getOffers(String searchVal, String jobCategory, String jobPosition, String qualification, String typeOfContract) throws DataAccessException{
-		return BeanFactory.buildOfferBean(OfferDao.getOffers(searchVal, jobCategory, jobPosition, qualification, typeOfContract));
-		
+	public static List<OfferBean> getOffers(String searchVal, String jobCategory, 
+			String jobPosition, String qualification, String typeOfContract) 
+				throws DataAccessException{
+
+		return BeanFactory.buildOfferBean(
+				OfferDao.getOffers(searchVal, jobCategory, 
+					jobPosition, qualification, typeOfContract));
 	}
 	
-	public static String getEmployeeEmailByOffer(int id) throws DataAccessException, DataLogicException {
+	public static String getEmployeeEmailByOffer(int id) 
+			throws DataAccessException, DataLogicException {
+
 		return OfferDao.getEmployeeEmailByOffer(id);
 	}
 	
-	public static void insertCandidature(Integer id, String cf) throws DataAccessException, DataLogicException {
+	public static void insertCandidature(int id, String cf) 
+			throws DataAccessException {
+		
 		OfferDao.insertCandidature(id, cf);
-		updateClickStats(id);
-	}
-
-	private static void updateClickStats(Integer id) throws DataAccessException {
 		OfferDao.updateClickStats(id);
 	}
 	
-	public static CompanyBean getCompanyByVAT(OfferBean offerBean) throws DataAccessException, DataLogicException {
+	public static CompanyBean getCompanyByVAT(OfferBean offerBean) 
+			throws DataAccessException, DataLogicException {
+				
 		return BeanFactory.buildCompanyBean(CompanyDao.getCompanyByVat(offerBean.getCompanyVat()));
 	}
-
 }
