@@ -5,15 +5,29 @@ import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
+import logic.model.JobCategoryModel;
+import logic.model.JobPositionModel;
 import logic.model.JobSeekerUserModel;
+import logic.model.OfferModel;
 import logic.model.ProvinciaModel;
+import logic.model.QualificationModel;
 import logic.model.RegioneModel;
+import logic.model.TypeOfContractModel;
 import logic.bean.UserBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
+import logic.bean.JobCategoryBean;
+import logic.bean.JobPositionBean;
+import logic.bean.OfferBean;
 import logic.bean.ProvinciaBean;
+import logic.bean.QualificationBean;
 import logic.bean.RegioneBean;
+import logic.bean.TypeOfContractBean;
 import logic.bean.UserAuthBean;
 
 public final class BeanFactory {
@@ -61,6 +75,33 @@ public final class BeanFactory {
 		comuneBean.setProvincia(BeanFactory.buildProvinciaBean(comuneModel.getProvincia()));
 
 		return comuneBean;
+	}
+	
+	public static List<OfferBean> buildOfferBean(List<OfferModel> offers) {
+		List<OfferBean> offersBean = new ArrayList<>();
+		for(OfferModel offerModel : offers) {
+			OfferBean offerBean = new OfferBean();
+			offerBean.setId(offerModel.getId());
+			offerBean.setOfferName(offerModel.getOfferName());
+			offerBean.setDescription(offerModel.getDescription());
+			offerBean.setJobPhysicalLocationFullAddress(offerModel.getJobPhysicalLocationFullAddress());
+			offerBean.setCompanyVat(offerModel.getCompanyVat());
+			offerBean.setSalaryEUR(offerModel.getSalaryEUR());
+			offerBean.setPhoto(offerModel.getPhoto());
+			offerBean.setWorkShit(offerModel.getWorkShit());
+			offerBean.setJobPosition(offerModel.getJobPosition());
+			offerBean.setQualification(offerModel.getQualification());
+			offerBean.setTypeOfContract(offerModel.getTypeOfContract());
+			offerBean.setPublishDate(offerModel.getPublishDate());
+			offerBean.setClickStats(offerModel.getClickStats());
+			offerBean.setNote(offerModel.getNote());
+			offerBean.setVerifiedByWhork(offerModel.isVerifiedByWhork());
+			offerBean.setJobCategory(offerModel.getJobCategory());
+			offerBean.setEmployeeCF(offerModel.getEmployeeCF());
+			
+			offersBean.add(offerBean);
+		}
+		return offersBean;
 	}
 
 	/**
@@ -141,4 +182,33 @@ public final class BeanFactory {
 
 		return userAuthBean;
 	}
+	
+	public static TypeOfContractBean buildTypeOfContractBean(TypeOfContractModel typeOfContractModel) {
+		TypeOfContractBean typeOfContractBean = new TypeOfContractBean();
+		typeOfContractBean.setContract(typeOfContractModel.getContract());
+
+		return typeOfContractBean;
+	}
+	
+	public static JobCategoryBean buildJobCategoryBean(JobCategoryModel jobCategoryModel) {
+		JobCategoryBean jobCategoryBean = new JobCategoryBean();
+		jobCategoryBean.setCategory(jobCategoryModel.getCategory());
+
+		return jobCategoryBean;
+	}
+	
+	public static JobPositionBean buildJobPositionBean(JobPositionModel jobPositionModel) {
+		JobPositionBean jobPositionBean = new JobPositionBean();
+		jobPositionBean.setPosition(jobPositionModel.getPosition());
+
+		return jobPositionBean;
+	}
+	
+	public static QualificationBean buildQualificationBean(QualificationModel qualificationModel) {
+		QualificationBean qualificationBean = new QualificationBean();
+		qualificationBean.setQualify(qualificationModel.getQualify());
+
+		return qualificationBean;
+	}
+	
 }

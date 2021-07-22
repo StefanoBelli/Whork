@@ -9,6 +9,10 @@ import logic.exception.DataAccessException;
 import logic.exception.DatabaseException;
 import logic.util.Util;
 import logic.dao.EmploymentStatusDao;
+import logic.dao.JobCategoryDao;
+import logic.dao.JobPositionDao;
+import logic.dao.QualificationDao;
+import logic.dao.TypeOfContractDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -575,6 +579,10 @@ final class App {
 		try {
 			ComuniDao.populatePool();
 			EmploymentStatusDao.populatePool();
+			JobCategoryDao.populatePool();
+			JobPositionDao.populatePool();
+			QualificationDao.populatePool();
+			TypeOfContractDao.populatePool();
 		} catch (DataAccessException e) {
 			exceptionMessageBeforeStart(e, e.getCause().getMessage());
 			return false;
