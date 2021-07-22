@@ -8,6 +8,8 @@ import logic.exception.DataLogicException;
 import logic.factory.BeanFactory;
 
 public final class CandidatureController {
+	
+	private CandidatureController() {}
 
 	public static void insertCandidature(int id, String cf) 
 			throws DataAccessException {
