@@ -65,8 +65,7 @@ public class OfferItem {
 		try {
 			socialReasonLbl.setText(OfferController.getCompanyByVAT(itemBean).getSocialReason());
 		} catch (DataAccessException | DataLogicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.addSuppressed(e);
 		}
 		
 		salaryLbl.setText(Integer.toString(itemBean.getSalaryEUR()));

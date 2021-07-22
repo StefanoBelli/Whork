@@ -27,7 +27,7 @@ public final class OfferController {
 		updateClickStats(id);
 	}
 
-	private static void updateClickStats(Integer id) throws DataAccessException, DataLogicException {
+	private static void updateClickStats(Integer id) throws DataAccessException {
 		OfferDao.updateClickStats(id);
 	}
 	

@@ -3,6 +3,7 @@ package logic.graphicscontroller;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -29,6 +30,9 @@ import logic.view.OffersListCell;
 import logic.view.ViewStack;
 
 public final class HomeViewController extends GraphicsController {
+	
+	private static final String SELECT_AN_OPTION = "--select an option--";
+	
 	private Button accountBtn;
 	private Button resetBtn;
 	private TextField searchField;
@@ -91,14 +95,14 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 		public void handle(MouseEvent event) {
 			try {
 				searchField.setText("");
-				jobCategoryCB.setValue("--select an option--");
-				jobPositionCB.setValue("--select an option--");
-				qualificationCB.setValue("--select an option--");
-				typeOfContractCB.setValue("--select an option--");
+				jobCategoryCB.setValue(SELECT_AN_OPTION);
+				jobPositionCB.setValue(SELECT_AN_OPTION);
+				qualificationCB.setValue(SELECT_AN_OPTION);
+				typeOfContractCB.setValue(SELECT_AN_OPTION);
 				offers = OfferController.getOffers(null, null, null, null, null);
 				fillListView(FXCollections.observableArrayList(offers));
 			} catch (DataAccessException e) {
-				e.printStackTrace();
+				e.addSuppressed(e);
 			}
 		}
 	}
@@ -113,7 +117,7 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 						strOrNull(typeOfContractCB.getValue()));
 				fillListView(FXCollections.observableArrayList(offers));
 			} catch (DataAccessException e) {
-				e.printStackTrace();
+				e.addSuppressed(e);
 			}
 		}
 	}
@@ -139,7 +143,7 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 	
 	private void loadJobCategories() {
 		List<String> category = new ArrayList<>();
-		category.add("--select an option--");
+		category.add(SELECT_AN_OPTION);
 		JobCategoryPool.getJobCategories().forEach(e -> category.add(e.getCategory()));
 		jobCategoryCB.setItems(FXCollections.observableArrayList(category));
 		jobCategoryCB.getSelectionModel().select(0);
@@ -147,7 +151,7 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 
 	private void loadJobPositions() {
 		List<String> position = new ArrayList<>();
-		position.add("--select an option--");
+		position.add(SELECT_AN_OPTION);
 		JobPositionPool.getJobPositions().forEach(e -> position.add(e.getPosition()));
 		jobPositionCB.setItems(FXCollections.observableArrayList(position));
 		jobPositionCB.getSelectionModel().select(0);
@@ -156,7 +160,7 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 	
 	private void loadQualifications() {
 		List<String> qualify = new ArrayList<>();
-		qualify.add("--select an option--");
+		qualify.add(SELECT_AN_OPTION);
 		QualificationPool.getQualifications().forEach(e -> qualify.add(e.getQualify()));
 		qualificationCB.setItems(FXCollections.observableArrayList(qualify));
 		qualificationCB.getSelectionModel().select(0);
@@ -165,14 +169,14 @@ private final class HandleResetButtonRequest implements EventHandler<MouseEvent>
 	
 	private void loadTypesOfContract() {
 		List<String> contract = new ArrayList<>();
-		contract.add("--select an option--");
+		contract.add(SELECT_AN_OPTION);
 		TypeOfContractPool.getTypesOfContract().forEach(e -> contract.add(e.getContract()));
 		typeOfContractCB.setItems(FXCollections.observableArrayList(contract));
 		typeOfContractCB.getSelectionModel().select(0);
 	}
 	
 	public static String strOrNull(String s) {
-		return (s=="--select an option")? null:s;
+		return (s.equals(SELECT_AN_OPTION))? null:s;
 	}
 	
 	
