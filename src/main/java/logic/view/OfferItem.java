@@ -11,22 +11,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import logic.bean.OfferBean;
-import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.graphicscontroller.HomeViewController;
-import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public final class OfferItem {
 	private boolean isNoUserLoggedIn;
+	private boolean isUserCandidate;
 
-	public OfferItem(boolean isNoUserLoggedIn) {
+	public OfferItem(boolean isNoUserLoggedIn, boolean isUserCandidate) {
 		this.isNoUserLoggedIn = isNoUserLoggedIn;
+		this.isUserCandidate = isUserCandidate;
 	}
-	
+
 	private HBox itemBox;
 	private ImageView offerImg;
 	private Label offerNameLbl;
@@ -69,15 +69,8 @@ public final class OfferItem {
 		verifiedByWhorkLbl.setText(itemBean.isVerifiedByWhork() ? "Verified by Whork" : "");
 		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
 		chatBtn.setDisable(isNoUserLoggedIn);
-		candidateBtn.setDisable(isNoUserLoggedIn);
-		try {
-			if(CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null) {
-				candidateBtn.setDisable(true);
-			}
-		} catch (DataAccessException | DataLogicException e) {
-			e.getSuppressed();
-		}
-
+		candidateBtn.setDisable(isNoUserLoggedIn || isUserCandidate);
+		
 		setListeners(itemBean);
 	}
 

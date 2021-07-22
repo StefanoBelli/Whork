@@ -17,6 +17,7 @@ import logic.bean.OfferBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.pool.JobCategoryPool;
 import logic.pool.JobPositionPool;
 import logic.pool.QualificationPool;
@@ -229,9 +230,15 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
-						OfferItem newItem = new OfferItem(LoginHandler.getSessionUser() == null);
-						newItem.setInfo(itemBean);
-						setGraphic(newItem.getBox());
+						OfferItem newItem;
+						try {
+							newItem = new OfferItem(LoginHandler.getSessionUser() == null, 
+									CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null);
+							newItem.setInfo(itemBean);
+							setGraphic(newItem.getBox());
+						} catch (DataAccessException | DataLogicException e) {
+							e.getSuppressed();
+						}
 					}
 				}
 			}
