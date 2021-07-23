@@ -33,20 +33,15 @@ public final class AccountDao {
 			stmt.setString(1, cf);
 			stmt.execute();
 
-			try (ResultSet rs = stmt.getResultSet()) {
-				if(rs == null) {
-					return null;
-				}				
-				
-				while(rs.next()) {
-				
+			try (ResultSet rs = stmt.getResultSet()) {				
+				while(rs.next()) {					
 					CandidatureModel element = new CandidatureModel();
 					element.setSocialReason(rs.getString(1));
-					element.setCandidatureDate(rs.getDate(2).toString());
+					element.setCandidatureDate(rs.getDate(2));
 					element.setTypeOfContract(rs.getString(3));
 					element.setJobOccupation(rs.getString(4));
 					element.setEmail(rs.getString(5));
-					listCandidatureModel.add(element);					
+					listCandidatureModel.add(element);			
 					
 				}				
 			}

@@ -34,6 +34,13 @@ public class TemporaryTest {
 			e.printStackTrace();
 		}
 		
+		if(listCandidatureModel == null) {
+			System.out.println("listCandidatureModel is null"); 
+			return;
+		}
+		
+		System.out.println(listCandidatureModel); 
+		
 		for(int i=0; i<listCandidatureModel.size(); i++) {
 			System.out.println("social reason: " + listCandidatureModel.get(i).getSocialReason());
 			System.out.println("candidature date: " + listCandidatureModel.get(i).getCandidatureDate());

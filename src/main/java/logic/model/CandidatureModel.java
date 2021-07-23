@@ -1,41 +1,74 @@
 package logic.model;
 
-public final class CandidatureModel {
+import java.util.Date;
 
-	private String SocialReason;
-	private String CandidatureDate;
-	private String TypeOfContract;
-	private String JobOccupation;
-	private String Email;
+public final class CandidatureModel {
 	
-	public String getSocialReason() {
-		return SocialReason;
+	private int offerId;
+	private String jobSeekerCF;
+	private Date candidatureDate;
+	
+	private String jobOccupation;
+	private String socialReason;
+	private String typeOfContract;
+	private String email;
+	
+	public int getOfferId() {
+		return offerId;
 	}
-	public void setSocialReason(String socialReason) {
-		SocialReason = socialReason;
+	
+	public void setOfferId(int offerId) {
+		this.offerId = offerId;
 	}
-	public String getCandidatureDate() {
-		return CandidatureDate;
+	
+	public String getJobSeekerCF() {
+		return jobSeekerCF;
 	}
-	public void setCandidatureDate(String candidatureDate) {
-		CandidatureDate = candidatureDate;
+	
+	public void setJobSeekerCF(String jobSeekerCF) {
+		this.jobSeekerCF = jobSeekerCF;
 	}
-	public String getTypeOfContract() {
-		return TypeOfContract;
+	
+	public Date getCandidatureDate() {
+		return candidatureDate;
 	}
-	public void setTypeOfContract(String typeOfContract) {
-		TypeOfContract = typeOfContract;
+	
+	public void setCandidatureDate(Date candidatureDate) {
+		this.candidatureDate = candidatureDate;
 	}
+
 	public String getJobOccupation() {
-		return JobOccupation;
+		return jobOccupation;
 	}
+
 	public void setJobOccupation(String jobOccupation) {
-		JobOccupation = jobOccupation;
+		this.jobOccupation = jobOccupation;
 	}
+
+	public String getSocialReason() {
+		return socialReason;
+	}
+
+	public void setSocialReason(String socialReason) {
+		this.socialReason = socialReason;
+	}
+
+	public String getTypeOfContract() {
+		return typeOfContract;
+	}
+
+	public void setTypeOfContract(String typeOfContract) {
+		this.typeOfContract = typeOfContract;
+	}
+
 	public String getEmail() {
-		return Email;
+		return email;
 	}
+
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
+	
+	
 }
+

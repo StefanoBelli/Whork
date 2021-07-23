@@ -1,44 +1,74 @@
 package logic.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public final class CandidatureBean implements Serializable {
-	private static final long serialVersionUID = -4315333658093380322L;
+public final class CandidatureBean implements Serializable {	
+	private static final long serialVersionUID = -6778756927236912607L;
 	
-	private String SocialReason;
-	private String CandidatureDate;
-	private String TypeOfContract;
-	private String JobOccupation;
-	private String Email;
+	private Date candidatureDate;	
+	private int offerId;	
+	private String jobSeekerCF;
 	
-	public String getSocialReason() {
-		return SocialReason;
+	private String jobOccupation;
+	private String socialReason;
+	private String typeOfContract;
+	private String email;
+	
+	public void setCandidatureDate(Date candidatureDate) {
+		this.candidatureDate = candidatureDate;
 	}
-	public void setSocialReason(String socialReason) {
-		SocialReason = socialReason;
+	
+	public void setOfferId(int offerId) {
+		this.offerId = offerId;
 	}
-	public String getCandidatureDate() {
-		return CandidatureDate;
+	
+	public String getJobSeekerCF() {
+		return jobSeekerCF;
 	}
-	public void setCandidatureDate(String candidatureDate) {
-		CandidatureDate = candidatureDate;
+	
+	public int getOfferId() {
+		return offerId;
 	}
-	public String getTypeOfContract() {
-		return TypeOfContract;
+	
+	public Date getCandidatureDate() {
+		return candidatureDate;
 	}
-	public void setTypeOfContract(String typeOfContract) {
-		TypeOfContract = typeOfContract;
+	
+	public void setJobSeekerCF(String jobSeekerCF) {
+		this.jobSeekerCF = jobSeekerCF;
 	}
+
 	public String getJobOccupation() {
-		return JobOccupation;
+		return jobOccupation;
 	}
+
 	public void setJobOccupation(String jobOccupation) {
-		JobOccupation = jobOccupation;
+		this.jobOccupation = jobOccupation;
 	}
+
+	public String getSocialReason() {
+		return socialReason;
+	}
+
+	public void setSocialReason(String socialReason) {
+		this.socialReason = socialReason;
+	}
+
+	public String getTypeOfContract() {
+		return typeOfContract;
+	}
+
+	public void setTypeOfContract(String typeOfContract) {
+		this.typeOfContract = typeOfContract;
+	}
+
 	public String getEmail() {
-		return Email;
+		return email;
 	}
+
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
+	
 }

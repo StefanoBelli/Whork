@@ -16,10 +16,10 @@
 	String cf = userBean.getCf();
 	String address = userBean.getHomeAddress();	
 	
-	String website = userBean.getWebsite();
-	String twitter = userBean.getTwitter();
-	String facebook = userBean.getFacebook();
-	String instagram = userBean.getInstagram();
+	String website = userBean.getWebsite() == null ? "https://whork.it" : userBean.getWebsite();
+	String twitter = userBean.getTwitter() == null ? "whork" : userBean.getTwitter();
+	String facebook = userBean.getFacebook() == null ? "whork" : userBean.getFacebook();
+	String instagram = userBean.getInstagram() == null ? "whork" : userBean.getInstagram();	
 	
 	String bio = userBean.getBiography(); 
 %>
@@ -219,7 +219,7 @@ if(userBean.getPhoto() == null) {
 <%
 	ArrayList<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean.getCf());
 	
-	if(listCandidatureBean == null) {
+	if(listCandidatureBean == null || listCandidatureBean.size() == 0) {
 %>
 	   <div class="center">
 		<div class="col-md-7">
@@ -263,7 +263,7 @@ if(userBean.getPhoto() == null) {
 				<a href="#" class="user-link"><%= listCandidatureBean.get(i).getSocialReason() %></a>				
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getCandidatureDate() %>
+				<%= listCandidatureBean.get(i).getCandidatureDate().toString() %>
 			</td>
 			<td>
 				<%= listCandidatureBean.get(i).getTypeOfContract() %>
