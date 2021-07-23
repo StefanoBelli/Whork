@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import logic.Database;
 import logic.dao.AccountDao;
 import logic.exception.DataAccessException;
-import logic.model.CandidatureModel;
+//import logic.model.CandidatureModel;
 
 public class TemporaryTest {
 	
@@ -26,7 +26,7 @@ public class TemporaryTest {
 
 	public static void main(String[] args) {
 		attemptToEstablishDbConnection();
-		String cf = "MGLLEI00D08D612D";
+		String cf = "MGLLEI00D08D612D";/*
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		try {
 			listCandidatureModel = AccountDao.getSeekerCandidature(cf);
@@ -47,7 +47,7 @@ public class TemporaryTest {
 			System.out.println("type of contract: " + listCandidatureModel.get(i).getTypeOfContract());
 			System.out.println("job occupation " + listCandidatureModel.get(i).getJobOccupation());
 			System.out.println("email " + listCandidatureModel.get(i).getEmail());
-		}
+		}*/
 
 	}
 

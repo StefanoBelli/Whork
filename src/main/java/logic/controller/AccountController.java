@@ -12,8 +12,9 @@ import logic.model.JobSeekerUserModel;
 public final class AccountController {
 	private AccountController() {}
 	
+/*
 	public static void getSeekerCandidature(String cf) throws DataAccessException {		
-		/*ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
+		ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		
 		listCandidatureModel = AccountDao.getSeekerCandidature(cf);
@@ -26,10 +27,9 @@ public final class AccountController {
 			i ++;
 		}
 		
-		return listCandidatureBean;*/
+		return listCandidatureBean;
 		return;
-		
-	}
+	}*/
 	
 	public static void editAccountController(String function, UserBean userBean, String email) throws DataAccessException {
 		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
