@@ -14,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import logic.bean.OfferBean;
+import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
@@ -230,18 +231,13 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
-						boolean isCandidateBtnDisable;
-						OfferItem newItem;
 						try {
-							if(LoginHandler.getSessionUser() == null) {
-								isCandidateBtnDisable= true;
-							}else if(CandidatureController.getCandidature(itemBean.getId(), LoginHandler.getSessionUser().getCf()) != null) {
-								isCandidateBtnDisable= true;								
-							}else {
-								isCandidateBtnDisable= false;
-							}
-						
-							newItem = new OfferItem(LoginHandler.getSessionUser() == null, isCandidateBtnDisable);
+							final UserBean sessionUser = LoginHandler.getSessionUser();
+							final boolean hasNoSessionUser = sessionUser == null;
+							final boolean disableCandidatureBtn =
+								hasNoSessionUser ||
+								CandidatureController.getCandidature(itemBean.getId(), sessionUser.getCf()) != null;
+							final OfferItem newItem = new OfferItem(hasNoSessionUser, disableCandidatureBtn);
 							newItem.setInfo(itemBean);
 							setGraphic(newItem.getBox());
 						} catch (DataAccessException | DataLogicException e) {

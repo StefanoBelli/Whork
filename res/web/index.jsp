@@ -125,17 +125,21 @@ for(final TypeOfContractBean contract : TypeOfContractPool.getTypesOfContract())
 		<form action="/index.jsp" method="post">
 			<input type="submit" name="reset" value="Reset filters">
 		</form>
-		
-		<%if(sessionUser==null){ %>
-			<form action="/login.jsp" method="post">
-				<input type="submit" name="login" value="Login">
-			</form>
-		<%}else{ %>
-			<form action="/account.jsp" method="post">
-				<input type="submit" name="account" value="My Account">
-			</form>
-		<%}%>
-		
+<%
+if(sessionUser==null){
+%>
+		<form action="/login.jsp" method="post">
+			<input type="submit" name="login" value="Login">
+		</form>
+<%
+} else { 
+%>
+		<form action="/account.jsp" method="post">
+			<input type="submit" name="account" value="My Account">
+		</form>
+<%
+}
+%>
 	</div>
 <%
 if(offers.isEmpty()){
@@ -200,21 +204,24 @@ if(sessionUser == null){
 } else { 
 %>
 		<button onclick="window.open('/chat.jsp?toEmail=<%=OfferController.getEmployeeEmailByOffer(offer.getId())%>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
-		<%if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { %>
+<%
+	if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { 
+%>
 		<form action="/index.jsp" method="post">
 			<input type="hidden" id="candidate_offer_id" name="candidate_offer_id" value=<%=offer.getId()%>>
 			<input type="submit" name="candidate_button" value="Candidate">
 		</form>
-		<%}else{ %>
-		<form action="/index.jsp" method="post">
-			<input type="submit" name="candidate_button" value="Candidate" title="You are candidate yet" disabled/>
-		</form>
-		<%} %>
-		
 <%
+	} else { 
+%>
+		<form action="/index.jsp" method="post">
+			<input type="submit" name="candidate_button" value="Candidate" title="You already placed a candidature for this job" disabled/>
+		</form>
+<%
+	}
 }
 %>
-	</div>		
+	</div>
 <%
 	}
 }
