@@ -22,6 +22,10 @@ public final class UserBean implements Serializable {
 	private String biography;
 	private ComuneBean comune;
 	private EmploymentStatusBean employmentStatus;
+	private String website;
+	private String twitter;
+	private String facebook;
+	private String instagram;
 
 	public String getCf() {
 		return this.cf;
@@ -149,5 +153,37 @@ public final class UserBean implements Serializable {
 
 	public void setEmploymentStatus(EmploymentStatusBean employmentStatus) {
 		this.employmentStatus = employmentStatus;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getInstagram() {
+		return instagram;
+	}
+
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
 	}
 }

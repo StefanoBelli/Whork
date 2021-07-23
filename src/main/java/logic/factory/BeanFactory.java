@@ -17,6 +17,7 @@ import logic.model.TypeOfContractModel;
 import logic.bean.UserBean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import logic.bean.CandidatureBean;
@@ -218,7 +219,12 @@ public final class BeanFactory {
 		candidatureBean.setOfferId(candidatureModel.getOfferId());
 		candidatureBean.setJobSeekerCF(candidatureModel.getJobSeekerCF());
 		candidatureBean.setCandidatureDate(candidatureModel.getCandidatureDate());
+		
+		candidatureBean.setJobOccupation(candidatureModel.getJobOccupation());
+		candidatureBean.setSocialReason(candidatureModel.getSocialReason());
+		candidatureBean.setTypeOfContract(candidatureModel.getJobOccupation());
+		candidatureBean.setEmail(candidatureModel.getEmail());
 		return candidatureBean;
-	}
+	}	
 	
 }

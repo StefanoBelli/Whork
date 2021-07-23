@@ -176,11 +176,13 @@ final class App {
 			webResDirectories.add("js");
 
 			webResFiles.add("/WEB-INF/web.xml");
+			webResFiles.add("/css/account.css");
 			webResFiles.add("/css/login.css");
 			webResFiles.add("/css/chat.css");
 			webResFiles.add("/css/reg_jobseeker.css");
 			webResFiles.add("/css/register.css");
 			webResFiles.add("/css/whork.css");
+			webResFiles.add("/js/editInfoAccount.js");
 			webResFiles.add("/js/changepwd.js");
 			webResFiles.add("/js/common.js");
 			webResFiles.add("/js/reg_company.js");
@@ -591,7 +593,7 @@ final class App {
 		return true;
 	}
 
-	private static void setInstanceConfigs() {
+	private static void setInstanceConfigs() {		
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, mailFrom);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, mailHost);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILPWD, mailPwd);

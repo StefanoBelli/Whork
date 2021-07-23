@@ -1251,6 +1251,109 @@ values (var_id, var_jobSeekerCF, var_date);
 END$$
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetCandidature
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetCandidature`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetCandidature` (in var_cf CHAR(16))
+BEGIN
+	SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT Cp.SocialReason, C.CandidatureDate, O.TypeOfContract, O.JobPosition, A.Email
+	FROM Candidature AS C JOIN Offer AS O ON C.Offer_OfferID = O.OfferID JOIN Company AS Cp ON O.Company_VATNumber = Cp.VAT JOIN Auth AS A ON O.EmployeeUserDetails_CF = A.EmployeeUserDetails_CF
+	WHERE C.JobSeekerUserDetails_CF = var_cf;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure EditSocialAccount
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`EditSocialAccount`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(45), in var_facebook VARCHAR(45), in var_instagram VARCHAR(45))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Website = var_website AND TwitterID = var_twitter AND FacebookID = var_facebook AND InstagramID = var_instagram
+    WHERE CF = var_cf;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure EditJobSeekerInfoAccount
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerInfoAccount`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `EditJobSeekerInfoAccount` (in var_cf CHAR(16),  in var_name VARCHAR(45), in var_surname VARCHAR(45), in var_email VARCHAR(255), in var_phone VARCHAR(10), in var_address VARCHAR(45))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Name = var_name AND Surname = var_surname AND PhoneNumber = var_phone AND HomeAddress = var_address
+    WHERE CF = var_cf;
+    
+    UPDATE Auth
+    SET Email = var_email
+    WHERE JobSeekerUserDetails_CF = var_cf;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure EditJobSeekerBiography
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerBiography`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `EditJobSeekerBiography` (in var_cf CHAR(16),  in var_bio VARCHAR(250))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Biography = var_bio
+    WHERE CF = var_cf;    
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+
 USE `whorkdb`;
 
 DELIMITER $$

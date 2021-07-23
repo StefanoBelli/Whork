@@ -41,6 +41,10 @@ public final class Database {
 			}
 
 			url.append("&noAccessToProcedureBodies=true");
+
+			url.append("&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+
+
 			url.append("&useUnicode=true&useJDBCCompliantTimezoneShift=true");
 			url.append("&useLegacyDatetimeCode=false&serverTimezone=UTC");
 			
