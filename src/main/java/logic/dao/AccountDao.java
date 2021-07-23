@@ -1,11 +1,12 @@
 package logic.dao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import logic.Database;
 import logic.exception.DataAccessException;
 import logic.model.CandidatureModel;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;

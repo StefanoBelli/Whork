@@ -1,0 +1,35 @@
+#chatbox {
+  text-align: left;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #fff;
+  height: 500px;
+  width: 635px;
+  border: 1px solid #a7a7a7;
+  overflow: auto;
+  border-radius: 4px;
+  border-bottom: 4px solid #a7a7a7;
+}
+
+#menu {
+  text-align: center;
+}
+
+#ctrl {
+  height: auto;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#mymsg {
+  width: 592px;
+  height: 30px;
+}
+
+#sendbtn {
+  width: 57px;
+  height: 39px;
+}
