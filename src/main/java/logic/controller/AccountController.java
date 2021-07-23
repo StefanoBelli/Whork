@@ -7,7 +7,9 @@ import logic.bean.UserBean;
 import logic.dao.AccountDao;
 import logic.exception.DataAccessException;
 import logic.factory.BeanFactory;
+import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
+import logic.model.JobSeekerUserModel;
 
 public final class AccountController {
 	private AccountController() {}
@@ -17,6 +19,9 @@ public final class AccountController {
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		
 		listCandidatureModel = AccountDao.getSeekerCandidature(cf);
+		
+		if(listCandidatureModel == null) return null;
+		
 		int i = 0;
 		while (i<listCandidatureModel.size()) {
 			listCandidatureBean.add(BeanFactory.buildCandidatureBean(listCandidatureModel.get(i).getSocialReason(), listCandidatureModel.get(i).getCandidatureDate(), listCandidatureModel.get(i).getTypeOfContract(), listCandidatureModel.get(i).getJobOccupation(), listCandidatureModel.get(i).getEmail()));
@@ -27,8 +32,15 @@ public final class AccountController {
 		
 	}
 	
-	public static void editSocialAccountController(UserBean userbean) throws DataAccessException {
-		AccountDao.editSocialAccountDao(userbean.getCf(), userbean.getWebsite(), userbean.getTwitter(), userbean.getFacebook(), userbean.getInstagram());		
+	public static void editAccountController(String function, UserBean userBean, String email) throws DataAccessException {
+		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
+		
+		if (function.compareTo("SocialAccounts") == 1) 
+			AccountDao.editSocialAccountDao(userBean.getCf(), userBean.getWebsite(), userBean.getTwitter(), userBean.getFacebook(), userBean.getInstagram());		
+		if (function.compareTo("JobSeekerInfoAccount") == 1)
+			AccountDao.editJobSeekerInfoAccountDao(userModel, email);
+		if (function.compareTo("JobSeekerBiography") == 1)
+			AccountDao.editJobSeekerBiographyDao(userModel);
 	}
 
 }

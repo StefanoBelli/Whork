@@ -1046,6 +1046,58 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure EditJobSeekerInfoAccount
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerInfoAccount`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `EditJobSeekerInfoAccount` (in var_cf CHAR(16),  in var_name VARCHAR(45), in var_surname VARCHAR(45), in var_email VARCHAR(255), in var_phone VARCHAR(10), in var_address VARCHAR(45))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Name = var_name AND Surname = var_surname AND PhoneNumber = var_phone AND HomeAddress = var_address
+    WHERE CF = var_cf;
+    
+    UPDATE Auth
+    SET Email = var_email
+    WHERE JobSeekerUserDetails_CF = var_cf;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure EditJobSeekerBiography
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerBiography`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `EditJobSeekerBiography` (in var_cf CHAR(16),  in var_bio VARCHAR(250))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Biography = var_bio
+    WHERE CF = var_cf;    
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 USE `whorkdb`;
 
@@ -1139,6 +1191,8 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByName` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByCF` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCandidature` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 
 
 

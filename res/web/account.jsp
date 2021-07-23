@@ -10,15 +10,11 @@
     UserBean userBean = ServletUtil.getUserForSession(request);
 	String email = ServletUtil.getUserEmailForSession(request);
 	String fullName = userBean.getName().concat(" ").concat(userBean.getSurname());
+	String name = userBean.getName();
+	String surname = userBean.getSurname();
 	String phone = userBean.getPhoneNumber();
 	String cf = userBean.getCf();
-	String address = userBean.getHomeAddress();
-	
-	// da rimuovere
-	userBean.setWebsite("website");
-	userBean.setTwitter("twitterID");
-	userBean.setFacebook("facebokID");
-	userBean.setInstagram("instagramID");
+	String address = userBean.getHomeAddress();	
 	
 	String website = userBean.getWebsite();
 	String twitter = userBean.getTwitter();
@@ -40,9 +36,11 @@
 		<script src="js/editInfoAccount.js"></script>
     </head>
     
-    <body>     
-	    <div class="container">
-	    <div class="main-body">
+    
+    <body>   
+     <form action="accountServlet" method="post">  
+	   <div class="container">
+	    <div class="main-body">	     
 	    
 	          <!-- Breadcrumb -->
 	          <nav aria-label="breadcrumb" class="main-breadcrumb">
@@ -85,6 +83,7 @@ if(userBean.getPhoto() == null) {
                   </div>
                 </div>
               </div>
+              
               <div class="card mt-3">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -107,27 +106,35 @@ if(userBean.getPhoto() == null) {
                    <hr>
                    <div class="row">
                      <div class="col-sm-12">
-                     	<form action="accountServlet" method="post"><button id="editSocialAccountForm" type="submit" class="btn btn-info " style="display:none" >Submit</button>
-                        <a id="editSocialAccountButton" class="btn btn-info " onclick='editSocialAccount("<%=website%>", "<%=twitter%>", "<%=facebook%>", "<%=instagram%>")' ><font color="white">Edit</font></a></form>
+                     	<button id="editSocialAccountForm" type="submit" class="btn btn-info " style="display:none" >Submit</button>
+                        <a id="editSocialAccountButton" class="btn btn-info " onclick='editSocialAccount("<%=website%>", "<%=twitter%>", "<%=facebook%>", "<%=instagram%>")' ><font color="white">Edit</font></a>
                      </div>
                    </div>
                   </li>
                 </ul>
-              </div>
+              </div>             
             </div>
-	            <!-- <button id="editSocialAccountForm" type="submit" class="btn btn-info " style="display:none" onclick='edit()' >Submit</button>
-                     	<span id="edit"></span> -->
+           
             <div class="col-md-8">
-              <div class="card mb-3">
+              <div class="card mb-3">               
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
+                      <h6 class="mb-0">Name</h6>
                     </div>
-                    <div id="full name" class="col-sm-9 text-secondary">
-                      <%= fullName %>
+                    <div id="name" class="col-sm-9 text-secondary">
+                      <%= name %>
                     </div>
                   </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Surname</h6>
+                    </div>
+                    <div id="surname" class="col-sm-9 text-secondary">
+                      <%= surname %>
+                    </div>
+                  </div>                  
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
@@ -169,13 +176,14 @@ if(userBean.getPhoto() == null) {
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <button id="editInfoButton" class="btn btn-info " style="display:none" >Submit</button>
-                      <button id="editInfoAccountButton" class="btn btn-info " style="display:inline" value="Edit" onclick='editInfoAccount("<%=fullName%>", "<%=email%>", "<%=phone%>", "<%=cf%>", "<%=address%>")' >Edit</button>
-                      <button id="changePasswordAccountButton" class="btn btn-info " style="display:inline" value="Change Password" onclick="changePasswordAccount()" >Change Password</button>                      
+                      <button id="editInfoButton" type="submit" class="btn btn-info " style="display:none" >Submit</button>
+                      <a id="editInfoAccountButton" class="btn btn-info " style="display:inline" onclick='editInfoAccount("<%=name%>", "<%=surname%>", "<%=email%>", "<%=phone%>", "<%=cf%>", "<%=address%>")' ><font color="white">Edit</font></a>
+                      <a id="changePasswordAccountButton" class="btn btn-info " style="display:inline" onclick="changePasswordAccount()" ><font color="white">Change Password</font></a>                      
                     </div>
                   </div>
-                </div>
+                </div>               
               </div>	            
+	         
 	          
 	         <div class="col-md-20">
 	          <div class="card mb-3">		          
@@ -186,11 +194,11 @@ if(userBean.getPhoto() == null) {
                  </div>
                  <div id="editBioText" class="col-sm-9 text-secondary">
 <%
-if(userBean.getBiography() == null) {
-	bio = "Insert here your bio";
-} else {
-	bio = userBean.getBiography();
-}
+	if(userBean.getBiography() == null) {
+		bio = "Insert here your bio";
+	} else {
+		bio = userBean.getBiography();
+	}
 %>
 				<%= bio %>
                  </div>
@@ -199,13 +207,13 @@ if(userBean.getBiography() == null) {
                   <div class="row" style="text-align:center">
 	               <div class="col-sm-12">
 	                  <button id="editBioButton" class="btn btn-info " style="display:none" >Submit</button>
-                      <button id="editBioForm" class="btn btn-info " style="display:inline" onclick='editBio("<%= bio %>")' value="Edit">Edit</button>                      
+                      <a id="editBioForm" class="btn btn-info " style="display:inline" onclick='editBio("<%= bio %>")' ><font color="white">Edit</font></a>
 	                </div>
 	               </div>
 	              </div>
                </div>	
 	          </div>
-	         </div>
+	         </div>	        
 	       </div>
 	    
 <%
@@ -228,8 +236,7 @@ if(userBean.getBiography() == null) {
        </div> 	
 <%
 	} else {
-%>  
-	   <form enctype="multipart/form-data" method="get">
+%>  	  
 			<div class="container">
 			 <div class="row">
 			  <div class="col-lg-12">
@@ -292,13 +299,12 @@ if(userBean.getBiography() == null) {
 		   </div>
 	      </div>
 	     </div>
-        </div>
-       </form>
+        </div>       
        
       </div>
 	 </div>
 	
 
-  
+  	 </form>
     </body>    
 </html>

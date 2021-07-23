@@ -6,7 +6,7 @@ function editBio(bio) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + bio + "'>";
+		edit += "<input type='text' name='editBioTextForm' class='form-control' value='" + bio + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -22,24 +22,12 @@ function editBio(bio) {
 	}
 	
 	box = document.getElementById('editBioForm');
-	if (box.value == "Edit") {
-		box.value = "Cancel";
-		box.innerHTML = "Cancel";
-	} else {
-		box.value = "Edit";
+	box.style.color = "white";
+	if (box.innerHTML == "Cancel") {
 		box.innerHTML = "Edit";
+	} else {
+		box.innerHTML = "Cancel";
 	}
-}
-
-function edit() {
-	var box = "";
-	var box2 = "";
-		
-	box = document.getElementById('edit');
-	box2 = document.getElementsByName('websiteForm');
-	
-	console.log(box2[0].value);
-	
 }
 
 function editSocialAccount(website, twitter, facebook, instagram) {
@@ -114,28 +102,45 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 }
 
 
-function editInfoAccount(fullName, email, phone, cf, address) {
+function editInfoAccount(name, surname, email, phone, cf, address) {
 	var box = "";
+	var edit = "";
+	var box2 = "";
 	
-	var editFullNameAccount = function (fullName) {
-		box = document.getElementById('full name');
+	var editNameAccount = function (name) {
+		box = document.getElementById('name');
 			
-		var edit = "";
+		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + fullName + "'>";
+		edit += "<input type='text' name='nameForm' class='form-control' value='" + name + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
-		else box.innerHTML = fullName;
+		else box.innerHTML = name;		
+						
 	};	
-	editFullNameAccount(fullName);
+	editNameAccount(name);
+	
+	var editSurnameAccount = function (surname) {
+		box = document.getElementById('surname');
+			
+		edit = "";
+		edit = "<div class='col-sm-9 text-secondary'>";
+		edit += "<input type='text' name='surnameForm' class='form-control' value='" + surname + "'>";
+		edit += "</div>";
+		
+		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
+		else box.innerHTML = surname;		
+						
+	};	
+	editSurnameAccount(surname);
 	
 	var editEmailAccount = function (email) {
 		box = document.getElementById('email');	
 		
-		var edit = "";
+		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + email + "'>";
+		edit += "<input type='text' name='emailForm' class='form-control' value='" + email + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -146,35 +151,22 @@ function editInfoAccount(fullName, email, phone, cf, address) {
 	var editPhoneAccount = function (phone) {
 		box = document.getElementById('phone');	
 		
-		var edit = "";
+		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + phone + "'>";
+		edit += "<input type='text' name='phoneForm' class='form-control' value='" + phone + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
 		else box.innerHTML = phone;
 	};	
-	editPhoneAccount(phone);
-	
-	var editFiscalCodeAccount = function (cf) {
-		box = document.getElementById('fiscal code');	
-		
-		var edit = "";
-		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + cf + "'>";
-		edit += "</div>";
-		
-		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
-		else box.innerHTML = cf;
-	};	
-	editFiscalCodeAccount(cf);
+	editPhoneAccount(phone);	
 	
 	var editAddressAccount = function (address) {
 		box = document.getElementById('address');	
 		
-		var edit = "";
+		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' class='form-control' value='" + address + "'>";
+		edit += "<input type='text' name='addressForm' class='form-control' value='" + address + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -190,6 +182,7 @@ function editInfoAccount(fullName, email, phone, cf, address) {
 	}
 	
 	box = document.getElementById('changePasswordAccountButton');
+	box.style.color = "white";
 	if (box.style.display == 'inline') {
 		box.style.display = 'none';
 	} else {
@@ -197,12 +190,11 @@ function editInfoAccount(fullName, email, phone, cf, address) {
 	}
 	
 	box = document.getElementById('editInfoAccountButton');
-	if (box.value == "Edit") {
-		box.value = "Cancel";
-		box.innerHTML = "Cancel";
-	} else {
-		box.value = "Edit";
+	box.style.color = "white";
+	if (box.innerHTML == "Cancel") {
 		box.innerHTML = "Edit";
+	} else {
+		box.innerHTML = "Cancel";
 	}
 }
 
@@ -260,6 +252,7 @@ function changePasswordAccount(){
 	}
 	
 	box = document.getElementById('editInfoAccountButton');
+	box.style.color = "white";
 	if (box.style.display == "inline") {
 		box.style.display = "none";
 	} else {
@@ -267,12 +260,11 @@ function changePasswordAccount(){
 	}
 	
 	box = document.getElementById('changePasswordAccountButton');
-	if (box.value == "Change Password") {
-		box.value = "Cancel";
-		box.innerHTML = "Cancel";
-	} else {
-		box.value = "Change Password";
+	box.style.color = "white";
+	if (box.innerHTML == "Cancel") {		
 		box.innerHTML = "Change Password";
+	} else {
+		box.innerHTML = "Cancel";
 	}
 		
 }
