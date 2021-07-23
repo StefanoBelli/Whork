@@ -3,7 +3,6 @@
 <%@ page import="logic.util.ServletUtil" %>
 <%@ page import="logic.util.Util" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="logic.bean.CandidatureBean" %>
 <%@ page import="logic.controller.AccountController" %>
 
 <%
@@ -216,10 +215,11 @@ if(userBean.getPhoto() == null) {
 	         </div>	        
 	       </div>
 	    
+<!--  
 <%
-	ArrayList<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean.getCf());
+	//ArrayList<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean.getCf());
 	
-	if(listCandidatureBean == null || listCandidatureBean.size() == 0) {
+//if(listCandidatureBean == null || listCandidatureBean.size() == 0) {
 %>
 	   <div class="center">
 		<div class="col-md-7">
@@ -235,7 +235,7 @@ if(userBean.getPhoto() == null) {
         </div>
        </div> 	
 <%
-	} else {
+//} else {
 %>  	  
 			<div class="container">
 			 <div class="row">
@@ -255,24 +255,24 @@ if(userBean.getPhoto() == null) {
 					</thead>
 					<tbody>
 <%
-	for(int i=0; i<listCandidatureBean.size(); i++) {
+//for(int i=0; i<listCandidatureBean.size(); i++) {
 %>
 		<tr>
 			<td>
 				<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar1.png" %>" alt="Company Admin" width="150">
-				<a href="#" class="user-link"><%= listCandidatureBean.get(i).getSocialReason() %></a>				
+				<a href="#" class="user-link"><%=  %></a>				
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getCandidatureDate().toString() %>
+				<%=  %>
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getTypeOfContract() %>
+				<%=  %>
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getJobOccupation() %>
+				<%=  %>
 			</td>					
 			<td>
-				<a href="#"><%= listCandidatureBean.get(i).getEmail() %></a>
+				<a href="#"><%=  %></a>
 			</td>
 			<td style="width: 20%;">
 				<a href="#" class="table-link">
@@ -290,11 +290,11 @@ if(userBean.getPhoto() == null) {
 			</td>
 		</tr>	
 <%		
-	}
-}			
+//}
+//}			
 %>											
 					</tbody>
-				</table>
+				</table>-->
 			</div>			
 		   </div>
 	      </div>

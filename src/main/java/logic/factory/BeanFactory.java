@@ -12,7 +12,6 @@ import logic.bean.UserBean;
 
 import java.util.Date;
 
-import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
@@ -146,14 +145,15 @@ public final class BeanFactory {
 		return userAuthBean;
 	}
 	
-	public static CandidatureBean buildCandidatureBean(String socialReason, Date candidatureDate, String typeOfContract, String jobOccupation, String email) {
-		CandidatureBean candidatureBean = new CandidatureBean();
+	public static void buildCandidatureBean(String socialReason, Date candidatureDate, String typeOfContract, String jobOccupation, String email) {
+		/*CandidatureBean candidatureBean = new CandidatureBean();
 		candidatureBean.setCandidatureDate(candidatureDate);
 		candidatureBean.setJobOccupation(jobOccupation);
 		candidatureBean.setSocialReason(socialReason);
 		candidatureBean.setTypeOfContract(typeOfContract);
 		candidatureBean.setEmail(email);
 		
-		return candidatureBean;
+		return candidatureBean;*/
+		return;
 	}
 }

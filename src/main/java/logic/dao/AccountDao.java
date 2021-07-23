@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import logic.Database;
 import logic.exception.DataAccessException;
-import logic.model.CandidatureModel;
 import logic.model.JobSeekerUserModel;
 
 import java.sql.Connection;
@@ -27,9 +26,9 @@ public final class AccountDao {
 	private static final String EDIT_JOB_SEEKER_BIOGRAPHY = 
 			"{ call EditJobSeekerBiography(?, ?) }";
 	
-	public static ArrayList<CandidatureModel> getSeekerCandidature (String cf) throws DataAccessException {
-		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
-		try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
+	public static void getSeekerCandidature (String cf) throws DataAccessException {
+		//ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
+		/*try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
 			stmt.setString(1, cf);
 			stmt.execute();
 
@@ -50,7 +49,8 @@ public final class AccountDao {
 			throw new DataAccessException(e);
 		}
 		
-		return listCandidatureModel;		
+		return listCandidatureModel;*/
+		return;
 	}
 	
 	public static void editSocialAccountDao(String cf, String website, String twitter, String facebook, String instagram) throws DataAccessException {		

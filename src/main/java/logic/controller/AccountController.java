@@ -2,20 +2,18 @@ package logic.controller;
 
 import java.util.ArrayList;
 
-import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
 import logic.exception.DataAccessException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
-import logic.model.CandidatureModel;
 import logic.model.JobSeekerUserModel;
 
 public final class AccountController {
 	private AccountController() {}
 	
-	public static ArrayList<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException {		
-		ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
+	public static void getSeekerCandidature(String cf) throws DataAccessException {		
+		/*ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		
 		listCandidatureModel = AccountDao.getSeekerCandidature(cf);
@@ -28,7 +26,8 @@ public final class AccountController {
 			i ++;
 		}
 		
-		return listCandidatureBean;
+		return listCandidatureBean;*/
+		return;
 		
 	}
 	
