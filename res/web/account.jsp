@@ -2,7 +2,7 @@
 <%@ page import="logic.bean.UserBean" %>
 <%@ page import="logic.util.ServletUtil" %>
 <%@ page import="logic.util.Util" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="logic.bean.CandidatureBean" %>
 <%@ page import="logic.controller.AccountController" %>
 <%@ page import="logic.controller.CandidatureController" %>
@@ -219,7 +219,7 @@ if(userBean.getPhoto() == null) {
 	    
 <!--  -->
 <%
-	ArrayList<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean.getCf());
+	List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
 	
 	if(listCandidatureBean == null || listCandidatureBean.size() == 0) {
 %>

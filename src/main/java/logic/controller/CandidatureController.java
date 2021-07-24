@@ -14,11 +14,11 @@ public final class CandidatureController {
 	
 	private CandidatureController() {}
 
-	public static void insertCandidature(int id, String cf) 
+	public static void insertCandidature(CandidatureBean candidatureBean) 
 			throws DataAccessException {
 		
-		CandidatureDao.insertCandidature(id, cf);
-		OfferDao.updateClickStats(id);
+		CandidatureDao.insertCandidature(ModelFactory.buildCandidatureModel(candidatureBean));
+		OfferDao.updateClickStats(ModelFactory.buildCandidatureModel(candidatureBean));
 	}
 	
 	public static CandidatureBean getCandidature(int id, String cf) throws DataAccessException, DataLogicException {

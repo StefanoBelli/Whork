@@ -8,6 +8,7 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
 import logic.model.JobSeekerUserModel;
+import logic.model.UserModel;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
@@ -28,10 +29,10 @@ public final class AccountDao {
 	private static final String EDIT_JOB_SEEKER_BIOGRAPHY = 
 			"{ call EditJobSeekerBiography(?, ?) }";
 	
-	public static ArrayList<CandidatureModel> getSeekerCandidature (String cf) throws DataAccessException, DataLogicException {
+	public static ArrayList<CandidatureModel> getSeekerCandidature (UserModel userModel) throws DataAccessException, DataLogicException {
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
-			stmt.setString(1, cf);
+			stmt.setString(1, userModel.getCf());
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {				

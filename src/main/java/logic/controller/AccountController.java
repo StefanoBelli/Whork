@@ -24,11 +24,11 @@ import logic.util.tuple.Pair;
 public final class AccountController {
 	private AccountController() {}
 	
-	public static List<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException, DataLogicException {		
+	public static List<CandidatureBean> getSeekerCandidature(UserBean userBean) throws DataAccessException, DataLogicException {		
 		List<CandidatureBean> listCandidatureBean = new ArrayList<>();
 		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
 		
-		listCandidatureModel = AccountDao.getSeekerCandidature(cf);
+		listCandidatureModel = AccountDao.getSeekerCandidature(ModelFactory.buildUserModel(userBean));
 		
 		if(listCandidatureModel == null) return null;
 		

@@ -10,6 +10,7 @@ import java.util.List;
 import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.model.CandidatureModel;
 import logic.model.OfferModel;
 
 public final class OfferDao {
@@ -28,11 +29,11 @@ public final class OfferDao {
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
 			"Multiple offers detected with same Id";
 	
-	public static void updateClickStats(int id) 
+	public static void updateClickStats(CandidatureModel candidatureModel) 
 			throws DataAccessException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_UPDATE_CLICK_STATS)) {
-			stmt.setInt(1, id);
+			stmt.setInt(1, candidatureModel.getOffer().getId());
 			stmt.execute();
 
 		} catch(SQLException e) {

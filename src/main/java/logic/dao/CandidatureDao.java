@@ -26,12 +26,12 @@ public final class CandidatureDao {
 	private static final String DATA_LOGIC_ERROR_SAMEID_MORECANDIDATURE = 
 			"Multiple candidature detected with same Id";
 	
-	public static void insertCandidature(int id, String cf) 
+	public static void insertCandidature(CandidatureModel candidatureModel) 
 			throws DataAccessException {
 		
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_INSERT_CANDIDATURE)) {
-			stmt.setInt(1, id);
-			stmt.setString(2, cf);
+			stmt.setInt(1, candidatureModel.getOffer().getId());
+			stmt.setString(2, candidatureModel.getJobSeeker().getCf());
 			stmt.setTimestamp(3, new Timestamp(new Date().getTime()));
 			stmt.execute();
 

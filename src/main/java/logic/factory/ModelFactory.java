@@ -1,5 +1,6 @@
 package logic.factory;
 
+import logic.model.CandidatureModel;
 import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
@@ -18,6 +19,7 @@ import logic.util.Util;
 
 import java.io.ByteArrayInputStream;
 
+import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
@@ -184,6 +186,14 @@ public final class ModelFactory {
 		offerModel.setJobPosition(ModelFactory.buildJobPositionModel(offerBean.getJobPosition()));
 		offerModel.setJobCategory(ModelFactory.buildJobCategoryModel(offerBean.getJobCategory()));
 		return offerModel;
+	}
+
+	public static CandidatureModel buildCandidatureModel(CandidatureBean candidatureBean) {
+		CandidatureModel candidatureModel=new CandidatureModel();
+		candidatureModel.setCandidatureDate(candidatureBean.getCandidatureDate());
+		candidatureModel.setJobSeeker(ModelFactory.buildUserModel(candidatureBean.getJobSeeker()));
+		candidatureModel.setOffer(ModelFactory.buildOfferModel(candidatureBean.getOffer()));
+		return candidatureModel;
 	}
 	
 
