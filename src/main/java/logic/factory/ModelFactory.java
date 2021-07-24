@@ -7,6 +7,7 @@ import logic.model.EmploymentStatusModel;
 import logic.model.JobCategoryModel;
 import logic.model.JobPositionModel;
 import logic.model.JobSeekerUserModel;
+import logic.model.OfferModel;
 import logic.model.ProvinciaModel;
 import logic.model.QualificationModel;
 import logic.model.RegioneModel;
@@ -22,6 +23,7 @@ import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
 import logic.bean.JobCategoryBean;
 import logic.bean.JobPositionBean;
+import logic.bean.OfferBean;
 import logic.bean.ProvinciaBean;
 import logic.bean.QualificationBean;
 import logic.bean.RegioneBean;
@@ -151,4 +153,39 @@ public final class ModelFactory {
 
 		return qualificationModel;
 	}
+
+	public static OfferModel buildOfferModel(OfferBean offerBean) {
+		OfferModel offerModel = new OfferModel();
+		offerModel.setId(offerBean.getId());
+		offerModel.setOfferName(offerBean.getOfferName());
+		offerModel.setDescription(offerBean.getDescription());
+		offerModel.setJobPhysicalLocationFullAddress(offerBean.getJobPhysicalLocationFullAddress());
+		offerModel.setCompany(ModelFactory.buildCompanyModel(offerBean.getCompany()));
+		offerModel.setSalaryEUR(offerBean.getSalaryEUR());
+		offerModel.setPhoto(offerBean.getPhoto());
+		offerModel.setWorkShit(offerBean.getWorkShit());
+		offerModel.setJobPosition(ModelFactory.buildJobPositionModel(offerBean.getJobPosition()));
+		offerModel.setQualification(ModelFactory.buildQualificationModel(offerBean.getQualification()));
+		offerModel.setTypeOfContract(ModelFactory.buildTypeOfContractModel(offerBean.getTypeOfContract()));
+		offerModel.setPublishDate(offerBean.getPublishDate());
+		offerModel.setClickStats(offerBean.getClickStats());
+		offerModel.setNote(offerBean.getNote());
+		offerModel.setVerifiedByWhork(offerBean.isVerifiedByWhork());
+		offerModel.setJobCategory(ModelFactory.buildJobCategoryModel(offerBean.getJobCategory()));
+		offerModel.setEmployee(ModelFactory.buildUserModel(offerBean.getEmployee()));
+		return offerModel;
+	}
+
+	public static OfferModel buildOfferFilterModel(OfferBean offerBean) {
+		OfferModel offerModel = new OfferModel();
+		offerModel.setQualification(ModelFactory.buildQualificationModel(offerBean.getQualification()));
+		offerModel.setTypeOfContract(ModelFactory.buildTypeOfContractModel(offerBean.getTypeOfContract()));
+		offerModel.setOfferName(offerBean.getOfferName());
+		offerModel.setJobPosition(ModelFactory.buildJobPositionModel(offerBean.getJobPosition()));
+		offerModel.setJobCategory(ModelFactory.buildJobCategoryModel(offerBean.getJobCategory()));
+		return offerModel;
+	}
+	
+
+	
 }

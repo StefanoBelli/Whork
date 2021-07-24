@@ -22,12 +22,16 @@ public final class UserDao {
 	
 	private static final String STMT_GETUSER_BYCF = 
 		"{ call GetUserDetails(?) }";
+	private static final String STMT_GET_EMPLOYEE_EMAIL_BY_CF=
+			"{ call GetEmployeeEmailByCf(?)} ";
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
+	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
+			"Multiple mails detected with same Cf";
 
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
@@ -138,5 +142,27 @@ public final class UserDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+	
+	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_EMAIL_BY_CF)) {
+			stmt.setString(1, userModel.getCf());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				if(!rs.next()) {
+					return null;
+				}
+
+				if(rs.next()) {
+					throw new DataLogicException(DATA_LOGIC_ERROR_SAMECF_MOREMAILS);
+				}
+
+				return rs.getString(1);
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}		
+	
 	}
 }

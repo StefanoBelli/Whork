@@ -79,7 +79,7 @@ public final class BeanFactory {
 		return comuneBean;
 	}
 	
-	public static List<OfferBean> buildOfferBean(List<OfferModel> offers) {
+	public static List<OfferBean> buildOffersBean(List<OfferModel> offers) {
 		List<OfferBean> offersBean = new ArrayList<>();
 		for(OfferModel offerModel : offers) {
 			OfferBean offerBean = new OfferBean();
@@ -87,19 +87,19 @@ public final class BeanFactory {
 			offerBean.setOfferName(offerModel.getOfferName());
 			offerBean.setDescription(offerModel.getDescription());
 			offerBean.setJobPhysicalLocationFullAddress(offerModel.getJobPhysicalLocationFullAddress());
-			offerBean.setCompanyVat(offerModel.getCompanyVat());
+			offerBean.setCompany(BeanFactory.buildCompanyBean(offerModel.getCompany()));
 			offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 			offerBean.setPhoto(offerModel.getPhoto());
 			offerBean.setWorkShit(offerModel.getWorkShit());
-			offerBean.setJobPosition(offerModel.getJobPosition());
-			offerBean.setQualification(offerModel.getQualification());
-			offerBean.setTypeOfContract(offerModel.getTypeOfContract());
+			offerBean.setJobPosition(BeanFactory.buildJobPositionBean(offerModel.getJobPosition()));
+			offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
+			offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
 			offerBean.setPublishDate(offerModel.getPublishDate());
 			offerBean.setClickStats(offerModel.getClickStats());
 			offerBean.setNote(offerModel.getNote());
 			offerBean.setVerifiedByWhork(offerModel.isVerifiedByWhork());
-			offerBean.setJobCategory(offerModel.getJobCategory());
-			offerBean.setEmployeeCF(offerModel.getEmployeeCF());
+			offerBean.setJobCategory(BeanFactory.buildJobCategoryBean(offerModel.getJobCategory()));
+			offerBean.setEmployee(BeanFactory.buildUserBean(offerModel.getEmployee()));
 			
 			offersBean.add(offerBean);
 		}
@@ -215,15 +215,70 @@ public final class BeanFactory {
 
 	public static CandidatureBean buildCandidatureBean(CandidatureModel candidatureModel) {
 		CandidatureBean candidatureBean = new CandidatureBean();
-		candidatureBean.setOfferId(candidatureModel.getOfferId());
-		candidatureBean.setJobSeekerCF(candidatureModel.getJobSeekerCF());
+		candidatureBean.setOffer(BeanFactory.buildOfferBean(candidatureModel.getOffer()));
+		candidatureBean.setJobSeeker(BeanFactory.buildUserBean(candidatureModel.getJobSeeker()));
 		candidatureBean.setCandidatureDate(candidatureModel.getCandidatureDate());
 		
-		candidatureBean.setJobOccupation(candidatureModel.getJobOccupation());
-		candidatureBean.setSocialReason(candidatureModel.getSocialReason());
-		candidatureBean.setTypeOfContract(candidatureModel.getJobOccupation());
-		candidatureBean.setEmail(candidatureModel.getEmail());
 		return candidatureBean;
-	}	
+	}
+
+	public static OfferBean buildOfferBean(OfferModel offerModel) {
+		OfferBean offerBean = new OfferBean();
+		offerBean.setId(offerModel.getId());
+		offerBean.setOfferName(offerModel.getOfferName());
+		offerBean.setDescription(offerModel.getDescription());
+		offerBean.setJobPhysicalLocationFullAddress(offerModel.getJobPhysicalLocationFullAddress());
+		offerBean.setCompany(BeanFactory.buildCompanyBean(offerModel.getCompany()));
+		offerBean.setSalaryEUR(offerModel.getSalaryEUR());
+		offerBean.setPhoto(offerModel.getPhoto());
+		offerBean.setWorkShit(offerModel.getWorkShit());
+		offerBean.setJobPosition(BeanFactory.buildJobPositionBean(offerModel.getJobPosition()));
+		offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
+		offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
+		offerBean.setPublishDate(offerModel.getPublishDate());
+		offerBean.setClickStats(offerModel.getClickStats());
+		offerBean.setNote(offerModel.getNote());
+		offerBean.setVerifiedByWhork(offerModel.isVerifiedByWhork());
+		offerBean.setJobCategory(BeanFactory.buildJobCategoryBean(offerModel.getJobCategory()));
+		offerBean.setEmployee(BeanFactory.buildUserBean(offerModel.getEmployee()));
+		return offerBean;
+	}
+
+	public static OfferBean buildOfferBean(String name, String category,
+			String position, String qualification, String typeOfContract) {
+		OfferBean offerBean = new OfferBean();
+		offerBean.setOfferName(name);
+		offerBean.setJobCategory(buildJobCategoryBean(category));
+		offerBean.setJobPosition(buildJobPositionBean(position));
+		offerBean.setQualification(buildQualificationBean(qualification));
+		offerBean.setTypeOfContract(buildTypeOfContractBean(typeOfContract));
+		return offerBean;
+		
+	}
+
+	private static TypeOfContractBean buildTypeOfContractBean(String typeOfContract) {
+		TypeOfContractBean typeOfContractBean = new TypeOfContractBean();
+		typeOfContractBean.setContract(typeOfContract);
+		return typeOfContractBean;
+	}
+
+	private static QualificationBean buildQualificationBean(String qualification) {
+		QualificationBean qualificationBean = new QualificationBean();
+		qualificationBean.setQualify(qualification);
+		return qualificationBean;
+	}
+
+	private static JobPositionBean buildJobPositionBean(String position) {
+		JobPositionBean jobPositionBean = new JobPositionBean();
+		jobPositionBean.setPosition(position);
+		return jobPositionBean;
+	}
+
+	private static JobCategoryBean buildJobCategoryBean(String category) {
+		JobCategoryBean jobCategoryBean = new JobCategoryBean();
+		jobCategoryBean.setCategory(category);
+		return jobCategoryBean;
+	}
+	
 	
 }

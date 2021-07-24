@@ -3,31 +3,26 @@ package logic.model;
 import java.util.Date;
 
 public final class OfferModel {
-	private int id;
 	
+	private int id;
+	private String offerName;
 	private String description;
 	private String jobPhysicalLocationFullAddress;
-	private String jobCategory;
-	private String companyVat;
-	private String photo;
-	private String note;
-	private String typeOfContract;
-	private String workShift;
-	private String qualification;
-	private Date publishDate;
-	private String jobPosition;
-	private int clickStats;
-	private boolean verifiedByWhork;
+	private CompanyModel company;
 	private int salaryEUR;
-	private String offerName;
-	private String employeeCF;
+	private String photo;
+	private String workShift;
+	private JobPositionModel jobPosition;
+	private QualificationModel qualification;
+	private TypeOfContractModel typeOfContract;
+	private Date publishDate;
+	private int clickStats;
+	private String note;
+	private boolean verifiedByWhork;
+	private JobCategoryModel jobCategory;
+	private UserModel employee;
 	
 
-
-
-	public String getEmployeeCF() {
-		return employeeCF;
-	}
 	
 	public String getOfferName() {
 		return offerName;
@@ -44,9 +39,6 @@ public final class OfferModel {
 
 	
 
-	public String getJobCategory() {
-		return jobCategory;
-	}
 	
 	public String getPhoto() {
 		return photo;
@@ -60,11 +52,6 @@ public final class OfferModel {
 		return note;
 	}
 
-
-
-	public String getCompanyVat() {
-		return companyVat;
-	}
 	
 
 	public void setNote(String note) {
@@ -81,34 +68,11 @@ public final class OfferModel {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-
-	public String getJobPosition() {
-		return jobPosition;
-	}
 	
 	
 	public void setWorkShit(String workShift) {
 		this.workShift = workShift;
 	}
-
-
-
-	public void setJobPosition(String jobPosition) {
-		this.jobPosition = jobPosition;
-	}
-
-	public String getQualification() {
-		return qualification;
-	}
-
-
-
-	public String getTypeOfContract() {
-		return typeOfContract;
-	}
-
-	
-
 
 	public int getSalaryEUR() {
 		return salaryEUR;
@@ -119,11 +83,6 @@ public final class OfferModel {
 		this.publishDate = publishDate;
 	}
 	
-	
-	public void setTypeOfContract(String typeOfContract) {
-		this.typeOfContract = typeOfContract;
-	}
-
 	public String getJobPhysicalLocationFullAddress() {
 		return jobPhysicalLocationFullAddress;
 	}
@@ -139,10 +98,6 @@ public final class OfferModel {
 
 	public int getClickStats() {
 		return clickStats;
-	}
-
-	public void setCompanyVat(String companyVat) {
-		this.companyVat = companyVat;
 	}
 
 	public void setClickStats(int clickStats) {
@@ -168,22 +123,55 @@ public final class OfferModel {
 		this.offerName = offerName;
 	}
 
-	public void setJobCategory(String jobCategory) {
-		this.jobCategory = jobCategory;
-	}
-
-
-
-	public void setEmployeeCF(String employeeCF) {
-		this.employeeCF = employeeCF;
-	}
-	
-
 	public int getId() {
 		return id;
 	}
-	
-	public void setQualification(String qualification) {
+
+	public UserModel getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(UserModel employee) {
+		this.employee = employee;
+	}
+
+	public CompanyModel getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyModel company) {
+		this.company = company;
+	}
+
+	public TypeOfContractModel getTypeOfContract() {
+		return typeOfContract;
+	}
+
+	public void setTypeOfContract(TypeOfContractModel typeOfContract) {
+		this.typeOfContract = typeOfContract;
+	}
+
+	public JobPositionModel getJobPosition() {
+		return jobPosition;
+	}
+
+	public void setJobPosition(JobPositionModel jobPosition) {
+		this.jobPosition = jobPosition;
+	}
+
+	public JobCategoryModel getJobCategory() {
+		return jobCategory;
+	}
+
+	public void setJobCategory(JobCategoryModel jobCategory) {
+		this.jobCategory = jobCategory;
+	}
+
+	public QualificationModel getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(QualificationModel qualification) {
 		this.qualification = qualification;
 	}
 	

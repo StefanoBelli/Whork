@@ -7,68 +7,39 @@ public final class CandidatureBean implements Serializable {
 	private static final long serialVersionUID = -6778756927236912607L;
 	
 	private Date candidatureDate;	
-	private int offerId;	
-	private String jobSeekerCF;
+	private OfferBean offer;
+	private UserBean jobSeeker;
 	
-	private String jobOccupation;
-	private String socialReason;
-	private String typeOfContract;
-	private String email;
 	
 	public void setCandidatureDate(Date candidatureDate) {
 		this.candidatureDate = candidatureDate;
 	}
 	
-	public void setOfferId(int offerId) {
-		this.offerId = offerId;
-	}
-	
-	public String getJobSeekerCF() {
-		return jobSeekerCF;
-	}
-	
-	public int getOfferId() {
-		return offerId;
-	}
 	
 	public Date getCandidatureDate() {
 		return candidatureDate;
 	}
+
+	public OfferBean getOffer() {
+		return offer;
+	}
+
+
+	public UserBean getJobSeeker() {
+		return jobSeeker;
+	}
 	
-	public void setJobSeekerCF(String jobSeekerCF) {
-		this.jobSeekerCF = jobSeekerCF;
+	
+	public void setOffer(OfferBean offer) {
+		this.offer = offer;
 	}
 
-	public String getJobOccupation() {
-		return jobOccupation;
+
+	public void setJobSeeker(UserBean jobSeeker) {
+		this.jobSeeker = jobSeeker;
 	}
 
-	public void setJobOccupation(String jobOccupation) {
-		this.jobOccupation = jobOccupation;
-	}
-
-	public String getSocialReason() {
-		return socialReason;
-	}
-
-	public void setSocialReason(String socialReason) {
-		this.socialReason = socialReason;
-	}
-
-	public String getTypeOfContract() {
-		return typeOfContract;
-	}
-
-	public void setTypeOfContract(String typeOfContract) {
-		this.typeOfContract = typeOfContract;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
+	
 	
 }

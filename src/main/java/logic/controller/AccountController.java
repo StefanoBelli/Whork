@@ -23,7 +23,7 @@ import logic.util.tuple.Pair;
 public final class AccountController {
 	private AccountController() {}
 	
-	public static ArrayList<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException {		
+	public static ArrayList<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException, DataLogicException {		
 		ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		

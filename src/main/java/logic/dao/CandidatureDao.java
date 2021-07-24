@@ -54,8 +54,8 @@ public final class CandidatureDao {
 				}
 		
 				CandidatureModel cm = new CandidatureModel();
-				cm.setOfferId(rs.getInt(1));
-				cm.setJobSeekerCF(rs.getString(2));
+				cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
+				cm.setJobSeeker(UserDao.getUserByCf(rs.getString(2)));
 				cm.setCandidatureDate(rs.getDate(3));
 				
 				if(rs.next()) {

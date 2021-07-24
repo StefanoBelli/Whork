@@ -23,8 +23,6 @@ public final class OfferDao {
 			"{ call GetOfferByID(?) }";
 	private static final String MAIN_STMT_GET_FILTERED_OFFERS = 
 			"{ call FilterOffers(?,?,?,?,?) }";
-	private static final String MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER = 
-			"{ call GetEmployeeEmailByOffer(?) }";
 	private static final String MAIN_STMT_UPDATE_CLICK_STATS = 
 			"{ call UpdateNumClick(?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
@@ -43,28 +41,6 @@ public final class OfferDao {
 	}
 	
 
-	public static String getEmployeeEmailByOffer(int id) 
-			throws DataAccessException, DataLogicException {
-		
-		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_EMPLOYEE_MAIL_BY_OFFER)) {
-			stmt.setInt(1, id);
-			stmt.execute();
-
-			try (ResultSet rs = stmt.getResultSet()) {
-				if(!rs.next()) {
-					return null;
-				}
-
-				if(rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEID_MOREOFFERS);
-				}
-
-				return rs.getString(1);
-			}
-		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}		
-	}
 
 	public static OfferModel getOfferById(int id) 
 			throws DataAccessException, DataLogicException {
@@ -80,18 +56,18 @@ public final class OfferDao {
 		
 				OfferModel om = new OfferModel();
 				om.setOfferName(rs.getString(2));
-				om.setEmployeeCF(rs.getString(17));
-				om.setJobCategory(rs.getString(16));
+				om.setEmployee(UserDao.getUserByCf(rs.getString(17)));
+				om.setJobCategory(JobCategoryDao.getJobCategory(rs.getString(16)));
 				om.setClickStats(rs.getInt(13));
 				om.setSalaryEUR(rs.getInt(6));
 				om.setPublishDate(rs.getDate(12));
 				om.setWorkShit(rs.getString(8));
-				om.setTypeOfContract(rs.getString(11));
-				om.setQualification(rs.getString(10));
-				om.setJobPosition(rs.getString(9));
+				om.setTypeOfContract(TypeOfContractDao.getTypeOfContract(rs.getString(11)));
+				om.setQualification(QualificationDao.getQualification(rs.getString(10)));
+				om.setJobPosition(JobPositionDao.getJobPosition(rs.getString(9)));
 				om.setPhoto(rs.getString(7));
 				om.setNote(rs.getString(14));
-				om.setCompanyVat(rs.getString(5));
+				om.setCompany(CompanyDao.getCompanyByVat(rs.getString(5)));
 				om.setVerifiedByWhork(rs.getBoolean(15));
 				om.setJobPhysicalLocationFullAddress(rs.getString(4));
 				om.setDescription(rs.getString(3));
@@ -108,18 +84,16 @@ public final class OfferDao {
 		}		
 	}
 
-	public static List<OfferModel> getOffers(
-		String searchVal, String jobCategory, String jobPosition, 
-		String qualification, String typeOfContract)
-			throws DataAccessException {
+	public static List<OfferModel> getOffers(OfferModel offer)
+			throws DataAccessException, DataLogicException {
 
 		List<OfferModel> offers = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_FILTERED_OFFERS)) {
-			stmt.setString(1, strOrNull(searchVal));
-			stmt.setString(2, strOrNull(jobCategory));
-			stmt.setString(3, strOrNull(jobPosition));
-			stmt.setString(4, strOrNull(qualification));
-			stmt.setString(5, strOrNull(typeOfContract));
+			stmt.setString(1, strOrNull(offer.getOfferName()));
+			stmt.setString(2, strOrNull(offer.getJobCategory().getCategory()));
+			stmt.setString(3, strOrNull(offer.getJobPosition().getPosition()));
+			stmt.setString(4, strOrNull(offer.getQualification().getQualify()));
+			stmt.setString(5, strOrNull(offer.getTypeOfContract().getContract()));
 			stmt.execute();
 			try (ResultSet rs = stmt.getResultSet()) {
 				if(!rs.next()) {
@@ -133,19 +107,19 @@ public final class OfferDao {
 					om.setOfferName(rs.getString(2));
 					om.setDescription(rs.getString(3));
 					om.setJobPhysicalLocationFullAddress(rs.getString(4));
-					om.setCompanyVat(rs.getString(5));
+					om.setCompany(CompanyDao.getCompanyByVat(rs.getString(5)));
 					om.setSalaryEUR(rs.getInt(6));
 					om.setPhoto(rs.getString(7));
 					om.setWorkShit(rs.getString(8));
-					om.setJobPosition(rs.getString(9));
-					om.setQualification(rs.getString(10));
-					om.setTypeOfContract(rs.getString(11));
+					om.setQualification(QualificationDao.getQualification(rs.getString(10)));
+					om.setTypeOfContract(TypeOfContractDao.getTypeOfContract(rs.getString(11)));
+					om.setJobPosition(JobPositionDao.getJobPosition(rs.getString(9)));
 					om.setPublishDate(rs.getDate(12));
 					om.setClickStats(rs.getInt(13));
 					om.setNote(rs.getString(14));
 					om.setVerifiedByWhork(rs.getBoolean(15));
-					om.setJobCategory(rs.getString(16));
-					om.setEmployeeCF(rs.getString(17));
+					om.setEmployee(UserDao.getUserByCf(rs.getString(17)));
+					om.setJobCategory(JobCategoryDao.getJobCategory(rs.getString(16)));
 					
 					offers.add(om);
 				}while(rs.next());

@@ -1,11 +1,14 @@
 package logic.controller;
 
 import logic.bean.CandidatureBean;
+import logic.bean.UserBean;
 import logic.dao.CandidatureDao;
 import logic.dao.OfferDao;
+import logic.dao.UserDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.factory.BeanFactory;
+import logic.factory.ModelFactory;
 
 public final class CandidatureController {
 	
@@ -20,6 +23,10 @@ public final class CandidatureController {
 	
 	public static CandidatureBean getCandidature(int id, String cf) throws DataAccessException, DataLogicException {
 		return BeanFactory.buildCandidatureBean(CandidatureDao.getCandidature(id, cf));
+	}
+	
+	public static String GetEmployeeEmailByCf(UserBean userBean) throws DataLogicException, DataAccessException {
+		return UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean));
 	}
 	
 }

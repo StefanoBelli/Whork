@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import logic.Database;
 import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
 import logic.model.JobSeekerUserModel;
 
@@ -27,7 +28,7 @@ public final class AccountDao {
 	private static final String EDIT_JOB_SEEKER_BIOGRAPHY = 
 			"{ call EditJobSeekerBiography(?, ?) }";
 	
-	public static ArrayList<CandidatureModel> getSeekerCandidature (String cf) throws DataAccessException {
+	public static ArrayList<CandidatureModel> getSeekerCandidature (String cf) throws DataAccessException, DataLogicException {
 		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
 			stmt.setString(1, cf);
@@ -37,11 +38,12 @@ public final class AccountDao {
 				while(rs.next()) {
 					
 					CandidatureModel element = new CandidatureModel();
-					element.setSocialReason(rs.getString(1));
-					element.setCandidatureDate(rs.getDate(2));
-					element.setTypeOfContract(rs.getString(3));
+					element.setOffer(OfferDao.getOfferById(rs.getInt(1)));
+					element.setJobSeeker(UserDao.getUserByCf(rs.getString(2)));
+					element.setCandidatureDate(rs.getDate(3));
+					/*element.setTypeOfContract(rs.getString(3));
 					element.setJobOccupation(rs.getString(4));
-					element.setEmail(rs.getString(5));
+					element.setEmail(rs.getString(5));*/
 					listCandidatureModel.add(element);			
 					
 				}				

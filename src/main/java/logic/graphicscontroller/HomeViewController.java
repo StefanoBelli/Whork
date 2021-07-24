@@ -19,6 +19,7 @@ import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.factory.BeanFactory;
 import logic.pool.JobCategoryPool;
 import logic.pool.JobPositionPool;
 import logic.pool.QualificationPool;
@@ -98,8 +99,8 @@ public final class HomeViewController extends GraphicsController {
 		typeOfContractCB.setValue(SELECT_AN_OPTION);
 
 		try {
-			offers = OfferController.getOffers(null, null, null, null, null);
-		} catch (DataAccessException e) {
+			offers = OfferController.searchOffers(BeanFactory.buildOfferBean(null, null, null, null, null));
+		} catch (DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
 		}
@@ -122,15 +123,15 @@ public final class HomeViewController extends GraphicsController {
 			try {
 				String searchTerm = searchField.getText();
 				if(!searchTerm.isBlank()) {
-					offers = OfferController.getOffers(
+					offers = OfferController.searchOffers(BeanFactory.buildOfferBean(
 						searchTerm,
 						strOrNull(jobCategoryCB.getValue()),
 						strOrNull(jobPositionCB.getValue()),
 						strOrNull(qualificationCB.getValue()),
-						strOrNull(typeOfContractCB.getValue()));
+						strOrNull(typeOfContractCB.getValue())));
 					fillListView(FXCollections.observableArrayList(offers));
 				}
-			} catch (DataAccessException e) {
+			} catch (DataAccessException | DataLogicException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}

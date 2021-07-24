@@ -11,11 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import logic.bean.OfferBean;
-import logic.controller.OfferController;
-import logic.exception.DataAccessException;
-import logic.exception.DataLogicException;
 import logic.graphicscontroller.HomeViewController;
-import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public final class OfferItem {
@@ -48,23 +44,18 @@ public final class OfferItem {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 
 		offerImg.setImage(
-			new Image(new StringBuilder(usrData).append("/").append(itemBean.getPhoto()).toString()));
+		new Image(new StringBuilder(usrData).append("/").append(itemBean.getPhoto()).toString()));
 		offerNameLbl.setText(itemBean.getOfferName());
 		offerDescriptionLbl.setText(itemBean.getDescription());
 		
-		try {
-			socialReasonLbl.setText(OfferController.getCompanyByVAT(itemBean).getSocialReason());
-		} catch (DataAccessException | DataLogicException e) {
-			Util.exceptionLog(e);
-			GraphicsUtil.showExceptionStage(e);
-		}
+		socialReasonLbl.setText(itemBean.getCompany().getSocialReason());
 		
 		salaryLbl.setText(Integer.toString(itemBean.getSalaryEUR()));
 		workShiftLbl.setText(itemBean.getWorkShit());
-		jobPositionLbl.setText(itemBean.getJobPosition());
-		jobCategoryLbl.setText(itemBean.getJobCategory());
-		qualificationLbl.setText(itemBean.getQualification());
-		typeOfContractLbl.setText(itemBean.getTypeOfContract());
+		jobPositionLbl.setText(itemBean.getJobPosition().getPosition());
+		jobCategoryLbl.setText(itemBean.getJobCategory().getCategory());
+		qualificationLbl.setText(itemBean.getQualification().getQualify());
+		typeOfContractLbl.setText(itemBean.getTypeOfContract().getContract());
 		publishDateLbl.setText(itemBean.getPublishDate().toString());
 		verifiedByWhorkLbl.setText(itemBean.isVerifiedByWhork() ? "Verified by Whork" : "");
 		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));

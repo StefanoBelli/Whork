@@ -13,19 +13,19 @@ public final class OfferBean implements Serializable {
 	private String offerName;
 	private String description;
 	private String jobPhysicalLocationFullAddress;
-	private String companyVat;
+	private CompanyBean company;
 	private int salaryEUR;
 	private String photo;
 	private String workShift;
-	private String jobPosition;
-	private String qualification;
-	private String typeOfContract;
+	private JobPositionBean jobPosition;
+	private QualificationBean qualification;
+	private TypeOfContractBean typeOfContract;
 	private Date publishDate;
 	private int clickStats;
 	private String note;
 	private boolean verifiedByWhork;
-	private String jobCategory;
-	private String employeeCF;
+	private JobCategoryBean jobCategory;
+	private UserBean employee;
 		
 
 	public int getId() {
@@ -66,14 +66,6 @@ public final class OfferBean implements Serializable {
 		this.note = note;
 	}
 
-	public String getCompanyVat() {
-		return companyVat;
-	}
-
-	public void setCompanyVat(String companyVat) {
-		this.companyVat = companyVat;
-	}
-
 	public String getWorkShit() {
 		return workShift;
 	}
@@ -82,27 +74,27 @@ public final class OfferBean implements Serializable {
 		this.workShift = workShift;
 	}
 
-	public String getJobPosition() {
+	public JobPositionBean getJobPosition() {
 		return jobPosition;
 	}
 
-	public void setJobPosition(String jobPosition) {
+	public void setJobPosition(JobPositionBean jobPosition) {
 		this.jobPosition = jobPosition;
 	}
 
-	public String getQualification() {
+	public QualificationBean getQualification() {
 		return qualification;
 	}
 
-	public void setQualification(String qualification) {
+	public void setQualification(QualificationBean qualification) {
 		this.qualification = qualification;
 	}
 
-	public String getTypeOfContract() {
+	public TypeOfContractBean getTypeOfContract() {
 		return typeOfContract;
 	}
 
-	public void setTypeOfContract(String typeOfContract) {
+	public void setTypeOfContract(TypeOfContractBean typeOfContract) {
 		this.typeOfContract = typeOfContract;
 	}
 
@@ -146,20 +138,26 @@ public final class OfferBean implements Serializable {
 		this.verifiedByWhork = verifiedByWhork;
 	}
 
-	public String getJobCategory() {
+	public JobCategoryBean getJobCategory() {
 		return jobCategory;
 	}
 
-	public void setJobCategory(String jobCategory) {
+	public void setJobCategory(JobCategoryBean jobCategory) {
 		this.jobCategory = jobCategory;
 	}
 
-	public String getEmployeeCF() {
-		return employeeCF;
+	
+	public CompanyBean getCompany() {
+		return company;
 	}
-
-	public void setEmployeeCF(String employeeCF) {
-		this.employeeCF = employeeCF;
+	public void setCompany(CompanyBean company) {
+		this.company = company;
+	}
+	public UserBean getEmployee() {
+		return employee;
+	}
+	public void setEmployee(UserBean employee) {
+		this.employee = employee;
 	}
 		
 }
