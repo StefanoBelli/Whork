@@ -2,6 +2,7 @@ package logic.controller;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
@@ -23,9 +24,9 @@ import logic.util.tuple.Pair;
 public final class AccountController {
 	private AccountController() {}
 	
-	public static ArrayList<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException, DataLogicException {		
-		ArrayList<CandidatureBean> listCandidatureBean = new ArrayList<CandidatureBean>();
-		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
+	public static List<CandidatureBean> getSeekerCandidature(String cf) throws DataAccessException, DataLogicException {		
+		List<CandidatureBean> listCandidatureBean = new ArrayList<>();
+		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
 		
 		listCandidatureModel = AccountDao.getSeekerCandidature(cf);
 		
@@ -48,13 +49,13 @@ public final class AccountController {
 		if(userAuthBean != null) userAuthModel = ModelFactory.buildUserAuthModel(userAuthBean);
 		if(function == null) throw new InternalException("Function value cannot be null");
 		
-		if (function.compareTo("SocialAccounts") == 1) 
+		if (function.equals("SocialAccounts")) 
 			AccountDao.editSocialAccountDao(userBean.getCf(), userBean.getWebsite(), userBean.getTwitter(), userBean.getFacebook(), userBean.getInstagram());		
-		if (function.compareTo("JobSeekerInfoAccount") == 1)
+		if (function.equals("JobSeekerInfoAccount"))
 			AccountDao.editJobSeekerInfoAccountDao(userModel, userAuthModel.getEmail());
-		if (function.compareTo("JobSeekerBiography") == 1)
+		if (function.equals("JobSeekerBiography"))
 			AccountDao.editJobSeekerBiographyDao(userModel);
-		if (function.compareTo("ChangePasswordAccount") == 1) {		
+		if (function.equals("ChangePasswordAccount")) {		
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			System.out.println("password cambiata");
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
