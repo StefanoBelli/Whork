@@ -32,8 +32,8 @@ List<OfferBean> offers = OfferController.searchOffers(BeanFactory.buildOfferBean
 			jobCategory, jobPosition, qualification	, typeOfContract));
 String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 if(candidateToOffer != null && sessionUser != null) {
-	CandidatureController.insertCandidature(
-			Integer.parseInt(candidateToOffer), sessionUser.getCf());
+	CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(
+			Integer.parseInt(candidateToOffer), sessionUser.getCf()));
 }
 %>
 	<div class="searchDiv">

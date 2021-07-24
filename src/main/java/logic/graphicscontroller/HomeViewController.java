@@ -175,7 +175,7 @@ public final class HomeViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {
 			try {
-				CandidatureController.insertCandidature(offer.getId(), LoginHandler.getSessionUser().getCf());
+				CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(offer.getId(), LoginHandler.getSessionUser().getCf()));
 			} catch (DataAccessException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
