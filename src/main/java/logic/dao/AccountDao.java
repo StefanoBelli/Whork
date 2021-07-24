@@ -19,7 +19,7 @@ public final class AccountDao {
 		Database.getInstance().getConnection();
 	
 	private static final String GET_SEEKER_CANDIDATURE = 
-			"{ call GetCandidature(?) }";
+			"{ call GetCandidatureAccount(?) }";
 	private static final String EDIT_SOCIAL_ACCOUNT = 
 			"{ call EditSocialAccount(?, ?, ?, ?, ?) }";
 	private static final String EDIT_JOB_SEEKER_INFO_ACCOUNT = 

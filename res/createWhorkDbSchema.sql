@@ -1253,15 +1253,15 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure GetCandidature
+-- procedure GetCandidatureAccount
 -- -----------------------------------------------------
 
 USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`GetCandidature`;
+DROP procedure IF EXISTS `whorkdb`.`GetCandidatureAccount`;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `GetCandidature` (in var_cf CHAR(16))
+CREATE PROCEDURE `GetCandidatureAccount` (in var_cf CHAR(16))
 BEGIN
 	SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1454,6 +1454,10 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetQualifications` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobPositions` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCandidature` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureAccount` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

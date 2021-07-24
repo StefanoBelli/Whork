@@ -105,7 +105,7 @@
         <filter-name>AlreadyLoggedInFilter</filter-name>
         <url-pattern>/success.jsp</url-pattern>
     </filter-mapping>
-
+    
     <!--
         **
         SERVLETS
@@ -135,6 +135,11 @@
     <servlet>
         <servlet-name>CompleteRegistrationServlet</servlet-name>
         <servlet-class>logic.servlet.CompleteRegistrationServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>AccountServlet</servlet-name>
+        <servlet-class>logic.servlet.AccountServlet</servlet-class>
     </servlet>
 
     <!--
@@ -167,4 +172,10 @@
         <servlet-name>CompleteRegistrationServlet</servlet-name>
         <url-pattern>/completeRegistration</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>AccountServlet</servlet-name>
+        <url-pattern>/accountServlet</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
