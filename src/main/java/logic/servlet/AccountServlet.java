@@ -7,9 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
+import logic.exception.InternalException;
+import logic.exception.InvalidPasswordException;
+import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 
 
@@ -20,7 +25,7 @@ public final class AccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 	    UserBean userBean = ServletUtil.getUserForSession(req);
-	    String descriptiveError = null;	    
+	    String descriptiveError = null;
 	    
 		String website = req.getParameter("websiteForm") == null ? "https://whork.it" : req.getParameter("websiteForm");
 		String twitter = req.getParameter("twitterForm") == null ? "whork" : req.getParameter("twitterForm");
@@ -41,9 +46,9 @@ public final class AccountServlet extends HttpServlet {
 			userBean.setInstagram(instagram);
 			
 			try {
-				AccountController.editAccountController("SocialAccounts", userBean, null);
-			} catch (DataAccessException e) {
-				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";				
+				AccountController.editAccountController("SocialAccounts", userBean, null, null);
+			} catch (DataLogicException | InternalException | DataAccessException e) {
+				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";;				
 			}
 			
 		}		
@@ -66,8 +71,9 @@ public final class AccountServlet extends HttpServlet {
 				userBean.setHomeAddress(address);			
 				
 				try {
-					AccountController.editAccountController("JobSeekerInfoAccount", userBean, email);
-				} catch (DataAccessException e) {
+					UserAuthBean userAuthBeanInfo = BeanFactory.buildUserAuthBean(email, "");
+					AccountController.editAccountController("JobSeekerInfoAccount", userBean, userAuthBeanInfo, null);
+				} catch (DataLogicException | InternalException | DataAccessException e) {
 					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
 				}
 			}
@@ -80,16 +86,36 @@ public final class AccountServlet extends HttpServlet {
 			userBean.setBiography(bio);
 			
 			try {
-				AccountController.editAccountController("JobSeekerBiography", userBean, null);
-			} catch (DataAccessException e) {
+				UserAuthBean userAuthBeanBio = BeanFactory.buildUserAuthBean(email, "");
+				AccountController.editAccountController("JobSeekerBiography", userBean, userAuthBeanBio, null);
+			} catch (DataLogicException | InternalException | DataAccessException e) {
 				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+			}	
+		}
+		
+		String oldPassword = req.getParameter("oldPasswordForm");
+		String newPassword = req.getParameter("newPasswordForm");
+		String confirmPassword = req.getParameter("confirmPasswordForm");		
+
+		if(oldPassword != null && newPassword != null && confirmPassword != null) {
+			if(newPassword.compareTo(confirmPassword) == 1) {
+				descriptiveError = "New Password and Confirm Password are not equals!";
+			} else {
+				UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, oldPassword);
+				try {			
+					AccountController.editAccountController("ChangePasswordAccount", userBean, userAuthBean, newPassword);
+					descriptiveError = "Password changed successfully!";
+				} catch (DataLogicException | InternalException | DataAccessException e) {
+					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+				} catch (InvalidPasswordException e) {
+					descriptiveError = e.getMessage();
+				}
 			}
-			
 		}		
 		
 		if (descriptiveError != null) {
 			req.setAttribute("descriptive_error", descriptiveError);
-		}
+		}		
 		
 		resp.sendRedirect("account.jsp");
 		

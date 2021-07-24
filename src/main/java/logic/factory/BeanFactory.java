@@ -17,7 +17,6 @@ import logic.model.TypeOfContractModel;
 import logic.bean.UserBean;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import logic.bean.CandidatureBean;

@@ -52,13 +52,13 @@
 	          <!-- /Breadcrumb -->
 	          
 <%
-String descError = (String) request.getAttribute("descriptive_error");
-if(descError != null) {
+	String descError = (String) request.getAttribute("descriptive_error");
+	if(descError != null) {
 %>
 		<h3><%=descError%></h3>
 <%
-}
-%>	    
+	}
+%>   
 	          <div class="row gutters-sm">
 	            <div class="col-md-4 mb-3">
 	              <div class="card">

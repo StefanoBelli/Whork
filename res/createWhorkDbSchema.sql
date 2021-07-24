@@ -1459,6 +1459,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
