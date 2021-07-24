@@ -5,13 +5,14 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="logic.bean.CandidatureBean" %>
 <%@ page import="logic.controller.AccountController" %>
+<%@ page import="logic.controller.CandidatureController" %>
 
 <%
     UserBean userBean = ServletUtil.getUserForSession(request);
 	String email = ServletUtil.getUserEmailForSession(request);
-	String fullName = userBean.getName().concat(" ").concat(userBean.getSurname());
 	String name = userBean.getName();
 	String surname = userBean.getSurname();
+	String fullName = name.concat(" ").concat(surname);
 	String phone = userBean.getPhoneNumber();
 	String cf = userBean.getCf();
 	String address = userBean.getHomeAddress();	
@@ -261,19 +262,19 @@ if(userBean.getPhoto() == null) {
 		<tr>
 			<td>
 				<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar1.png" %>" alt="Company Admin" width="150">
-				<a href="#" class="user-link"><%= listCandidatureBean.get(i).getSocialReason() %></a>				
+				<a href="#" class="user-link"><%= listCandidatureBean.get(i).getOffer().getCompany().getSocialReason() %></a>				
 			</td>
 			<td>
 				<%= listCandidatureBean.get(i).getCandidatureDate().toString() %>
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getTypeOfContract() %>
+				<%= listCandidatureBean.get(i).getOffer().getTypeOfContract().getContract() %>
 			</td>
 			<td>
-				<%= listCandidatureBean.get(i).getJobOccupation() %>
+				<%= listCandidatureBean.get(i).getOffer().getJobPosition().getPosition() %>
 			</td>					
 			<td>
-				<a href="#"><%= listCandidatureBean.get(i).getEmail() %></a>
+				<a href="#"><%= CandidatureController.GetEmployeeEmailByCf(listCandidatureBean.get(i).getOffer().getEmployee())%></a>
 			</td>
 			<td style="width: 20%;">
 				<a href="#" class="table-link">

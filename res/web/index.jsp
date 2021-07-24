@@ -14,6 +14,7 @@
 <%@ page import="logic.pool.TypeOfContractPool" %>
 <%@ page import="logic.bean.TypeOfContractBean" %>
 <%@ page import="logic.controller.CandidatureController" %>
+<%@ page import="logic.factory.BeanFactory" %>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -27,8 +28,8 @@ String jobCategory = (String) request.getParameter("jobCategories");
 String jobPosition = (String) request.getParameter("jobPositions");
 String qualification = (String) request.getParameter("qualifications");
 String typeOfContract = (String) request.getParameter("typesOfContract");
-List<OfferBean> offers = OfferController.getOffers(searchVal, 
-			jobCategory, jobPosition, qualification, typeOfContract);
+List<OfferBean> offers = OfferController.searchOffers(BeanFactory.buildOfferBean(searchVal, 
+			jobCategory, jobPosition, qualification	, typeOfContract));
 String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 if(candidateToOffer != null && sessionUser != null) {
 	CandidatureController.insertCandidature(
@@ -160,7 +161,7 @@ if(offers.isEmpty()){
 			<%=offer.getDescription()%>
 		</div>
 		<div class="socialReason">
-			<%=OfferController.getCompanyByVAT(offer).getSocialReason() %>
+			<%=offer.getCompany().getSocialReason() %>
 		</div>
 		<div class="salary">
 			<%=offer.getSalaryEUR() %>
@@ -169,16 +170,16 @@ if(offers.isEmpty()){
 			<%=offer.getWorkShit() %>
 		</div>
 		<div class="jobPosition">
-			<%=offer.getJobPosition() %>
+			<%=offer.getJobPosition().getPosition() %>
 		</div>
 		<div class="jobCategory">
-			<%=offer.getJobCategory() %>
+			<%=offer.getJobCategory().getCategory() %>
 		</div>
 		<div class="qualification">
-			<%=offer.getQualification() %>
+			<%=offer.getQualification().getQualify() %>
 		</div>
 		<div class="typeOfContract">
-			<%=offer.getTypeOfContract() %>
+			<%=offer.getTypeOfContract().getContract() %>
 		</div>
 		<div class="publishDate">
 			<%=offer.getPublishDate() %>
@@ -203,7 +204,7 @@ if(sessionUser == null){
 <%
 } else { 
 %>
-		<button onclick="window.open('/chat.jsp?toEmail=<%=OfferController.getEmployeeEmailByOffer(offer.getId())%>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
+		<button onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.GetEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
 <%
 	if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { 
 %>

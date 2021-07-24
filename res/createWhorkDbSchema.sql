@@ -1204,15 +1204,15 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure GetEmployeeEmailByOffer
+-- procedure GetEmployeeEmailByCf
 -- -----------------------------------------------------
 
 USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`GetEmployeeEmailByOffer`;
+DROP procedure IF EXISTS `whorkdb`.`GetEmployeeEmailByCf`;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `GetEmployeeEmailByOffer` (in var_id int)
+CREATE PROCEDURE `GetEmployeeEmailByCf` (in var_cf char(16))
 BEGIN
 SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1222,9 +1222,9 @@ SET TRANSACTION READ ONLY;
     SELECT
 		Email
 	FROM
-		Offer join Auth on Offer.EmployeeUserDetails_CF=Auth.EmployeeUserDetails_CF
+		EmployeeUserDetails join Auth on EmployeeUserDetails.CF=Auth.EmployeeUserDetails_CF
 	WHERE
-		OfferID=var_id;
+		EmployeeUserDetails.CF=var_cf;
 
 	COMMIT;
 
@@ -1447,7 +1447,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetCompanyByCF` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`FilterOffers` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`InsertCandidature` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetOfferByID` TO 'whork';
-GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmailByOffer` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmailByCf` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobCategories` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`UpdateNumClick` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
