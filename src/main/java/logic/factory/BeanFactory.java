@@ -172,6 +172,10 @@ public final class BeanFactory {
 			userBean.setComune(BeanFactory.buildComuneBean(m.getComune()));
 			userBean.setBiography(m.getBiography());
 			userBean.setBirthday(m.getBirthday());
+			userBean.setInstagram(m.getInstagram());
+			userBean.setWebsite(m.getWebsite());
+			userBean.setFacebook(m.getFacebook());
+			userBean.setTwitter(m.getTwitter());
 		}
 
 		return userBean;
