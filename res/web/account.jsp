@@ -217,7 +217,6 @@ if(userBean.getPhoto() == null) {
 	         </div>	        
 	       </div>
 	    
-<!--  -->
 <%
 	List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
 	

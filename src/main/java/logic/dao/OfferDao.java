@@ -74,7 +74,8 @@ public final class OfferDao {
 				om.setJobPhysicalLocationFullAddress(rs.getString(4));
 				om.setDescription(rs.getString(3));
 				om.setId(id);
-
+				
+				
 				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEID_MOREOFFERS);
 				}

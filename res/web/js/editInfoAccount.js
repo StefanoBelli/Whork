@@ -1,3 +1,12 @@
+function equalPassword() {
+	var box = document.getElementById('editInfoButton');
+	var password = document.getElementsByName('newPasswordForm')[0].value;
+	var confirm = document.getElementsByName('confirmPasswordForm')[0].value;
+	
+	if(password != confirm) box.disabled = true;
+	else box.disabled = false;
+}
+
 function editBio(bio) {
 	var box = "";
 	
@@ -222,7 +231,7 @@ function changePasswordAccount(){
 		newPassword += "<h6 class='mb-0'>New Password</h6>";
 		newPassword += "</div>";
 		newPassword += "<div class='col-sm-9 text-secondary'>";
-		newPassword += "<input type='text' name='newPasswordForm' class='form-control' value=''>";
+		newPassword += "<input type='text' name='newPasswordForm' class='form-control' onchange='equalPassword()' value=''>";
 		newPassword += "</div>";
 		newPassword += "</div>";
 
@@ -232,7 +241,7 @@ function changePasswordAccount(){
 		confirmNewPassoword += "<h6 class='mb-0'>Confirm New Password</h6>";
 		confirmNewPassoword += "</div>";
 		confirmNewPassoword += "<div class='col-sm-9 text-secondary'>";
-		confirmNewPassoword += "<input type='text' name='confirmPasswordForm' class='form-control' value=''>";
+		confirmNewPassoword += "<input type='text' name='confirmPasswordForm' onchange='equalPassword()' class='form-control' value=''>";
 		confirmNewPassoword += "</div>";
 		confirmNewPassoword += "</div>";
 			

@@ -23,7 +23,7 @@ public final class UserDao {
 	private static final String STMT_GETUSER_BYCF = 
 		"{ call GetUserDetails(?) }";
 	private static final String STMT_GET_EMPLOYEE_EMAIL_BY_CF=
-			"{ call GetEmployeeEmailByCf(?)} ";
+		"{ call GetEmployeeEmailByCf(?)} ";
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
@@ -144,25 +144,23 @@ public final class UserDao {
 		}
 	}
 	
-	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
+	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException {
+		String email = null;
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_EMAIL_BY_CF)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
 				if(!rs.next()) {
-					return null;
-				}
-
-				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERROR_SAMECF_MOREMAILS);
 				}
 
-				return rs.getString(1);
+				email = rs.getString(1);
 			}
 		} catch(SQLException e) {
-			throw new DataAccessException(e);
-		}		
-	
+			e.printStackTrace();
+		}
+		return email;
+		
 	}
 }

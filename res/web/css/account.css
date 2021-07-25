@@ -78,8 +78,8 @@ body{margin-top:20px;}
 }
 .user-list tbody td .user-link {
 	display: block;
-	font-size: 1.25em;
-	padding-top: 3px;
+	font-size: 1.05em;
+	padding-top: 13px;
 	margin-left: 60px;
 }
 .user-list tbody td .user-subhead {

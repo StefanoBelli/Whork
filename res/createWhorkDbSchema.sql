@@ -95,6 +95,10 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`JobSeekerUserDetails` (
   `Comune_CAP` CHAR(5) NOT NULL,
   `EmploymentStatus_Position` VARCHAR(52) NOT NULL,
   `Photo` VARCHAR(4096) NULL,
+  `Website` VARCHAR(45) NULL,
+  `TwitterID` VARCHAR(25) NULL,
+  `FacebookID` VARCHAR(25) NULL,
+  `InstagramID` VARCHAR(25) NULL,
   PRIMARY KEY (`CF`),
   INDEX `fk_UserDetails_Town1_idx` (`Comune_Nome` ASC, `Comune_CAP` ASC) VISIBLE,
   INDEX `fk_JobSeekerUserDetails_EmploymentStatus1_idx` (`EmploymentStatus_Position` ASC) VISIBLE,
@@ -1036,7 +1040,7 @@ DROP procedure IF EXISTS `whorkdb`.`GetJobCategories`;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetJobCategories`()
+CREATE PROCEDURE `GetJobCategories`()
 BEGIN
 	SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1220,7 +1224,8 @@ DELIMITER $$
 USE `whorkdb`$$
 CREATE PROCEDURE `GetEmployeeEmailByCf` (in var_cf char(16))
 BEGIN
-SET TRANSACTION READ ONLY;
+
+	SET TRANSACTION READ ONLY;
     SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
     
     START TRANSACTION;
@@ -1274,9 +1279,9 @@ BEGIN
     
     START TRANSACTION;
     
-    SELECT Cp.SocialReason, C.CandidatureDate, O.TypeOfContract, O.JobPosition, A.Email
-	FROM Candidature AS C JOIN Offer AS O ON C.Offer_OfferID = O.OfferID JOIN Company AS Cp ON O.Company_VATNumber = Cp.VAT JOIN Auth AS A ON O.EmployeeUserDetails_CF = A.EmployeeUserDetails_CF
-	WHERE C.JobSeekerUserDetails_CF = var_cf;
+    SELECT Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate
+	FROM Candidature 
+	WHERE JobSeekerUserDetails_CF = var_cf;
     
     COMMIT;
 END$$

@@ -50,12 +50,12 @@ public final class AccountController {
 		if(function == null) throw new InternalException("Function value cannot be null");
 		
 		if (function.equals("SocialAccounts")) 
-			AccountDao.editSocialAccountDao(userBean.getCf(), userBean.getWebsite(), userBean.getTwitter(), userBean.getFacebook(), userBean.getInstagram());		
-		if (function.equals("JobSeekerInfoAccount"))
+			AccountDao.editSocialAccountDao(userModel);		
+		else if (function.equals("JobSeekerInfoAccount"))
 			AccountDao.editJobSeekerInfoAccountDao(userModel, userAuthModel.getEmail());
-		if (function.equals("JobSeekerBiography"))
+		else if (function.equals("JobSeekerBiography"))
 			AccountDao.editJobSeekerBiographyDao(userModel);
-		if (function.equals("ChangePasswordAccount")) {		
+		else if (function.equals("ChangePasswordAccount")) {		
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
 				throw new InvalidPasswordException();							

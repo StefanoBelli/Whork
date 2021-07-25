@@ -54,13 +54,13 @@ public final class AccountDao {
 		return listCandidatureModel;		
 	}
 	
-	public static void editSocialAccountDao(String cf, String website, String twitter, String facebook, String instagram) throws DataAccessException {		
+	public static void editSocialAccountDao(JobSeekerUserModel user) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_SOCIAL_ACCOUNT)) {
-			stmt.setString(1, cf);
-			stmt.setString(2, website);
-			stmt.setString(3, twitter);
-			stmt.setString(4, facebook);
-			stmt.setString(5, instagram);
+			stmt.setString(1, user.getCf());
+			stmt.setString(2, user.getWebsite());
+			stmt.setString(3, user.getTwitter());
+			stmt.setString(4, user.getFacebook());
+			stmt.setString(5, user.getInstagram());
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
