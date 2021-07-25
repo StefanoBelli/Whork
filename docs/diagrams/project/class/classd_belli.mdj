@@ -7452,7 +7452,7 @@
 									"font": "Arial;13;0",
 									"left": 2527,
 									"top": 1511,
-									"width": 14.45361328125,
+									"width": 15.158203125,
 									"height": 13,
 									"alpha": -0.7419470604587947,
 									"distance": 32.55764119219941,
@@ -19333,12 +19333,12 @@
 										"$ref": "AAAAAAF6ySst4RZP8MM="
 									},
 									"font": "Arial;13;0",
-									"left": 2719,
-									"top": 2424,
+									"left": 2399,
+									"top": 2560,
 									"width": 52.7490234375,
 									"height": 13,
-									"alpha": 3.4943524511611206,
-									"distance": 214.18916872708573,
+									"alpha": 0.48031276714962834,
+									"distance": 134.18271125595876,
 									"hostEdge": {
 										"$ref": "AAAAAAF6ySst4RZRY3g="
 									},
@@ -19426,17 +19426,18 @@
 									"model": {
 										"$ref": "AAAAAAF6yStBSBb29e0="
 									},
-									"visible": null,
 									"font": "Arial;13;0",
-									"left": 2734,
-									"top": 2495,
+									"left": 2711,
+									"top": 2551,
+									"width": 52.7490234375,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 30,
+									"alpha": 0.5325041365065966,
+									"distance": 65,
 									"hostEdge": {
 										"$ref": "AAAAAAF6yStBSBb4kmU="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "«throws»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -19519,17 +19520,18 @@
 									"model": {
 										"$ref": "AAAAAAF6yStOqRedSIA="
 									},
-									"visible": null,
 									"font": "Arial;13;0",
-									"left": 2792,
-									"top": 2468,
+									"left": 2887,
+									"top": 2559,
+									"width": 52.7490234375,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 30,
+									"alpha": -0.4735156761836388,
+									"distance": 135.95955280891445,
 									"hostEdge": {
 										"$ref": "AAAAAAF6yStOqRefHrM="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "«throws»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -19612,17 +19614,18 @@
 									"model": {
 										"$ref": "AAAAAAF6yStb5BhE568="
 									},
-									"visible": null,
 									"font": "Arial;13;0",
-									"left": 2916,
-									"top": 2468,
+									"left": 3143,
+									"top": 2559,
+									"width": 52.7490234375,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 30,
+									"alpha": -0.24032319414051623,
+									"distance": 260.48608408128064,
 									"hostEdge": {
 										"$ref": "AAAAAAF6yStb5BhGOiM="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "«throws»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -35363,7 +35366,8 @@
 							},
 							"target": {
 								"$ref": "AAAAAAF6yLUsWF1VPeI="
-							}
+							},
+							"stereotype": "throws"
 						},
 						{
 							"_type": "UMLDependency",
@@ -35376,7 +35380,8 @@
 							},
 							"target": {
 								"$ref": "AAAAAAF6yLWlP15bhAY="
-							}
+							},
+							"stereotype": "throws"
 						},
 						{
 							"_type": "UMLDependency",
@@ -35389,7 +35394,8 @@
 							},
 							"target": {
 								"$ref": "AAAAAAF6yLWyxl7eTA8="
-							}
+							},
+							"stereotype": "throws"
 						},
 						{
 							"_type": "UMLDependency",
