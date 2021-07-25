@@ -90,7 +90,7 @@ public final class BeanFactory {
 			offerBean.setCompany(BeanFactory.buildCompanyBean(offerModel.getCompany()));
 			offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 			offerBean.setPhoto(offerModel.getPhoto());
-			offerBean.setWorkShit(offerModel.getWorkShit());
+			offerBean.setWorkShit(offerModel.getWorkShift());
 			offerBean.setJobPosition(BeanFactory.buildJobPositionBean(offerModel.getJobPosition()));
 			offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
 			offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
@@ -235,7 +235,7 @@ public final class BeanFactory {
 		offerBean.setCompany(BeanFactory.buildCompanyBean(offerModel.getCompany()));
 		offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 		offerBean.setPhoto(offerModel.getPhoto());
-		offerBean.setWorkShit(offerModel.getWorkShit());
+		offerBean.setWorkShit(offerModel.getWorkShift());
 		offerBean.setJobPosition(BeanFactory.buildJobPositionBean(offerModel.getJobPosition()));
 		offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
 		offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
@@ -260,25 +260,25 @@ public final class BeanFactory {
 		
 	}
 
-	private static TypeOfContractBean buildTypeOfContractBean(String typeOfContract) {
+	public static TypeOfContractBean buildTypeOfContractBean(String typeOfContract) {
 		TypeOfContractBean typeOfContractBean = new TypeOfContractBean();
 		typeOfContractBean.setContract(typeOfContract);
 		return typeOfContractBean;
 	}
 
-	private static QualificationBean buildQualificationBean(String qualification) {
+	public static QualificationBean buildQualificationBean(String qualification) {
 		QualificationBean qualificationBean = new QualificationBean();
 		qualificationBean.setQualify(qualification);
 		return qualificationBean;
 	}
 
-	private static JobPositionBean buildJobPositionBean(String position) {
+	public static JobPositionBean buildJobPositionBean(String position) {
 		JobPositionBean jobPositionBean = new JobPositionBean();
 		jobPositionBean.setPosition(position);
 		return jobPositionBean;
 	}
 
-	private static JobCategoryBean buildJobCategoryBean(String category) {
+	public static JobCategoryBean buildJobCategoryBean(String category) {
 		JobCategoryBean jobCategoryBean = new JobCategoryBean();
 		jobCategoryBean.setCategory(category);
 		return jobCategoryBean;

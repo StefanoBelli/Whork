@@ -42,8 +42,8 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 			});
 			refresh_maps();
 		});
-		</script>
-
+		</script>	
+	</head>
 		<body>
 <%
 String descError = (String) request.getAttribute("descriptive_error");
@@ -91,7 +91,7 @@ if(descError != null) {
 
 			<label for="town">Town</label>
 			<input type="text" id="town" name="town" 
-				placeholder="Enter your town here..." maxlength=34 required onchange='refresh_maps();''>
+				placeholder="Enter your town here..." maxlength=34 required onchange='refresh_maps();'>
 
 			<label for="address">Address</label>
 			<input type="text" name="address" id="address"

@@ -229,10 +229,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `whorkdb`.`Offer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `whorkdb`.`Offer` ;
-
 CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
-  `OfferID` INT NOT NULL,
+  `OfferID` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Description` VARCHAR(45) NOT NULL,
   `JobPhysicalLocationFullAddress` VARCHAR(45) NOT NULL,
@@ -250,12 +248,6 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
   `JobCategory_Category` VARCHAR(45) NOT NULL,
   `EmployeeUserDetails_CF` CHAR(16) NOT NULL,
   PRIMARY KEY (`OfferID`),
-  INDEX `fk_Offer_Azienda1_idx` (`Company_VATNumber` ASC) VISIBLE,
-  INDEX `fk_Offer_PosizioneLavoro1_idx` (`JobPosition` ASC) VISIBLE,
-  INDEX `fk_Offer_TitoloStudio1_idx` (`Qualification` ASC) VISIBLE,
-  INDEX `fk_Offer_TipoContratto1_idx` (`TypeOfContract` ASC) VISIBLE,
-  INDEX `fk_Offer_JobCategory1_idx` (`JobCategory_Category` ASC) VISIBLE,
-  INDEX `fk_Offer_EmployeeUserDetails1_idx` (`EmployeeUserDetails_CF` ASC) VISIBLE,
   CONSTRAINT `fk_Offer_Azienda1`
     FOREIGN KEY (`Company_VATNumber`)
     REFERENCES `whorkdb`.`Company` (`VAT`)
@@ -994,6 +986,20 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure PostOffer
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `PostOffer` (in var_name varchar(45), in var_description varchar(45), in var_address varchar(45), in var_company_VAT varchar(11), in var_salary int, in var_photo varchar(45), in var_work_shift char(13), in var_position varchar(45), in var_qualification varchar(45), in var_contract varchar(45), in var_publishdate date, in var_note varchar(45), in var_category varchar(45), in var_employee_cf char(16))
+BEGIN
+	insert into Offer(`Name`, Description, JobPhysicalLocationFullAddress,Company_VATNumber,SalaryEUR,Photo,WorkShift,JobPosition,Qualification,TypeOfContract,PublishDate,Note,JobCategory_Category,EmployeeUserDetails_CF)
+    values (var_name, var_description, var_address, var_company_VAT,var_salary, var_photo, var_work_shift, var_position,var_qualification, var_contract, var_publishdate, var_note, var_category, var_employee_cf);
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure GetCompanyByCF
 -- -----------------------------------------------------
 
@@ -1268,9 +1274,9 @@ BEGIN
     
     START TRANSACTION;
     
-    SELECT Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate
-	FROM Candidature
-	WHERE JobSeekerUserDetails_CF = var_cf;
+    SELECT Cp.SocialReason, C.CandidatureDate, O.TypeOfContract, O.JobPosition, A.Email
+	FROM Candidature AS C JOIN Offer AS O ON C.Offer_OfferID = O.OfferID JOIN Company AS Cp ON O.Company_VATNumber = Cp.VAT JOIN Auth AS A ON O.EmployeeUserDetails_CF = A.EmployeeUserDetails_CF
+	WHERE C.JobSeekerUserDetails_CF = var_cf;
     
     COMMIT;
 END$$
@@ -1458,6 +1464,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

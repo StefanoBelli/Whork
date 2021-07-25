@@ -6,7 +6,7 @@ public final class CandidatureModel {
 	
 	private JobSeekerUserModel jobSeeker;
 	private OfferModel offer;
-	private Date candidatureDate;	
+	private Date candidatureDate;
 	
 	public OfferModel getOffer() {
 		return offer;
@@ -32,5 +32,6 @@ public final class CandidatureModel {
 		this.candidatureDate = candidatureDate;
 	}
 
+	
 	
 }

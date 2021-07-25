@@ -7,6 +7,7 @@ import logic.dao.OfferDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.factory.BeanFactory;
+import logic.factory.ModelFactory;
 
 public final class OfferController {
 	private OfferController() {}
@@ -22,6 +23,10 @@ public final class OfferController {
 	
 	public static OfferBean getOfferById(int offerId) throws DataAccessException, DataLogicException {
 		return BeanFactory.buildOfferBean(OfferDao.getOfferById(offerId));
+	}
+
+	public static void postOffer(OfferBean offerBean) {
+		OfferDao.postOffer(ModelFactory.buildOfferModel(offerBean));		
 	}
 	
 	
