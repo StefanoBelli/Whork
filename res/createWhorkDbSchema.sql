@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
   `Name` VARCHAR(45) NOT NULL,
   `Description` VARCHAR(45) NOT NULL,
   `JobPhysicalLocationFullAddress` VARCHAR(45) NOT NULL,
-  `Company_VATNumber` VARCHAR(16) NOT NULL,
+  `Company_VATNumber` VARCHAR(11) NOT NULL,
   `SalaryEUR` INT NULL,
   `Photo` VARCHAR(45) NULL,
   `WorkShift` CHAR(13) NOT NULL,
