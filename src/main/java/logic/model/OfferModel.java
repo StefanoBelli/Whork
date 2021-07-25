@@ -22,8 +22,6 @@ public final class OfferModel {
 	private JobCategoryModel jobCategory;
 	private EmployeeUserModel employee;
 	
-
-	
 	public String getOfferName() {
 		return offerName;
 	}

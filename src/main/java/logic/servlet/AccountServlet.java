@@ -98,11 +98,12 @@ public final class AccountServlet extends HttpServlet {
 		String confirmPassword = req.getParameter("confirmPasswordForm");		
 
 		if(oldPassword != null && newPassword != null && confirmPassword != null) {
-			if(newPassword.compareTo(confirmPassword) == 1) {
+			if(newPassword.equals(confirmPassword)) {
 				descriptiveError = "New Password and Confirm Password are not equals!";
-			} else {
+			}
+			else {
 				UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, oldPassword);
-				try {			
+				try {					
 					AccountController.editAccountController("ChangePasswordAccount", userBean, userAuthBean, newPassword);
 					descriptiveError = "Password changed successfully!";
 				} catch (DataLogicException | InternalException | DataAccessException e) {

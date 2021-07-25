@@ -57,11 +57,9 @@ public final class AccountController {
 			AccountDao.editJobSeekerBiographyDao(userModel);
 		if (function.equals("ChangePasswordAccount")) {		
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
-			System.out.println("password cambiata");
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
 				throw new InvalidPasswordException();							
 			} else {
-				System.out.println("password cambiata");
 				userAuthBean.setPassword(newPassword);
 				UserAuthModel newUserAuthModel = ModelFactory.buildUserAuthModel(userAuthBean);
 				UserAuthDao.changeUserAuthPassword(newUserAuthModel);

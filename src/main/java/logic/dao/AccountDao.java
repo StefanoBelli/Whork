@@ -41,10 +41,7 @@ public final class AccountDao {
 					CandidatureModel element = new CandidatureModel();
 					element.setOffer(OfferDao.getOfferById(rs.getInt(1)));
 					element.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
-					element.setCandidatureDate(rs.getDate(3));
-					/*element.setTypeOfContract(rs.getString(3));
-					element.setJobOccupation(rs.getString(4));
-					element.setEmail(rs.getString(5));*/
+					element.setCandidatureDate(rs.getDate(3));					
 					listCandidatureModel.add(element);			
 					
 				}				
