@@ -82,6 +82,10 @@ public final class ModelFactory {
 			jobSeekerUserModel.setPhoneNumber(userBean.getPhoneNumber());
 			jobSeekerUserModel.setPhoto(userBean.getPhoto());
 			jobSeekerUserModel.setSurname(userBean.getSurname());
+			jobSeekerUserModel.setInstagram(userBean.getInstagram());
+			jobSeekerUserModel.setWebsite(userBean.getWebsite());
+			jobSeekerUserModel.setFacebook(userBean.getFacebook());
+			jobSeekerUserModel.setTwitter(userBean.getTwitter());
 		}
 
 		return userModel;
