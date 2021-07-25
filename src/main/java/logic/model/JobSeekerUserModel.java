@@ -9,15 +9,50 @@ public final class JobSeekerUserModel extends UserModel {
 	private String biography;
 	private ComuneModel comune;
 	private EmploymentStatusModel employmentStatus;
+	private String website;
+	private String twitter;
+	private String facebook;
+	private String instagram;
 
 	public JobSeekerUserModel() {
 		setEmployee(false);
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
 	}
 
 	public Date getBirthday() {
 		return birthday;
 	}
 
+	public String getWebsite() {
+		return website;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	
+
+	public String getTwitter() {
+		return twitter;
+	}
+	
+	public void setInstagram(String instagram) {
+		this.instagram = instagram;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getInstagram() {
+		return instagram;
+	}
+
+	
 	public String getCv() {
 		return cv;
 	}
@@ -32,6 +67,10 @@ public final class JobSeekerUserModel extends UserModel {
 
 	public ComuneModel getComune() {
 		return comune;
+	}
+	
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 
 	public EmploymentStatusModel getEmploymentStatus() {

@@ -20,7 +20,7 @@ public final class OfferModel {
 	private String note;
 	private boolean verifiedByWhork;
 	private JobCategoryModel jobCategory;
-	private UserModel employee;
+	private EmployeeUserModel employee;
 	
 
 	
@@ -127,11 +127,11 @@ public final class OfferModel {
 		return id;
 	}
 
-	public UserModel getEmployee() {
+	public EmployeeUserModel getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(UserModel employee) {
+	public void setEmployee(EmployeeUserModel employee) {
 		this.employee = employee;
 	}
 

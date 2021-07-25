@@ -11,6 +11,7 @@ import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
+import logic.model.EmployeeUserModel;
 import logic.model.OfferModel;
 
 public final class OfferDao {
@@ -57,7 +58,7 @@ public final class OfferDao {
 		
 				OfferModel om = new OfferModel();
 				om.setOfferName(rs.getString(2));
-				om.setEmployee(UserDao.getUserByCf(rs.getString(17)));
+				om.setEmployee((EmployeeUserModel) UserDao.getUserByCf(rs.getString(17)));
 				om.setJobCategory(JobCategoryDao.getJobCategory(rs.getString(16)));
 				om.setClickStats(rs.getInt(13));
 				om.setSalaryEUR(rs.getInt(6));
@@ -120,7 +121,7 @@ public final class OfferDao {
 					om.setClickStats(rs.getInt(13));
 					om.setNote(rs.getString(14));
 					om.setVerifiedByWhork(rs.getBoolean(15));
-					om.setEmployee(UserDao.getUserByCf(rs.getString(17)));
+					om.setEmployee((EmployeeUserModel) UserDao.getUserByCf(rs.getString(17)));
 					om.setJobCategory(JobCategoryDao.getJobCategory(rs.getString(16)));
 					
 					offers.add(om);

@@ -174,7 +174,7 @@ public final class ModelFactory {
 		offerModel.setNote(offerBean.getNote());
 		offerModel.setVerifiedByWhork(offerBean.isVerifiedByWhork());
 		offerModel.setJobCategory(ModelFactory.buildJobCategoryModel(offerBean.getJobCategory()));
-		offerModel.setEmployee(ModelFactory.buildUserModel(offerBean.getEmployee()));
+		offerModel.setEmployee((EmployeeUserModel) ModelFactory.buildUserModel(offerBean.getEmployee()));
 		return offerModel;
 	}
 
@@ -182,7 +182,7 @@ public final class ModelFactory {
 	public static CandidatureModel buildCandidatureModel(CandidatureBean candidatureBean) {
 		CandidatureModel candidatureModel=new CandidatureModel();
 		candidatureModel.setCandidatureDate(candidatureBean.getCandidatureDate());
-		candidatureModel.setJobSeeker(ModelFactory.buildUserModel(candidatureBean.getJobSeeker()));
+		candidatureModel.setJobSeeker((JobSeekerUserModel)ModelFactory.buildUserModel(candidatureBean.getJobSeeker()));
 		candidatureModel.setOffer(ModelFactory.buildOfferModel(candidatureBean.getOffer()));
 		return candidatureModel;
 	}

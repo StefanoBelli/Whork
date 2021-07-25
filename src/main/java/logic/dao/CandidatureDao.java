@@ -11,6 +11,7 @@ import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
+import logic.model.JobSeekerUserModel;
 
 public final class CandidatureDao {
 	
@@ -55,7 +56,7 @@ public final class CandidatureDao {
 		
 				CandidatureModel cm = new CandidatureModel();
 				cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
-				cm.setJobSeeker(UserDao.getUserByCf(rs.getString(2)));
+				cm.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
 				cm.setCandidatureDate(rs.getDate(3));
 				
 				if(rs.next()) {

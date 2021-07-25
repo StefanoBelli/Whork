@@ -4,7 +4,7 @@ import java.util.Date;
 
 public final class CandidatureModel {
 	
-	private UserModel jobSeeker;
+	private JobSeekerUserModel jobSeeker;
 	private OfferModel offer;
 	private Date candidatureDate;
 	
@@ -16,11 +16,11 @@ public final class CandidatureModel {
 		this.offer = offer;
 	}
 	
-	public UserModel getJobSeeker() {
+	public JobSeekerUserModel getJobSeeker() {
 		return jobSeeker;
 	}
 	
-	public void setJobSeeker(UserModel jobSeeker) {
+	public void setJobSeeker(JobSeekerUserModel jobSeeker) {
 		this.jobSeeker = jobSeeker;
 	}
 	
