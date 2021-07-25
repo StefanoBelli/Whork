@@ -39,7 +39,7 @@ public final class AccountDao {
 				while(rs.next()) {
 					
 					CandidatureModel element = new CandidatureModel();
-					element.setOffer(OfferDao.getOfferById(rs.getInt(1)));
+					element.setOffer(OfferDao.getOfferById(rs.getInt(1)));					
 					element.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
 					element.setCandidatureDate(rs.getDate(3));					
 					listCandidatureModel.add(element);			

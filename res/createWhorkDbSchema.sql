@@ -1094,7 +1094,7 @@ BEGIN
 	FROM
 		Offer
 	WHERE
-		ID = var_id;
+		OfferID = var_id;
     
     COMMIT;
 END$$
