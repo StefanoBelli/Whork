@@ -1268,9 +1268,9 @@ BEGIN
     
     START TRANSACTION;
     
-    SELECT Cp.SocialReason, C.CandidatureDate, O.TypeOfContract, O.JobPosition, A.Email
-	FROM Candidature AS C JOIN Offer AS O ON C.Offer_OfferID = O.OfferID JOIN Company AS Cp ON O.Company_VATNumber = Cp.VAT JOIN Auth AS A ON O.EmployeeUserDetails_CF = A.EmployeeUserDetails_CF
-	WHERE C.JobSeekerUserDetails_CF = var_cf;
+    SELECT Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate
+	FROM Candidature
+	WHERE JobSeekerUserDetails_CF = var_cf;
     
     COMMIT;
 END$$

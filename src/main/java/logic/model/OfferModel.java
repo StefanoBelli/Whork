@@ -30,13 +30,9 @@ public final class OfferModel {
 		this.id = id;
 	}
 
-
 	public String getDescription() {
 		return description;
 	}
-
-	
-
 	
 	public String getPhoto() {
 		return photo;
@@ -48,25 +44,19 @@ public final class OfferModel {
 
 	public String getNote() {
 		return note;
-	}
-
-	
+	}	
 
 	public void setNote(String note) {
 		this.note = note;
 	}
 
-
 	public String getWorkShit() {
 		return workShift;
 	}
 
-
-
 	public void setPhoto(String photo) {
 		this.photo = photo;
-	}
-	
+	}	
 	
 	public void setWorkShit(String workShift) {
 		this.workShift = workShift;
@@ -76,7 +66,6 @@ public final class OfferModel {
 		return salaryEUR;
 	}
 
-
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
 	}
@@ -84,7 +73,6 @@ public final class OfferModel {
 	public String getJobPhysicalLocationFullAddress() {
 		return jobPhysicalLocationFullAddress;
 	}
-
 
 	public void setSalaryEUR(int salaryEUR) {
 		this.salaryEUR = salaryEUR;
@@ -102,7 +90,6 @@ public final class OfferModel {
 		this.clickStats = clickStats;
 	}
 
-
 	public void setJobPhysicalLocationFullAddress(String jobPhysicalLocationFullAddress) {
 		this.jobPhysicalLocationFullAddress = jobPhysicalLocationFullAddress;
 	}
@@ -110,12 +97,10 @@ public final class OfferModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	
 	public void setVerifiedByWhork(boolean verifiedByWhork) {
 		this.verifiedByWhork = verifiedByWhork;
 	}
-
 	
 	public void setOfferName(String offerName) {
 		this.offerName = offerName;
