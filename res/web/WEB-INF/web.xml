@@ -30,6 +30,11 @@
         <url-pattern>/chat.jsp</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>MustBeLoggedInFilter</filter-name>
+        <url-pattern>/post_offer.jsp</url-pattern>
+    </filter-mapping>
+    
     <!--
         **
         AlreadyLoggedInFilter
