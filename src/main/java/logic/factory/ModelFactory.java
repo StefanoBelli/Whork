@@ -178,15 +178,6 @@ public final class ModelFactory {
 		return offerModel;
 	}
 
-	public static OfferModel buildOfferFilterModel(OfferBean offerBean) {
-		OfferModel offerModel = new OfferModel();
-		offerModel.setQualification(ModelFactory.buildQualificationModel(offerBean.getQualification()));
-		offerModel.setTypeOfContract(ModelFactory.buildTypeOfContractModel(offerBean.getTypeOfContract()));
-		offerModel.setOfferName(offerBean.getOfferName());
-		offerModel.setJobPosition(ModelFactory.buildJobPositionModel(offerBean.getJobPosition()));
-		offerModel.setJobCategory(ModelFactory.buildJobCategoryModel(offerBean.getJobCategory()));
-		return offerModel;
-	}
 
 	public static CandidatureModel buildCandidatureModel(CandidatureBean candidatureBean) {
 		CandidatureModel candidatureModel=new CandidatureModel();

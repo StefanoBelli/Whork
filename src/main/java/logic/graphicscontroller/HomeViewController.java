@@ -99,7 +99,7 @@ public final class HomeViewController extends GraphicsController {
 		typeOfContractCB.setValue(SELECT_AN_OPTION);
 
 		try {
-			offers = OfferController.searchOffers(BeanFactory.buildOfferBean(null, null, null, null, null));
+			offers = OfferController.searchOffers(null, null, null, null, null);
 		} catch (DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
@@ -123,12 +123,12 @@ public final class HomeViewController extends GraphicsController {
 			try {
 				String searchTerm = searchField.getText();
 				if(!searchTerm.isBlank()) {
-					offers = OfferController.searchOffers(BeanFactory.buildOfferBean(
+					offers = OfferController.searchOffers(
 						searchTerm,
 						strOrNull(jobCategoryCB.getValue()),
 						strOrNull(jobPositionCB.getValue()),
 						strOrNull(qualificationCB.getValue()),
-						strOrNull(typeOfContractCB.getValue())));
+						strOrNull(typeOfContractCB.getValue()));
 					fillListView(FXCollections.observableArrayList(offers));
 				}
 			} catch (DataAccessException | DataLogicException e) {

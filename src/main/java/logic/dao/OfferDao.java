@@ -85,16 +85,17 @@ public final class OfferDao {
 		}		
 	}
 
-	public static List<OfferModel> getOffers(OfferModel offer)
+	public static List<OfferModel> getOffers(String searchVal, String category,
+			String position, String qualification, String typeOfContract)
 			throws DataAccessException, DataLogicException {
 
 		List<OfferModel> offers = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_GET_FILTERED_OFFERS)) {
-			stmt.setString(1, strOrNull(offer.getOfferName()));
-			stmt.setString(2, strOrNull(offer.getJobCategory().getCategory()));
-			stmt.setString(3, strOrNull(offer.getJobPosition().getPosition()));
-			stmt.setString(4, strOrNull(offer.getQualification().getQualify()));
-			stmt.setString(5, strOrNull(offer.getTypeOfContract().getContract()));
+			stmt.setString(1, strOrNull(searchVal));
+			stmt.setString(2, strOrNull(category));
+			stmt.setString(3, strOrNull(position));
+			stmt.setString(4, strOrNull(qualification));
+			stmt.setString(5, strOrNull(typeOfContract));
 			stmt.execute();
 			try (ResultSet rs = stmt.getResultSet()) {
 				if(!rs.next()) {
