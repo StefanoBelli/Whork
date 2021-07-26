@@ -3,6 +3,7 @@ package logic.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,7 @@ import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 import logic.util.Util;
 
-
+@MultipartConfig
 public final class PostOfferServlet extends HttpServlet {
 
 	/**
@@ -44,10 +45,19 @@ public final class PostOfferServlet extends HttpServlet {
 			dispatchSuccess(req, resp);
 		} else {
 			req.setAttribute("descriptive_error", descriptiveError);
+			dispatchError(req, resp);
 		}
 		
 	}
 	
+	private void dispatchError(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			req.getRequestDispatcher("post_offer.jsp").forward(req, resp);
+		} catch(ServletException | IOException e) {
+			Util.exceptionLog(e);
+		}		
+	}
+
 	private void dispatchSuccess(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			req.getRequestDispatcher("offer_successfully_posted.jsp").forward(req, resp);
