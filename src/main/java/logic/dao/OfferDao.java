@@ -4,7 +4,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import logic.Database;
@@ -27,6 +29,8 @@ public final class OfferDao {
 			"{ call FilterOffers(?,?,?,?,?) }";
 	private static final String MAIN_STMT_UPDATE_CLICK_STATS = 
 			"{ call UpdateNumClick(?) }";
+	private static final String MAIN_STMT_POST_OFFER = 
+			"{ call PostOffer(?,?, ?,?,?,?,?,?,?,?,?,?,?,?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
 			"Multiple offers detected with same Id";
 	
@@ -63,7 +67,7 @@ public final class OfferDao {
 				om.setClickStats(rs.getInt(13));
 				om.setSalaryEUR(rs.getInt(6));
 				om.setPublishDate(rs.getDate(12));
-				om.setWorkShit(rs.getString(8));
+				om.setWorkShift(rs.getString(8));
 				om.setTypeOfContract(TypeOfContractDao.getTypeOfContract(rs.getString(11)));
 				om.setQualification(QualificationDao.getQualification(rs.getString(10)));
 				om.setJobPosition(JobPositionDao.getJobPosition(rs.getString(9)));
@@ -114,7 +118,7 @@ public final class OfferDao {
 					om.setCompany(CompanyDao.getCompanyByVat(rs.getString(5)));
 					om.setSalaryEUR(rs.getInt(6));
 					om.setPhoto(rs.getString(7));
-					om.setWorkShit(rs.getString(8));
+					om.setWorkShift(rs.getString(8));
 					om.setQualification(QualificationDao.getQualification(rs.getString(10)));
 					om.setTypeOfContract(TypeOfContractDao.getTypeOfContract(rs.getString(11)));
 					om.setJobPosition(JobPositionDao.getJobPosition(rs.getString(9)));
@@ -134,6 +138,32 @@ public final class OfferDao {
 		
 		return offers;
 	}
+	
+
+	public static void postOffer(OfferModel offerModel) {
+		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_POST_OFFER)){
+			stmt.setString(1, offerModel.getOfferName());
+			stmt.setString(2, offerModel.getDescription());
+			stmt.setString(3, offerModel.getJobPhysicalLocationFullAddress());
+			stmt.setString(4, offerModel.getCompany().getVat());
+			stmt.setInt(5, offerModel.getSalaryEUR());
+			stmt.setString(6, offerModel.getPhoto());
+			stmt.setString(7, offerModel.getWorkShift());
+			stmt.setString(8, offerModel.getJobPosition().getPosition());
+			stmt.setString(9, offerModel.getQualification().getQualify());
+			stmt.setString(10, offerModel.getTypeOfContract().getContract());
+			stmt.setTimestamp(11, new Timestamp(new Date().getTime()));
+			stmt.setString(12, offerModel.getNote());
+			stmt.setString(13, offerModel.getJobCategory().getCategory());
+			stmt.setString(14, offerModel.getEmployee().getCf());
+			stmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
 	
 	private static String strOrNull(String s) {
 		if(s == null) {
