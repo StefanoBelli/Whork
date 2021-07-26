@@ -31,8 +31,7 @@ public final class AccountServlet extends HttpServlet {
 		String twitter = req.getParameter("twitterForm");
 		String facebook = req.getParameter("facebookForm");
 		String instagram = req.getParameter("instagramForm");
-		
-		
+			
 		if(website != null && twitter != null && facebook != null && instagram != null) {
 			/*if(userBean.getWebsite() == null) userBean.setWebsite("https://whork.it");
 			if(userBean.getTwitter() == null) userBean.setTwitter("whork");

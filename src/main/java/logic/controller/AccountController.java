@@ -8,6 +8,7 @@ import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
+import logic.dao.CandidatureDao;
 import logic.dao.UserAuthDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
@@ -40,6 +41,12 @@ public final class AccountController {
 		
 		return listCandidatureBean;
 		
+	}
+	
+	public static List<CandidatureBean> deleteCandidature(UserBean userBean, List<CandidatureBean> candidature, int i) throws DataAccessException {		
+		CandidatureDao.deleteCandidatureDao((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidature.get(i)));
+		candidature.remove(i);
+		return candidature;
 	}
 	
 	public static void editAccountController(String function, UserBean userBean, UserAuthBean userAuthBean, String newPassword) throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {

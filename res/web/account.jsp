@@ -35,6 +35,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 		<script src="js/editInfoAccount.js"></script>
+		<script src="js/candidature.js"></script>
     </head>
     
     
@@ -281,13 +282,14 @@ if(userBean.getPhoto() == null) {
 						<i class="fa fa-square fa-stack-2x"></i>
 						<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
 					</span>
-				</a>				
-				<a href="#" class="table-link danger">
+				</a>
+				
+				 <a href="#" class="table-link danger" onclick='<%listCandidatureBean = AccountController.deleteCandidature(userBean, listCandidatureBean, i); %>>'>
 					<span class="fa-stack">
 						<i class="fa fa-square fa-stack-2x"></i>
-						<i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
+						<i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>						
+					</span>					
+				</a>			
 			</td>
 		</tr>	
 <%		

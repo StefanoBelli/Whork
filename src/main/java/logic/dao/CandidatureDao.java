@@ -72,10 +72,10 @@ public final class CandidatureDao {
 		}		
 	}
 	
-	public static void deleteCandidatureDao(JobSeekerUserModel userModel, int idCandidature) throws DataAccessException {		
+	public static void deleteCandidatureDao(JobSeekerUserModel userModel, CandidatureModel candidature) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(DELETE_CANDIDATURE)) {
 			stmt.setString(1, userModel.getCf());
-			stmt.setInt(2, idCandidature);
+			stmt.setInt(2, candidature.getOffer().getId());
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
