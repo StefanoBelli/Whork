@@ -559,6 +559,7 @@ CREATE PROCEDURE `RegisterEmployeeUserAuth` (
 BEGIN
 	INSERT INTO Auth(Email, BcryptedPwd, EmployeeUserDetails_CF, ConfirmToken)
     VALUES (var_email, var_bcrypwd, var_employeeCf, var_confirmToken);
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -580,6 +581,7 @@ CREATE PROCEDURE `RegisterJobSeekerUserAuth` (
 BEGIN
 	INSERT INTO Auth(Email, BcryptedPwd, JobSeekerUserDetails_CF, ConfirmToken)
     VALUES (var_email, var_bcrypwd, var_jobSeekerCf, var_confirmToken);
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -614,6 +616,7 @@ BEGIN
 	VALUES (var_name, var_surname, var_cf, var_birthday, var_phoneNumber,
 			var_biography, var_comuneNome, var_comuneCap, var_employmentStatus, 
             var_homeAddress, var_cv, var_photo);
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -642,6 +645,7 @@ BEGIN
 									IsRecruiter, IsAdmin, Note, Photo)
 	VALUES (var_cf, var_name, var_surname, var_phoneNumber, var_companyVat, 
 			var_isRecruiter, var_isAdmin, var_note, var_photo);
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -721,6 +725,7 @@ USE `whorkdb`$$
 CREATE PROCEDURE `RegisterCompany` (IN var_vat CHAR(11), IN var_socialReason VARCHAR(45), IN var_cf CHAR(16), IN var_logo VARCHAR(4096))
 BEGIN
 	INSERT INTO Company(VAT, SocialReason, CF, Logo) VALUES(var_vat, var_socialReason, var_cf, var_logo);
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -957,6 +962,8 @@ CREATE PROCEDURE `AddChatLogEntry` (IN sender VARCHAR(255), IN receiver VARCHAR(
 BEGIN
 	INSERT INTO ChatLog(SenderEmail, ReceiverEmail, Text, DateDeliveryRequest)
 	VALUES(sender, receiver, msg, deliveryRequestDate);
+
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -999,6 +1006,8 @@ CREATE PROCEDURE `PostOffer` (in var_name varchar(45), in var_description varcha
 BEGIN
 	insert into Offer(`Name`, Description, JobPhysicalLocationFullAddress,Company_VATNumber,SalaryEUR,Photo,WorkShift,JobPosition,Qualification,TypeOfContract,PublishDate,Note,JobCategory_Category,EmployeeUserDetails_CF)
     values (var_name, var_description, var_address, var_company_VAT,var_salary, var_photo, var_work_shift, var_position,var_qualification, var_contract, var_publishdate, var_note, var_category, var_employee_cf);
+
+	COMMIT;   
 END$$
 
 DELIMITER ;
@@ -1187,8 +1196,7 @@ BEGIN
         (Qualification=var_qualification or var_qualification is null) and
         (TypeOfContract=var_typeOfContract or var_typeOfContract is null));
     
-    commit;
-    
+    commit;    
 END$$
 
 DELIMITER ;
@@ -1205,10 +1213,11 @@ USE `whorkdb`$$
 CREATE PROCEDURE `UpdateNumClick` (in var_id int)
 BEGIN
 
-update Offer
-set ClickStats=ClickStats+1
-where OfferID=var_id;
-
+	update Offer
+	set ClickStats=ClickStats+1
+	where OfferID=var_id;
+	
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -1238,8 +1247,6 @@ BEGIN
 		EmployeeUserDetails.CF=var_cf;
 
 	COMMIT;
-
-
 END$$
 
 DELIMITER ;
@@ -1256,9 +1263,10 @@ USE `whorkdb`$$
 CREATE PROCEDURE `InsertCandidature` (in var_id int, in var_jobSeekerCF char(16), in var_date datetime)
 BEGIN
 
-insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
-values (var_id, var_jobSeekerCF, var_date);
-
+	insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
+	values (var_id, var_jobSeekerCF, var_date);
+	
+	COMMIT;
 END$$
 
 DELIMITER ;
@@ -1297,14 +1305,14 @@ DROP procedure IF EXISTS `whorkdb`.`EditSocialAccount`;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(45), in var_facebook VARCHAR(45), in var_instagram VARCHAR(45))
+CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(25), in var_facebook VARCHAR(25), in var_instagram VARCHAR(25))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
     
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Website = var_website AND TwitterID = var_twitter AND FacebookID = var_facebook AND InstagramID = var_instagram
+    SET Website = var_website, TwitterID = var_twitter, FacebookID = var_facebook, InstagramID = var_instagram
     WHERE CF = var_cf;
     
     COMMIT;
@@ -1328,7 +1336,7 @@ BEGIN
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Name = var_name AND Surname = var_surname AND PhoneNumber = var_phone AND HomeAddress = var_address
+    SET Name = var_name, Surname = var_surname, PhoneNumber = var_phone,  HomeAddress = var_address
     WHERE CF = var_cf;
     
     UPDATE Auth
