@@ -1,0 +1,818 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('../fonts/icomoon/icomoon.eot');
+	src:url('../fonts/icomoon/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon/icomoon.woff') format('woff'),
+		url('../fonts/icomoon/icomoon.ttf') format('truetype'),
+		url('../fonts/icomoon/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* General button style (reset) */
+.btn {
+	display: inline-block; padding: 8px 16px; 
+	vertical-align: middle; overflow: hidden; 
+	text-decoration: none; color: inherit; 
+	background-color: inherit; text-align: center; 
+	white-space: nowrap;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	background: none;
+	cursor: pointer;
+	margin: 15px 30px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+/* Pseudo elements for icons */
+.btn:before,
+.icon-heart:after,
+.icon-star:after,
+.icon-plus:after,
+.icon-file:before {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-envelope:before {
+	content: "\e000";
+}
+
+.icon-cart:before {
+	content: "\e007";
+}
+
+.icon-cart-2:before {
+	content: "\e008";
+}
+
+.icon-heart:before {
+	content: "\e009";
+}
+
+/* Filled heart */
+.icon-heart:after,
+.icon-heart-2:before {
+	content: "\e00a";
+}
+
+.icon-star:before {
+	content: "\e00b";
+}
+
+/* Filled star */
+.icon-star:after,
+.icon-star-2:before {
+	content: "\e00c";
+}
+
+.icon-arrow-right:before {
+	content: "\e00d";
+}
+
+.icon-arrow-left:before {
+	content: "\e003";
+}
+
+.icon-truck:before {
+	content: "\e00e";
+}
+
+.icon-remove:before {
+	content: "\e00f";
+}
+
+.icon-cog:before {
+	content: "\e010";
+}
+
+.icon-plus:before,
+.icon-plus:after {
+	content: "\e011";
+}
+
+.icon-minus:before {
+	content: "\e012";
+}
+
+.bh-icon-smiley:before {
+	content: "\e001";
+}
+
+.bh-icon-sad:before {
+	content: "\e002";
+}
+
+.icon-file:before {
+	content: "\e004";
+}
+
+.icon-remove-2:before {
+	content: "\e005";
+}
+
+
+
+/* Button 7 */
+.btn-7 {
+	background: #ff1919;
+	color: #fff;
+	border-radius: 7px;
+	box-shadow: 0 5px #ff1919;
+	padding: 25px 60px 25px 90px;
+}
+
+/* Button 7a */
+.btn-7a {
+	overflow: hidden;
+}
+
+.btn-7a:before {
+	position: absolute;
+	left: 0;
+	width: 40%;
+	font-size: 160%;
+	line-height: 0.8;
+	color: #ff1919;
+}
+
+.btn-7a.btn-activated {
+	-webkit-animation: fadeOutText 0.5s;
+	-moz-animation: fadeOutText 0.5s;
+	animation: fadeOutText 0.5s;
+}
+
+.btn-7a.btn-activated:before {
+	-webkit-animation: moveToRight 0.5s;
+	-moz-animation: moveToRight 0.5s;
+	animation: moveToRight 0.5s;
+}
+
+@-webkit-keyframes fadeOutText {
+	0% { color: transparent; }
+	80% { color: transparent; }
+	100% { color: #fff; }
+}
+
+@-moz-keyframes fadeOutText {
+	0% { color: transparent; }
+	80% { color: transparent; }
+	100% { color: #fff; }
+}
+
+@keyframes fadeOutText {
+	0% { color: transparent; }
+	80% { color: transparent; }
+	100% { color: #fff; }
+}
+
+@-webkit-keyframes moveToRight {
+	80% { -webkit-transform: translateX(250%); }
+	81% { opacity: 1; -webkit-transform: translateX(250%); }
+	82% { opacity: 0; -webkit-transform: translateX(250%); }
+	83% { opacity: 0; -webkit-transform: translateX(-50%); }
+	84% { opacity: 1; -webkit-transform: translateX(-50%);  }
+	100% { -webkit-transform: translateX(0%); }
+}
+
+@-moz-keyframes moveToRight {
+	80% { -moz-transform: translateX(250%); }
+	81% { opacity: 1; -moz-transform: translateX(250%); }
+	82% { opacity: 0; -moz-transform: translateX(250%); }
+	83% { opacity: 0; -moz-transform: translateX(-50%); }
+	84% { opacity: 1; -moz-transform: translateX(-50%);  }
+	100% { -moz-transform: translateX(0%); }
+}
+
+@keyframes moveToRight {
+	80% { transform: translateX(250%); }
+	81% { opacity: 1; transform: translateX(250%); }
+	82% { opacity: 0; transform: translateX(250%); }
+	83% { opacity: 0; transform: translateX(-50%); }
+	84% { opacity: 1; transform: translateX(-50%);  }
+	100% { transform: translateX(0%); }
+}
+
+/* Button 7b */
+.btn-7b {
+	overflow: hidden;
+}
+
+.btn-7b:before {
+	position: absolute;
+	left: 0;
+	width: 40%;
+	font-size: 160%;
+	line-height: 0.8;
+	color: #ff1919;
+}
+
+.btn-7b.btn-activated:before {
+	-webkit-animation: scaleUp 0.5s;
+	-moz-animation: scaleUp 0.5s;
+	animation: scaleUp 0.5s;
+}
+
+@-webkit-keyframes scaleUp {
+	80% {
+		opacity: 0;
+		-webkit-transform: scale(2);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(2);
+	}
+}
+
+@-moz-keyframes scaleUp {
+	80% {
+		opacity: 0;
+		-moz-transform: scale(2);
+	}
+	100% {
+		opacity: 0;
+		-moz-transform: scale(2);
+	}
+}
+
+@keyframes scaleUp {
+	80% {
+		opacity: 0;
+		transform: scale(2);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(2);
+	}
+}
+
+/* Icon only style */
+.btn-icon-only {
+	font-size: 0;
+	padding: 25px 30px;
+}
+
+.btn-icon-only:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-size: 26px;
+	line-height: 54px;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+/* Button 7c */
+.btn-7c {
+	overflow: hidden;
+}
+
+.btn-7c:before {
+	color: #fff;
+	z-index: 1;
+}
+
+.btn-7c:after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	z-index: 0;
+	width: 0;
+	background: #ff1919;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+
+.btn-7c.btn-activated:after {
+	-webkit-animation: fillToRight 0.7s forwards;
+	-moz-animation: fillToRight 0.7s forwards;
+	animation: fillToRight 0.7s forwards;
+}
+
+@-webkit-keyframes fillToRight {
+	to { 
+		width: 100%;
+	}
+}
+
+@-moz-keyframes fillToRight {
+	to { 
+		width: 100%;
+	}
+}
+
+@keyframes fillToRight {
+	to { 
+		width: 100%;
+	}
+}
+
+/* Button 7d */
+.btn-7d {
+	overflow: hidden;
+}
+
+.btn-7d:before {
+	color: #fff;
+	z-index: 1;
+}
+
+.btn-7d:after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 0;
+	width: 50%;
+	z-index: 0;
+	background: #ff1919;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+
+.btn-7d.btn-activated:after {
+	-webkit-animation: emptyBottom 0.7s forwards;
+	-moz-animation: emptyBottom 0.7s forwards;
+	animation: emptyBottom 0.7s forwards;
+}
+
+@-webkit-keyframes emptyBottom {
+	to { 
+		height: 100%;
+	}
+}
+
+@-moz-keyframes emptyBottom {
+	to { 
+		height: 100%;
+	}
+}
+
+@keyframes emptyBottom {
+	to { 
+		height: 100%;
+	}
+}
+
+/* Button 7e */
+.btn-7e:after {
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	font-size: 26px;
+	line-height: 54px;
+	color: #ea515e;
+	-webkit-transform: scale(0);
+	-moz-transform: scale(0);
+	-ms-transform: scale(0);
+	transform: scale(0);
+	opacity: 0;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+
+.btn-7e.btn-activated:after {
+	-webkit-animation: scaleFade 0.5s forwards;
+	-moz-animation: scaleFade 0.5s forwards;
+	animation: scaleFade 0.5s forwards;
+} 
+
+@-webkit-keyframes scaleFade {
+	50% { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale(2.5);
+	}
+}
+
+@-moz-keyframes scaleFade {
+	50% { 
+		opacity: 1;
+		-moz-transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		-moz-transform: scale(2.5);
+	}
+}
+
+@keyframes scaleFade {
+	50% { 
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(2.5);
+	}
+}
+
+/* Button 7f */
+.btn-7f:before {
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #fff;
+}
+.btn-7f:after {
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	font-size: 26px;
+	line-height: 54px;
+	color: #ffe44d;
+	visibility: hidden;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #ffe44d;
+	-webkit-transform: scale(4);
+	-moz-transform: scale(4);
+	-ms-transform: scale(4);
+	transform: scale(4);
+	opacity: 0;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+
+.btn-7f.btn-activated:after {
+	visibility: visible;
+	-webkit-animation: dropDown 0.3s forwards;
+	-moz-animation: dropDown 0.3s forwards;
+	animation: dropDown 0.3s forwards;
+} 
+
+@-webkit-keyframes dropDown {
+	to { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+}
+
+@-moz-keyframes dropDown {
+	to { 
+		opacity: 1;
+		-moz-transform: scale(1);
+	}
+}
+
+@keyframes dropDown {
+	to { 
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Button 7g */
+.btn-7g:after {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	font-size: 26px;
+	line-height: 54px;
+	color: #ff1919;
+	visibility: hidden;
+	-webkit-transform: scale(2);
+	-moz-transform: scale(2);
+	-ms-transform: scale(2);
+	transform: scale(2);
+	opacity: 0;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+
+.btn-7g.btn-activated:after {
+	visibility: visible;
+	-webkit-animation: dropDownFade 0.5s forwards;
+	-moz-animation: dropDownFade 0.5s forwards;
+	animation: dropDownFade 0.5s forwards;
+} 
+
+@-webkit-keyframes dropDownFade {
+	50% { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+	100% { 
+		opacity: 0;
+		-webkit-transform: scale(1.5);
+	}
+}
+
+@-moz-keyframes dropDownFade {
+	50% { 
+		opacity: 1;
+		-moz-transform: scale(1);
+	}
+	100% { 
+		opacity: 0;
+		-moz-transform: scale(1.5);
+	}
+}
+
+@keyframes dropDownFade {
+	50% { 
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% { 
+		opacity: 0;
+		transform: scale(1.5);
+	}
+}
+
+/* Button 7h */
+
+.btn-7h span {
+	display: inline-block;
+	width: 100%;
+}
+
+.btn-7h:before {
+	position: absolute;
+	left: 0;
+	width: 40%;
+	font-size: 160%;
+	line-height: 0.8;
+	color: #ff1919;
+}
+
+/* Success and error */
+
+.btn-success,
+.btn-error {
+	color: transparent;
+}
+
+.btn-success:after,
+.btn-error:after {
+	z-index: 1;
+	color: #fff;
+	left: 40%;
+}
+
+.btn-success:before {
+	content: "\e001";
+}
+
+.btn-success:after {
+	content: "Success!";
+	-webkit-animation: moveUp 0.5s;
+	-moz-animation: moveUp 0.5s;
+	animation: moveUp 0.5s;
+}
+
+@-webkit-keyframes moveUp {
+	0% {
+		-webkit-transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-webkit-transform: translateY(0);
+	}
+}
+
+@-moz-keyframes moveUp {
+	0% {
+		-moz-transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-moz-transform: translateY(0);
+	}
+}
+
+@keyframes moveUp {
+	0% {
+		transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.btn-error {
+	-webkit-animation: shake 0.5s;
+	-moz-animation: shake 0.5s;
+	animation: shake 0.5s;
+}
+
+/* From Dan Eden's animate.css: http://daneden.me/animate/ */
+@-webkit-keyframes shake {
+	0%, 100% {-webkit-transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);}
+}
+
+@-moz-keyframes shake {
+	0%, 100% {-moz-transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {-moz-transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {-moz-transform: translateX(10px);}
+}
+
+@keyframes shake {
+	0%, 100% {transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {transform: translateX(10px);}
+}
+
+.btn-error:before {
+	content: "\e002";
+}
+
+.btn-error:after {
+	content: "Error!";
+	-webkit-animation: scaleFromUp 0.5s;
+	-moz-animation: scaleFromUp 0.5s;
+	animation: scaleFromUp 0.5s;
+}
+
+@-webkit-keyframes scaleFromUp {
+	0% {
+		-webkit-transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+}
+
+@-moz-keyframes scaleFromUp {
+	0% {
+		-moz-transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-moz-transform: scale(1);
+	}
+}
+
+@keyframes scaleFromUp {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Special trash effect */
+.trash-effect {
+	position: relative;
+	max-width: 320px;
+	margin: 60px auto 0;
+} 
+
+.trash-effect .icon-file {
+	font-size: 30px;
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: 50%;
+	top: 50%;
+	margin: -45px 0 0 -25px;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	-webkit-transform: translateX(90px) translateY(20px) scale(1);
+	-moz-transform: translateX(90px) translateY(20px) scale(1);
+	-ms-transform: translateX(90px) translateY(20px) scale(1);
+	transform: translateX(90px) translateY(20px) scale(1);
+}
+
+.trash-effect .icon-file:nth-child(2) {
+	-webkit-transform: translateX(140px) translateY(-10px) scale(1);
+	-moz-transform: translateX(140px) translateY(-10px) scale(1);
+	-ms-transform: translateX(140px) translateY(-10px) scale(1);
+	transform: translateX(140px) translateY(-10px) scale(1);
+	-webkit-transition-delay: 0.1s;
+	-moz-transition-delay: 0.1s;
+	transition-delay: 0.1s;
+}
+
+.trash-effect .icon-file:nth-child(3) {
+	-webkit-transform: translateX(140px) translateY(50px) scale(1);
+	-moz-transform: translateX(140px) translateY(50px) scale(1);
+	-ms-transform: translateX(140px) translateY(50px) scale(1);
+	transform: translateX(140px) translateY(50px) scale(1);
+	-webkit-transition-delay: 0.2s;
+	-moz-transition-delay: 0.2s;
+	transition-delay: 0.2s;
+}
+
+.trash-effect.trash-effect-active .icon-file {
+	-webkit-transform: translateX(-100px) translateY(-10px) scale(0);
+	-moz-transform: translateX(-100px) translateY(-10px) scale(0);
+	-ms-transform: translateX(-100px) translateY(-10px) scale(0);
+	transform: translateX(-100px) translateY(-10px) scale(0);
+}
+
+/* Button 7i */
+.btn-7i {
+	box-shadow: none;
+	border-radius: 0 0 7px 7px;
+	padding: 27px 33px;
+	-webkit-transform: translateX(-100px);
+	-moz-transform: translateX(-100px);
+	-ms-transform: translateX(-100px);
+	transform: translateX(-100px);
+}
+
+.btn-7i:before {
+	line-height: 45px;
+}
+
+.btn-7i:after {
+	height: 11px; /* should be 10px but in Chrome Version 34.0.1847.131 there's a gap because of the transform of the button */
+	width: 100%;
+	background: #ff1919;
+	border-radius: 7px 7px 0 0;
+	left: 0;
+	top: -10px;
+	z-index: 1;
+	-webkit-transform-origin: 0 100%;
+	-moz-transform-origin: 0 100%;
+	-ms-transform-origin: 0 100%;
+	transform-origin: 0 100%;
+}
+
+.trash-effect-active .btn-7i:after {
+	-webkit-animation: openTrash 0.5s;
+	-moz-animation: openTrash 0.5s;
+	animation: openTrash 0.5s;
+}
+
+@-webkit-keyframes openTrash {
+	50% {
+		-webkit-transform: rotate(-35deg);
+	}
+	100% { 
+		-webkit-transform: rotate(0deg);
+	}
+}
+
+@-moz-keyframes openTrash {
+	50% {
+		-moz-transform: rotate(-35deg);
+	}
+	100% { 
+		-moz-transform: rotate(0deg);
+	}
+}
+
+@keyframes openTrash {
+	50% {
+		transform: rotate(-35deg);
+	}
+	100% { 
+		transform: rotate(0deg);
+	}
+}

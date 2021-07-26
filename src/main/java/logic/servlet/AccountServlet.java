@@ -1,12 +1,14 @@
 package logic.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
@@ -113,7 +115,7 @@ public final class AccountServlet extends HttpServlet {
 			
 			System.out.println("password");
 			
-			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, oldPassword);
+			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean((String) req.getSession().getAttribute("user-email"), oldPassword);
 			try {					
 				AccountController.editAccountController("ChangePasswordAccount", userBean, userAuthBean, newPassword);
 				descriptiveError = "Password changed successfully!";
@@ -122,7 +124,18 @@ public final class AccountServlet extends HttpServlet {
 			} catch (InvalidPasswordException e) {
 				descriptiveError = e.getMessage();
 			}
-		}		
+		}
+		
+		if(req.getParameter("deleteCandidatureButton") != null) {
+			System.out.println("delete");
+			try {
+				int i = Integer.parseInt(req.getParameter("deleteCandidatureButton"));
+				List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
+				AccountController.deleteCandidature(userBean, listCandidatureBean.get(i));
+			} catch (DataAccessException | DataLogicException e) {
+				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+			}
+		}
 		
 		if (descriptiveError != null) {
 			req.setAttribute("descriptive_error", descriptiveError);

@@ -43,10 +43,8 @@ public final class AccountController {
 		
 	}
 	
-	public static List<CandidatureBean> deleteCandidature(UserBean userBean, List<CandidatureBean> candidature, int i) throws DataAccessException {		
-		CandidatureDao.deleteCandidatureDao((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidature.get(i)));
-		candidature.remove(i);
-		return candidature;
+	public static void deleteCandidature(UserBean userBean, CandidatureBean candidatureBean) throws DataAccessException {		
+		CandidatureDao.deleteCandidatureDao((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));		
 	}
 	
 	public static void editAccountController(String function, UserBean userBean, UserAuthBean userAuthBean, String newPassword) throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {
@@ -62,7 +60,8 @@ public final class AccountController {
 			AccountDao.editJobSeekerInfoAccountDao(userModel, userAuthModel.getEmail());
 		else if (function.equals("JobSeekerBiography"))
 			AccountDao.editJobSeekerBiographyDao(userModel);
-		else if (function.equals("ChangePasswordAccount")) {		
+		else if (function.equals("ChangePasswordAccount")) {	
+			System.out.println(userAuthModel.getEmail());
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
 				throw new InvalidPasswordException();							

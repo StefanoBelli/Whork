@@ -35,7 +35,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 		<script src="js/editInfoAccount.js"></script>
-		<script src="js/candidature.js"></script>
+		
+		<link rel="shortcut icon" href="../favicon.ico"> 
+		<link rel="stylesheet" href="css/default.css" />
+		<link rel="stylesheet" href="css/component.css" />
+		<script src="js/modernizr.custom.js"></script>
     </head>
     
     
@@ -276,20 +280,8 @@ if(userBean.getPhoto() == null) {
 			<td>
 				<a href="#"><%= CandidatureController.GetEmployeeEmailByCf(listCandidatureBean.get(i).getOffer().getEmployee())%></a>
 			</td>
-			<td style="width: 20%;">
-				<a href="#" class="table-link">
-					<span class="fa-stack">
-						<i class="fa fa-square fa-stack-2x"></i>
-						<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-				
-				 <a href="#" class="table-link danger" onclick='<%listCandidatureBean = AccountController.deleteCandidature(userBean, listCandidatureBean, i); %>>'>
-					<span class="fa-stack">
-						<i class="fa fa-square fa-stack-2x"></i>
-						<i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>						
-					</span>					
-				</a>			
+			<td>				
+				<button name="deleteCandidatureButton" class="btn btn-7 btn-icon-only icon-remove" value=<%=i%>></button>	 			
 			</td>
 		</tr>	
 <%		
@@ -309,5 +301,6 @@ if(userBean.getPhoto() == null) {
 	
 
   	 </form>
+  	 
     </body>    
 </html>
