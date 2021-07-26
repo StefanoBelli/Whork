@@ -71,12 +71,20 @@ public final class AccountDao {
 	
 	public static void editJobSeekerInfoAccountDao(JobSeekerUserModel userModel, String email) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_INFO_ACCOUNT)) {
+			
+			System.out.println(userModel.getCf());
+			System.out.println(userModel.getName());
+			System.out.println(userModel.getSurname());
+			System.out.println(email);
+			System.out.println(userModel.getPhoneNumber());
+			System.out.println(userModel.getHomeAddress());			
+			
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, userModel.getName());
 			stmt.setString(3, userModel.getSurname());
 			stmt.setString(4, email);
 			stmt.setString(5, userModel.getPhoneNumber());
-			stmt.setString(5, userModel.getHomeAddress());
+			stmt.setString(5, userModel.getHomeAddress());			
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

@@ -22,7 +22,8 @@ import logic.util.tuple.Pair;
 
 @MultipartConfig
 public final class CompleteRegistrationServlet extends HttpServlet {
-	
+	private static final long serialVersionUID = 6025349555035440533L;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
 		String descriptiveError = null;
@@ -118,6 +119,10 @@ public final class CompleteRegistrationServlet extends HttpServlet {
 			user.setCv(ServletUtil.saveUserFile(req, "cv", userCf));
 			user.setBirthday(Util.deriveBirthdayFromFiscalCode(userCf));
 			user.setComune(BeanFactory.buildComuneBean(req.getParameter("town")));
+			user.setWebsite("https://whork.it");
+			user.setTwitter("whork");
+			user.setFacebook("whork");
+			user.setInstagram("whork");				
 		}
 		
 		UserAuthBean userAuth = 

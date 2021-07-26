@@ -66,7 +66,7 @@ public final class AccountServlet extends HttpServlet {
 		
 		if(name != null && surname != null && email != null && phone != null && address != null) {
 		
-			System.out.println("user");
+			System.out.println("user");			
 			
 			if(!name.equals(userBean.getName()) || !surname.equals(userBean.getSurname()) || !email.equals(ServletUtil.getUserEmailForSession(req)) || 
 					!phone.equals(userBean.getPhoneNumber()) ||  !address.equals(userBean.getHomeAddress())) {			
@@ -78,8 +78,7 @@ public final class AccountServlet extends HttpServlet {
 				userBean.setHomeAddress(address);			
 				
 				try {
-					UserAuthBean userAuthBeanInfo = BeanFactory.buildUserAuthBean(email, "");
-					AccountController.editAccountController("JobSeekerInfoAccount", userBean, userAuthBeanInfo, null);
+					AccountController.editAccountController("JobSeekerInfoAccount", userBean, BeanFactory.buildUserAuthBean(email, ""), null);
 				} catch (DataLogicException | InternalException | DataAccessException e) {
 					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
 				}
@@ -92,7 +91,7 @@ public final class AccountServlet extends HttpServlet {
 		if(bio != null) {
 			System.out.println("bio");
 			if(!bio.equals(userBean.getBiography())) {
-				
+				if(bio.length() == 0) bio = null;
 				userBean.setBiography(bio);
 				
 				try {

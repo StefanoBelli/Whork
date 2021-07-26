@@ -1128,7 +1128,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetQualifications`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetQualifications`()
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1154,7 +1153,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetTypesOfContract`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTypesOfContract`()
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1180,7 +1178,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`FilterOffers`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `FilterOffers` (in var_searchVal varchar(45), in var_jobCategory varchar(45), in var_jobPosition varchar(45), in var_qualification  varchar(45), in var_typeOfContract varchar(45))
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1209,7 +1206,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`UpdateNumClick`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `UpdateNumClick` (in var_id int)
 BEGIN
 
@@ -1230,7 +1226,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetEmployeeEmailByCf`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `GetEmployeeEmailByCf` (in var_cf char(16))
 BEGIN
 
@@ -1259,7 +1254,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`InsertCandidature`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `InsertCandidature` (in var_id int, in var_jobSeekerCF char(16), in var_date datetime)
 BEGIN
 
@@ -1279,7 +1273,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetCandidatureAccount`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `GetCandidatureAccount` (in var_cf CHAR(16))
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1304,7 +1297,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditSocialAccount`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(25), in var_facebook VARCHAR(25), in var_instagram VARCHAR(25))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1328,7 +1320,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerInfoAccount`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `EditJobSeekerInfoAccount` (in var_cf CHAR(16),  in var_name VARCHAR(45), in var_surname VARCHAR(45), in var_email VARCHAR(255), in var_phone VARCHAR(10), in var_address VARCHAR(45))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1336,7 +1327,7 @@ BEGIN
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Name = var_name, Surname = var_surname, PhoneNumber = var_phone,  HomeAddress = var_address
+    SET Name = var_name, Surname = var_surname, PhoneNumber = var_phone, HomeAddress = var_address
     WHERE CF = var_cf;
     
     UPDATE Auth
@@ -1356,7 +1347,6 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerBiography`;
 
 DELIMITER $$
-USE `whorkdb`$$
 CREATE PROCEDURE `EditJobSeekerBiography` (in var_cf CHAR(16),  in var_bio VARCHAR(250))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1372,6 +1362,28 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure DeleteCandidature
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`DeleteCandidature`;
+
+DELIMITER $$
+CREATE PROCEDURE `DeleteCandidature` (in var_cf CHAR(16),  in var_id INT)
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    DELETE FROM Candidature    
+    WHERE JobSeekerUserDetails_CF = var_cf AND Offer_OfferID = var_id;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 USE `whorkdb`;
 
@@ -1379,7 +1391,7 @@ DELIMITER $$
 
 USE `whorkdb`$$
 DROP TRIGGER IF EXISTS `whorkdb`.`Auth_BEFORE_INSERT` $$
-USE `whorkdb`$$
+
 CREATE DEFINER = CURRENT_USER TRIGGER `whorkdb`.`Auth_BEFORE_INSERT` 
 BEFORE INSERT ON `Auth` FOR EACH ROW
 BEGIN
@@ -1478,6 +1490,8 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`DeleteCandidature` TO 'whork';
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
