@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
   `JobPhysicalLocationFullAddress` VARCHAR(45) NOT NULL,
   `Company_VATNumber` VARCHAR(11) NOT NULL,
   `SalaryEUR` INT NULL,
-  `Photo` VARCHAR(45) NULL,
+  `Photo` VARCHAR(4096) NULL,
   `WorkShift` CHAR(13) NOT NULL,
   `JobPosition` VARCHAR(45) NOT NULL,
   `Qualification` VARCHAR(45) NOT NULL,
@@ -559,7 +559,6 @@ CREATE PROCEDURE `RegisterEmployeeUserAuth` (
 BEGIN
 	INSERT INTO Auth(Email, BcryptedPwd, EmployeeUserDetails_CF, ConfirmToken)
     VALUES (var_email, var_bcrypwd, var_employeeCf, var_confirmToken);
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -581,7 +580,6 @@ CREATE PROCEDURE `RegisterJobSeekerUserAuth` (
 BEGIN
 	INSERT INTO Auth(Email, BcryptedPwd, JobSeekerUserDetails_CF, ConfirmToken)
     VALUES (var_email, var_bcrypwd, var_jobSeekerCf, var_confirmToken);
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -616,7 +614,6 @@ BEGIN
 	VALUES (var_name, var_surname, var_cf, var_birthday, var_phoneNumber,
 			var_biography, var_comuneNome, var_comuneCap, var_employmentStatus, 
             var_homeAddress, var_cv, var_photo);
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -645,7 +642,6 @@ BEGIN
 									IsRecruiter, IsAdmin, Note, Photo)
 	VALUES (var_cf, var_name, var_surname, var_phoneNumber, var_companyVat, 
 			var_isRecruiter, var_isAdmin, var_note, var_photo);
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -725,7 +721,6 @@ USE `whorkdb`$$
 CREATE PROCEDURE `RegisterCompany` (IN var_vat CHAR(11), IN var_socialReason VARCHAR(45), IN var_cf CHAR(16), IN var_logo VARCHAR(4096))
 BEGIN
 	INSERT INTO Company(VAT, SocialReason, CF, Logo) VALUES(var_vat, var_socialReason, var_cf, var_logo);
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -962,8 +957,6 @@ CREATE PROCEDURE `AddChatLogEntry` (IN sender VARCHAR(255), IN receiver VARCHAR(
 BEGIN
 	INSERT INTO ChatLog(SenderEmail, ReceiverEmail, Text, DateDeliveryRequest)
 	VALUES(sender, receiver, msg, deliveryRequestDate);
-
-	COMMIT;
 END$$
 
 DELIMITER ;
@@ -1006,8 +999,6 @@ CREATE PROCEDURE `PostOffer` (in var_name varchar(45), in var_description varcha
 BEGIN
 	insert into Offer(`Name`, Description, JobPhysicalLocationFullAddress,Company_VATNumber,SalaryEUR,Photo,WorkShift,JobPosition,Qualification,TypeOfContract,PublishDate,Note,JobCategory_Category,EmployeeUserDetails_CF)
     values (var_name, var_description, var_address, var_company_VAT,var_salary, var_photo, var_work_shift, var_position,var_qualification, var_contract, var_publishdate, var_note, var_category, var_employee_cf);
-
-	COMMIT;   
 END$$
 
 DELIMITER ;
@@ -1128,6 +1119,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetQualifications`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetQualifications`()
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1153,6 +1145,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetTypesOfContract`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTypesOfContract`()
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1178,6 +1171,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`FilterOffers`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `FilterOffers` (in var_searchVal varchar(45), in var_jobCategory varchar(45), in var_jobPosition varchar(45), in var_qualification  varchar(45), in var_typeOfContract varchar(45))
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1193,7 +1187,8 @@ BEGIN
         (Qualification=var_qualification or var_qualification is null) and
         (TypeOfContract=var_typeOfContract or var_typeOfContract is null));
     
-    commit;    
+    commit;
+    
 END$$
 
 DELIMITER ;
@@ -1206,14 +1201,14 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`UpdateNumClick`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `UpdateNumClick` (in var_id int)
 BEGIN
 
-	update Offer
-	set ClickStats=ClickStats+1
-	where OfferID=var_id;
-	
-	COMMIT;
+update Offer
+set ClickStats=ClickStats+1
+where OfferID=var_id;
+
 END$$
 
 DELIMITER ;
@@ -1226,6 +1221,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetEmployeeEmailByCf`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `GetEmployeeEmailByCf` (in var_cf char(16))
 BEGIN
 
@@ -1242,6 +1238,8 @@ BEGIN
 		EmployeeUserDetails.CF=var_cf;
 
 	COMMIT;
+
+
 END$$
 
 DELIMITER ;
@@ -1254,13 +1252,13 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`InsertCandidature`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `InsertCandidature` (in var_id int, in var_jobSeekerCF char(16), in var_date datetime)
 BEGIN
 
-	insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
-	values (var_id, var_jobSeekerCF, var_date);
-	
-	COMMIT;
+insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
+values (var_id, var_jobSeekerCF, var_date);
+
 END$$
 
 DELIMITER ;
@@ -1273,6 +1271,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetCandidatureAccount`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `GetCandidatureAccount` (in var_cf CHAR(16))
 BEGIN
 	SET TRANSACTION READ ONLY;
@@ -1297,14 +1296,15 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditSocialAccount`;
 
 DELIMITER $$
-CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(25), in var_facebook VARCHAR(25), in var_instagram VARCHAR(25))
+USE `whorkdb`$$
+CREATE PROCEDURE `EditSocialAccount` (in var_cf CHAR(16),  in var_website VARCHAR(45), in var_twitter VARCHAR(45), in var_facebook VARCHAR(45), in var_instagram VARCHAR(45))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
     
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Website = var_website, TwitterID = var_twitter, FacebookID = var_facebook, InstagramID = var_instagram
+    SET Website = var_website AND TwitterID = var_twitter AND FacebookID = var_facebook AND InstagramID = var_instagram
     WHERE CF = var_cf;
     
     COMMIT;
@@ -1320,6 +1320,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerInfoAccount`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `EditJobSeekerInfoAccount` (in var_cf CHAR(16),  in var_name VARCHAR(45), in var_surname VARCHAR(45), in var_email VARCHAR(255), in var_phone VARCHAR(10), in var_address VARCHAR(45))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1327,7 +1328,7 @@ BEGIN
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Name = var_name, Surname = var_surname, PhoneNumber = var_phone, HomeAddress = var_address
+    SET Name = var_name AND Surname = var_surname AND PhoneNumber = var_phone AND HomeAddress = var_address
     WHERE CF = var_cf;
     
     UPDATE Auth
@@ -1347,6 +1348,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`EditJobSeekerBiography`;
 
 DELIMITER $$
+USE `whorkdb`$$
 CREATE PROCEDURE `EditJobSeekerBiography` (in var_cf CHAR(16),  in var_bio VARCHAR(250))
 BEGIN
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1362,28 +1364,6 @@ END$$
 
 DELIMITER ;
 
--- -----------------------------------------------------
--- procedure DeleteCandidature
--- -----------------------------------------------------
-
-USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`DeleteCandidature`;
-
-DELIMITER $$
-CREATE PROCEDURE `DeleteCandidature` (in var_cf CHAR(16),  in var_id INT)
-BEGIN
-	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
-    
-    START TRANSACTION;
-    
-    DELETE FROM Candidature    
-    WHERE JobSeekerUserDetails_CF = var_cf AND Offer_OfferID = var_id;
-    
-    COMMIT;
-END$$
-
-DELIMITER ;
-
 
 USE `whorkdb`;
 
@@ -1391,7 +1371,7 @@ DELIMITER $$
 
 USE `whorkdb`$$
 DROP TRIGGER IF EXISTS `whorkdb`.`Auth_BEFORE_INSERT` $$
-
+USE `whorkdb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `whorkdb`.`Auth_BEFORE_INSERT` 
 BEFORE INSERT ON `Auth` FOR EACH ROW
 BEGIN
@@ -1490,8 +1470,6 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
-GRANT EXECUTE ON procedure `whorkdb`.`DeleteCandidature` TO 'whork';
-
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
