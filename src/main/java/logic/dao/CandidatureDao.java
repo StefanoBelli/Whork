@@ -24,8 +24,10 @@ public final class CandidatureDao {
 			"{ call GetCandidature(?,?) }";
 	private static final String MAIN_STMT_INSERT_CANDIDATURE = 
 			"{ call InsertCandidature(?,?,?) }";
+	private static final String DELETE_CANDIDATURE = 
+			"{ call DeleteCandidature(?,?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MORECANDIDATURE = 
-			"Multiple candidature detected with same Id";
+			"Multiple candidature detected with same Id";	
 	
 	public static void insertCandidature(CandidatureModel candidatureModel) 
 			throws DataAccessException {
@@ -68,6 +70,18 @@ public final class CandidatureDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}		
+	}
+	
+	public static void deleteCandidatureDao(JobSeekerUserModel userModel, int idCandidature) throws DataAccessException {		
+		try (CallableStatement stmt = CONN.prepareCall(DELETE_CANDIDATURE)) {
+			stmt.setString(1, userModel.getCf());
+			stmt.setInt(2, idCandidature);
+			stmt.execute();
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		
+		return;		
 	}
 
 	
