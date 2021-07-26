@@ -140,7 +140,7 @@ public final class OfferDao {
 	}
 	
 
-	public static void postOffer(OfferModel offerModel) {
+	public static void postOffer(OfferModel offerModel) throws DataAccessException {
 		try (CallableStatement stmt = CONN.prepareCall(MAIN_STMT_POST_OFFER)){
 			stmt.setString(1, offerModel.getOfferName());
 			stmt.setString(2, offerModel.getDescription());
@@ -158,8 +158,7 @@ public final class OfferDao {
 			stmt.setString(14, offerModel.getEmployee().getCf());
 			stmt.execute();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new DataAccessException(e);
 			}
 		
 	}

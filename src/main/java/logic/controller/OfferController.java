@@ -25,7 +25,7 @@ public final class OfferController {
 		return BeanFactory.buildOfferBean(OfferDao.getOfferById(offerId));
 	}
 
-	public static void postOffer(OfferBean offerBean) {
+	public static void postOffer(OfferBean offerBean) throws DataAccessException {
 		OfferDao.postOffer(ModelFactory.buildOfferModel(offerBean));		
 	}
 	
