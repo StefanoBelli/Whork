@@ -33,7 +33,7 @@ List<OfferBean> offers = OfferController.searchOffers(searchVal,
 String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 if(candidateToOffer != null && sessionUser != null) {
 	CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(
-			Integer.parseInt(candidateToOffer), sessionUser.getCf()));
+			OfferController.getOfferById(Integer.parseInt(candidateToOffer)), sessionUser));
 }
 %>
 	<div class="searchDiv">
@@ -152,13 +152,21 @@ if(offers.isEmpty()){
 %>
 	<div class="offer">
 		<div class="immagine">
+		<%
+if(offer.getPhoto() == null) {
+%>
+   			<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "offerPhoto.jpg" %>" alt="Image offer" style={width:200px; height=200px;}>
+<%
+} else {
+%>
 			<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + offer.getPhoto() %>" alt="Image offer" style={width:200px; height=200px;}>
+<%} %>
 		</div>	
 		<div class="name">
 			<b>Name: <%=offer.getOfferName()%></b>
 		</div>
 		<div class="description">
-			<%=offer.getDescription()%>
+			<%=offer.getDescription().replace("\n","<br>")%>
 		</div>
 		<div class="socialReason">
 			<%=offer.getCompany().getSocialReason() %>
@@ -193,13 +201,13 @@ if(offers.isEmpty()){
 			</iframe>
 		</div>
 <%
-if(sessionUser == null){
+if(sessionUser == null || sessionUser.isEmployee()){
 %>
 		<form action="#" method="get">
-			<input type="submit" value="Chat" title="Login to chat" disabled/>
+			<input type="submit" value="Chat" title="Login to chat or you are not a jobSeeker" disabled/>
 		</form>
 		<form action="#" method="get">
-			<input type="submit" value="Candidate" title="Login to candidate" disabled/>
+			<input type="submit" value="Candidate" title="Login to candidate or you are not a jobSeeker" disabled/>
 		</form>
 <%
 } else { 

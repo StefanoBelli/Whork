@@ -22,7 +22,11 @@ public final class CandidatureController {
 	}
 	
 	public static CandidatureBean getCandidature(int id, String cf) throws DataAccessException, DataLogicException {
-		return BeanFactory.buildCandidatureBean(CandidatureDao.getCandidature(id, cf));
+		if(CandidatureDao.getCandidature(id, cf)==null) {
+			return null;
+		}else {
+			return BeanFactory.buildCandidatureBean(CandidatureDao.getCandidature(id, cf));
+		}
 	}
 	
 	public static String GetEmployeeEmailByCf(UserBean userBean) throws DataLogicException, DataAccessException {

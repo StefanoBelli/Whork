@@ -45,8 +45,8 @@ if(descError != null) {
 				maxlength=255 required>
 			
 			<label for="description">Offer description</label>
-			<input type="text" name="description" 
-				placeholder="Enter offer description here ..." required>
+			<textarea name="description" 
+				placeholder="Enter offer description here ..." required></textarea>
 				
 			<label for="salaryEur">Offer salary (Euro)</label>
 			<input type="text" name="salaryEur" 

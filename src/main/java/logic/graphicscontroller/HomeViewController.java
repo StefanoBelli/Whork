@@ -167,15 +167,18 @@ public final class HomeViewController extends GraphicsController {
 
 	public static final class HandleCandidateRequest implements EventHandler<MouseEvent> {
 		private OfferBean offer;
+		private Button candidateBtn;
 
-		public HandleCandidateRequest(OfferBean offer) {
+		public HandleCandidateRequest(OfferBean offer, Button candidateBtn) {
 			this.offer = offer;
+			this.candidateBtn=candidateBtn;
 		}
 
 		@Override
 		public void handle(MouseEvent event) {
 			try {
-				CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(offer.getId(), LoginHandler.getSessionUser().getCf()));
+				CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(offer, LoginHandler.getSessionUser()));
+				candidateBtn.setDisable(true);
 			} catch (DataAccessException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
@@ -234,11 +237,11 @@ public final class HomeViewController extends GraphicsController {
 					if (itemBean != null) {
 						try {
 							final UserBean sessionUser = LoginHandler.getSessionUser();
-							final boolean hasNoSessionUser = sessionUser == null;
+							final boolean hasNoSessionUser = sessionUser == null || sessionUser.isEmployee();
 							final boolean disableCandidatureBtn =
 								hasNoSessionUser ||
 								CandidatureController.getCandidature(itemBean.getId(), sessionUser.getCf()) != null;
-							final OfferItem newItem = new OfferItem(hasNoSessionUser, disableCandidatureBtn);
+							OfferItem newItem = new OfferItem(hasNoSessionUser, disableCandidatureBtn);
 							newItem.setInfo(itemBean);
 							setGraphic(newItem.getBox());
 						} catch (DataAccessException | DataLogicException e) {

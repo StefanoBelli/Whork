@@ -23,7 +23,9 @@ public final class HomeView implements ControllableView {
 	private static final String QUALIFICATION_MSG = "Select a qualify: ";
 	private static final String TYPE_OF_CONTRACT_MSG = "Select a Type of Contract: ";
 	private static final String HINT_SEARCH_MSG = "Type a search term...";
-
+	private static final int LIST_VIEW_MIN_HEIGHT = 495;
+	private static final int FLT_SPACING = 80;
+	
 	private Button accountBtn;
 	private TextField searchField;
 	private Button searchBtn;
@@ -99,6 +101,7 @@ public final class HomeView implements ControllableView {
 		vboxfltcnt.getChildren().add(typeOfContractCB);
 		
 		hboxflt.getChildren().add(vboxfltctg);
+		hboxflt.setSpacing(FLT_SPACING);
 		hboxflt.getChildren().add(vboxfltps);
 		hboxflt.getChildren().add(vboxfltqlf);
 		hboxflt.getChildren().add(vboxfltcnt);
@@ -125,6 +128,7 @@ public final class HomeView implements ControllableView {
 	public void setWindowProperties(Stage stage) {
 		stage.setResizable(false);
 		stage.setTitle(CONFIG_WIN_TITLE);
+		offersLst.setMinHeight(LIST_VIEW_MIN_HEIGHT);
 	}
 	
 	@Override

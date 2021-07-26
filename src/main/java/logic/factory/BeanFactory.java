@@ -284,14 +284,10 @@ public final class BeanFactory {
 		return jobCategoryBean;
 	}
 	
-	public static CandidatureBean buildCandidatureBean(int offerId, String jobSeekerCf) {
+	public static CandidatureBean buildCandidatureBean(OfferBean offer, UserBean jobSeeker) {
 		CandidatureBean candidatureBean=new CandidatureBean();
-		UserBean jobSeeker= new UserBean();
-		jobSeeker.setCf(jobSeekerCf);
-		OfferBean offerBean =new OfferBean();
-		offerBean.setId(offerId);
 		candidatureBean.setJobSeeker(jobSeeker);
-		candidatureBean.setOffer(offerBean);
+		candidatureBean.setOffer(offer);
 		return candidatureBean;
 	}
 	
