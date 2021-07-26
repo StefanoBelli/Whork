@@ -37,7 +37,7 @@ if(descError != null) {
 <%
 }
 %>
-		<form method="post" action="/success_posted_offer.jsp">
+		<form method="post" action="/PostOffer">
 			<h2>Offer</h2>
 			
 			<label for="name">Offer name</label>

@@ -146,6 +146,11 @@
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>logic.servlet.AccountServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>PostOfferServlet</servlet-name>
+        <servlet-class>logic.servlet.PostOfferServlet</servlet-class>
+    </servlet>
 
     <!--
         **
@@ -181,6 +186,11 @@
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/accountServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+    	 <servlet-name>PostOfferServlet</servlet-name>
+        <url-pattern>/PostOffer</url-pattern>
     </servlet-mapping>
     
 </web-app>
