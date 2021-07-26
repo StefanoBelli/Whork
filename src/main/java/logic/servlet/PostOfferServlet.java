@@ -50,7 +50,7 @@ public final class PostOfferServlet extends HttpServlet {
 	
 	private void dispatchSuccess(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			req.getRequestDispatcher("offer_successfullt_posted.jsp").forward(req, resp);
+			req.getRequestDispatcher("offer_successfully_posted.jsp").forward(req, resp);
 		} catch(ServletException | IOException e) {
 			Util.exceptionLog(e);
 		}
