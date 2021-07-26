@@ -17,7 +17,12 @@ ISPW project a.y. 2020/2021
  * Project will be compiled iff using JDK version >= 11
  * Project will be run iff JRE version >= 11
  * Database schema requires MySQL Server version >= 8
-
+ * If jfx WebView cannot be shown, most likely it is a module importing error, add the following args to VM:
+   ~~~
+   --add-modules javafx.controls,javafx.fxml,javafx.web --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED
+   ~~~
+   (thanks Mike-98)
+   
 ## Testing
 Testing is achieved on two "levels":
  * Unit testing
