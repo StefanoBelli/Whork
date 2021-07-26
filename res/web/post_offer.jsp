@@ -37,7 +37,7 @@ if(descError != null) {
 <%
 }
 %>
-		<form method="post" action="/PostOffer">
+		<form method="post" action="/postOffer">
 			<h2>Offer</h2>
 			
 			<label for="name">Offer name</label>

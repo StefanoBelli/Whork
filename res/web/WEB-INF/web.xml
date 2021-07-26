@@ -190,7 +190,7 @@
     
     <servlet-mapping>
     	 <servlet-name>PostOfferServlet</servlet-name>
-        <url-pattern>/PostOffer</url-pattern>
+        <url-pattern>/postOffer</url-pattern>
     </servlet-mapping>
     
 </web-app>
