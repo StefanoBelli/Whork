@@ -50,7 +50,7 @@ public final class OfferModel {
 		this.note = note;
 	}
 
-	public String getWorkShit() {
+	public String getWorkShift() {
 		return workShift;
 	}
 
@@ -58,7 +58,7 @@ public final class OfferModel {
 		this.photo = photo;
 	}	
 	
-	public void setWorkShit(String workShift) {
+	public void setWorkShift(String workShift) {
 		this.workShift = workShift;
 	}
 
