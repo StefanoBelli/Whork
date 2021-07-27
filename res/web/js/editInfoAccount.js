@@ -7,6 +7,36 @@ function equalPassword() {
 	else box.disabled = false;
 }
 
+function noEmptyInfo() {
+	var box = document.getElementById('editInfoButton');
+	var name = document.getElementsByName('nameForm')[0].value;
+	var surname = document.getElementsByName('surnameForm')[0].value;
+	var email = document.getElementsByName('emailForm')[0].value;
+	var phone = document.getElementsByName('phoneForm')[0].value;
+	var address = document.getElementsByName('addressForm')[0].value;	
+	
+	if(name.length == 0) box.disabled = true;
+	else if(surname.length == 0) box.disabled = true;
+	else if(email.length == 0) box.disabled = true;
+	else if(phone.length == 0) box.disabled = true;
+	else if(address.length == 0) box.disabled = true;
+	else box.disabled = false;
+}
+
+function noEmptySocial() {
+	var box = document.getElementById('editSocialAccountForm');
+	var website = document.getElementsByName('websiteForm')[0].value;
+	var twitter = document.getElementsByName('twitterForm')[0].value;
+	var facebook = document.getElementsByName('facebookForm')[0].value;
+	var instagram = document.getElementsByName('instagramForm')[0].value;
+	
+	if(website.length == 0) box.disabled = true;
+	else if(twitter.length == 0) box.disabled = true;
+	else if(facebook.length == 0) box.disabled = true;
+	else if(instagram.length == 0) box.disabled = true;
+	else box.disabled = false;
+}
+
 function editBio(bio) {
 	var box = "";
 	
@@ -47,7 +77,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='websiteForm' class='form-control' value='" + website + "'>";
+		edit += "<input type='text' name='websiteForm' class='form-control' onchange='noEmptySocial()' value='" + website + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -60,7 +90,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='twitterForm' class='form-control' value='" + twitter + "'>";
+		edit += "<input type='text' name='twitterForm' class='form-control' onchange='noEmptySocial()' value='" + twitter + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -73,7 +103,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='facebookForm' class='form-control' value='" + facebook + "'>";
+		edit += "<input type='text' name='facebookForm' class='form-control' onchange='noEmptySocial()' value='" + facebook + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -86,7 +116,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='instagramForm' class='form-control' value='" + instagram + "'>";
+		edit += "<input type='text' name='instagramForm' class='form-control' onchange='noEmptySocial()' value='" + instagram + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -121,7 +151,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 			
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='nameForm' class='form-control' value='" + name + "'>";
+		edit += "<input type='text' name='nameForm' class='form-control' onchange='noEmptyInfo()' value='" + name + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -135,7 +165,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 			
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='surnameForm' class='form-control' value='" + surname + "'>";
+		edit += "<input type='text' name='surnameForm' class='form-control' onchange='noEmptyInfo()' value='" + surname + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -149,7 +179,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='emailForm' class='form-control' value='" + email + "'>";
+		edit += "<input type='text' name='emailForm' class='form-control' onchange='noEmptyInfo()' value='" + email + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -162,7 +192,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='phoneForm' class='form-control' value='" + phone + "'>";
+		edit += "<input type='text' name='phoneForm' class='form-control' onchange='noEmptyInfo()' value='" + phone + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -175,7 +205,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='addressForm' class='form-control' value='" + address + "'>";
+		edit += "<input type='text' name='addressForm' class='form-control' onchange='noEmptyInfo()' value='" + address + "'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -185,8 +215,10 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 	
 	box = document.getElementById('editInfoButton');
 	if (box.style.display == 'inline') {
+		box.value = null;
 		box.style.display = 'none';
 	} else {
+		box.value = 'editInfo';
 		box.style.display = 'inline';
 	}
 	
@@ -255,8 +287,10 @@ function changePasswordAccount(){
 	
 	box = document.getElementById('editInfoButton');
 	if (box.style.display == "none") {
+		box.value = 'editPassword';
 		box.style.display = "inline";
 	} else {
+		box.value = null;
 		box.style.display = "none";
 	}
 	

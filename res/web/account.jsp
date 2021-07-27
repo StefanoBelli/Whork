@@ -112,7 +112,7 @@ if(userBean.getPhoto() == null) {
                    <hr>
                    <div class="row">
                      <div class="col-sm-12">
-                     	<button id="editSocialAccountForm" type="submit" class="btn btn-info " style="display:none" >Submit</button>
+                     	<button id="editSocialAccountForm" name="editSocialAccountForm" type="submit" class="btn btn-info " style="display:none" >Submit</button>
                         <a id="editSocialAccountButton" class="btn btn-info " onclick='editSocialAccount("<%=website%>", "<%=twitter%>", "<%=facebook%>", "<%=instagram%>")' ><font color="white">Edit</font></a>
                      </div>
                    </div>
@@ -182,7 +182,7 @@ if(userBean.getPhoto() == null) {
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <button id="editInfoButton" type="submit" class="btn btn-info " style="display:none" >Submit</button>
+                      <button id="editInfoButton" name="editInfoButton" type="submit" class="btn btn-info " style="display:none" >Submit</button>
                       <a id="editInfoAccountButton" class="btn btn-info " style="display:inline" onclick='editInfoAccount("<%=name%>", "<%=surname%>", "<%=email%>", "<%=phone%>", "<%=cf%>", "<%=address%>")' ><font color="white">Edit</font></a>
                       <a id="changePasswordAccountButton" class="btn btn-info " style="display:inline" onclick="changePasswordAccount()" ><font color="white">Change Password</font></a>                      
                     </div>
@@ -212,7 +212,7 @@ if(userBean.getPhoto() == null) {
                  <hr>
                   <div class="row" style="text-align:center">
 	               <div class="col-sm-12">
-	                  <button id="editBioButton" class="btn btn-info " style="display:none" >Submit</button>
+	                  <button id="editBioButton" name="editBioButton" class="btn btn-info " style="display:none" >Submit</button>
                       <a id="editBioForm" class="btn btn-info " style="display:inline" onclick='editBio("<%= bio %>")' ><font color="white">Edit</font></a>
 	                </div>
 	               </div>

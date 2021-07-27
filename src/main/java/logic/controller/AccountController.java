@@ -61,7 +61,6 @@ public final class AccountController {
 		else if (function.equals("JobSeekerBiography"))
 			AccountDao.editJobSeekerBiographyDao(userModel);
 		else if (function.equals("ChangePasswordAccount")) {	
-			System.out.println(userAuthModel.getEmail());
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
 				throw new InvalidPasswordException();							
