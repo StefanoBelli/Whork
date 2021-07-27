@@ -23,12 +23,10 @@ import logic.util.ServletUtil;
 
 public final class AccountServlet extends HttpServlet {	
 	private static final long serialVersionUID = 5039870100867000103L;
-	
 	private static final String ERROR_MSG = 
 			"An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
-	
 	private static final String SUBMIT_INFO_BUTTON = 
-			"editInfoButton";
+			"editInfoButton";	
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -43,21 +41,24 @@ public final class AccountServlet extends HttpServlet {
 			String facebook = req.getParameter("facebookForm");
 			String instagram = req.getParameter("instagramForm");
 			
-			if(!website.equals(userBean.getWebsite()) || !twitter.equals(userBean.getTwitter()) || 
-					!facebook.equals(userBean.getFacebook()) || !instagram.equals(userBean.getInstagram())) {								
-				
-				userBean.setWebsite(website);
-				userBean.setTwitter(twitter);
-				userBean.setFacebook(facebook);
-				userBean.setInstagram(instagram);
-				
-				try {
-					AccountController.editAccountController("SocialAccounts", userBean, null, null);
-				} catch (DataLogicException | InternalException | DataAccessException e) {
-					descriptiveError = ERROR_MSG;
+			if(website != null && twitter != null && facebook != null && instagram != null) {
+			
+				if(!website.equals(userBean.getWebsite()) || !twitter.equals(userBean.getTwitter()) || 
+						!facebook.equals(userBean.getFacebook()) || !instagram.equals(userBean.getInstagram())) {								
+					
+					userBean.setWebsite(website);
+					userBean.setTwitter(twitter);
+					userBean.setFacebook(facebook);
+					userBean.setInstagram(instagram);
+					
+					try {
+						AccountController.editAccountController("SocialAccounts", userBean, null, null);
+					} catch (DataLogicException | InternalException | DataAccessException e) {
+						descriptiveError = ERROR_MSG;
+					}
+					
 				}
-				
-			}			
+			}
 		}
 				
 		if(req.getParameter(SUBMIT_INFO_BUTTON) != null && req.getParameter(SUBMIT_INFO_BUTTON).equals("editInfo")) {

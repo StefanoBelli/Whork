@@ -17,10 +17,15 @@
 	String cf = userBean.getCf();
 	String address = userBean.getHomeAddress();	
 	
-	String website = userBean.getWebsite() == null ? "https://whork.it" : userBean.getWebsite();
-	String twitter = userBean.getTwitter() == null ? "whork" : userBean.getTwitter();
-	String facebook = userBean.getFacebook() == null ? "whork" : userBean.getFacebook();
-	String instagram = userBean.getInstagram() == null ? "whork" : userBean.getInstagram();	
+	if(userBean.getWebsite() == null) userBean.setWebsite("https://whork.it");
+	if(userBean.getTwitter() == null) userBean.setTwitter("whork");
+	if(userBean.getFacebook() == null) userBean.setFacebook("whork");
+	if(userBean.getInstagram() == null) userBean.setInstagram("whork");
+
+	String website = userBean.getWebsite();
+	String twitter = userBean.getTwitter();
+	String facebook = userBean.getFacebook();
+	String instagram = userBean.getInstagram();
 	
 	String bio = userBean.getBiography(); 
 %>
@@ -278,7 +283,7 @@ if(userBean.getPhoto() == null) {
 				<%= listCandidatureBean.get(i).getOffer().getJobPosition().getPosition() %>
 			</td>					
 			<td>
-				<a href="#"><%= CandidatureController.GetEmployeeEmailByCf(listCandidatureBean.get(i).getOffer().getEmployee())%></a>
+				<a href="#"><%= CandidatureController.getEmployeeEmailByCf(listCandidatureBean.get(i).getOffer().getEmployee())%></a>
 			</td>
 			<td>				
 				<button name="deleteCandidatureButton" class="btn btn-7 btn-icon-only icon-remove" value=<%=i%>></button>	 			
