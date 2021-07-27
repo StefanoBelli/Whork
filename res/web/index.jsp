@@ -212,7 +212,7 @@ if(sessionUser == null || sessionUser.isEmployee()){
 <%
 } else { 
 %>
-		<button onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.GetEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
+		<button onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.getEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
 <%
 	if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { 
 %>
