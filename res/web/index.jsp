@@ -151,6 +151,9 @@ if(offers.isEmpty()){
 	for(final OfferBean offer : offers) {
 %>
 	<div class="offer">
+		<div class="name">
+			<b>Name: <%=offer.getOfferName()%></b>
+		</div>
 		<div class="immagine">
 		<%
 if(offer.getPhoto() == null) {
@@ -162,9 +165,6 @@ if(offer.getPhoto() == null) {
 			<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + offer.getPhoto() %>" alt="Image offer" style={width:200px; height=200px;}>
 <%} %>
 		</div>	
-		<div class="name">
-			<b>Name: <%=offer.getOfferName()%></b>
-		</div>
 		<div class="description">
 			<%=offer.getDescription().replace("\n","<br>")%>
 		</div>

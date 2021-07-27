@@ -18,6 +18,7 @@
 	<head>
 		<title>Poster offer - Whork</title>
 		<script src="js/common.js"></script>
+		<script src="js/post_offer.js"></script>
 <%
 UserBean userBean = ServletUtil.getUserForSession(request);
 if(!(userBean.isEmployee() && userBean.isRecruiter())){%>
@@ -37,7 +38,8 @@ if(descError != null) {
 <%
 }
 %>
-		<form enctype="multipart/form-data" method="post" action="/postOffer">
+		<form enctype="multipart/form-data" method="post" action="/postOffer"
+			onsubmit='return check_work_shift();'>
 			<h2>Offer</h2>
 			
 			<label for="name">Offer name</label>
@@ -60,7 +62,7 @@ if(descError != null) {
 			<input type="file" name="offer_photo" accept="image/png, image/jpeg">
 			
 			<label for="work_shift">Work shift</label>
-			<input type="text" name="work_shift" maxlength=13
+			<input type="text" id="work_shift" name="work_shift" maxlength=13
 				placeholder="Enter work shift here ... (HH:mm - HH:mm)" required>
 				
 			<label for="job_position">Job position</label>
@@ -115,7 +117,7 @@ for(final QualificationBean qualify : QualificationPool.getQualifications()) {
 			
 			<label for="note">Offer note</label>
 			<input type="text" name="note" 
-				placeholder="Enter note here ..." required>
+				placeholder="Enter note here ...">
 			
 			
 			<input type="submit" name="post_offer_button" value="Post Offer">

@@ -48,7 +48,9 @@ public final class Util {
 	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 	public static final Pattern FC_PATTERN = Pattern.compile(FC_REGEX);
 	public static final String INADDR_ANY = "0.0.0.0";
-
+	public static final String WORK_SHIFT_REGEX = "^[0-2][0-9]:[0-5][0-9] - [0-2][0-9]:[0-5][0-9]$";
+	public static final Pattern WORK_SHIFT_PATTERN = Pattern.compile(WORK_SHIFT_REGEX);
+	
 	public static void exceptionLog(Exception e) {
 		Logger logger = LoggerFactory.getLogger("WhorkExceptionLogger");
 
