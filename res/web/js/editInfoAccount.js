@@ -37,6 +37,16 @@ function noEmptySocial() {
 	else box.disabled = false;
 }
 
+function changePicture() {
+	var box = document.getElementById('changePictureForm');	
+	
+	if (box.style.display == 'none') 
+		box.style.display = 'inline';
+	else 
+		box.style.display = 'none';
+			
+}
+
 function editBio(bio) {
 	var box = "";
 	
@@ -253,7 +263,7 @@ function changePasswordAccount(){
 		oldPassword += "<h6 class='mb-0'>Old Password</h6>";
 		oldPassword += "</div>";
 		oldPassword += "<div class='col-sm-9 text-secondary'>";
-		oldPassword += "<input type='text' name='oldPasswordForm' class='form-control' value=''>";
+		oldPassword += "<input type='text' name='oldPasswordForm' class='form-control' value='' maxlength='70'>";
 		oldPassword += "</div>";
 		oldPassword += "</div>";
 
@@ -263,7 +273,7 @@ function changePasswordAccount(){
 		newPassword += "<h6 class='mb-0'>New Password</h6>";
 		newPassword += "</div>";
 		newPassword += "<div class='col-sm-9 text-secondary'>";
-		newPassword += "<input type='text' name='newPasswordForm' class='form-control' onchange='equalPassword()' value=''>";
+		newPassword += "<input type='text' name='newPasswordForm' class='form-control' onchange='equalPassword()' value='' maxlength='70'>";
 		newPassword += "</div>";
 		newPassword += "</div>";
 
@@ -273,7 +283,7 @@ function changePasswordAccount(){
 		confirmNewPassoword += "<h6 class='mb-0'>Confirm New Password</h6>";
 		confirmNewPassoword += "</div>";
 		confirmNewPassoword += "<div class='col-sm-9 text-secondary'>";
-		confirmNewPassoword += "<input type='text' name='confirmPasswordForm' onchange='equalPassword()' class='form-control' value=''>";
+		confirmNewPassoword += "<input type='text' name='confirmPasswordForm' onchange='equalPassword()' class='form-control' value='' maxlength='70'>";
 		confirmNewPassoword += "</div>";
 		confirmNewPassoword += "</div>";
 			

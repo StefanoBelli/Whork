@@ -49,32 +49,45 @@
     
     
     <body>   
-     <form action="accountServlet" method="post">  
+     <form enctype="multipart/form-data" action="accountServlet" method="post">  
 	   <div class="container">
 	    <div class="main-body">	     
 	    
 	          <!-- Breadcrumb -->
 	          <nav aria-label="breadcrumb" class="main-breadcrumb">
 	            <ol class="breadcrumb">
-	              <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+	              <li class="breadcrumb-item"><a href="/index.jsp">Home</a></li>
 	              <li class="breadcrumb-item active" aria-current="page">User Profile</li>
 	            </ol>
 	          </nav>
 	          <!-- /Breadcrumb -->
-	          
-<%
-	String descError = (String) request.getAttribute("descriptive_error");
-	if(descError != null) {
+
+ <%
+	String descError = (String) request.getSession().getAttribute("descriptive_error");
+ 	String success = (String) request.getSession().getAttribute("change_alert");
+	
+ 	if(descError != null) {
 %>
-		<h3><%=descError%></h3>
+		<div class="alert alert-danger" role="alert">
+			<%=descError%>
+		</div> 
 <%
+	} if(success != null) {
+%>		
+		<div class="alert alert-success" role="alert">
+			<%=success%>
+		</div>
+<%	
 	}
-%>   
+	request.getSession().setAttribute("descriptive_error", null);
+	request.getSession().setAttribute("change_alert", null);
+%> 
 	          <div class="row gutters-sm">
 	            <div class="col-md-4 mb-3">
 	              <div class="card">
-	                <div class="card-body">
+	                <div class="card-body">	                
 	                  <div class="d-flex flex-column align-items-center text-center">
+	                  <a href="/index.jsp">
 <%
 if(userBean.getPhoto() == null) {
 %>
@@ -86,12 +99,20 @@ if(userBean.getPhoto() == null) {
 <%
 }
 %>
+ </a> 
                     <div class="mt-3">
+                      <label class="btn btn-default btn-file">                      	
+                     	Change Picture 
+                     	<a onclick='changePicture()'>
+                     	  <input type="file" accept=".png, .jpg, .jpeg" name="changePhotoInput" style="display:none">
+                     	  <button id="changePictureForm" name="changePicture" type="submit" class="btn btn-info " style="display:none" >Submit</button>                     	                       	
+                     	</a>
+					  </label>
                       <h4><%= fullName %></h4>
                       <p class="text-secondary mb-1"><%= userBean.getEmploymentStatus().getStatus() %></p>
                       <p class="text-muted font-size-sm"><%= userBean.getComune().getNome() + " (" + userBean.getComune().getProvincia().getSigla() + "), " + userBean.getComune().getCap() %></p>
                     </div>
-                  </div>
+                  </div>                 
                 </div>
               </div>
               

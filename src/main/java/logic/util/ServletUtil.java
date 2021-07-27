@@ -119,4 +119,16 @@ public final class ServletUtil {
 
 		return fileName;
 	}
+	
+	public static void deleteUserFile(String fileName) throws IOException {
+		String path = new StringBuilder()
+				.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA))
+				.append("/").append(fileName).toString();
+				
+		File file = new File(path); 
+	    
+		if(file.delete()) return;
+	    else throw new IOException();
+		
+	}
 }

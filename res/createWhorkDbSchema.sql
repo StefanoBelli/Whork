@@ -1357,7 +1357,7 @@ BEGIN
     
     UPDATE JobSeekerUserDetails
     SET Biography = var_bio
-    WHERE CF = var_cf;    
+    WHERE CF = var_cf;
     
     COMMIT;
 END$$
@@ -1387,6 +1387,29 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure ChangePictureJobSeekerUser
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`ChangePictureJobSeekerUser`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `ChangePictureJobSeekerUser` (in var_cf CHAR(16), in var_photo VARCHAR(4096))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    UPDATE JobSeekerUserDetails
+    SET Photo = var_photo
+    WHERE CF = var_cf;  
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
 
 USE `whorkdb`;
 
@@ -1494,6 +1517,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`DeleteCandidature` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`ChangePictureJobSeekerUser` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

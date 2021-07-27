@@ -1,6 +1,7 @@
 package logic.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserAuthModel;
+import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
@@ -65,5 +67,13 @@ public final class AccountController {
 			
 		}
 	}
+	
+	public static UserBean changePictureAccountJobSeeker(String newPath, UserBean userBean) throws DataAccessException, IOException {
+		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
+		AccountDao.editJobSeekerPictureDao(userModel, newPath);
+		if(userBean.getPhoto() != null)	ServletUtil.deleteUserFile(userBean.getPhoto());
+		userBean.setPhoto(newPath);
+		return userBean;
+	}	
 
 }

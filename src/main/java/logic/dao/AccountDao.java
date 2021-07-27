@@ -29,6 +29,8 @@ public final class AccountDao {
 			"{ call EditJobSeekerInfoAccount(?, ?, ?, ?, ?, ?) }";
 	private static final String EDIT_JOB_SEEKER_BIOGRAPHY = 
 			"{ call EditJobSeekerBiography(?, ?) }";
+	private static final String EDIT_JOB_SEEKER_PICTURE = 
+			"{ call ChangePictureJobSeekerUser(?, ?) }";
 	
 	public static List<CandidatureModel> getSeekerCandidature (UserModel userModel) throws DataAccessException, DataLogicException {
 		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
@@ -88,6 +90,17 @@ public final class AccountDao {
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_BIOGRAPHY)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, userModel.getBiography());
+			stmt.execute();
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+				
+	}
+	
+	public static void editJobSeekerPictureDao(JobSeekerUserModel userModel, String photo) throws DataAccessException {		
+		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_PICTURE)) {
+			stmt.setString(1, userModel.getCf());
+			stmt.setString(2, photo);
 			stmt.execute();
 		} catch(SQLException e) {
 			throw new DataAccessException(e);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 
-
+@MultipartConfig
 public final class AccountServlet extends HttpServlet {	
 	private static final long serialVersionUID = 5039870100867000103L;
 	private static final String ERROR_MSG = 
@@ -33,6 +34,7 @@ public final class AccountServlet extends HttpServlet {
 			throws ServletException, IOException {
 	    UserBean userBean = ServletUtil.getUserForSession(req);
 	    String descriptiveError = null;
+	    String success = null;
 	    		
 		if(req.getParameter("editSocialAccountForm") != null) {			
 			
@@ -53,6 +55,7 @@ public final class AccountServlet extends HttpServlet {
 					
 					try {
 						AccountController.editAccountController("SocialAccounts", userBean, null, null);
+						success = "Social updated successfully!";
 					} catch (DataLogicException | InternalException | DataAccessException e) {
 						descriptiveError = ERROR_MSG;
 					}
@@ -80,6 +83,7 @@ public final class AccountServlet extends HttpServlet {
 				
 				try {
 					AccountController.editAccountController("JobSeekerInfoAccount", userBean, BeanFactory.buildUserAuthBean(email, ""), null);
+					success = "Information updated successfully!";
 				} catch (DataLogicException | InternalException | DataAccessException e) {
 					descriptiveError = ERROR_MSG;
 				}
@@ -99,6 +103,7 @@ public final class AccountServlet extends HttpServlet {
 				try {
 					UserAuthBean userAuthBeanBio = BeanFactory.buildUserAuthBean(ServletUtil.getUserEmailForSession(req), "");
 					AccountController.editAccountController("JobSeekerBiography", userBean, userAuthBeanBio, null);
+					success = "Biography changed successfully!";
 				} catch (DataLogicException | InternalException | DataAccessException e) {
 					descriptiveError = ERROR_MSG;
 				}	
@@ -114,7 +119,7 @@ public final class AccountServlet extends HttpServlet {
 			UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean((String) req.getSession().getAttribute("user-email"), oldPassword);
 			try {					
 				AccountController.editAccountController("ChangePasswordAccount", userBean, userAuthBean, newPassword);
-				descriptiveError = "Password changed successfully!";
+				success = "Password changed successfully!";
 			} catch (DataLogicException | InternalException | DataAccessException e) {
 				descriptiveError = ERROR_MSG;
 			} catch (InvalidPasswordException e) {
@@ -133,7 +138,16 @@ public final class AccountServlet extends HttpServlet {
 			}
 		}
 		
-		if (descriptiveError != null) req.setAttribute("descriptive_error", descriptiveError);
+		if(req.getParameter("changePicture") != null) {
+			try {
+				userBean = AccountController.changePictureAccountJobSeeker(ServletUtil.saveUserFile(req, "changePhotoInput", userBean.getCf()), userBean);
+			} catch (DataAccessException | IOException | ServletException e) {
+				descriptiveError = ERROR_MSG;
+			}
+		}
+		
+		if (descriptiveError != null) req.getSession().setAttribute("descriptive_error", descriptiveError);
+		if (success != null) req.getSession().setAttribute("change_alert", success);
 		
 		req.getSession().setAttribute("user", userBean);
 		
