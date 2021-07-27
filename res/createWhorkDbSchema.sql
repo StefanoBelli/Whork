@@ -1304,7 +1304,7 @@ BEGIN
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Website = var_website AND TwitterID = var_twitter AND FacebookID = var_facebook AND InstagramID = var_instagram
+    SET Website = var_website, TwitterID = var_twitter, FacebookID = var_facebook, InstagramID = var_instagram
     WHERE CF = var_cf;
     
     COMMIT;
@@ -1328,7 +1328,7 @@ BEGIN
     START TRANSACTION;
     
     UPDATE JobSeekerUserDetails
-    SET Name = var_name AND Surname = var_surname AND PhoneNumber = var_phone AND HomeAddress = var_address
+    SET Name = var_name, Surname = var_surname, PhoneNumber = var_phone, HomeAddress = var_address
     WHERE CF = var_cf;
     
     UPDATE Auth
@@ -1358,6 +1358,29 @@ BEGIN
     UPDATE JobSeekerUserDetails
     SET Biography = var_bio
     WHERE CF = var_cf;    
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure DeleteCandidature
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`DeleteCandidature`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `DeleteCandidature` (in var_cf CHAR(16), in var_id INT)
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    DELETE FROM Candidature
+    WHERE JobSeekerUserDetails_CF = var_cf AND Offer_OfferID = var_id;  
     
     COMMIT;
 END$$
@@ -1470,6 +1493,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditSocialAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerInfoAccount` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`DeleteCandidature` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
