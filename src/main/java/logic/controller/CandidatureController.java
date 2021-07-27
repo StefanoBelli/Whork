@@ -9,6 +9,7 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
+import logic.model.JobSeekerUserModel;
 
 public final class CandidatureController {
 	
@@ -31,6 +32,10 @@ public final class CandidatureController {
 	
 	public static String GetEmployeeEmailByCf(UserBean userBean) throws DataLogicException, DataAccessException {
 		return UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean));
+	}
+	
+	public static void deleteCandidature(UserBean userBean, CandidatureBean candidatureBean) throws DataAccessException {		
+		CandidatureDao.deleteCandidatureDao((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));		
 	}
 	
 }

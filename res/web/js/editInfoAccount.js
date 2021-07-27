@@ -77,7 +77,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='websiteForm' class='form-control' onchange='noEmptySocial()' value='" + website + "'>";
+		edit += "<input type='text' name='websiteForm' class='form-control' onchange='noEmptySocial()' value='" + website + "' maxlength='45'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -90,7 +90,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='twitterForm' class='form-control' onchange='noEmptySocial()' value='" + twitter + "'>";
+		edit += "<input type='text' name='twitterForm' class='form-control' onchange='noEmptySocial()' value='" + twitter + "' maxlength='25'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -103,7 +103,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='facebookForm' class='form-control' onchange='noEmptySocial()' value='" + facebook + "'>";
+		edit += "<input type='text' name='facebookForm' class='form-control' onchange='noEmptySocial()' value='" + facebook + "' maxlength='25'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -116,7 +116,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='instagramForm' class='form-control' onchange='noEmptySocial()' value='" + instagram + "'>";
+		edit += "<input type='text' name='instagramForm' class='form-control' onchange='noEmptySocial()' value='" + instagram + "' maxlength='25'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -151,7 +151,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 			
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='nameForm' class='form-control' onchange='noEmptyInfo()' value='" + name + "'>";
+		edit += "<input type='text' name='nameForm' class='form-control' onchange='noEmptyInfo()' value='" + name + "' maxlength='45'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -165,7 +165,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 			
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='surnameForm' class='form-control' onchange='noEmptyInfo()' value='" + surname + "'>";
+		edit += "<input type='text' name='surnameForm' class='form-control' onchange='noEmptyInfo()' value='" + surname + "' maxlength='45'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -179,7 +179,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='emailForm' class='form-control' onchange='noEmptyInfo()' value='" + email + "'>";
+		edit += "<input type='text' name='emailForm' class='form-control' onchange='noEmptyInfo()' value='" + email + "' maxlength='255'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -192,7 +192,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='phoneForm' class='form-control' onchange='noEmptyInfo()' value='" + phone + "'>";
+		edit += "<input type='text' name='phoneForm' class='form-control' onchange='noEmptyInfo()' value='" + phone + "' maxlength='10'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
@@ -205,7 +205,7 @@ function editInfoAccount(name, surname, email, phone, cf, address) {
 		
 		edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='addressForm' class='form-control' onchange='noEmptyInfo()' value='" + address + "'>";
+		edit += "<input type='text' name='addressForm' class='form-control' onchange='noEmptyInfo()' value='" + address + "' maxlength='45'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;

@@ -12,6 +12,7 @@ import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
+import logic.controller.CandidatureController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
@@ -124,7 +125,7 @@ public final class AccountServlet extends HttpServlet {
 			try {
 				int i = Integer.parseInt(req.getParameter("deleteCandidatureButton"));
 				List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
-				AccountController.deleteCandidature(userBean, listCandidatureBean.get(i));
+				CandidatureController.deleteCandidature(userBean, listCandidatureBean.get(i));
 			} catch (DataAccessException | DataLogicException e) {
 				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
 			}
