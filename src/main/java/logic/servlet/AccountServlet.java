@@ -23,6 +23,12 @@ import logic.util.ServletUtil;
 
 public final class AccountServlet extends HttpServlet {	
 	private static final long serialVersionUID = 5039870100867000103L;
+	
+	private static final String ERROR_MSG = 
+			"An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+	
+	private static final String SUBMIT_INFO_BUTTON = 
+			"editInfoButton";
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -38,12 +44,7 @@ public final class AccountServlet extends HttpServlet {
 			String instagram = req.getParameter("instagramForm");
 			
 			if(!website.equals(userBean.getWebsite()) || !twitter.equals(userBean.getTwitter()) || 
-					!facebook.equals(userBean.getFacebook()) || !instagram.equals(userBean.getInstagram())) {			
-				
-				if(website.length() == 0) website = null;
-				if(twitter.length() == 0) twitter = null;
-				if(facebook.length() == 0) facebook = null;
-				if(instagram.length() == 0) instagram = null;				
+					!facebook.equals(userBean.getFacebook()) || !instagram.equals(userBean.getInstagram())) {								
 				
 				userBean.setWebsite(website);
 				userBean.setTwitter(twitter);
@@ -53,13 +54,13 @@ public final class AccountServlet extends HttpServlet {
 				try {
 					AccountController.editAccountController("SocialAccounts", userBean, null, null);
 				} catch (DataLogicException | InternalException | DataAccessException e) {
-					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";;				
+					descriptiveError = ERROR_MSG;
 				}
 				
 			}			
 		}
 				
-		if(req.getParameter("editInfoButton") != null && req.getParameter("editInfoButton").equals("editInfo")) {
+		if(req.getParameter(SUBMIT_INFO_BUTTON) != null && req.getParameter(SUBMIT_INFO_BUTTON).equals("editInfo")) {
 			
 			String name = req.getParameter("nameForm");
 			String surname = req.getParameter("surnameForm");
@@ -79,7 +80,7 @@ public final class AccountServlet extends HttpServlet {
 				try {
 					AccountController.editAccountController("JobSeekerInfoAccount", userBean, BeanFactory.buildUserAuthBean(email, ""), null);
 				} catch (DataLogicException | InternalException | DataAccessException e) {
-					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+					descriptiveError = ERROR_MSG;
 				}
 			}
 			
@@ -98,13 +99,13 @@ public final class AccountServlet extends HttpServlet {
 					UserAuthBean userAuthBeanBio = BeanFactory.buildUserAuthBean(ServletUtil.getUserEmailForSession(req), "");
 					AccountController.editAccountController("JobSeekerBiography", userBean, userAuthBeanBio, null);
 				} catch (DataLogicException | InternalException | DataAccessException e) {
-					descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+					descriptiveError = ERROR_MSG;
 				}	
 			}
 		
 		}
 		
-		if(req.getParameter("editInfoButton") != null && req.getParameter("editInfoButton").equals("editPassword")) {
+		if(req.getParameter(SUBMIT_INFO_BUTTON) != null && req.getParameter(SUBMIT_INFO_BUTTON).equals("editPassword")) {
 			
 			String oldPassword = req.getParameter("oldPasswordForm");
 			String newPassword = req.getParameter("newPasswordForm");
@@ -114,7 +115,7 @@ public final class AccountServlet extends HttpServlet {
 				AccountController.editAccountController("ChangePasswordAccount", userBean, userAuthBean, newPassword);
 				descriptiveError = "Password changed successfully!";
 			} catch (DataLogicException | InternalException | DataAccessException e) {
-				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+				descriptiveError = ERROR_MSG;
 			} catch (InvalidPasswordException e) {
 				descriptiveError = e.getMessage();
 			}
@@ -127,7 +128,7 @@ public final class AccountServlet extends HttpServlet {
 				List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
 				CandidatureController.deleteCandidature(userBean, listCandidatureBean.get(i));
 			} catch (DataAccessException | DataLogicException e) {
-				descriptiveError = "An internal error happened, this is totally our fault. Please report, we have logs and will try to fix asap";
+				descriptiveError = ERROR_MSG;
 			}
 		}
 		

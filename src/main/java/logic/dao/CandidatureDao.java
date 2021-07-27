@@ -80,8 +80,7 @@ public final class CandidatureDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-		
-		return;		
+				
 	}
 
 	

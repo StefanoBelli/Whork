@@ -8,7 +8,6 @@ import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
-import logic.dao.CandidatureDao;
 import logic.dao.UserAuthDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
@@ -26,12 +25,10 @@ public final class AccountController {
 	private AccountController() {}
 	
 	public static List<CandidatureBean> getSeekerCandidature(UserBean userBean) throws DataAccessException, DataLogicException {		
-		List<CandidatureBean> listCandidatureBean = new ArrayList<>();
-		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
+		List<CandidatureBean> listCandidatureBean = new ArrayList<>();		
+		List<CandidatureModel> listCandidatureModel = AccountDao.getSeekerCandidature(ModelFactory.buildUserModel(userBean));
 		
-		listCandidatureModel = AccountDao.getSeekerCandidature(ModelFactory.buildUserModel(userBean));
-		
-		if(listCandidatureModel == null) return null;
+		if(listCandidatureModel == null) return listCandidatureBean;
 		
 		int i = 0;
 		while (i<listCandidatureModel.size()) {

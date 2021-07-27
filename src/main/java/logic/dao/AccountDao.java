@@ -2,8 +2,10 @@ package logic.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import logic.Database;
+import logic.bean.CandidatureBean;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
@@ -29,8 +31,8 @@ public final class AccountDao {
 	private static final String EDIT_JOB_SEEKER_BIOGRAPHY = 
 			"{ call EditJobSeekerBiography(?, ?) }";
 	
-	public static ArrayList<CandidatureModel> getSeekerCandidature (UserModel userModel) throws DataAccessException, DataLogicException {
-		ArrayList<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
+	public static List<CandidatureModel> getSeekerCandidature (UserModel userModel) throws DataAccessException, DataLogicException {
+		List<CandidatureModel> listCandidatureModel = new ArrayList<CandidatureModel>();
 		try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.execute();
@@ -66,7 +68,6 @@ public final class AccountDao {
 			throw new DataAccessException(e);
 		}
 		
-		return;		
 	}
 	
 	public static void editJobSeekerInfoAccountDao(JobSeekerUserModel userModel, String email) throws DataAccessException {		
@@ -81,8 +82,7 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-		
-		return;		
+				
 	}
 	
 	public static void editJobSeekerBiographyDao(JobSeekerUserModel userModel) throws DataAccessException {		
@@ -93,8 +93,7 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-		
-		return;		
+				
 	}
 	
 }
