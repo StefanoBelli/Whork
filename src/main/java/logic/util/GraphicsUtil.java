@@ -2,12 +2,16 @@ package logic.util;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -16,6 +20,10 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import logic.bean.JobCategoryBean;
+import logic.bean.JobPositionBean;
+import logic.bean.QualificationBean;
+import logic.bean.TypeOfContractBean;
 import logic.view.ExceptionView;
 import logic.view.View;
 import logic.view.ViewStack;
@@ -120,5 +128,23 @@ public final class GraphicsUtil {
 				textField.setText(oldValue);
 			}
 		}
+	}
+	
+	public static void loadDataInChoiceBox(ChoiceBox<String> choiceBox,List<?> data, Object object) {
+		List<String> items= new ArrayList<>();
+		items.add("--select an option--");
+		data.forEach(e->
+		{if((object).equals(JobCategoryBean.class)) {
+			items.add(((JobCategoryBean)e).getCategory());
+		}else if((object).equals(JobPositionBean.class)) {
+			items.add(((JobPositionBean)e).getPosition());
+		}else if((object).equals(QualificationBean.class)) {
+			items.add(((QualificationBean)e).getQualify());
+		}else {
+			items.add(((TypeOfContractBean)e).getContract());
+		}		
+		});
+		choiceBox.setItems(FXCollections.observableArrayList(items));
+		choiceBox.getSelectionModel().select(0);
 	}
 }

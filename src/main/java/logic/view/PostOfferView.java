@@ -100,7 +100,7 @@ public final class PostOfferView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-		//searchField.setPromptText(HINT_SEARCH_MSG);
+
 	}
 
 	private void populateScene() {
@@ -120,7 +120,7 @@ public final class PostOfferView implements ControllableView {
 		HBox hboxdetails= new HBox();
 		hboxdetails.setSpacing(60);
 		VBox vboxlbl = new VBox();
-		//vboxlbl.setPadding(new Insets(5, 0, 0, 0));
+
 		vboxlbl.setSpacing(10);
 		VBox vboxtxt = new VBox();
 		vboxlbl.getChildren().add(offerNameMessage);
@@ -147,7 +147,7 @@ public final class PostOfferView implements ControllableView {
 		HBox hboxflt=new HBox();
 		hboxflt.setSpacing(50);
 		VBox vboxfltname=new VBox();
-		//vboxfltname.setPadding(new Insets(5, 0, 0, 0));
+
 		vboxfltname.setSpacing(10);
 		VBox vboxfltdetails=new VBox();
 		vboxfltname.getChildren().add(categoryMessage);
@@ -174,16 +174,9 @@ public final class PostOfferView implements ControllableView {
 		photoDetailLbl.setAlignment(Pos.BOTTOM_LEFT);
 		hboxphoto.getChildren().add(photoDetailLbl);
 		
-		//VBox vboxol = new VBox();
-		//vboxol.setPadding(new Insets(10,10,0,10));
-		//vboxol.getChildren().add(offersLst);
-		
 		
 		vbox.getChildren().add(hboxdetails);
-		/*vbox.getChildren().add(hboxsalary);
-		vbox.getChildren().add(hboxaddress);*/
 		vbox.getChildren().add(hboxflt);
-		//vbox.getChildren().add(vboxol);
 		
 		vbox.getChildren().add(offerDescriptionMessage);
 		offerDescriptionTxt.setMaxWidth(455);

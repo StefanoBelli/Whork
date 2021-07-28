@@ -13,7 +13,11 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import logic.bean.JobCategoryBean;
+import logic.bean.JobPositionBean;
 import logic.bean.OfferBean;
+import logic.bean.QualificationBean;
+import logic.bean.TypeOfContractBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
@@ -67,10 +71,10 @@ public final class HomeViewController extends GraphicsController {
 		typeOfContractCB=(ChoiceBox<String>) n[7];
 		resetBtn = (Button) n[8];
 		
-		loadJobCategories();
-		loadJobPositions();
-		loadQualifications();
-		loadTypesOfContract();
+		GraphicsUtil.loadDataInChoiceBox(jobCategoryCB, JobCategoryPool.getJobCategories(), JobCategoryBean.class);
+		GraphicsUtil.loadDataInChoiceBox(jobPositionCB, JobPositionPool.getJobPositions(), JobPositionBean.class);
+		GraphicsUtil.loadDataInChoiceBox(qualificationCB, QualificationPool.getQualifications(), QualificationBean.class);
+		GraphicsUtil.loadDataInChoiceBox(typeOfContractCB, TypeOfContractPool.getTypesOfContract(), TypeOfContractBean.class);
 
 		setListeners();
 	}
@@ -151,12 +155,8 @@ public final class HomeViewController extends GraphicsController {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
-		private OfferBean offer;
-
 		public HandleChatRequest(OfferBean offer) {
-			this.offer = offer;
 		}
 
 		@Override
@@ -194,44 +194,13 @@ public final class HomeViewController extends GraphicsController {
 	public void update() {
 		dynamicViewUpdate();
 	}
-	
-	private void loadJobCategories() {
-		List<String> category = new ArrayList<>();
-		category.add(SELECT_AN_OPTION);
-		JobCategoryPool.getJobCategories().forEach(e -> category.add(e.getCategory()));
-		jobCategoryCB.setItems(FXCollections.observableArrayList(category));
-		jobCategoryCB.getSelectionModel().select(0);
-	}
 
-	private void loadJobPositions() {
-		List<String> position = new ArrayList<>();
-		position.add(SELECT_AN_OPTION);
-		JobPositionPool.getJobPositions().forEach(e -> position.add(e.getPosition()));
-		jobPositionCB.setItems(FXCollections.observableArrayList(position));
-		jobPositionCB.getSelectionModel().select(0);
-	}
-	
-	private void loadQualifications() {
-		List<String> qualify = new ArrayList<>();
-		qualify.add(SELECT_AN_OPTION);
-		QualificationPool.getQualifications().forEach(e -> qualify.add(e.getQualify()));
-		qualificationCB.setItems(FXCollections.observableArrayList(qualify));
-		qualificationCB.getSelectionModel().select(0);
-	}
-	
-	private void loadTypesOfContract() {
-		List<String> contract = new ArrayList<>();
-		contract.add(SELECT_AN_OPTION);
-		TypeOfContractPool.getTypesOfContract().forEach(e -> contract.add(e.getContract()));
-		typeOfContractCB.setItems(FXCollections.observableArrayList(contract));
-		typeOfContractCB.getSelectionModel().select(0);
-	}
 	
 	private static String strOrNull(String s) {
 		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
 	
-	//@SuppressWarnings({"squid:S110","squid:S1854"})
+	@SuppressWarnings({"squid:S110", "squid:S1854"})
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
 		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> new ListCell<OfferBean>() {
@@ -239,7 +208,9 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
-						setGraphic((new OfferItem()).getBox(itemBean));
+						OfferItem newItem = new OfferItem();
+						newItem.setInfo(itemBean);
+						setGraphic(newItem.getBox());
 					}
 				}
 			}

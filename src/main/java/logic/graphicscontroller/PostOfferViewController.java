@@ -2,10 +2,6 @@ package logic.graphicscontroller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,7 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import logic.bean.JobCategoryBean;
+import logic.bean.JobPositionBean;
 import logic.bean.OfferBean;
+import logic.bean.QualificationBean;
+import logic.bean.TypeOfContractBean;
 import logic.bean.UserBean;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
@@ -35,7 +35,6 @@ import logic.view.PostOfferView;
 import logic.view.ViewStack;
 
 public final class PostOfferViewController extends GraphicsController {
-	private static final String SELECT_AN_OPTION = "--select an option--";
 	private final UserBean sessionUser = LoginHandler.getSessionUser();
 	
 	
@@ -77,11 +76,11 @@ public final class PostOfferViewController extends GraphicsController {
 		workShiftTxt=(TextField) n[11];
 		photoDetailLbl=(Label)n[12];
 		
-		loadJobCategories();
-		loadJobPositions();
-		loadQualifications();
-		loadTypesOfContract();
-		
+		GraphicsUtil.loadDataInChoiceBox(qualificationCB, QualificationPool.getQualifications(), QualificationBean.class);
+		GraphicsUtil.loadDataInChoiceBox(jobCategoryCB, JobCategoryPool.getJobCategories(), JobCategoryBean.class);
+		GraphicsUtil.loadDataInChoiceBox(typeOfContractCB, TypeOfContractPool.getTypesOfContract(), TypeOfContractBean.class);
+		GraphicsUtil.loadDataInChoiceBox(jobPositionCB, JobPositionPool.getJobPositions(), JobPositionBean.class);
+				
 		setListener();
 	}
 
@@ -90,38 +89,6 @@ public final class PostOfferViewController extends GraphicsController {
 		postOfferBtn.setOnMouseClicked(new HandlePostOfferButtonClicked());	
 	}
 
-	private void loadJobCategories() {
-		List<String> category = new ArrayList<>();
-		category.add(SELECT_AN_OPTION);
-		JobCategoryPool.getJobCategories().forEach(e -> category.add(e.getCategory()));
-		jobCategoryCB.setItems(FXCollections.observableArrayList(category));
-		jobCategoryCB.getSelectionModel().select(0);
-	}
-
-	private void loadJobPositions() {
-		List<String> position = new ArrayList<>();
-		position.add(SELECT_AN_OPTION);
-		JobPositionPool.getJobPositions().forEach(e -> position.add(e.getPosition()));
-		jobPositionCB.setItems(FXCollections.observableArrayList(position));
-		jobPositionCB.getSelectionModel().select(0);
-	}
-	
-	private void loadQualifications() {
-		List<String> qualify = new ArrayList<>();
-		qualify.add(SELECT_AN_OPTION);
-		QualificationPool.getQualifications().forEach(e -> qualify.add(e.getQualify()));
-		qualificationCB.setItems(FXCollections.observableArrayList(qualify));
-		qualificationCB.getSelectionModel().select(0);
-	}
-	
-	private void loadTypesOfContract() {
-		List<String> contract = new ArrayList<>();
-		contract.add(SELECT_AN_OPTION);
-		TypeOfContractPool.getTypesOfContract().forEach(e -> contract.add(e.getContract()));
-		typeOfContractCB.setItems(FXCollections.observableArrayList(contract));
-		typeOfContractCB.getSelectionModel().select(0);
-	}
-	
 	@Override
 	public void update() {
 		//no need to update anything
