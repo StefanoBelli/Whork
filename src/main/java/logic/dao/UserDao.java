@@ -144,7 +144,7 @@ public final class UserDao {
 		}
 	}
 	
-	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException {
+	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
 		String email = null;
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_EMAIL_BY_CF)) {
 			stmt.setString(1, userModel.getCf());
@@ -158,7 +158,7 @@ public final class UserDao {
 				email = rs.getString(1);
 			}
 		} catch(SQLException e) {
-			e.printStackTrace();
+			throw new DataAccessException(e);
 		}
 		return email;
 		

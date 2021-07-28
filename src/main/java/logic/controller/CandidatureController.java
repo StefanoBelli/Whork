@@ -30,7 +30,7 @@ public final class CandidatureController {
 		}
 	}
 	
-	public static String getEmployeeEmailByCf(UserBean userBean) throws DataLogicException {
+	public static String getEmployeeEmailByCf(UserBean userBean) throws DataLogicException, DataAccessException {
 		return UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean));
 	}
 	
