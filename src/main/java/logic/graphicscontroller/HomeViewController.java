@@ -14,12 +14,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import logic.bean.OfferBean;
-import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.factory.BeanFactory;
+import logic.graphicscontroller.state.Context;
 import logic.pool.JobCategoryPool;
 import logic.pool.JobPositionPool;
 import logic.pool.QualificationPool;
@@ -167,17 +167,21 @@ public final class HomeViewController extends GraphicsController {
 
 	public static final class HandleCandidateRequest implements EventHandler<MouseEvent> {
 		private OfferBean offer;
+		private Context context;
 		private Button candidateBtn;
 
-		public HandleCandidateRequest(OfferBean offer, Button candidateBtn) {
+		public HandleCandidateRequest(OfferBean offer, Button candidateBtn, Context context) {
 			this.offer = offer;
+			this.context=context;
 			this.candidateBtn=candidateBtn;
+			
 		}
 
 		@Override
 		public void handle(MouseEvent event) {
 			try {
 				CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(offer, LoginHandler.getSessionUser()));
+				context.candidate();
 				candidateBtn.setDisable(true);
 			} catch (DataAccessException e) {
 				Util.exceptionLog(e);
@@ -227,7 +231,7 @@ public final class HomeViewController extends GraphicsController {
 		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
 	
-	@SuppressWarnings({"squid:S110", "squid:S1854"})
+
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
 		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> new ListCell<OfferBean>() {
@@ -235,18 +239,9 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
-						try {
-							final UserBean sessionUser = LoginHandler.getSessionUser();
-							final boolean hasNoSessionUser = sessionUser == null || sessionUser.isEmployee();
-							final boolean disableCandidatureBtn =
-								hasNoSessionUser ||
-								CandidatureController.getCandidature(itemBean.getId(), sessionUser.getCf()) != null;
-							OfferItem newItem = new OfferItem(hasNoSessionUser, disableCandidatureBtn);
-							newItem.setInfo(itemBean);
-							setGraphic(newItem.getBox());
-						} catch (DataAccessException | DataLogicException e) {
-							GraphicsUtil.showExceptionStage(e);
-						}
+						OfferItem newItem = new OfferItem();
+						newItem.setInfo(itemBean);
+						setGraphic(newItem.getBox());
 					}
 				}
 			}

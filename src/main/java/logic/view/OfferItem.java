@@ -14,19 +14,16 @@ import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import logic.bean.OfferBean;
 import logic.graphicscontroller.HomeViewController;
+import logic.graphicscontroller.LoginHandler;
+import logic.graphicscontroller.state.Context;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public final class OfferItem {
-	private boolean isNoUserLoggedIn;
-	private boolean isCandidateBtnDisable;
-
 	private static final double WEBVIEW_MAX_HEIGHT = 200;
 	private static final double MAX_WIDTH = 200;
 
-	public OfferItem(boolean isNoUserLoggedIn, boolean isCandidateBtnDisable) {
-		this.isNoUserLoggedIn = isNoUserLoggedIn;
-		this.isCandidateBtnDisable = isCandidateBtnDisable;
+	public OfferItem() {
 	}
 
 	private HBox itemBox;
@@ -44,6 +41,7 @@ public final class OfferItem {
 	private WebView mapWebView;
 	private Button chatBtn;
 	private Button candidateBtn;
+	private Context context;
 	
 	private void init() {
 		itemBox=new HBox();
@@ -59,14 +57,16 @@ public final class OfferItem {
 		typeOfContractLbl= new Label();
 		publishDateLbl= new Label();
 		mapWebView= new WebView();
-		chatBtn=new Button();
-		candidateBtn=new Button();
+		chatBtn=new Button("Chat with Recruiter");
+		candidateBtn=new Button("Candidate");
 	}
 	
 
 	public void setInfo(OfferBean itemBean) {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
+		
+
 		
 		init();
 		
@@ -101,10 +101,12 @@ public final class OfferItem {
 		mapWebView.setMaxWidth(MAX_WIDTH);
 		mapWebView.setDisable(true);
 		
-		chatBtn.setText("Chat with Recruiter");
-		candidateBtn.setText("Candidate");
-		chatBtn.setDisable(isNoUserLoggedIn);
-		candidateBtn.setDisable(isCandidateBtnDisable);
+
+		context=new Context(LoginHandler.getSessionUser(), itemBean, candidateBtn, chatBtn);
+		
+		//chatBtn.setDisable(!context.getValue().get(0));
+		//candidateBtn.setDisable(!context.getValue().get(1));
+
 		
 		
 		setListeners(itemBean);
@@ -112,7 +114,7 @@ public final class OfferItem {
 
 	private void setListeners(OfferBean itemBean) {
 		chatBtn.setOnMouseClicked(new HomeViewController.HandleChatRequest(itemBean));
-		candidateBtn.setOnMouseClicked(new HomeViewController.HandleCandidateRequest(itemBean, candidateBtn));
+		candidateBtn.setOnMouseClicked(new HomeViewController.HandleCandidateRequest(itemBean, candidateBtn, context));
 	}
 
 	public Node getBox() {
