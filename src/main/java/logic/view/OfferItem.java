@@ -23,9 +23,6 @@ public final class OfferItem {
 	private static final double WEBVIEW_MAX_HEIGHT = 200;
 	private static final double MAX_WIDTH = 200;
 
-	public OfferItem() {
-	}
-
 	private HBox itemBox;
 	private ImageView offerImg;
 	private Text offerNameTxt;
@@ -66,8 +63,6 @@ public final class OfferItem {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 		
-
-		
 		init();
 		
 		offerImg.setFitWidth(MAX_WIDTH);
@@ -101,13 +96,7 @@ public final class OfferItem {
 		mapWebView.setMaxWidth(MAX_WIDTH);
 		mapWebView.setDisable(true);
 		
-
-		context=new Context(LoginHandler.getSessionUser(), itemBean, candidateBtn, chatBtn);
-		
-		//chatBtn.setDisable(!context.getValue().get(0));
-		//candidateBtn.setDisable(!context.getValue().get(1));
-
-		
+		context = new Context(LoginHandler.getSessionUser(), itemBean, candidateBtn, chatBtn);
 		
 		setListeners(itemBean);
 	}

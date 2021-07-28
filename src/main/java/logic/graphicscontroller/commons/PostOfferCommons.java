@@ -24,8 +24,7 @@ public final class PostOfferCommons {
 				"Check logs to get more infos").showAndWait();
 		}
 	
-	
-		public static void success(String name, String offerName) {
+		public static void success(String name) {
 			StringBuilder msgBuilder = new StringBuilder("You successfully post an offer"
 					+ " for Whork.\nThe Whork team.");
 

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -121,14 +122,9 @@ public final class ServletUtil {
 	}
 	
 	public static void deleteUserFile(String fileName) throws IOException {
-		String path = new StringBuilder()
+		final String path = new StringBuilder()
 				.append(Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA))
 				.append("/").append(fileName).toString();
-				
-		File file = new File(path); 
-	    
-		if(file.delete()) return;
-	    else throw new IOException();
-		
+		Files.deleteIfExists(Paths.get(path));
 	}
 }

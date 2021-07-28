@@ -122,11 +122,9 @@ public final class PostOfferViewController extends GraphicsController {
 		typeOfContractCB.getSelectionModel().select(0);
 	}
 	
-	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		//no need to update anything
 	}
 	
 	private final class HandleOfferPhotoButtonClicked implements EventHandler<MouseEvent> {
@@ -188,7 +186,7 @@ public final class PostOfferViewController extends GraphicsController {
 		}
 	
 		private void showSuccessDialogAndCloseStage() {
-			PostOfferCommons.ShowAndWaitDialog.success(sessionUser.getName(),name);
+			PostOfferCommons.ShowAndWaitDialog.success(sessionUser.getName());
 			((Stage) view.getScene().getWindow()).close();
 		}
 
