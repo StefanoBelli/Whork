@@ -231,7 +231,7 @@ public final class HomeViewController extends GraphicsController {
 		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
 	
-
+	@SuppressWarnings({"squid:S110","squid:S1854"})
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
 		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> new ListCell<OfferBean>() {

@@ -24,23 +24,13 @@ public final class Context {
 	public void setState(OfferButtonsState state) {
 		this.state=state;
 	}
-	
-	public OfferButtonsState getState() {
-		return this.state;
-	}
 
 	public void candidate() {
 		state.candidate(this, candidateBtn);
 	}
 	
-	public void logout() {
-		state.logout(this);
-		candidateBtn.setDisable(true);
-		chatBtn.setDisable(true);
-	}
-	
 	public void login() {
-		state.login(this, user, offer, chatBtn);
+		state.login(this, user, offer, candidateBtn, chatBtn);
 	}
 	
 	
