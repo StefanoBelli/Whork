@@ -1,0 +1,3 @@
+ste: InvalidVATCodeException
+ste: DataAccessException
+ste: AlreadyRegisteredCommandException (optional, unchecked)
