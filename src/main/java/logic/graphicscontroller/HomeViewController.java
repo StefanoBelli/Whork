@@ -231,7 +231,7 @@ public final class HomeViewController extends GraphicsController {
 		return s.equals(SELECT_AN_OPTION) ? null : s;
 	}
 	
-	@SuppressWarnings({"squid:S110","squid:S1854"})
+	//@SuppressWarnings({"squid:S110","squid:S1854"})
 	private void fillListView(ObservableList<OfferBean> list) {
 		offersLst.setItems(list);
 		offersLst.setCellFactory((ListView<OfferBean> oUnused) -> new ListCell<OfferBean>() {
@@ -239,9 +239,7 @@ public final class HomeViewController extends GraphicsController {
 				public void updateItem(OfferBean itemBean, boolean empty) {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
-						OfferItem newItem = new OfferItem();
-						newItem.setInfo(itemBean);
-						setGraphic(newItem.getBox());
+						setGraphic((new OfferItem()).getBox(itemBean));
 					}
 				}
 			}

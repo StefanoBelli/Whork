@@ -106,7 +106,8 @@ public final class OfferItem {
 		candidateBtn.setOnMouseClicked(new HomeViewController.HandleCandidateRequest(itemBean, candidateBtn, context));
 	}
 
-	public Node getBox() {
+	public Node getBox(OfferBean itemBean) {
+		setInfo(itemBean);
 		itemBox.getChildren().add(offerImg);
 		
 		itemBox.setSpacing(20);
