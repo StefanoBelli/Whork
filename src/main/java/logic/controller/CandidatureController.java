@@ -35,7 +35,7 @@ public final class CandidatureController {
 	}
 	
 	public static void deleteCandidature(UserBean userBean, CandidatureBean candidatureBean) throws DataAccessException {		
-		CandidatureDao.deleteCandidatureDao((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));		
+		CandidatureDao.deleteCandidature((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));		
 	}
 	
 }

@@ -50,11 +50,11 @@ public final class AccountController {
 		if(function == null) throw new InternalException("Function value cannot be null");
 		
 		if (function.equals("SocialAccounts")) 
-			AccountDao.editSocialAccountDao(userModel);		
+			AccountDao.editSocialAccount (userModel);		
 		else if (function.equals("JobSeekerInfoAccount"))
-			AccountDao.editJobSeekerInfoAccountDao(userModel, userAuthModel.getEmail());
+			AccountDao.editJobSeekerInfoAccount (userModel, userAuthModel.getEmail());
 		else if (function.equals("JobSeekerBiography"))
-			AccountDao.editJobSeekerBiographyDao(userModel);
+			AccountDao.editJobSeekerBiography (userModel);
 		else if (function.equals("ChangePasswordAccount")) {	
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
@@ -70,7 +70,7 @@ public final class AccountController {
 	
 	public static UserBean changePictureAccountJobSeeker(String newPath, UserBean userBean) throws DataAccessException, IOException {
 		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
-		AccountDao.editJobSeekerPictureDao(userModel, newPath);
+		AccountDao.editJobSeekerPicture (userModel, newPath);
 		if(userBean.getPhoto() != null)	ServletUtil.deleteUserFile(userBean.getPhoto());
 		userBean.setPhoto(newPath);
 		return userBean;

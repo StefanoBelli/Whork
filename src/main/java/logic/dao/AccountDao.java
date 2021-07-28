@@ -32,7 +32,7 @@ public final class AccountDao {
 	private static final String EDIT_JOB_SEEKER_PICTURE = 
 			"{ call ChangePictureJobSeekerUser(?, ?) }";
 	
-	public static List<CandidatureModel> getSeekerCandidature (UserModel userModel) throws DataAccessException, DataLogicException {
+	public static List<CandidatureModel> getSeekerCandidature(UserModel userModel) throws DataAccessException, DataLogicException {
 		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(GET_SEEKER_CANDIDATURE)) {
 			stmt.setString(1, userModel.getCf());
@@ -57,7 +57,7 @@ public final class AccountDao {
 		return listCandidatureModel;		
 	}
 	
-	public static void editSocialAccountDao(JobSeekerUserModel user) throws DataAccessException {		
+	public static void editSocialAccount(JobSeekerUserModel user) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_SOCIAL_ACCOUNT)) {
 			stmt.setString(1, user.getCf());
 			stmt.setString(2, user.getWebsite());
@@ -71,7 +71,7 @@ public final class AccountDao {
 		
 	}
 	
-	public static void editJobSeekerInfoAccountDao(JobSeekerUserModel userModel, String email) throws DataAccessException {		
+	public static void editJobSeekerInfoAccount(JobSeekerUserModel userModel, String email) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_INFO_ACCOUNT)) {			
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, userModel.getName());
@@ -86,7 +86,7 @@ public final class AccountDao {
 				
 	}
 	
-	public static void editJobSeekerBiographyDao(JobSeekerUserModel userModel) throws DataAccessException {		
+	public static void editJobSeekerBiography(JobSeekerUserModel userModel) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_BIOGRAPHY)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, userModel.getBiography());
@@ -97,7 +97,7 @@ public final class AccountDao {
 				
 	}
 	
-	public static void editJobSeekerPictureDao(JobSeekerUserModel userModel, String photo) throws DataAccessException {		
+	public static void editJobSeekerPicture(JobSeekerUserModel userModel, String photo) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(EDIT_JOB_SEEKER_PICTURE)) {
 			stmt.setString(1, userModel.getCf());
 			stmt.setString(2, photo);
