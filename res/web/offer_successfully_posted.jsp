@@ -19,7 +19,6 @@ if(name != null && offer_name != null) {
 		Yay! <%=name%> You did it! You successfully post offer <%=offer_name%>.<br/>
 		The Whork team.
 		You will be redirected to login page in 10 seconds...
-
 	</body>
 </html>
 <%

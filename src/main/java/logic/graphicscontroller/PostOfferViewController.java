@@ -148,12 +148,12 @@ public final class PostOfferViewController extends GraphicsController {
 					return;
 				}
 
-				showSuccessDialogAndCloseStage();
+				showSuccessDialogAndCloseStage(name);
 			}
 		}
 	
-		private void showSuccessDialogAndCloseStage() {
-			PostOfferCommons.ShowAndWaitDialog.success(sessionUser.getName());
+		private void showSuccessDialogAndCloseStage(String offName) {
+			PostOfferCommons.ShowAndWaitDialog.success(sessionUser.getName(), offName);
 			((Stage) view.getScene().getWindow()).close();
 		}
 

@@ -24,14 +24,16 @@ public final class PostOfferCommons {
 				"Check logs to get more infos").showAndWait();
 		}
 	
-		public static void success(String name) {
-			StringBuilder msgBuilder = new StringBuilder("You successfully post an offer"
-					+ " for Whork.\nThe Whork team.");
+		public static void success(String name, String offerName) {
+			final StringBuilder msgBuilder = 
+				new StringBuilder("You successfully post an offer")
+				.append(offerName)
+				.append(" for Whork.\nThe Whork team.");
 
 			DialogFactory.info(
-					"Success",
-					new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
-			msgBuilder.toString()
+				"Success",
+				new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
+				msgBuilder.toString()
 			).showAndWait();
 		}
 		
