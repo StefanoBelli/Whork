@@ -34,6 +34,21 @@
         <filter-name>MustBeLoggedInFilter</filter-name>
         <url-pattern>/post_offer.jsp</url-pattern>
     </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MustBeLoggedInFilter</filter-name>
+        <url-pattern>/offer_successfully_posted.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MustBeLoggedInFilter</filter-name>
+        <url-pattern>/postOffer</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MustBeLoggedInFilter</filter-name>
+        <url-pattern>/accountServlet</url-pattern>
+    </filter-mapping>
     
     <!--
         **
@@ -189,8 +204,7 @@
     </servlet-mapping>
     
     <servlet-mapping>
-    	 <servlet-name>PostOfferServlet</servlet-name>
+        <servlet-name>PostOfferServlet</servlet-name>
         <url-pattern>/postOffer</url-pattern>
     </servlet-mapping>
-    
 </web-app>
