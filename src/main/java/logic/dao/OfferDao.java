@@ -13,6 +13,7 @@ import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
+import logic.model.CompanyModel;
 import logic.model.EmployeeUserModel;
 import logic.model.OfferModel;
 
@@ -31,8 +32,14 @@ public final class OfferDao {
 			"{ call UpdateNumClick(?) }";
 	private static final String MAIN_STMT_POST_OFFER = 
 			"{ call PostOffer(?,?, ?,?,?,?,?,?,?,?,?,?,?,?) }";
+	private static final String TOTAL_NUMBER_OFFERS = 
+			"{ call TotalNumberOffers(?) }";
+	private static final String TOTAL_NUMBER_OF_CLICK = 
+			"{ call TotalNumberOfClick(?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MOREOFFERS = 
 			"Multiple offers detected with same Id";
+	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
+			"More than two result set, this is unexpected";
 	
 	public static void updateClickStats(CandidatureModel candidatureModel) 
 			throws DataAccessException {
@@ -170,5 +177,44 @@ public final class OfferDao {
 		}
 
 		return s.isBlank() ? null : s;
+	}
+	
+	public static int totalNumberOffers(CompanyModel company) throws DataAccessException, DataLogicException {		
+		int n = 0;
+		try (CallableStatement stmt = CONN.prepareCall(TOTAL_NUMBER_OFFERS)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+			
+			try (ResultSet rs = stmt.getResultSet()) {				
+				if(!rs.next()) 
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);				
+				
+				n = rs.getInt(1);
+			}
+			
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		
+		return n;
+	}
+	
+	public static int totalNumberOfClick(CompanyModel company) throws DataAccessException, DataLogicException {		
+		int n = 0;
+		try (CallableStatement stmt = CONN.prepareCall(TOTAL_NUMBER_OF_CLICK)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+			
+			try (ResultSet rs = stmt.getResultSet()) {				
+				if(!rs.next()) 
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);				
+				
+				n = rs.getInt(1);
+			}
+			
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return n;
 	}
 }

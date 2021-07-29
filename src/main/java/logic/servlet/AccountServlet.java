@@ -77,7 +77,7 @@ public final class AccountServlet extends HttpServlet {
 
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-				throws DataAccessException, DataLogicException, InternalException {
+				throws DataAccessException, DataLogicException, InternalException, InvalidPasswordException {
 			if (req.getParameter("editSocialAccountForm") != null) {
 				String website = req.getParameter("websiteForm");
 				String twitter = req.getParameter("twitterForm");
@@ -107,7 +107,7 @@ public final class AccountServlet extends HttpServlet {
 
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-				throws DataAccessException, DataLogicException, InternalException {
+				throws DataAccessException, DataLogicException, InternalException, InvalidPasswordException {
 			if (req.getParameter(SUBMIT_INFO_BUTTON) != null
 					&& req.getParameter(SUBMIT_INFO_BUTTON).equals("editInfo")) {
 				String name = req.getParameter("nameForm");
@@ -140,7 +140,7 @@ public final class AccountServlet extends HttpServlet {
 
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-				throws DataAccessException, DataLogicException, InternalException {
+				throws DataAccessException, DataLogicException, InternalException, InvalidPasswordException {
 			if (req.getParameter("editBioButton") != null) {
 				String bio = req.getParameter("editBioTextForm");
 
@@ -165,7 +165,7 @@ public final class AccountServlet extends HttpServlet {
 
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-				throws DataAccessException, DataLogicException, InternalException {
+				throws DataAccessException, DataLogicException, InternalException, InvalidPasswordException {
 			if (req.getParameter(SUBMIT_INFO_BUTTON) != null
 					&& req.getParameter(SUBMIT_INFO_BUTTON).equals("editPassword")) {
 				String oldPassword = req.getParameter("oldPasswordForm");

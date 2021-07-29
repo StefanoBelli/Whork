@@ -6,9 +6,16 @@
 <%@ page import="logic.bean.CandidatureBean" %>
 <%@ page import="logic.controller.AccountController" %>
 <%@ page import="logic.controller.CandidatureController" %>
+<%@ page import="logic.pool.ComuniPool" %>
+<%@ page import="logic.bean.ComuneBean" %>
+<%@ page import="logic.bean.ProvinciaBean" %>
+<%@ page import="logic.bean.RegioneBean" %>
+<%@ page import="java.util.Date" %>
 
 <%
     UserBean userBean = ServletUtil.getUserForSession(request);
+	String name = userBean.getName();
+	String surname = userBean.getSurname();
 %>
 
 <!DOCTYPE HTML>
@@ -29,19 +36,40 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
+    <title>Account - Whork</title>
     <!-- Custom CSS -->
     <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
     <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/whork.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+ 	<link href="https://fonts.googleapis.com/css2?family=Kameron&display=swap" rel="stylesheet">
+ 	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+ 	<link rel="stylesheet" href="css/accountAdminCompany.css">
+ 	
+ 	 <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <!-- apps -->
+    <script src="../dist/js/app-style-switcher.js"></script>
+    <script src="../dist/js/feather.min.js"></script>
+    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <script src="../assets/extra-libs/c3/d3.min.js"></script>
+    <script src="../assets/extra-libs/c3/c3.min.js"></script>
+    <script src="../assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>    
 </head>
 
 <body>
@@ -73,21 +101,8 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="index.html">
-                            <b class="logo-icon">
-                                <!-- Dark Logo icon -->
-                                <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo icon -->
-                                <img src="../assets/images/logo-icon.png" alt="homepage" class="light-logo" />
-                            </b>
-                            <!--End Logo icon -->
-                            <!-- Logo text -->
-                            <span class="logo-text">
-                                <!-- dark Logo text -->
-                                <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo text -->
-                                <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
-                            </span>
+                        <a href="index.jsp">
+                            <span class="whork"> W<span class="hred">h</span>ork</span>
                         </a>
                     </div>
                     <!-- ============================================================== -->
@@ -105,133 +120,11 @@
                 <!-- End Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
-                        <!-- Notification -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
-                                id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <span><i data-feather="bell" class="svg-icon"></i></span>
-                                <span class="badge badge-primary notify-no rounded-circle">5</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
-                                <ul class="list-style-none">
-                                    <li>
-                                        <div class="message-center notifications position-relative">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <div class="btn btn-danger rounded-circle btn-circle"><i
-                                                        data-feather="airplay" class="text-white"></i></div>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Luanch Admin</h6>
-                                                    <span class="font-12 text-nowrap d-block text-muted">Just see
-                                                        the my new
-                                                        admin!</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-success text-white rounded-circle btn-circle"><i
-                                                        data-feather="calendar" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Event today</h6>
-                                                    <span
-                                                        class="font-12 text-nowrap d-block text-muted text-truncate">Just
-                                                        a reminder that you have event</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:10 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-info rounded-circle btn-circle"><i
-                                                        data-feather="settings" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Settings</h6>
-                                                    <span
-                                                        class="font-12 text-nowrap d-block text-muted text-truncate">You
-                                                        can customize this template
-                                                        as you want</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:08 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)"
-                                                class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                                <span class="btn btn-primary rounded-circle btn-circle"><i
-                                                        data-feather="box" class="text-white"></i></span>
-                                                <div class="w-75 d-inline-block v-middle pl-2">
-                                                    <h6 class="message-title mb-0 mt-1">Pavan kumar</h6> <span
-                                                        class="font-12 text-nowrap d-block text-muted">Just
-                                                        see the my admin!</span>
-                                                    <span class="font-12 text-nowrap d-block text-muted">9:02 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link pt-3 text-center text-dark" href="javascript:void(0);">
-                                            <strong>Check all notifications</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <!-- End Notification -->
-                        <!-- ============================================================== -->
-                        <!-- create new -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i data-feather="settings" class="svg-icon"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <div class="customize-input">
-                                    <select
-                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                        <option selected>EN</option>
-                                        <option value="1">AB</option>
-                                        <option value="2">AK</option>
-                                        <option value="3">BE</option>
-                                    </select>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                   
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
                     <!-- ============================================================== -->
-                    <ul class="navbar-nav float-right">
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <form>
-                                    <div class="customize-input">
-                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
-                                            type="search" placeholder="Search" aria-label="Search">
-                                        <i class="form-control-icon" data-feather="search"></i>
-                                    </div>
-                                </form>
-                            </a>
-                        </li>
+                    <ul class="navbar-nav float-right">                       
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -241,7 +134,7 @@
                                 <img src="../assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
                                     width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
+                                        class="text-dark"><%=name%> <%=surname%></span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
@@ -259,7 +152,7 @@
                                         class="svg-icon mr-2 ml-1"></i>
                                     Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                                <a class="dropdown-item" href="/logout"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>
@@ -515,23 +408,19 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning Jason!</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good <%=name%> <%=surname%>!</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                                    <li class="breadcrumb-item">Dashboard
                                     </li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                     <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
+                        <div class="customize-input float-right">                        
+                            <a><%=new Date().toString().substring(0, 10)%></a>
                         </div>
                     </div>
                 </div>
@@ -552,11 +441,9 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">236</h2>
-                                        <span
-                                            class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><%=AccountController.getNumberOfEmployees(userBean)%></h2>                                        
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Clients</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Number of employees of the company on this site</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
@@ -568,10 +455,8 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                            class="set-doller">$</sup>18,306</h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Earnings of Month
-                                    </h6>
+                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><%=AccountController.getNumberOfOffers(userBean)%></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Number of Offers posted</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
@@ -584,31 +469,21 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">1538</h2>
-                                        <span
-                                            class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">-18.33%</span>
+                                        <h2 class="text-dark mb-1 font-weight-medium">
+                                        <%
+                                        Integer click = AccountController.getNumberOfClick(userBean);
+                                        click = (click==null) ? 0 : click;
+                                        %>
+                                        <%=click%></h2>                                        
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Projects</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total number of clicks</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                    <h2 class="text-dark mb-1 font-weight-medium">864</h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Projects</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
                 <!-- *************************************************************** -->
                 <!-- End First Cards -->
@@ -656,7 +531,7 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Earning by Location</h4>
+                                <h4 class="card-title mb-4">Candidates by Location</h4>
                                 <div class="" style="height:180px">
                                     <div id="visitbylocate" style="height:100%"></div>
                                 </div>
@@ -755,59 +630,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Recent Activity</h4>
-                                <div class="mt-4 activity">
-                                    <div class="d-flex align-items-start border-left-line pb-3">
-                                        <div>
-                                            <a href="javascript:void(0)" class="btn btn-info btn-circle mb-2 btn-item">
-                                                <i data-feather="shopping-cart"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">New Product Sold!</h5>
-                                            <p class="font-14 mb-2 text-muted">John Musa just purchased <br> Cannon 5M
-                                                Camera.
-                                            </p>
-                                            <span class="font-weight-light font-14 text-muted">10 Minutes Ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-start border-left-line pb-3">
-                                        <div>
-                                            <a href="javascript:void(0)"
-                                                class="btn btn-danger btn-circle mb-2 btn-item">
-                                                <i data-feather="message-square"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">New Support Ticket</h5>
-                                            <p class="font-14 mb-2 text-muted">Richardson just create support <br>
-                                                ticket</p>
-                                            <span class="font-weight-light font-14 text-muted">25 Minutes Ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-start border-left-line">
-                                        <div>
-                                            <a href="javascript:void(0)" class="btn btn-cyan btn-circle mb-2 btn-item">
-                                                <i data-feather="bell"></i>
-                                            </a>
-                                        </div>
-                                        <div class="ml-3 mt-2">
-                                            <h5 class="text-dark font-weight-medium mb-2">Notification Pending Order!
-                                            </h5>
-                                            <p class="font-14 mb-2 text-muted">One Pending order from Ryne <br> Doe</p>
-                                            <span class="font-weight-light font-14 mb-1 d-block text-muted">2 Hours
-                                                Ago</span>
-                                            <a href="javascript:void(0)" class="font-14 border-bottom pb-1 border-info">Load More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
                 <!-- *************************************************************** -->
                 <!-- End Location and Earnings Charts Section -->
@@ -820,7 +643,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4">
-                                    <h4 class="card-title">Top Leaders</h4>
+                                    <h4 class="card-title">Recruiters</h4>
                                     <div class="ml-auto">
                                         <div class="dropdown sub-dropdown">
                                             <button class="btn btn-link text-muted dropdown-toggle" type="button"
@@ -828,9 +651,7 @@
                                                 aria-expanded="false">
                                                 <i data-feather="more-vertical"></i>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" href="#">Insert</a>
-                                                <a class="dropdown-item" href="#">Update</a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">                                                
                                                 <a class="dropdown-item" href="#">Delete</a>
                                             </div>
                                         </div>
@@ -840,18 +661,12 @@
                                     <table class="table no-wrap v-middle mb-0">
                                         <thead>
                                             <tr class="border-0">
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Team Lead
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Recruiter
                                                 </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">Project
+                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">Fiscal Code
                                                 </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Team</th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted text-center">
-                                                    Status
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted text-center">
-                                                    Weeks
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Budget</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Number of Post</th>                                                                                               
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Phone Number</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -869,27 +684,9 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>                                                
+                                                <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>                                                
                                                 <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>
-                                                <td class="border-top-0 px-2 py-4">
-                                                    <div class="popover-icon">
-                                                        <a class="btn btn-primary rounded-circle btn-circle font-12"
-                                                            href="javascript:void(0)">DS</a>
-                                                        <a class="btn btn-danger rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">SS</a>
-                                                        <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">RP</a>
-                                                        <a class="btn btn-success text-white rounded-circle btn-circle font-20"
-                                                            href="javascript:void(0)">+</a>
-                                                    </div>
-                                                </td>
-                                                <td class="border-top-0 text-center px-2 py-4"><i
-                                                        class="fa fa-circle text-primary font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="In Testing"></i></td>
-                                                <td
-                                                    class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
-                                                    35
-                                                </td>
-                                                <td class="font-weight-medium text-dark border-top-0 px-2 py-4">$96K
                                                 </td>
                                             </tr>
                                             <tr>
@@ -907,23 +704,9 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>
-                                                <td class="px-2 py-4">
-                                                    <div class="popover-icon">
-                                                        <a class="btn btn-primary rounded-circle btn-circle font-12"
-                                                            href="javascript:void(0)">DS</a>
-                                                        <a class="btn btn-danger rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">SS</a>
-                                                        <a class="btn btn-success text-white rounded-circle btn-circle font-20"
-                                                            href="javascript:void(0)">+</a>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center px-2 py-4"><i
-                                                        class="fa fa-circle text-success font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="Done"></i>
-                                                </td>
-                                                <td class="text-center text-muted font-weight-medium px-2 py-4">32</td>
-                                                <td class="font-weight-medium text-dark px-2 py-4">$85K</td>
+                                                <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>                                                
+                                               <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>
+                                               <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>  
                                             </tr>
                                             <tr>
                                                 <td class="px-2 py-4">
@@ -941,55 +724,9 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
-                                                <td class="px-2 py-4">
-                                                    <div class="popover-icon">
-                                                        <a class="btn btn-primary rounded-circle btn-circle font-12"
-                                                            href="javascript:void(0)">DS</a>
-                                                        <a class="btn btn-danger rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">SS</a>
-                                                        <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">RP</a>
-                                                        <a class="btn btn-success text-white rounded-circle btn-circle font-20"
-                                                            href="javascript:void(0)">+</a>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center px-2 py-4"><i
-                                                        class="fa fa-circle text-primary font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="Done"></i>
-                                                </td>
-                                                <td class="text-center text-muted font-weight-medium px-2 py-4">29</td>
-                                                <td class="font-weight-medium text-dark px-2 py-4">$81K</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="px-2 py-4">
-                                                    <div class="d-flex no-block align-items-center">
-                                                        <div class="mr-3"><img
-                                                                src="../assets/images/users/widget-table-pic4.jpg"
-                                                                alt="user" class="rounded-circle" width="45"
-                                                                height="45" /></div>
-                                                        <div class="">
-                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium">Jan
-                                                                Petrovic
-                                                            </h5>
-                                                            <span class="text-muted font-14">hgover@gmail.com</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-muted px-2 py-4 font-14">Hosting Press HTML</td>
-                                                <td class="px-2 py-4">
-                                                    <div class="popover-icon">
-                                                        <a class="btn btn-primary rounded-circle btn-circle font-12"
-                                                            href="javascript:void(0)">DS</a>
-                                                        <a class="btn btn-success text-white font-20 rounded-circle btn-circle"
-                                                            href="javascript:void(0)">+</a>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center px-2 py-4"><i
-                                                        class="fa fa-circle text-danger font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="In Progress"></i></td>
-                                                <td class="text-center text-muted font-weight-medium px-2 py-4">23</td>
-                                                <td class="font-weight-medium text-dark px-2 py-4">$80K</td>
-                                            </tr>
+                                                <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
+                                                <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
+                                            </tr>                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -1014,28 +751,7 @@
     <!-- End Wrapper -->
     <!-- ============================================================== -->
     <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- apps -->
-    <!-- apps -->
-    <script src="../dist/js/app-style-switcher.js"></script>
-    <script src="../dist/js/feather.min.js"></script>
-    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <script src="../assets/extra-libs/c3/d3.min.js"></script>
-    <script src="../assets/extra-libs/c3/c3.min.js"></script>
-    <script src="../assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="../assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
+    <!-- ============================================================== -->   
 </body>
 
 
@@ -1046,9 +762,7 @@
 <%		
 	} else {
 
-	String email = ServletUtil.getUserEmailForSession(request);
-	String name = userBean.getName();
-	String surname = userBean.getSurname();
+	String email = ServletUtil.getUserEmailForSession(request);	
 	String fullName = name.concat(" ").concat(surname);
 	String phone = userBean.getPhoneNumber();
 	String cf = userBean.getCf();

@@ -1411,6 +1411,78 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure CountOfEmployee
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`CountOfEmployee`;
+
+DELIMITER $$
+CREATE PROCEDURE `CountOfEmployee` (in var_VAT CHAR(11))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT COUNT(Company_VAT)
+    FROM EmployeeUserDetails
+    WHERE Company_VAT = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure TotalNumberOffers 
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`TotalNumberOffers`;
+
+DELIMITER $$
+CREATE PROCEDURE `TotalNumberOffers` (in var_VAT CHAR(11))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT COUNT(Company_VATNumber)
+    FROM Offer
+    WHERE Company_VATNumber = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure TotalNumberOfClick 
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`TotalNumberOfClick`;
+
+DELIMITER $$
+CREATE PROCEDURE `TotalNumberOfClick` (in var_VAT CHAR(11))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT SUM(ClickStats)
+    FROM Offer
+    WHERE Company_VATNumber = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+
+
+
 USE `whorkdb`;
 
 DELIMITER $$
@@ -1518,6 +1590,9 @@ GRANT EXECUTE ON procedure `whorkdb`.`EditJobSeekerBiography` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`PostOffer` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`DeleteCandidature` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`ChangePictureJobSeekerUser` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`CountOfEmployee` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOffers` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOfClick` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

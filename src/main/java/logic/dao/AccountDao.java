@@ -8,6 +8,7 @@ import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
+import logic.model.CompanyModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserModel;
 
@@ -31,6 +32,10 @@ public final class AccountDao {
 			"{ call EditJobSeekerBiography(?, ?) }";
 	private static final String EDIT_JOB_SEEKER_PICTURE = 
 			"{ call ChangePictureJobSeekerUser(?, ?) }";
+	private static final String COUNT_OF_EMPLOYEES = 
+			"{ call CountOfEmployee(?) }";
+	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
+			"More than two result set, this is unexpected";
 	
 	public static List<CandidatureModel> getSeekerCandidature(UserModel userModel) throws DataAccessException, DataLogicException {
 		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
@@ -106,6 +111,25 @@ public final class AccountDao {
 			throw new DataAccessException(e);
 		}
 				
+	}
+	
+	public static int countOfEmployees(CompanyModel company) throws DataAccessException, DataLogicException {		
+		int n = 0;
+		try (CallableStatement stmt = CONN.prepareCall(COUNT_OF_EMPLOYEES)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+			
+			try (ResultSet rs = stmt.getResultSet()) {				
+				if(!rs.next()) 
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);				
+				
+				n = rs.getInt(1) - 1; //admin is not counted
+			}
+			
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return n;
 	}
 	
 }

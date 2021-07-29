@@ -9,6 +9,7 @@ import logic.bean.CandidatureBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
+import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
@@ -50,19 +51,19 @@ public final class AccountController {
 		if(function == null) throw new InternalException("Function value cannot be null");
 		
 		if (function.equals("SocialAccounts")) 
-			AccountDao.editSocialAccount (userModel);		
+			AccountDao.editSocialAccount (userModel);
+		
 		else if (function.equals("JobSeekerInfoAccount")) {
-			if(userAuthModel == null) {
-				throw new InternalException("userAuthModel is null");
-			}
+			if(userAuthModel == null) 
+				throw new InternalException("userAuthModel is null");			
 
 			AccountDao.editJobSeekerInfoAccount (userModel, userAuthModel.getEmail());
 		} else if (function.equals("JobSeekerBiography"))
 			AccountDao.editJobSeekerBiography (userModel);
+		
 		else if (function.equals("ChangePasswordAccount")) {	
-			if(userAuthModel == null) {
-				throw new InternalException("userAuthModel is null");
-			}
+			if(userAuthModel == null) 
+				throw new InternalException("userAuthModel is null");			
 			
 			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
@@ -82,6 +83,18 @@ public final class AccountController {
 		if(userBean.getPhoto() != null)	ServletUtil.deleteUserFile(userBean.getPhoto());
 		userBean.setPhoto(newPath);
 		return userBean;
-	}	
+	}
+	
+	public static int getNumberOfEmployees(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+		return AccountDao.countOfEmployees(ModelFactory.buildCompanyModel(userBean.getCompany()));		
+	}
+	
+	public static int getNumberOfOffers(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+		return OfferDao.totalNumberOffers(ModelFactory.buildCompanyModel(userBean.getCompany()));		
+	}
+	
+	public static int getNumberOfClick(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+		return OfferDao.totalNumberOfClick(ModelFactory.buildCompanyModel(userBean.getCompany()));		
+	}
 
 }
