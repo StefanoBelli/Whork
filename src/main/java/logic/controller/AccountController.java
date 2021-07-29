@@ -85,15 +85,15 @@ public final class AccountController {
 		return userBean;
 	}
 	
-	public static int getNumberOfEmployees(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+	public static int getNumberOfEmployees(UserBean userBean) throws DataAccessException, DataLogicException {
 		return AccountDao.countOfEmployees(ModelFactory.buildCompanyModel(userBean.getCompany()));		
 	}
 	
-	public static int getNumberOfOffers(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+	public static int getNumberOfOffers(UserBean userBean) throws DataAccessException, DataLogicException {
 		return OfferDao.totalNumberOffers(ModelFactory.buildCompanyModel(userBean.getCompany()));		
 	}
 	
-	public static int getNumberOfClick(UserBean userBean) throws DataAccessException, InternalException, DataLogicException {
+	public static int getNumberOfClick(UserBean userBean) throws DataAccessException, DataLogicException {
 		return OfferDao.totalNumberOfClick(ModelFactory.buildCompanyModel(userBean.getCompany()));		
 	}
 
