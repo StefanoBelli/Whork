@@ -100,10 +100,6 @@ public final class PostOfferView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-		//not needed for now
-	}
-
-	private void populateScene() {
 		offerNameTxt.setMinWidth(TXT_WIDTH);
 		offerSalaryTxt.setMinWidth(TXT_WIDTH);
 		offerAddressTxt.setMinWidth(TXT_WIDTH);
@@ -113,6 +109,14 @@ public final class PostOfferView implements ControllableView {
 		jobPositionCB.setMinWidth(TXT_WIDTH);
 		qualificationCB.setMinWidth(TXT_WIDTH);
 		typeOfContractCB.setMinWidth(TXT_WIDTH);
+		offerPhotoMessage.setPadding(new Insets(5));
+		photoDetailLbl.setFont(Font.font(9));
+		photoDetailLbl.setPadding(new Insets(10));
+		photoDetailLbl.setAlignment(Pos.BOTTOM_LEFT);
+		offerDescriptionTxt.setMaxWidth(455);
+	}
+
+	private void populateScene() {
 		VBox vbox = new VBox();
 		vbox.setPadding(new Insets(10,10,0,10));
 		vbox.setSpacing(10);
@@ -140,7 +144,6 @@ public final class PostOfferView implements ControllableView {
 		vboxlbl.getChildren().add(offerNoteMessage);
 		vboxtxt.getChildren().add(offerNoteTxt);
 		
-		
 		hboxdetails.getChildren().add(vboxlbl);
 		hboxdetails.getChildren().add(vboxtxt);
 		
@@ -167,11 +170,9 @@ public final class PostOfferView implements ControllableView {
 		
 		HBox hboxphoto=new HBox();
 		hboxphoto.getChildren().add(offerPhotoMessage);
-		offerPhotoMessage.setPadding(new Insets(5));
+		
 		hboxphoto.getChildren().add(offerPhotoBtn);
-		photoDetailLbl.setFont(Font.font(9));
-		photoDetailLbl.setPadding(new Insets(10));
-		photoDetailLbl.setAlignment(Pos.BOTTOM_LEFT);
+		
 		hboxphoto.getChildren().add(photoDetailLbl);
 		
 		
@@ -179,7 +180,7 @@ public final class PostOfferView implements ControllableView {
 		vbox.getChildren().add(hboxflt);
 		
 		vbox.getChildren().add(offerDescriptionMessage);
-		offerDescriptionTxt.setMaxWidth(455);
+		
 		vbox.getChildren().add(offerDescriptionTxt);
 		
 		vbox.getChildren().add(hboxphoto);
@@ -191,6 +192,8 @@ public final class PostOfferView implements ControllableView {
 		vbox.getChildren().add(hboxpostbtn);
 		vbox.setAlignment(Pos.CENTER);
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
+		
+
 		
 	}
 
