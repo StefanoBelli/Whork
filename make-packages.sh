@@ -23,6 +23,7 @@ donepkg $WHORK_JAR
 
 infopkg "docs"
 cd $ORIGIN_DOCS
+cp -r ../side .
 pdflatex srs.tex
 rm -rf srs.log srs.aux srs.tex *.log
 cd ..
