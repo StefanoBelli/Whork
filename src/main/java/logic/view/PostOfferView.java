@@ -100,7 +100,7 @@ public final class PostOfferView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-
+		//not needed for now
 	}
 
 	private void populateScene() {

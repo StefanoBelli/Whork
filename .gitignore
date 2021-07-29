@@ -22,6 +22,7 @@ docs/out/
 *.iws
 .DS_Store
 target/
+.vscode/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
