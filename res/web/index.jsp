@@ -153,6 +153,9 @@ if(offers.isEmpty()){
 	<div class="offer">
 		<div class="name">
 			<b>Name: <%=offer.getOfferName()%></b>
+<%if(offer.isVerifiedByWhork()){ %>
+			(Verified by Whork ©)
+<%} %>
 		</div>
 		<div class="immagine">
 		<%
@@ -166,34 +169,31 @@ if(offer.getPhoto() == null) {
 <%} %>
 		</div>	
 		<div class="description">
-			<%=offer.getDescription().replace("\n","<br>")%>
+			Description: <%=offer.getDescription().replace("\n","<br>")%>
 		</div>
 		<div class="socialReason">
-			<%=offer.getCompany().getSocialReason() %>
+			Social Reason: <%=offer.getCompany().getSocialReason() %>
 		</div>
 		<div class="salary">
-			<%=offer.getSalaryEUR() %>
+			Salary: <%=offer.getSalaryEUR() %>
 		</div>
 		<div class="workShift">
-			<%=offer.getWorkShit() %>
+			Work Shift: <%=offer.getWorkShit() %>
 		</div>
 		<div class="jobPosition">
-			<%=offer.getJobPosition().getPosition() %>
+			Job Position: <%=offer.getJobPosition().getPosition() %>
 		</div>
 		<div class="jobCategory">
-			<%=offer.getJobCategory().getCategory() %>
+			Job Category:<%=offer.getJobCategory().getCategory() %>
 		</div>
 		<div class="qualification">
-			<%=offer.getQualification().getQualify() %>
+			Qualification Requirements: <%=offer.getQualification().getQualify() %>
 		</div>
 		<div class="typeOfContract">
-			<%=offer.getTypeOfContract().getContract() %>
+			Type Of Contract: <%=offer.getTypeOfContract().getContract() %>
 		</div>
 		<div class="publishDate">
-			<%=offer.getPublishDate() %>
-		</div>
-		<div class="verifiedByWhork">
-			<%=offer.isVerifiedByWhork() %>
+			Publish Date: <%=offer.getPublishDate() %>
 		</div>
 		<div class="jobPhysicalLocation">
 			<iframe title="whereisjob" width="300" height="300" style="border:0" loading="lazy" allowfullscreen id="maps"
