@@ -1,4 +1,4 @@
-package test.formchecker;
+package test.graphicscontroller.formchecker;
 
 
 import static org.junit.Assert.assertEquals;

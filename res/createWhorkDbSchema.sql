@@ -1181,7 +1181,7 @@ BEGIN
     
     select *
     from Offer
-    where ((`Name` like var_searchVal or var_searchVal is null) and 
+    where ((`Name` like concat('%',var_searchVal,'%') or var_searchVal is null) and 
 		(JobCategory_Category=var_jobCategory or var_jobCategory is null) and
         (JobPosition=var_jobPosition or var_jobPosition is null) and
         (Qualification=var_qualification or var_qualification is null) and
