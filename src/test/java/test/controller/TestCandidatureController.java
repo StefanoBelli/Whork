@@ -19,6 +19,10 @@ import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.controller.RegisterController;
+import logic.dao.JobCategoryDao;
+import logic.dao.JobPositionDao;
+import logic.dao.QualificationDao;
+import logic.dao.TypeOfContractDao;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
@@ -43,6 +47,11 @@ public class TestCandidatureController {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");		
+		
+		JobCategoryDao.populatePool();
+		JobPositionDao.populatePool();
+		QualificationDao.populatePool();
+		TypeOfContractDao.populatePool();
 		
 		CompanyBean company= new CompanyBean();
 		company=BeanFactory.buildCompanyBean("FRRTTR04T45A662J", 
@@ -99,7 +108,7 @@ public class TestCandidatureController {
 		user.setRecruiter(false);
 		user.setName("nome5");
 		user.setSurname("cognome5");
-		user.setPhoneNumber("3346780346");
+		user.setPhoneNumber("334671346");
 		user.setCf("SRRPQR04R45A422Y");
 		user.setBiography("bio");
 		user.setHomeAddress("address");

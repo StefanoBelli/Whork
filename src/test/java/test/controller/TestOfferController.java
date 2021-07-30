@@ -98,7 +98,7 @@ public class TestOfferController {
 	public void testASearchOffers() throws DataAccessException, DataLogicException {
 		List<OfferBean> offers=new ArrayList<>();
 		
-		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
+		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Master's degree", "Full Time");
 		
 		assertEquals(1, offers.size());
 		
@@ -129,7 +129,7 @@ public class TestOfferController {
 		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
 		offer.setJobPhysicalLocationFullAddress("via alessandrino 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
-		offer.setOfferName("offer 2");
+		offer.setOfferName("offer 12");
 		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
 		offer.setSalaryEUR(2000);
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
@@ -140,7 +140,7 @@ public class TestOfferController {
 		List<OfferBean> offers=new ArrayList<>();
 		
 
-		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
+		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Master's degree", "Full Time");
 		
 		assertEquals(2, offers.size());
 	}
