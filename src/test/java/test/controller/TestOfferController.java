@@ -95,23 +95,17 @@ public class TestOfferController {
 	}
 	
 	@Test
-	public void testSearchOffers() throws DataAccessException, DataLogicException {
+	public void testASearchOffers() throws DataAccessException, DataLogicException {
 		List<OfferBean> offers=new ArrayList<>();
 		
 		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
 		
-		assertEquals(2, offers.size());
+		assertEquals(1, offers.size());
 		
 	}
 	
 	@Test
-	public void testGetOfferById() throws DataAccessException, DataLogicException {
-		OfferBean offer=OfferController.getOfferById(1);
-		assertEquals(offer.getOfferName(), "offer 1");
-	}
-
-	@Test
-	public void testPostOffer() throws DataAccessException, DataLogicException {
+	public void testBPostOffer() throws DataAccessException, DataLogicException {
 		
 		CompanyBean company= new CompanyBean();
 		company=BeanFactory.buildCompanyBean("LMBTTR04T45A662J", 

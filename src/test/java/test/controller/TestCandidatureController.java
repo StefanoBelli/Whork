@@ -3,24 +3,22 @@ package test.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.sql.SQLException;
 import java.util.Date;
 
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import logic.bean.CandidatureBean;
+import logic.bean.CompanyBean;
+import logic.bean.OfferBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.controller.RegisterController;
-import logic.dao.ComuniDao;
-import logic.dao.EmploymentStatusDao;
-import logic.dao.JobCategoryDao;
-import logic.dao.JobPositionDao;
-import logic.dao.QualificationDao;
-import logic.dao.TypeOfContractDao;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
@@ -37,32 +35,72 @@ import logic.util.tuple.Pair;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestCandidatureController {
 	
+	@BeforeClass
+	static public void insertData() throws InternalException, InvalidVatCodeException, 
+		AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException, DataAccessException {
+		
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");		
+		
+		CompanyBean company= new CompanyBean();
+		company=BeanFactory.buildCompanyBean("FRRTTR04T45A662J", 
+				"data/seide.png", "FERRARI", "00159560366");
+		
+		UserBean user=new UserBean();
+		user.setAdmin(true);
+		user.setEmployee(true);
+		user.setRecruiter(true);
+		user.setCompany(company);
+		user.setName("nome2");
+		user.setSurname("cognome2");
+		user.setPhoneNumber("3335520346");
+		user.setCf("SRRSND04R45A543X");
+		
+		UserAuthBean userAuth=new UserAuthBean();
+		userAuth.setEmail("email2@libero.it");
+		userAuth.setPassword("password");
+		
+		try {
+			RegisterController.register(new Pair<>(user, userAuth));
+		} catch(InternalException e) { // see test method desc
+			if (!e.getMessage().equals("Unable to send you an email!")) {
+				throw e;
+			}
+		}
+
+		OfferBean offer=new OfferBean();
+		offer.setCompany(company);
+		offer.setDescription("descrizione offerta 2");
+		offer.setEmployee(user);
+		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
+		offer.setJobPhysicalLocationFullAddress("via tuscolana 8");
+		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
+		offer.setOfferName("offer 2");
+		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
+		offer.setSalaryEUR(2100);
+		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
+		offer.setWorkShit("10:00 - 19:00");
+		
+		OfferController.postOffer(offer);
+	}
+	
+	
 	@Test
 	public void testAInsertCandidature() 
 		throws InternalException, InvalidVatCodeException, 
 			AlreadyExistantCompanyException, AlreadyExistantUserException, 
 			DataAccessException, DataLogicException {
-
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
 		
-		ComuniDao.populatePool();
-		EmploymentStatusDao.populatePool();
-		JobCategoryDao.populatePool();
-		JobPositionDao.populatePool();
-		QualificationDao.populatePool();
-		TypeOfContractDao.populatePool();
-
 		UserBean user=new UserBean();
 		user.setAdmin(false);
 		user.setEmployee(false);
 		user.setRecruiter(false);
-		user.setName("nome2");
-		user.setSurname("cognome2");
-		user.setPhoneNumber("3346519346");
-		user.setCf("SRRSND04R45A422Y");
+		user.setName("nome5");
+		user.setSurname("cognome5");
+		user.setPhoneNumber("3346780346");
+		user.setCf("SRRPQR04R45A422Y");
 		user.setBiography("bio");
 		user.setHomeAddress("address");
 		user.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean("Unemployed"));
@@ -71,7 +109,7 @@ public class TestCandidatureController {
 		user.setComune(BeanFactory.buildComuneBean("Cave RM - 00033, Lazio"));
 		
 		UserAuthBean userAuth=new UserAuthBean();
-		userAuth.setEmail("email2@gmail.com");
+		userAuth.setEmail("email4@gmail.com");
 		userAuth.setPassword("password");
 		
 		try {
@@ -94,16 +132,16 @@ public class TestCandidatureController {
 	
 	@Test
 	public void testBGetCandidature() throws DataAccessException, DataLogicException {
-		assertNotEquals(CandidatureController.getCandidature(1, "SRRSND04R45A422Y"),null);
+		assertNotEquals(CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"),null);
 	}
 	
 	@Test
 	public void testCDeleteCandidature() throws DataAccessException, DataLogicException {
 		
-		CandidatureBean candidature=CandidatureController.getCandidature(1, "SRRSND04R45A422Y");
+		CandidatureBean candidature=CandidatureController.getCandidature(1, "SRRPQR04R45A422Y");
 		
 		CandidatureController.deleteCandidature(candidature.getJobSeeker(),candidature);
-		assertEquals(CandidatureController.getCandidature(1, "SRRSND04R45A422Y"),null);
+		assertEquals(CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"),null);
 	}
 	
 }
