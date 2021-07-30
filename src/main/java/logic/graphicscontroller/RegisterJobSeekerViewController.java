@@ -33,9 +33,9 @@ import logic.exception.AlreadyExistantUserException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
-import logic.graphicscontroller.formchecker.BasicFormChecker;
+import logic.graphicscontroller.formchecker.RegistrationFormChecker;
 import logic.graphicscontroller.formchecker.FormChecker;
-import logic.graphicscontroller.formchecker.JobSeekerFormCheckerDecorator;
+import logic.graphicscontroller.formchecker.JobSeekerRegistrationFormCheckerDecorator;
 import logic.pool.ComuniPool;
 import logic.pool.EmploymentsStatusPool;
 import logic.util.GraphicsUtil;
@@ -229,7 +229,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		}
 
 		private boolean checksArePassing() {
-			FormChecker checker = new JobSeekerFormCheckerDecorator(new BasicFormChecker(), itTowns);
+			FormChecker checker = new JobSeekerRegistrationFormCheckerDecorator(new RegistrationFormChecker(), itTowns);
 			String errorString = checker.doChecks(new Object[] {
 				email, password, retypedPassword, name, surname, fiscalCode, phoneNumber, town, address,
 				cv

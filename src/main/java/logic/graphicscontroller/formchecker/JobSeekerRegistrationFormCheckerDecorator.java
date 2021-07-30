@@ -2,10 +2,10 @@ package logic.graphicscontroller.formchecker;
 
 import java.util.List;
 
-public final class JobSeekerFormCheckerDecorator extends FormCheckerDecorator {
+public final class JobSeekerRegistrationFormCheckerDecorator extends FormCheckerDecorator {
 	private final List<String> itTowns;
 
-	public JobSeekerFormCheckerDecorator(FormChecker formChecker, List<String> itTowns) {
+	public JobSeekerRegistrationFormCheckerDecorator(FormChecker formChecker, List<String> itTowns) {
 		super(formChecker);
 		this.itTowns = itTowns;
 	}
