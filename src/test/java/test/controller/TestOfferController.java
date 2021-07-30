@@ -31,24 +31,18 @@ import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
-import test.DbmsConfig;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestOfferController {
 
 	@BeforeClass
 	static public void insertData() throws InternalException, InvalidVatCodeException, 
-	AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException, DataAccessException {
-		Database db = Database.getInstance(
-				DbmsConfig.DB_HOST + ":" + Integer.toString(DbmsConfig.DB_PORT),
-				DbmsConfig.DB_USER, DbmsConfig.DB_PWD);
-		db.getConnection().setCatalog(DbmsConfig.DB_NAME);
+		AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException, DataAccessException {
 		
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, true);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.gmail.com");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILPWD, "whorkelione456");
 
 		JobCategoryDao.populatePool();
 		JobPositionDao.populatePool();
@@ -74,9 +68,14 @@ public class TestOfferController {
 		userAuth.setEmail("email1@libero.it");
 		userAuth.setPassword("password");
 		
-		
-		RegisterController.register(new Pair<>(user, userAuth));
-		
+		try {
+			RegisterController.register(new Pair<>(user, userAuth));
+		} catch(InternalException e) { // see test method desc
+			if (!e.getMessage().equals("Unable to send you an email!")) {
+				throw e;
+			}
+		}
+
 		OfferBean offer=new OfferBean();
 		offer.setCompany(company);
 		offer.setDescription("descrizione offerta 1");
@@ -99,7 +98,7 @@ public class TestOfferController {
 		
 		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
 		
-		assertEquals(offers.size(), 2);
+		assertEquals(2, offers.size());
 		
 	}
 	
@@ -147,11 +146,6 @@ public class TestOfferController {
 
 		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
 		
-		assertEquals(offers.size(), 2);
-		
-		
-		
-	
+		assertEquals(2, offers.size());
 	}
-	
 }
