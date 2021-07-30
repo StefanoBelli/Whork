@@ -3,6 +3,8 @@ package test.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.Date;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -25,6 +27,7 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
+import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
@@ -60,6 +63,12 @@ public class TestCandidatureController {
 		user.setSurname("cognome2");
 		user.setPhoneNumber("3346519346");
 		user.setCf("SRRSND04R45A422Y");
+		user.setBiography("bio");
+		user.setHomeAddress("address");
+		user.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean("Unemployed"));
+		user.setCv("fake/path/to/cv.pdf");
+		user.setBirthday(new Date());
+		user.setComune(BeanFactory.buildComuneBean("Cave RM - 00033, Lazio"));
 		
 		UserAuthBean userAuth=new UserAuthBean();
 		userAuth.setEmail("email2@gmail.com");
