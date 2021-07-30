@@ -11,7 +11,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import logic.Database;
 import logic.bean.CompanyBean;
 import logic.bean.OfferBean;
 import logic.bean.UserAuthBean;
@@ -32,6 +31,9 @@ import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Michele Tosi
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestOfferController {
 

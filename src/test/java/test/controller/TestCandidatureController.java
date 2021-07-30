@@ -28,6 +28,9 @@ import logic.exception.InvalidVatCodeException;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Michele Tosi
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestCandidatureController {
 	

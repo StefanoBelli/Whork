@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import logic.graphicscontroller.formchecker.OfferFormChecker;
 
+/**
+ * @author Michele Tosi
+ */
 public class TestOfferFormChecker {
 	private static final String SELECT_AN_OPTION = "--select an option--";
 	

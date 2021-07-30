@@ -16,6 +16,9 @@ import logic.exception.DataAccessException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 
+/**
+ * @author Michele Tosi
+ */
 public class SeleniumSearchOffer {
 	
 	@Test
