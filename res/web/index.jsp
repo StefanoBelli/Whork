@@ -49,7 +49,7 @@ if(searchVal != null && searchVal != ""){
 <%
 }
 %>
-			<input type="submit" name="submit" value="Search"/>
+			<input type="submit" name="submit" id="search" value="Search"/>
 			<br>
 			<br>
 			<label for="jobCategories">Choose a job category:</label>
