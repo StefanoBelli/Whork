@@ -1,0 +1,157 @@
+package test.controller;
+
+import static org.junit.Assert.assertEquals;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import logic.Database;
+import logic.bean.CompanyBean;
+import logic.bean.OfferBean;
+import logic.bean.UserAuthBean;
+import logic.bean.UserBean;
+import logic.controller.OfferController;
+import logic.controller.RegisterController;
+import logic.dao.JobCategoryDao;
+import logic.dao.JobPositionDao;
+import logic.dao.QualificationDao;
+import logic.dao.TypeOfContractDao;
+import logic.exception.AlreadyExistantCompanyException;
+import logic.exception.AlreadyExistantUserException;
+import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
+import logic.exception.InternalException;
+import logic.exception.InvalidVatCodeException;
+import logic.factory.BeanFactory;
+import logic.util.Util;
+import logic.util.tuple.Pair;
+import test.DbmsConfig;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class TestOfferController {
+
+	@BeforeClass
+	static public void insertData() throws InternalException, InvalidVatCodeException, 
+	AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException, DataAccessException {
+		Database db = Database.getInstance(
+				DbmsConfig.DB_HOST + ":" + Integer.toString(DbmsConfig.DB_PORT),
+				DbmsConfig.DB_USER, DbmsConfig.DB_PWD);
+		db.getConnection().setCatalog(DbmsConfig.DB_NAME);
+		
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, true);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.gmail.com");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILPWD, "whorkelione456");
+
+		JobCategoryDao.populatePool();
+		JobPositionDao.populatePool();
+		QualificationDao.populatePool();
+		TypeOfContractDao.populatePool();
+		
+		
+		CompanyBean company= new CompanyBean();
+		company=BeanFactory.buildCompanyBean("LMBTTR04T45A662J", 
+				"data/seide.png", "Lamborghini", "00591801204");
+		
+		UserBean user=new UserBean();
+		user.setAdmin(true);
+		user.setEmployee(true);
+		user.setRecruiter(true);
+		user.setCompany(company);
+		user.setName("nome1");
+		user.setSurname("cognome1");
+		user.setPhoneNumber("3335519346");
+		user.setCf("SRRSND04R45A412X");
+		
+		UserAuthBean userAuth=new UserAuthBean();
+		userAuth.setEmail("email1@libero.it");
+		userAuth.setPassword("password");
+		
+		
+		RegisterController.register(new Pair<>(user, userAuth));
+		
+		OfferBean offer=new OfferBean();
+		offer.setCompany(company);
+		offer.setDescription("descrizione offerta 1");
+		offer.setEmployee(user);
+		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
+		offer.setJobPhysicalLocationFullAddress("via gela 8");
+		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
+		offer.setOfferName("offer 1");
+		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
+		offer.setSalaryEUR(2000);
+		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
+		offer.setWorkShit("09:00 - 19:00");
+		
+		OfferController.postOffer(offer);
+	}
+	
+	@Test
+	public void testSearchOffers() throws DataAccessException, DataLogicException {
+		List<OfferBean> offers=new ArrayList<>();
+		
+		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
+		
+		assertEquals(offers.size(), 2);
+		
+	}
+	
+	@Test
+	public void testGetOfferById() throws DataAccessException, DataLogicException {
+		OfferBean offer=OfferController.getOfferById(1);
+		assertEquals(offer.getOfferName(), "offer 1");
+	}
+
+	@Test
+	public void testPostOffer() throws DataAccessException, DataLogicException {
+		
+		CompanyBean company= new CompanyBean();
+		company=BeanFactory.buildCompanyBean("LMBTTR04T45A662J", 
+				"data/seide.png", "Lamborghini", "00591801204");
+		
+		UserBean user=new UserBean();
+		user.setAdmin(true);
+		user.setEmployee(true);
+		user.setRecruiter(true);
+		user.setCompany(company);
+		user.setName("nome1");
+		user.setSurname("cognome1");
+		user.setPhoneNumber("3335519346");
+		user.setCf("SRRSND04R45A412X");
+		
+		
+		OfferBean offer=new OfferBean();
+		offer.setCompany(company);
+		offer.setDescription("descrizione offerta 2");
+		offer.setEmployee(user);
+		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
+		offer.setJobPhysicalLocationFullAddress("via alessandrino 8");
+		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
+		offer.setOfferName("offer 2");
+		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
+		offer.setSalaryEUR(2000);
+		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
+		offer.setWorkShit("10:00 - 19:00");
+		
+		OfferController.postOffer(offer);
+		
+		List<OfferBean> offers=new ArrayList<>();
+		
+
+		offers=OfferController.searchOffers("offer", "Engineering", "Engineer", "Master's degree", "Full Time");
+		
+		assertEquals(offers.size(), 2);
+		
+		
+		
+	
+	}
+	
+}
