@@ -25,8 +25,8 @@ import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
-import logic.graphicscontroller.formchecker.BasicFormChecker;
-import logic.graphicscontroller.formchecker.CompanyFormCheckerDecorator;
+import logic.graphicscontroller.formchecker.RegistrationFormChecker;
+import logic.graphicscontroller.formchecker.CompanyRegistrationFormCheckerDecorator;
 import logic.graphicscontroller.formchecker.FormChecker;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
@@ -184,7 +184,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 		}
 
 		private boolean checksArePassing() {
-			FormChecker checker = new CompanyFormCheckerDecorator(new BasicFormChecker());
+			FormChecker checker = new CompanyRegistrationFormCheckerDecorator(new RegistrationFormChecker());
 			String errorString = checker.doChecks(new Object[] {
 				email, password, retypedPassword, name, surname, fiscalCode, phoneNumber, businessName,
 				vatNumber, companyFc, companyLogo
