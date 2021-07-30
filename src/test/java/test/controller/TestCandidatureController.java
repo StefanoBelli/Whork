@@ -22,7 +22,7 @@ import logic.exception.InvalidVatCodeException;
 import logic.util.tuple.Pair;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestCandidateController {
+public class TestCandidatureController {
 	
 	@Test
 	public void testAInsertCandidature() throws InternalException, InvalidVatCodeException, AlreadyExistantCompanyException, AlreadyExistantUserException, DataAccessException, DataLogicException {
