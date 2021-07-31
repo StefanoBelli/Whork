@@ -83,42 +83,19 @@ public final class CandidatureController {
 		while (i<listModel.size()) {
 			String date = listModel.get(i).getCandidatureDate().toString().substring(5, 7);
 			switch(date) {
-				case "01":
-					month.set(0, month.get(0)+1);
-					break;
-				case "02":
-					month.set(1, month.get(1)+1);
-					break;
-				case "03":
-					month.set(2, month.get(2)+1);
-					break;
-				case "04":
-					month.set(3, month.get(3)+1);
-					break;
-				case "05":
-					month.set(4, month.get(4)+1);
-					break;
-				case "06":
-					month.set(5, month.get(5)+1);
-					break;
-				case "07":
-					month.set(6, month.get(6)+1);
-					break;
-				case "08":
-					month.set(7, month.get(7)+1);
-					break;
-				case "09":
-					month.set(8, month.get(8)+1);
-					break;
-				case "10":
-					month.set(9, month.get(9)+1);
-					break;
-				case "11":
-					month.set(10, month.get(10)+1);
-					break;
-				case "12":
-					month.set(11, month.get(11)+1);
-					break;
+				case "01": month.set(0, month.get(0)+1); break;
+				case "02": month.set(1, month.get(1)+1); break;
+				case "03": month.set(2, month.get(2)+1); break;
+				case "04": month.set(3, month.get(3)+1); break;
+				case "05": month.set(4, month.get(4)+1); break;
+				case "06": month.set(5, month.get(5)+1); break;
+				case "07": month.set(6, month.get(6)+1); break;
+				case "08": month.set(7, month.get(7)+1); break;
+				case "09": month.set(8, month.get(8)+1); break;
+				case "10": month.set(9, month.get(9)+1); break;
+				case "11": month.set(10, month.get(10)+1); break;
+				case "12": month.set(11, month.get(11)+1); break;
+				default: throw new DataLogicException("invalid stored date month");
 			}			
 			i ++;
 		}		
