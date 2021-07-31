@@ -41,7 +41,7 @@
 		listMonth.add("Sep");
 		listMonth.add("Oct");
 		listMonth.add("Nov");
-		listMonth.add("Dec");		
+		listMonth.add("Dec");
 		
 		for(int i=0; i<listCandidatureByVat.size(); i++) {
 			map = new HashMap<Object,Object>(); map.put("label", listMonth.get(i)); map.put("y", listCandidatureByVat.get(i)); list.add(map);		
@@ -109,7 +109,7 @@ window.onload = function() {
 			text: ""
 		}],
 		axisY: {
-			title: "Number of Candidates",
+			title: "",
 			labelFormatter: addSymbols
 		},
 		data: [{
@@ -558,21 +558,40 @@ window.onload = function() {
                                 <h4 class="card-title">Total Sales</h4>
                                 <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
                                 <ul class="list-style-none mb-0">
-                                    <li>
-                                        <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">Direct Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2346</span>
-                                    </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-danger font-10 mr-2"></i>
-                                        <span class="text-muted">Referral Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2108</span>
-                                    </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-cyan font-10 mr-2"></i>
-                                        <span class="text-muted">Affiliate Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$1204</span>
-                                    </li>
+<% 
+	Map<String, Integer> map = AccountController.getEmploymentStatusBtCompanyVAT(userBean.getCompany());
+	List<String> listColorsEmployment = new ArrayList<>();
+	
+	listColorsEmployment.add("primary");
+	listColorsEmployment.add("danger");
+	listColorsEmployment.add("cyan");
+	listColorsEmployment.add("yellow");
+	listColorsEmployment.add("orange");
+	listColorsEmployment.add("brown");
+	listColorsEmployment.add("black");
+	listColorsEmployment.add("purple");
+	listColorsEmployment.add("green");
+	listColorsEmployment.add("grey");
+	
+	
+	if(map.size() == 0) {
+		
+	} else {
+		Iterator<String> keys = map.keySet().iterator();
+		int i=0;
+		while(keys.hasNext()) {
+			String key = keys.next();
+%>
+									<li>
+										<i class="fas fa-circle text-<%=listColorsEmployment.get(i)%> font-10 mr-2"></i>
+										<span class="text-muted"><%=key%></span>
+										<span class="text-dark float-right font-weight-medium"><%map.get(key) %></span>
+									</li>
+<%
+			i++;
+		}
+	}
+%>                                    
                                 </ul>
                             </div>
                         </div>
@@ -580,7 +599,7 @@ window.onload = function() {
                     <div class="col-lg-5 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Net Income</h4>
+                                <h4 class="card-title">Number of Candidates</h4>
 								<div id="chartContainer" style="height: 390px; width: 100%;"></div>
 								<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>								    
                             </div>

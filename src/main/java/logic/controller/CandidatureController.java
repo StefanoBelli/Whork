@@ -80,8 +80,9 @@ public final class CandidatureController {
 			month.add(0);			
 		
 		int i = 0;
-		while (i<listModel.size()) {			
-			switch(listModel.get(i).getCandidatureDate().toString().substring(5, 7)) {
+		while (i<listModel.size()) {
+			String date = listModel.get(i).getCandidatureDate().toString().substring(5, 7);
+			switch(date) {
 				case "01":
 					month.set(0, month.get(0)+1);
 					break;

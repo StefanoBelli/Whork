@@ -17,7 +17,7 @@ INSERT INTO Offer VALUES (1, 'Nome 1', 'Descrizione', 'company', 'VATnumber', 50
 
 INSERT INTO JobSeekerUserDetails VALUES ('Elio', 'Elio', 'MGLLEI00D08D612D', STR_TO_DATE('08-04-2000', '%d-%m-%Y'), '6478798322', null, null, null, 'Sora', '03039', 'Student', null, null, null, null, null);
 
-INSERT INTO Candidature VALUES (1, 'MGLLEI00D08D612D', STR_TO_DATE('14-11-2021', '%d-%m-%Y'));
+INSERT INTO Candidature VALUES (1, 'MGLLEI00D08D612D', STR_TO_DATE('14-01-2021', '%d-%m-%Y'));
 
 INSERT INTO Auth VALUES ('email@email.com', 0, 0, 'MGLLEI00D08D619D', null, null); /* employee */ 
 
