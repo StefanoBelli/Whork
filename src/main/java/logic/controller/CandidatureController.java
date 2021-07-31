@@ -83,7 +83,6 @@ public final class CandidatureController {
 		while (i<listModel.size()) {
 			String date = listModel.get(i).getCandidatureDate().toString().substring(5, 7);
 
-			//NOSONAR
 			switch(date) {
 				case "01": month.set(0, month.get(0)+1); break;
 				case "02": month.set(1, month.get(1)+1); break;
