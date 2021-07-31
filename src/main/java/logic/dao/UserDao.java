@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.Date;
 
 import logic.Database;
-import logic.model.CandidatureModel;
 import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
@@ -203,8 +202,8 @@ public final class UserDao {
 			try (ResultSet rs = stmt.getResultSet()) {
 				while(rs.next()) {
 		
-				JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));				
-				listEmploymentStatus.add(cm.getEmploymentStatus());
+					JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));				
+					listEmploymentStatus.add(cm.getEmploymentStatus());
 				
 				}
 			}
