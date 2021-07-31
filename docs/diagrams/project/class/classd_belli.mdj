@@ -15042,8 +15042,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 2957,
+											"left": 2141,
+											"top": 2941,
 											"width": 597.67626953125,
 											"height": 13,
 											"text": "«dao»"
@@ -15056,8 +15056,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;1",
-											"left": 2133,
-											"top": 2972,
+											"left": 2141,
+											"top": 2956,
 											"width": 597.67626953125,
 											"height": 13,
 											"text": "UserDao"
@@ -15071,8 +15071,8 @@
 											"visible": false,
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2704,
-											"top": 1184,
+											"left": 2720,
+											"top": 1152,
 											"width": 73.67724609375,
 											"height": 13,
 											"text": "(from Model)"
@@ -15086,16 +15086,16 @@
 											"visible": false,
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2704,
-											"top": 1184,
+											"left": 2720,
+											"top": 1152,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
-									"left": 2128,
-									"top": 2952,
+									"left": 2136,
+									"top": 2936,
 									"width": 607.67626953125,
 									"height": 38,
 									"stereotypeLabel": {
@@ -15132,8 +15132,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 2995,
+											"left": 2141,
+											"top": 2979,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15151,8 +15151,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3010,
+											"left": 2141,
+											"top": 2994,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15170,8 +15170,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3025,
+											"left": 2141,
+											"top": 3009,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15189,8 +15189,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3040,
+											"left": 2141,
+											"top": 3024,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15208,8 +15208,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3055,
+											"left": 2141,
+											"top": 3039,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15227,8 +15227,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3070,
+											"left": 2141,
+											"top": 3054,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15246,8 +15246,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3085,
+											"left": 2141,
+											"top": 3069,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15265,21 +15265,40 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3100,
+											"left": 2141,
+											"top": 3084,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
 											"text": "-DATA_LOGIC_ERR_NOCF: String {readOnly}",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAF6/UqlJdUO7tg=",
+											"_parent": {
+												"$ref": "AAAAAAF6yLTe5Fq7J54="
+											},
+											"model": {
+												"$ref": "AAAAAAF6/Uqk2dTttuk="
+											},
+											"fillColor": "#00d8b4",
+											"font": "Arial;13;0",
+											"left": 2141,
+											"top": 3099,
+											"width": 597.67626953125,
+											"height": 13,
+											"underline": true,
+											"text": "-STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT: String {readOnly}",
+											"horizontalAlignment": 0
 										}
 									],
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
-									"left": 2128,
-									"top": 2990,
+									"left": 2136,
+									"top": 2974,
 									"width": 607.67626953125,
-									"height": 128
+									"height": 143
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -15302,8 +15321,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3123,
+											"left": 2141,
+											"top": 3122,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15321,8 +15340,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3138,
+											"left": 2141,
+											"top": 3137,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15340,8 +15359,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3153,
+											"left": 2141,
+											"top": 3152,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15359,8 +15378,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3168,
+											"left": 2141,
+											"top": 3167,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15378,8 +15397,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3183,
+											"left": 2141,
+											"top": 3182,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15397,8 +15416,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3198,
+											"left": 2141,
+											"top": 3197,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15416,8 +15435,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3213,
+											"left": 2141,
+											"top": 3212,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15435,8 +15454,8 @@
 											},
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
-											"left": 2133,
-											"top": 3228,
+											"left": 2141,
+											"top": 3227,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15446,8 +15465,8 @@
 									],
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
-									"left": 2128,
-									"top": 3118,
+									"left": 2136,
+									"top": 3117,
 									"width": 607.67626953125,
 									"height": 128
 								},
@@ -15463,8 +15482,8 @@
 									"visible": false,
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
-									"left": 1352,
-									"top": 560,
+									"left": 1360,
+									"top": 544,
 									"width": 10,
 									"height": 10
 								},
@@ -15480,8 +15499,8 @@
 									"visible": false,
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
-									"left": 1352,
-									"top": 560,
+									"left": 1360,
+									"top": 544,
 									"width": 10,
 									"height": 10
 								}
@@ -15489,10 +15508,10 @@
 							"fillColor": "#00d8b4",
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 2128,
-							"top": 2952,
+							"left": 2136,
+							"top": 2936,
 							"width": 607.67626953125,
-							"height": 294,
+							"height": 309,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6yLTe5Fq2vMU="
 							},
@@ -18642,7 +18661,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2457:3245;2457:3320;2840:3320;2840:3408",
+							"points": "2457:3244;2457:3320;2840:3320;2840:3408",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySETD/NznOo="
@@ -19300,7 +19319,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2408:2952;2408:2832;4208:2832;4208:2856",
+							"points": "2408:2936;2408:2832;4208:2832;4208:2856",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySaeX/+sIFI="
@@ -19394,7 +19413,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2457:2952;2457:2912;3936:2912;3936:3032;4080:3032",
+							"points": "2457:2936;2457:2912;3936:2912;3936:3032;4080:3032",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySaukQBTbuI="
@@ -19864,7 +19883,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2456:2302;2024:2302;2024:3064;2128:3064",
+							"points": "2456:2302;2024:2302;2024:3064;2136:3064",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yS8OwiQmj3c="
@@ -36231,6 +36250,18 @@
 								"$ref": "AAAAAAF6yLTe41qzHDQ="
 							},
 							"name": "DATA_LOGIC_ERR_NOCF",
+							"visibility": "private",
+							"isStatic": true,
+							"type": "String",
+							"isReadOnly": true
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAF6/Uqk2dTttuk=",
+							"_parent": {
+								"$ref": "AAAAAAF6yLTe41qzHDQ="
+							},
+							"name": "STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT",
 							"visibility": "private",
 							"isStatic": true,
 							"type": "String",
