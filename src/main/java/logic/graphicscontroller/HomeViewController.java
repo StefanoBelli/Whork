@@ -155,9 +155,6 @@ public final class HomeViewController extends GraphicsController {
 	}
 
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
-		public HandleChatRequest(OfferBean offer) {
-		}
-
 		@Override
 		public void handle(MouseEvent event) {
 			GraphicsUtil.showAndWaitWindow(ChatView.class);
