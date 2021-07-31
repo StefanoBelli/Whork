@@ -133,7 +133,13 @@ public class TestCandidatureController {
 		candidature.setJobSeeker(user);
 		candidature.setOffer(OfferController.getOfferById(1));
 		
-		CandidatureController.insertCandidature(candidature);
+		try {
+			CandidatureController.insertCandidature(candidature);
+		} catch (InternalException e) { // see test method desc
+			if (!e.getMessage().equals("Unable to send you an email!")) {
+				throw e;
+			}
+		}
 		assertEquals(OfferController.getOfferById(1).getClickStats(), 1);
 		
 	}
