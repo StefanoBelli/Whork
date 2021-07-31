@@ -102,7 +102,7 @@ public final class OfferItem {
 	}
 
 	private void setListeners(OfferBean itemBean) {
-		chatBtn.setOnMouseClicked(new HomeViewController.HandleChatRequest(itemBean));
+		chatBtn.setOnMouseClicked(new HomeViewController.HandleChatRequest());
 		candidateBtn.setOnMouseClicked(new HomeViewController.HandleCandidateRequest(itemBean, candidateBtn, context));
 	}
 
