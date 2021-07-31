@@ -4,6 +4,7 @@ import java.util.List;
 
 public final class ExtractorFileLister {
 	private ExtractorFileLister() {}
+	//NOSONAR
 	public static void list(List<String> dirs, List<String> files) {
 		dirs.add(".");
 		files.add("/./post_offer.jsp");
