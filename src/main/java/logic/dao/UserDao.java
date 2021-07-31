@@ -35,11 +35,13 @@ public final class UserDao {
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
-			"{ call GetEmploymentStatusByCompanyVAT(?) }";
+		"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
-			"Multiple mails detected with same Cf";
+		"Multiple mails detected with same Cf";
+	private static final String DATA_LOGIC_ERR_NOCF = 
+		"No CF";
 
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
@@ -202,7 +204,9 @@ public final class UserDao {
 			try (ResultSet rs = stmt.getResultSet()) {
 				while(rs.next()) {
 		
-					JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));				
+					JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));
+					if(cm == null) throw new DataLogicException(DATA_LOGIC_ERR_NOCF);
+						
 					listEmploymentStatus.add(cm.getEmploymentStatus());
 				
 				}
