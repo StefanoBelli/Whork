@@ -2,7 +2,6 @@
 <%@ page import="logic.bean.UserBean" %>
 <%@ page import="logic.util.ServletUtil" %>
 <%@ page import="logic.util.Util" %>
-<%@ page import="java.util.List" %>
 <%@ page import="logic.bean.CandidatureBean" %>
 <%@ page import="logic.controller.AccountController" %>
 <%@ page import="logic.controller.CandidatureController" %>
@@ -10,7 +9,9 @@
 <%@ page import="logic.bean.ComuneBean" %>
 <%@ page import="logic.bean.ProvinciaBean" %>
 <%@ page import="logic.bean.RegioneBean" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.google.gson.Gson"%>
+<%@ page import="com.google.gson.JsonObject"%>
 
 <%
     UserBean userBean = ServletUtil.getUserForSession(request);
@@ -23,9 +24,32 @@
 
 <%
 	if(userBean.isAdmin()) {
+		
+		Gson gsonObj = new Gson();
+		Map<Object,Object> map = null;
+		List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
+		List<Integer> listCandidatureByVat = CandidatureController.getCandidatureByCompanyVat(userBean.getCompany());
+		List<String> listMonth = new ArrayList<>();
+		listMonth.add("Jan");
+		listMonth.add("Feb");
+		listMonth.add("Mar");
+		listMonth.add("Apr");
+		listMonth.add("May");
+		listMonth.add("Jun");
+		listMonth.add("Jul");
+		listMonth.add("Aug");
+		listMonth.add("Sep");
+		listMonth.add("Oct");
+		listMonth.add("Nov");
+		listMonth.add("Dec");		
+		
+		for(int i=0; i<listCandidatureByVat.size(); i++) {
+			map = new HashMap<Object,Object>(); map.put("label", listMonth.get(i)); map.put("y", listCandidatureByVat.get(i)); list.add(map);		
+		}
+		 
+		String dataPoints = gsonObj.toJson(list);
+				
 %>
-
-
 
 <head>
     <meta charset="utf-8">
@@ -69,7 +93,48 @@
     <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="../assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>    
+    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
+    
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    
+<script type="text/javascript">
+window.onload = function() { 
+	 
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "light2",
+		title: {
+			text: ""
+		},
+		subtitles: [{
+			text: ""
+		}],
+		axisY: {
+			title: "Number of Candidates",
+			labelFormatter: addSymbols
+		},
+		data: [{
+			type: "bar",
+			indexLabel: "{y}",
+			indexLabelFontColor: "#444",
+			indexLabelPlacement: "inside",
+			dataPoints: <%out.print(dataPoints);%>
+		}]
+	});
+	chart.render();
+	 
+	function addSymbols(e) {
+		var suffixes = ["", "K", "M", "B"];
+	 
+		var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+		if(order > suffixes.length - 1)
+		order = suffixes.length - 1;
+	 
+		var suffix = suffixes[order];
+		return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+	}
+	 
+}
+</script>
 </head>
 
 <body>
@@ -469,12 +534,7 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">
-                                        <%
-                                        Integer click = AccountController.getNumberOfClick(userBean);
-                                        click = (click==null) ? 0 : click;
-                                        %>
-                                        <%=click%></h2>                                        
+                                        <h2 class="text-dark mb-1 font-weight-medium"><%=AccountController.getNumberOfClick(userBean)%></h2>                                        
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total number of clicks</h6>
                                 </div>
@@ -517,14 +577,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-5 col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Net Income</h4>
-                                <div class="net-income mt-4 position-relative" style="height:294px;"></div>
-                                <ul class="list-inline text-center mt-5 mb-2">
-                                    <li class="list-inline-item text-muted font-italic">Sales for this month</li>
-                                </ul>
+								<div id="chartContainer" style="height: 390px; width: 100%;"></div>
+								<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>								    
                             </div>
                         </div>
                     </div>

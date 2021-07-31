@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import logic.Database;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
+import logic.model.CompanyModel;
 import logic.model.JobSeekerUserModel;
 
 public final class CandidatureDao {
@@ -26,6 +29,8 @@ public final class CandidatureDao {
 			"{ call InsertCandidature(?,?,?) }";
 	private static final String DELETE_CANDIDATURE = 
 			"{ call DeleteCandidature(?,?) }";
+	private static final String GET_CANDIDATURE_BY_COMPANY_VAT = 
+			"{ call GetCandidatureByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERROR_SAMEID_MORECANDIDATURE = 
 			"Multiple candidature detected with same Id";	
 	
@@ -81,6 +86,30 @@ public final class CandidatureDao {
 			throw new DataAccessException(e);
 		}
 				
+	}
+	
+	public static List<CandidatureModel> getCandidatureByCompanyVat(CompanyModel company) 
+			throws DataAccessException, DataLogicException {
+		List<CandidatureModel> listCandidatureModel = new ArrayList<>();
+		try (CallableStatement stmt = CONN.prepareCall(GET_CANDIDATURE_BY_COMPANY_VAT)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				while(rs.next()) {
+		
+				CandidatureModel cm = new CandidatureModel();
+				cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
+				cm.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
+				cm.setCandidatureDate(rs.getDate(3));
+				listCandidatureModel.add(cm);
+				
+				}
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return listCandidatureModel;
 	}
 
 	

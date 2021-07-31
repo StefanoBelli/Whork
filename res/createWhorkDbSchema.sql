@@ -1511,6 +1511,29 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure GetCandidatureByCompanyVAT 
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetCandidatureByCompanyVAT`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetCandidatureByCompanyVAT` (in var_VAT CHAR(11))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate
+    FROM Offer JOIN Candidature ON OfferID = Offer_OfferID
+    WHERE Company_VATNumber = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 
 
@@ -1625,6 +1648,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`ChangePictureJobSeekerUser` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`CountOfEmployee` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOffers` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOfClick` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureByCompanyVAT` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

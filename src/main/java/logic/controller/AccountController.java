@@ -104,6 +104,6 @@ public final class AccountController {
 	
 	public static int getNumberOfClick(UserBean userBean) throws DataAccessException, DataLogicException {
 		return OfferDao.totalNumberOfClick(ModelFactory.buildCompanyModel(userBean.getCompany()));		
-	}
+	}	
 
 }
