@@ -28,7 +28,7 @@ String jobCategory = (String) request.getParameter("jobCategories");
 String jobPosition = (String) request.getParameter("jobPositions");
 String qualification = (String) request.getParameter("qualifications");
 String typeOfContract = (String) request.getParameter("typesOfContract");
-List<OfferBean> offers = OfferController.searchOffers(searchVal, 
+List<OfferBean> offers =OfferController.searchOffers(searchVal, 
 			jobCategory, jobPosition, qualification	, typeOfContract);
 String candidateToOffer = (String) request.getParameter("candidate_offer_id");
 if(candidateToOffer != null && sessionUser != null) {
