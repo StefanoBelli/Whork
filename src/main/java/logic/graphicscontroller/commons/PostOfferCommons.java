@@ -1,5 +1,6 @@
 package logic.graphicscontroller.commons;
 
+import logic.exception.InternalException;
 import logic.factory.DialogFactory;
 
 public final class PostOfferCommons {
@@ -15,6 +16,13 @@ public final class PostOfferCommons {
 				ERROR, 
 				"Unable to copy one or more file", 
 				"Check logs to get more infos").showAndWait();
+		}
+		
+		public static void internalException(InternalException e) {
+			DialogFactory.error(
+				"Internal exception", 
+				"Something bad just happened, we don't know much about it",
+				e.getMessage()).showAndWait();
 		}
 		
 		public static void dataAccessException() {

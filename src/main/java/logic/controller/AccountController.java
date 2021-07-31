@@ -25,11 +25,20 @@ import logic.util.Util;
 import logic.util.tuple.Pair;
 
 public final class AccountController {
+	
+	private static final String DATA_ACCESS_ERROR =
+			"Data access error";
+	
 	private AccountController() {}
 	
-	public static List<CandidatureBean> getSeekerCandidature(UserBean userBean) throws DataAccessException, DataLogicException {		
+	public static List<CandidatureBean> getSeekerCandidature(UserBean userBean) throws InternalException {		
 		List<CandidatureBean> listCandidatureBean = new ArrayList<>();		
-		List<CandidatureModel> listCandidatureModel = AccountDao.getSeekerCandidature(ModelFactory.buildUserModel(userBean));
+		List<CandidatureModel> listCandidatureModel;
+		try {
+			listCandidatureModel = AccountDao.getSeekerCandidature(ModelFactory.buildUserModel(userBean));
+		} catch (DataAccessException | DataLogicException e) {
+			throw new InternalException(DATA_ACCESS_ERROR);
+		}
 		
 		if(listCandidatureModel == null) return listCandidatureBean;
 		

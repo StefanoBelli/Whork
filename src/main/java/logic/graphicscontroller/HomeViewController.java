@@ -21,7 +21,7 @@ import logic.bean.TypeOfContractBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.DataAccessException;
-import logic.exception.DataLogicException;
+import logic.exception.InternalException;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.state.Context;
 import logic.pool.JobCategoryPool;
@@ -104,7 +104,7 @@ public final class HomeViewController extends GraphicsController {
 
 		try {
 			offers = OfferController.searchOffers(null, null, null, null, null);
-		} catch (DataAccessException | DataLogicException e) {
+		} catch (InternalException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
 		}
@@ -135,7 +135,7 @@ public final class HomeViewController extends GraphicsController {
 						strOrNull(typeOfContractCB.getValue()));
 					fillListView(FXCollections.observableArrayList(offers));
 				}
-			} catch (DataAccessException | DataLogicException e) {
+			} catch (InternalException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}

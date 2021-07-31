@@ -4,8 +4,7 @@ import javafx.scene.control.Button;
 import logic.bean.OfferBean;
 import logic.bean.UserBean;
 import logic.controller.CandidatureController;
-import logic.exception.DataAccessException;
-import logic.exception.DataLogicException;
+import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 
 /* package-private */ final class NoLoggedInOfferButtonsState implements OfferButtonsState {	
@@ -27,7 +26,7 @@ import logic.util.GraphicsUtil;
 				} else {
 					context.state = new LoggedInOfferButtonsState();		
 				}
-			} catch (DataAccessException | DataLogicException e) {
+			} catch (InternalException e) {
 				GraphicsUtil.showExceptionStage(e);
 			}
 		}

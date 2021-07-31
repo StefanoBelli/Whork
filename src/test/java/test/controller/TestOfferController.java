@@ -24,7 +24,6 @@ import logic.dao.TypeOfContractDao;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
-import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
@@ -95,7 +94,7 @@ public class TestOfferController {
 	}
 	
 	@Test
-	public void testASearchOffers() throws DataAccessException, DataLogicException {
+	public void testASearchOffers() throws InternalException {
 		List<OfferBean> offers=new ArrayList<>();
 		
 		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Master's degree", "Full Time");
@@ -105,7 +104,7 @@ public class TestOfferController {
 	}
 	
 	@Test
-	public void testBPostOffer() throws DataAccessException, DataLogicException {
+	public void testBPostOffer() throws InternalException {
 		
 		CompanyBean company= new CompanyBean();
 		company=BeanFactory.buildCompanyBean("LMBTTR04T45A662J", 

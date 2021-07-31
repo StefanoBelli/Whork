@@ -140,12 +140,12 @@ public class TestCandidatureController {
 	
 	
 	@Test
-	public void testBGetCandidature() throws DataAccessException, DataLogicException {
+	public void testBGetCandidature() throws InternalException {
 		assertNotEquals(CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"),null);
 	}
 	
 	@Test
-	public void testCDeleteCandidature() throws DataAccessException, DataLogicException {
+	public void testCDeleteCandidature() throws InternalException {
 		
 		CandidatureBean candidature=CandidatureController.getCandidature(1, "SRRPQR04R45A422Y");
 		

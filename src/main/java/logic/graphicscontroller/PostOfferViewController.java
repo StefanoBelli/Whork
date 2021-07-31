@@ -19,7 +19,7 @@ import logic.bean.QualificationBean;
 import logic.bean.TypeOfContractBean;
 import logic.bean.UserBean;
 import logic.controller.OfferController;
-import logic.exception.DataAccessException;
+import logic.exception.InternalException;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.commons.PostOfferCommons;
 import logic.graphicscontroller.formchecker.FormChecker;
@@ -142,9 +142,9 @@ public final class PostOfferViewController extends GraphicsController {
 					Util.exceptionLog(e);
 					PostOfferCommons.ShowAndWaitDialog.ioException();
 					return;
-				} catch (DataAccessException e) {
+				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					PostOfferCommons.ShowAndWaitDialog.dataAccessException();
+					PostOfferCommons.ShowAndWaitDialog.internalException(e);
 					return;
 				}
 

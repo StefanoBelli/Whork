@@ -188,7 +188,7 @@ public final class AccountServlet extends HttpServlet {
 
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-				throws DataAccessException, DataLogicException {
+				throws InternalException {
 			if (req.getParameter("deleteCandidatureButton") != null) {
 				int i = Integer.parseInt(req.getParameter("deleteCandidatureButton"));
 				List<CandidatureBean> listCandidatureBean = AccountController.getSeekerCandidature(userBean);
