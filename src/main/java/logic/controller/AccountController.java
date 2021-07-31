@@ -3,14 +3,20 @@ package logic.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import logic.bean.CandidatureBean;
+import logic.bean.CompanyBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
 import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
+import logic.dao.UserDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
@@ -18,6 +24,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
+import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserAuthModel;
 import logic.util.ServletUtil;
@@ -104,6 +111,24 @@ public final class AccountController {
 	
 	public static int getNumberOfClick(UserBean userBean) throws DataAccessException, DataLogicException {
 		return OfferDao.totalNumberOfClick(ModelFactory.buildCompanyModel(userBean.getCompany()));		
-	}	
+	}
+	
+	public static Map<String, Integer> getEmploymentStatusBtCompanyVAT(CompanyBean company) throws DataAccessException, DataLogicException {
+		List<EmploymentStatusModel> listEmployments =  UserDao.getEmploymentStatusByCompanyVat(ModelFactory.buildCompanyModel(company));
+		Map<String, Integer> map = new HashMap<>();
+
+		Iterator<String> m = map.keySet().iterator();
+		m.next()
+		for(int i=0; i<listEmployments.size(); i++) {
+			if(map.containsKey(listEmployments.get(i).getStatus()))
+				map.put(listEmployments.get(i).getStatus(), map.get(listEmployments.get(i).getStatus())+1);
+			else
+				map.put(listEmployments.get(i).getStatus(), 1);
+		}
+		return map;
+	}
+
+
+
 
 }

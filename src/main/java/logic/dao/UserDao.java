@@ -3,12 +3,17 @@ package logic.dao;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.Date;
 
 import logic.Database;
+import logic.model.CandidatureModel;
+import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
+import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserModel;
 import logic.exception.DataAccessException;
@@ -25,11 +30,13 @@ public final class UserDao {
 	private static final String STMT_GET_EMPLOYEE_EMAIL_BY_CF=
 		"{ call GetEmployeeEmailByCf(?)} ";
 	private static final String STMT_GET_JOBSEEKER_EMAIL_BY_CF=
-			"{ call GetJobSeekerEmailByCf(?)} ";
+		"{ call GetJobSeekerEmailByCf(?)} ";
 	private static final String STMT_REGDET_EMPLOYEE = 
 		"{ call RegisterEmployeeUserDetails(?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_REGDET_JOBSEEKER = 
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
+	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
+			"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
@@ -184,5 +191,26 @@ public final class UserDao {
 		}
 		return email;
 		
+	}
+	
+	public static List<EmploymentStatusModel> getEmploymentStatusByCompanyVat(CompanyModel company) 
+			throws DataAccessException, DataLogicException {
+		List<EmploymentStatusModel> listEmploymentStatus = new ArrayList<>();
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				while(rs.next()) {
+		
+				JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));				
+				listEmploymentStatus.add(cm.getEmploymentStatus());
+				
+				}
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return listEmploymentStatus;
 	}
 }
