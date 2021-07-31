@@ -183,7 +183,7 @@ public final class HomeViewController extends GraphicsController {
 				CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(offer, LoginHandler.getSessionUser()));
 				context.candidate();
 				candidateBtn.setDisable(true);
-			} catch (DataAccessException e) {
+			} catch (InternalException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}

@@ -462,6 +462,37 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure GetJobSeekerEmailByCf
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetJobSeekerEmailByCf`;
+
+DELIMITER $$
+USE `whorkdb`$$
+CREATE PROCEDURE `GetJobSeekerEmailByCf` (in var_cf char(16))
+BEGIN
+	
+    SET TRANSACTION READ ONLY;
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT
+		Email
+	FROM
+		JobSeekerUserDetails join Auth on JobSeekerUserDetails.CF=Auth.JobSeekerDetails_CF
+	WHERE
+		JobSeekerUserDetails.CF=var_cf;
+
+	COMMIT;
+    
+END$$
+
+DELIMITER ;
+
+
+-- -----------------------------------------------------
 -- procedure GetEmploymentStatuses
 -- -----------------------------------------------------
 
@@ -1577,6 +1608,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`FilterOffers` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`InsertCandidature` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetOfferByID` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeEmailByCf` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetJobSeekerEmailByCf` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetJobCategories` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`UpdateNumClick` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetTypesOfContract` TO 'whork';
