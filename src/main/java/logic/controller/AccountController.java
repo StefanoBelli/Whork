@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
@@ -118,7 +117,7 @@ public final class AccountController {
 		Map<String, Integer> map = new HashMap<>();
 
 		Iterator<String> m = map.keySet().iterator();
-		m.next()
+		m.next();
 		for(int i=0; i<listEmployments.size(); i++) {
 			if(map.containsKey(listEmployments.get(i).getStatus()))
 				map.put(listEmployments.get(i).getStatus(), map.get(listEmployments.get(i).getStatus())+1);
@@ -127,8 +126,4 @@ public final class AccountController {
 		}
 		return map;
 	}
-
-
-
-
 }

@@ -20,7 +20,6 @@ import logic.bean.QualificationBean;
 import logic.bean.TypeOfContractBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
-import logic.exception.DataAccessException;
 import logic.exception.InternalException;
 import logic.factory.BeanFactory;
 import logic.graphicscontroller.state.Context;
