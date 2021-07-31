@@ -3,7 +3,6 @@ package test.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.sql.SQLException;
 import java.util.Date;
 
 import org.junit.BeforeClass;
@@ -40,8 +39,7 @@ import logic.util.tuple.Pair;
 public class TestCandidatureController {
 	
 	@BeforeClass
-	static public void insertData() throws InternalException, InvalidVatCodeException, 
-		AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException, DataAccessException {
+	static public void insertData() throws InternalException, DataAccessException, InvalidVatCodeException, AlreadyExistantCompanyException, AlreadyExistantUserException {
 		
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");

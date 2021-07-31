@@ -27,15 +27,15 @@ public final class QualificationDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				List<QualificationBean> esl = new ArrayList<>();
+				List<QualificationBean> ql = new ArrayList<>();
 
 				while (rs.next()) {
 					QualificationBean m = new QualificationBean();
 					m.setQualify(rs.getString(1));
-					esl.add(m);
+					ql.add(m);
 				}
 
-				QualificationPool.setQualifications(esl);
+				QualificationPool.setQualifications(ql);
 			}
 
 		} catch (SQLException e) {

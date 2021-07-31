@@ -27,15 +27,15 @@ public final class TypeOfContractDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				List<TypeOfContractBean> esl = new ArrayList<>();
+				List<TypeOfContractBean> tcl = new ArrayList<>();
 
 				while (rs.next()) {
 					TypeOfContractBean m = new TypeOfContractBean();
 					m.setContract(rs.getString(1));
-					esl.add(m);
+					tcl.add(m);
 				}
 
-				TypeOfContractPool.setTypesOfContract(esl);
+				TypeOfContractPool.setTypesOfContract(tcl);
 			}
 
 		} catch (SQLException e) {

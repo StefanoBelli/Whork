@@ -27,15 +27,15 @@ public final class JobPositionDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				List<JobPositionBean> esl = new ArrayList<>();
+				List<JobPositionBean> jpl = new ArrayList<>();
 
 				while (rs.next()) {
 					JobPositionBean m = new JobPositionBean();
 					m.setPosition(rs.getString(1));
-					esl.add(m);
+					jpl.add(m);
 				}
 
-				JobPositionPool.setJobPositions(esl);
+				JobPositionPool.setJobPositions(jpl);
 			}
 
 		} catch (SQLException e) {

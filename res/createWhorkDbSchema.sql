@@ -481,7 +481,7 @@ BEGIN
     SELECT
 		Email
 	FROM
-		JobSeekerUserDetails join Auth on JobSeekerUserDetails.CF=Auth.JobSeekerDetails_CF
+		JobSeekerUserDetails join Auth on JobSeekerUserDetails.CF=Auth.JobSeekerUserDetails_CF
 	WHERE
 		JobSeekerUserDetails.CF=var_cf;
 

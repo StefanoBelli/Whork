@@ -27,15 +27,15 @@ public final class JobCategoryDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				List<JobCategoryBean> esl = new ArrayList<>();
+				List<JobCategoryBean> jcb = new ArrayList<>();
 
 				while (rs.next()) {
 					JobCategoryBean m = new JobCategoryBean();
 					m.setCategory(rs.getString(1));
-					esl.add(m);
+					jcb.add(m);
 				}
 
-				JobCategoryPool.setJobCategories(esl);
+				JobCategoryPool.setJobCategories(jcb);
 			}
 
 		} catch (SQLException e) {
