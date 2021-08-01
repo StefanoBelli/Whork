@@ -124,8 +124,7 @@ public final class Util {
 		}
 	}
 
-	public static Date deriveBirthdayFromFiscalCode(String fiscalCode) 
-			throws IllegalArgumentException {
+	public static Date deriveBirthdayFromFiscalCode(String fiscalCode) {
 		String day = fiscalCode.substring(9, 11); // DAY
 		int dayIntegerLess40 = Integer.parseInt(day) - 40;
 		
