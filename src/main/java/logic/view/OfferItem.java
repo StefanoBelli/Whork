@@ -67,13 +67,15 @@ public final class OfferItem {
 		
 		offerImg.setFitWidth(MAX_WIDTH);
 		offerImg.setPreserveRatio(true);
+
+		StringBuilder pathBuilder = new StringBuilder("file:");
 		
 		if(itemBean.getPhoto()!=null) {
 			offerImg.setImage(
-					new Image(new StringBuilder(usrData).append("/").append(itemBean.getPhoto()).toString()));
-		}else {
+					new Image(pathBuilder.append(usrData).append("/").append(itemBean.getPhoto()).toString()));
+		} else {
 			offerImg.setImage(
-					new Image(new StringBuilder("file:").append(dflRoot).append("/offerPhoto.jpg").toString()));
+					new Image(pathBuilder.append(dflRoot).append("/offerPhoto.jpg").toString()));
 		}
 		
 		offerNameTxt.setText("Offer Name: " + itemBean.getOfferName()+
