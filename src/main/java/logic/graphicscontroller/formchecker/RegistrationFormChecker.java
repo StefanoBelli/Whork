@@ -19,6 +19,7 @@ public final class RegistrationFormChecker extends FormChecker {
 	 * @param formEntries - form entries
 	 * @return error string - if it is equal to "", form is good to go, nope otherwise
 	 */
+	@Override
 	public String doChecks(Object[] formEntries) {
 		StringBuilder errorBuilder = new StringBuilder("");
 

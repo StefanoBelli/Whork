@@ -14140,7 +14140,7 @@
 										"$ref": "AAAAAAF6yJX4NvkDplw="
 									},
 									"edgePosition": 1,
-									"text": "«directly creates»"
+									"text": "«creates»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -14522,7 +14522,7 @@
 										"$ref": "AAAAAAF6yJtTVBombHI="
 									},
 									"edgePosition": 1,
-									"text": "«directly creates»"
+									"text": "«creates»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -30264,7 +30264,7 @@
 										"$ref": "AAAAAAF6ya6sk0oGhCs="
 									},
 									"edgePosition": 1,
-									"text": "«directly creates»"
+									"text": "«creates»"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -33560,7 +33560,7 @@
 							"target": {
 								"$ref": "AAAAAAF6yHDcApSmoQk="
 							},
-							"stereotype": "directly creates"
+							"stereotype": "creates"
 						},
 						{
 							"_type": "UMLDependency",
@@ -33826,7 +33826,7 @@
 							"target": {
 								"$ref": "AAAAAAF6yHDcApSmoQk="
 							},
-							"stereotype": "directly creates"
+							"stereotype": "creates"
 						},
 						{
 							"_type": "UMLDependency",
@@ -42483,7 +42483,7 @@
 							"target": {
 								"$ref": "AAAAAAF6yHDcApSmoQk="
 							},
-							"stereotype": "directly creates"
+							"stereotype": "creates"
 						},
 						{
 							"_type": "UMLDependency",
