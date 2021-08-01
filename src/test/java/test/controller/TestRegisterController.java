@@ -2,8 +2,10 @@ package test.controller;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.Date;
 
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -13,17 +15,25 @@ import logic.bean.UserBean;
 import logic.controller.RegisterController;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
+import logic.exception.DataAccessException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
+import test.Db;
 
 /**
  * @author Stefano Belli
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRegisterController {
+
+	@BeforeClass
+	public static void initDb() 
+			throws ClassNotFoundException, SQLException, DataAccessException {
+		Db.init();
+	}
 	
 	/**
 	 * This test will show an exception logging because the internal "Util.Mailer"

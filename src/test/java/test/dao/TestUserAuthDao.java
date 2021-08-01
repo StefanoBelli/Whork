@@ -3,8 +3,10 @@ package test.dao;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.ByteArrayInputStream;
+import java.sql.SQLException;
 import java.util.Date;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import logic.dao.CompanyDao;
@@ -21,8 +23,14 @@ import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 import logic.model.UserAuthModel;
 import logic.util.Util;
+import test.Db;
 
 public class TestUserAuthDao {
+
+	@BeforeClass
+	public static void initDb() throws ClassNotFoundException, SQLException, DataAccessException {
+		Db.init();
+	}
 
 	@Test
 	public void testRegisterUserAuthJobSeekerCompleteOk() throws DataAccessException, DataLogicException {

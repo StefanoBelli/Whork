@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,11 +25,17 @@ import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
+import test.Db;
 
 /**
  * @author Michele Tosi
  */
 public class SeleniumSearchOffer {
+
+	@BeforeClass
+	public static void initDb() throws ClassNotFoundException, SQLException, DataAccessException {
+		Db.init();
+	}
 	
 	@Test
 	public void testSearchOffer() throws DataAccessException, InternalException, InvalidVatCodeException, AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException {

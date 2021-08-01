@@ -3,6 +3,7 @@ package test.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.junit.BeforeClass;
@@ -18,10 +19,6 @@ import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.controller.RegisterController;
-import logic.dao.JobCategoryDao;
-import logic.dao.JobPositionDao;
-import logic.dao.QualificationDao;
-import logic.dao.TypeOfContractDao;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
@@ -31,6 +28,7 @@ import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
 import logic.util.Util;
 import logic.util.tuple.Pair;
+import test.Db;
 
 /**
  * @author Michele Tosi
@@ -39,17 +37,17 @@ import logic.util.tuple.Pair;
 public class TestCandidatureController {
 	
 	@BeforeClass
-	static public void insertData() throws InternalException, DataAccessException, InvalidVatCodeException, AlreadyExistantCompanyException, AlreadyExistantUserException {
+	public static void insertData() 
+		throws InternalException, DataAccessException, InvalidVatCodeException, 
+			AlreadyExistantCompanyException, AlreadyExistantUserException, 
+			ClassNotFoundException, SQLException {
+
+		Db.init();
 		
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");		
-		
-		JobCategoryDao.populatePool();
-		JobPositionDao.populatePool();
-		QualificationDao.populatePool();
-		TypeOfContractDao.populatePool();
 		
 		CompanyBean company= new CompanyBean();
 		company=BeanFactory.buildCompanyBean("FRRTTR04T45A662J", 
@@ -138,14 +136,14 @@ public class TestCandidatureController {
 				throw e;
 			}
 		}
-		assertEquals(OfferController.getOfferById(1).getClickStats(), 1);
+		assertEquals(1, OfferController.getOfferById(1).getClickStats());
 		
 	}
 	
 	
 	@Test
 	public void testBGetCandidature() throws InternalException {
-		assertNotEquals(CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"),null);
+		assertNotEquals(null, CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"));
 	}
 	
 	@Test
@@ -154,7 +152,7 @@ public class TestCandidatureController {
 		CandidatureBean candidature=CandidatureController.getCandidature(1, "SRRPQR04R45A422Y");
 		
 		CandidatureController.deleteCandidature(candidature.getJobSeeker(),candidature);
-		assertEquals(CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"),null);
+		assertEquals(null, CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"));
 	}
 	
 }

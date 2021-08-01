@@ -4,12 +4,10 @@ import logic.Database;
 import logic.dao.ComuniDao;
 import logic.dao.EmploymentStatusDao;
 import logic.exception.DataAccessException;
-import logic.exception.DatabaseException;
 
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertNotEquals;
 
 import java.sql.SQLException;
@@ -19,12 +17,13 @@ import org.junit.FixMethodOrder;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDatabase {
+	/*
 	@Test
 	public void testADatabaseShouldThrowEx() {
 		assertThrows(DatabaseException.class, () -> {
 			Database.getInstance();
 		});
-	}
+	}*/
 
 	@Test
 	public void testBDatabaseShouldWork() 

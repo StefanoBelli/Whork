@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,13 +24,19 @@ import logic.model.ProvinciaModel;
 import logic.model.RegioneModel;
 import logic.model.UserAuthModel;
 import logic.util.Util;
+import test.Db;
 
 /**
  * @author Stefano Belli
  */
 public class TestLoginController {
 	@BeforeClass
-	public static void createUser() throws DataAccessException, DataLogicException {
+	public static void createUser() 
+			throws DataAccessException, DataLogicException, 
+				ClassNotFoundException, SQLException {
+					
+		Db.init();
+		
 		EmploymentStatusModel empStatusModel = new EmploymentStatusModel();
 		empStatusModel.setStatus("Unemployed");
 

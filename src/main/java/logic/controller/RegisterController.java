@@ -103,7 +103,12 @@ public final class RegisterController {
 			return false;
 		}
 
-		return new JSONObject(jsonResponse).getBoolean("valid");
+		JSONObject rootObject = new JSONObject(jsonResponse);
+		if(rootObject.has("valid")) {
+			return rootObject.getBoolean("valid");
+		}
+		
+		return false;
 	}
 
 	private static boolean alreadyExistantUser(UserModel user, UserAuthModel userAuth)
