@@ -8,10 +8,16 @@ $(function () {
         bindto: '#campaign-v2',
         data: {
             columns: [
-                ['Direct Sales', 25],
-                ['Referral Sales', 15],
-                ['Afilliate Sales', 10],
-                ['Indirect Sales', 15]
+                ['Hired on a temporary basis', 0],
+		['Hired for an indefinite period', 0],
+		['Hired indefinitely for the purpose of administration', 0],
+		['Hired with a fixed-term administration contract', 0],
+		['Unemployed', 0],
+		['Self employed', 0],
+		['Retired', 0],
+		['Civil/military service', 0],
+		['Internship', 0],
+		['Student', 8]
             ],
 
             type: 'donut',
@@ -35,7 +41,7 @@ $(function () {
                 '#edf2f6',
                 '#5f76e8',
                 '#ff4f70',
-                '#01caf1'
+                '#01caf1',
             ]
         }
     });
