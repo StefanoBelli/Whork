@@ -34,6 +34,8 @@ public final class AccountDao {
 			"{ call ChangePictureJobSeekerUser(?, ?) }";
 	private static final String COUNT_OF_EMPLOYEES = 
 			"{ call CountOfEmployee(?) }";
+	private static final String FISCAL_CODE_DECODE = 
+			"{ call FiscalCodeDecode(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 			"More than two result set, this is unexpected";
 	
@@ -130,6 +132,25 @@ public final class AccountDao {
 			throw new DataAccessException(e);
 		}
 		return n;
+	}
+	
+	public static String getCountryFiscalCodeDecode(String code) throws DataAccessException, DataLogicException {
+		try (CallableStatement stmt = CONN.prepareCall(FISCAL_CODE_DECODE)) {
+			stmt.setString(1, code);
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {				
+				if(!rs.next()) {
+					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);
+				}
+				
+				return rs.getString(1);
+			}
+
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		
 	}
 	
 }

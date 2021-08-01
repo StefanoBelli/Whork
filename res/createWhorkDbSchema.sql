@@ -1584,7 +1584,9 @@ BEGIN
     
     START TRANSACTION;
     
-    
+    SELECT Country
+    FROM FiscalCode
+    WHERE Code = var_code;
     
     COMMIT;
 END$$
