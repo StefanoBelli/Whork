@@ -44,12 +44,41 @@
 		listMonth.add("Dec");
 		
 		for(int i=0; i<listCandidatureByVat.size(); i++) {
+			
+			System.out.println(listMonth.get(i) + " " + listCandidatureByVat.get(i));
+			
 			map = new HashMap<Object,Object>(); map.put("label", listMonth.get(i)); map.put("y", listCandidatureByVat.get(i)); list.add(map);		
 		}
 		 
 		String dataPoints = gsonObj.toJson(list);
-				
+		
+		
+		Gson gsonObjPieChart = new Gson();
+		Map<Object,Object> mapPieChart = null;
+		List<Map<Object,Object>> listPieChart = new ArrayList<Map<Object,Object>>();
+		
+		Map<String, Double> mapEmployment = AccountController.getEmploymentStatusBtCompanyVAT(userBean.getCompany());
+		Iterator<String> keys = mapEmployment.keySet().iterator();
+		int i=0;
+		String key = null;
+		
+		if(keys.hasNext()) {
+			key = keys.next();
+			
+			System.out.println(key + " " + mapEmployment.get(key));
+			
+			mapPieChart = new HashMap<Object,Object>(); mapPieChart.put("label", key); mapPieChart.put("y", mapEmployment.get(key)*100); mapPieChart.put("exploded", true); listPieChart.add(mapPieChart);		
+		}
+		
+		while(keys.hasNext()) {
+			key = keys.next();
+			mapPieChart = new HashMap<Object,Object>(); mapPieChart.put("label", key); mapPieChart.put("y", mapEmployment.get(key)*100); listPieChart.add(mapPieChart);			
+			i++;
+		}		
+		 
+		String dataPointsPieChart = gsonObjPieChart.toJson(listPieChart);	
 %>
+
 
 <head>
     <meta charset="utf-8">
@@ -97,44 +126,64 @@
     
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     
-<script type="text/javascript">
-window.onload = function() { 
-	 
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "light2",
-		title: {
-			text: ""
-		},
-		subtitles: [{
-			text: ""
-		}],
-		axisY: {
-			title: "",
-			labelFormatter: addSymbols
-		},
-		data: [{
-			type: "bar",
-			indexLabel: "{y}",
-			indexLabelFontColor: "#444",
-			indexLabelPlacement: "inside",
-			dataPoints: <%out.print(dataPoints);%>
-		}]
-	});
-	chart.render();
-	 
-	function addSymbols(e) {
-		var suffixes = ["", "K", "M", "B"];
-	 
-		var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-		if(order > suffixes.length - 1)
-		order = suffixes.length - 1;
-	 
-		var suffix = suffixes[order];
-		return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-	}
-	 
-}
-</script>
+	<script type="text/javascript">
+		window.onload = function() { 
+			 
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2",
+				title: {
+					text: ""
+				},
+				subtitles: [{
+					text: ""
+				}],
+				axisY: {
+					title: "",
+					labelFormatter: addSymbols
+				},
+				data: [{
+					type: "bar",
+					indexLabel: "{y}",
+					indexLabelFontColor: "#444",
+					indexLabelPlacement: "inside",
+					dataPoints: <%out.print(dataPoints);%>			
+				}]
+			});
+			chart.render();
+			 
+			function addSymbols(e) {
+				var suffixes = ["", "K", "M", "B"];
+			 
+				var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+				if(order > suffixes.length - 1)
+					order = suffixes.length - 1;
+			 
+				var suffix = suffixes[order];
+				return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+			}
+		
+		
+			var chartPieChart = new CanvasJS.Chart("chartContainerPieChart", {
+				theme: "light2",
+				animationEnabled: true,
+				exportFileName: "",
+				exportEnabled: true,
+				title:{
+					text: ""
+				},
+				data: [{
+					type: "pie",
+					showInLegend: true,
+					legendText: "{label}",
+					toolTipContent: "{label}: <strong>{y}%</strong>",
+					indexLabel: "{label} {y}%",
+					dataPoints: <%out.print(dataPointsPieChart);%>			
+				}]
+			});	 
+			chartPieChart.render();
+		 
+		}
+	</script>
 </head>
 
 <body>
@@ -552,63 +601,26 @@ window.onload = function() {
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-5 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Total Sales</h4>
-                                <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
-                                <ul class="list-style-none mb-0">
-<% 
-	Map<String, Integer> map = AccountController.getEmploymentStatusBtCompanyVAT(userBean.getCompany());
-	List<String> listColorsEmployment = new ArrayList<>();
-	
-	listColorsEmployment.add("primary");
-	listColorsEmployment.add("danger");
-	listColorsEmployment.add("cyan");
-	listColorsEmployment.add("yellow");
-	listColorsEmployment.add("orange");
-	listColorsEmployment.add("brown");
-	listColorsEmployment.add("black");
-	listColorsEmployment.add("purple");
-	listColorsEmployment.add("green");
-	listColorsEmployment.add("grey");
-	
-	
-	if(map.size() == 0) {
-		
-	} else {
-		Iterator<String> keys = map.keySet().iterator();
-		int i=0;
-		while(keys.hasNext()) {
-			String key = keys.next();
-%>
-									<li>
-										<i class="fas fa-circle text-<%=listColorsEmployment.get(i)%> font-10 mr-2"></i>
-										<span class="text-muted"><%=key%></span>
-										<span class="text-dark float-right font-weight-medium"><%map.get(key) %></span>
-									</li>
-<%
-			i++;
-		}
-	}
-%>                                    
-                                </ul>
+                                <h4 class="card-title">Average Employment Status of Candidate</h4>
+                                <div id="chartContainerPieChart" style="height: 400px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Number of Candidates</h4>
-								<div id="chartContainer" style="height: 390px; width: 100%;"></div>
-								<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>								    
+                                <h4 class="card-title">Number of Candidate</h4>
+								<div id="chartContainer" style="height: 400px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Candidates by Location</h4>
+                                <h4 class="card-title mb-4">Candidate by Location</h4>
                                 <div class="" style="height:180px">
                                     <div id="visitbylocate" style="height:100%"></div>
                                 </div>
@@ -830,11 +842,6 @@ window.onload = function() {
     <!-- End Wrapper -->
     <!-- ============================================================== -->   
 </body>
-
-
-
-
-
 
 <%		
 	} else {
