@@ -10,7 +10,6 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
 public final class CompanyDao {
-
 	private CompanyDao() {}
 
 	private static final Connection CONN = 
@@ -41,7 +40,7 @@ public final class CompanyDao {
 				if(!rs.next()) {
 					return null;
 				}
-
+				
 				CompanyModel cm = new CompanyModel();
 				cm.setSocialReason(rs.getString(1));
 				cm.setCf(rs.getString(2));
