@@ -236,7 +236,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
   `OfferID` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
-  `Description` VARCHAR(45) NOT NULL,
+  `Description` VARCHAR(4096) NOT NULL,
   `JobPhysicalLocationFullAddress` VARCHAR(45) NOT NULL,
   `Company_VATNumber` VARCHAR(11) NOT NULL,
   `SalaryEUR` INT NULL,
@@ -1026,7 +1026,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `whorkdb`$$
-CREATE PROCEDURE `PostOffer` (in var_name varchar(45), in var_description varchar(45), in var_address varchar(45), in var_company_VAT varchar(11), in var_salary int, in var_photo varchar(45), in var_work_shift char(13), in var_position varchar(45), in var_qualification varchar(45), in var_contract varchar(45), in var_publishdate date, in var_note varchar(45), in var_category varchar(45), in var_employee_cf char(16))
+CREATE PROCEDURE `PostOffer` (in var_name varchar(45), in var_description varchar(4096), in var_address varchar(45), in var_company_VAT varchar(11), in var_salary int, in var_photo varchar(4096), in var_work_shift char(13), in var_position varchar(45), in var_qualification varchar(45), in var_contract varchar(45), in var_publishdate date, in var_note varchar(45), in var_category varchar(45), in var_employee_cf char(16))
 BEGIN
 	insert into Offer(`Name`, Description, JobPhysicalLocationFullAddress,Company_VATNumber,SalaryEUR,Photo,WorkShift,JobPosition,Qualification,TypeOfContract,PublishDate,Note,JobCategory_Category,EmployeeUserDetails_CF)
     values (var_name, var_description, var_address, var_company_VAT,var_salary, var_photo, var_work_shift, var_position,var_qualification, var_contract, var_publishdate, var_note, var_category, var_employee_cf);
