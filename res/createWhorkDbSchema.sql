@@ -380,7 +380,7 @@ DROP TABLE IF EXISTS `whorkdb`.`FiscalCode` ;
 
 CREATE TABLE IF NOT EXISTS `whorkdb`.`FiscalCode` (
   `Country` VARCHAR(45) NOT NULL,
-  `Code` VARCHAR(4) NULL,
+  `Code` VARCHAR(5) NULL,
   PRIMARY KEY (`Country`))
 ENGINE = InnoDB;
 
@@ -1564,6 +1564,27 @@ BEGIN
     SELECT JobSeekerUserDetails_CF
     FROM Offer JOIN Candidature ON OfferID = Offer_OfferID
     WHERE Company_VATNumber = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure FiscalCodeDecode
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`FiscalCodeDecode`;
+
+DELIMITER $$
+CREATE PROCEDURE `FiscalCodeDecode` (in var_code VARCHAR(4))
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    
     
     COMMIT;
 END$$
@@ -10368,7 +10389,7 @@ INSERT INTO FiscalCode(Country, Code) VALUES("Sark", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Guernsey", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Falkland (Malvine)", "Z609");
 INSERT INTO FiscalCode(Country, Code) VALUES("Isola di Man", "Z122");
-INSERT INTO FiscalCode(Country, Code) VALUES("Montserrat", "	Z531");
+INSERT INTO FiscalCode(Country, Code) VALUES("Montserrat", "Z531");
 INSERT INTO FiscalCode(Country, Code) VALUES("Curaçao", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Pitcairn", "Z722");
 INSERT INTO FiscalCode(Country, Code) VALUES("Saint Pierre e Miquelon", "Z403");
