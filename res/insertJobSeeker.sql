@@ -1,7 +1,7 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-INSERT INTO Company VALUES ('VATnumber', 'Nome azienda 1', 'MGLLEI00D08D614D', null);
+INSERT INTO Company VALUES ('VATnumber', 'Nome azienda 1', 'MNAMNA80A41Z330U', null);
 
 INSERT INTO TypeOfContract VALUES ('contratto');
 
