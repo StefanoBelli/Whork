@@ -1,6 +1,7 @@
 package test.dao;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.util.Date;
@@ -110,6 +111,16 @@ public class TestUserAuthDao {
 		UserAuthDao.confirmRegistration("new@abc.dom", regToken);
 
 		assertNotEquals(null, UserDao.getUserByCf("YYYYZZZZTTTTXXXX"));
+	}
+
+	@Test
+	public void testPasswordRestore() throws DataAccessException {
+		UserAuthModel userAuthModel = new UserAuthModel();
+		userAuthModel.setEmail("new@abc.dom");
+		userAuthModel.setBcryptedPassword(new ByteArrayInputStream(Util.Bcrypt.hash("newone")));
+
+		UserAuthDao.changeUserAuthPassword(userAuthModel);
+		assertTrue(true);
 	}
 	
 }
