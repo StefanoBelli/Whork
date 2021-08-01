@@ -33,10 +33,11 @@ def list_files(t, tli):
     lst_files = ""
     for curdir, _, files in walk(t):
         curdir = curdir[tli:]
-        if curdir == "":
-            curdir = "."
+        if curdir != "":
+            curdir = "/{}".format(curdir)
+
         for file in files:
-            lst_files += "\t\t\t\"/{}/{}\",\n".format(curdir,file)
+            lst_files += "\t\t\t\"{}/{}\",\n".format(curdir,file)
 
     return lst_files[:len(lst_files) - 2]
 
