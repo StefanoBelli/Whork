@@ -36,3 +36,9 @@ $ mvn test # runs unit tests
 $ mvn test -Dtest=test.selenium.Selenium* # runs Selenium API tests
 $ chromium . # from there open project (in side/whork-*.side) using Selenium IDE plugin
 ~~~
+
+## Devel: generating logic.ExtractorFileLister
+
+~~~
+$ ./res_codegen.py > src/main/java/logic/ExtractorFileLister.java
+~~~

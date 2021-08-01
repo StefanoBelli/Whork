@@ -14,7 +14,6 @@ import logic.dao.JobPositionDao;
 import logic.dao.QualificationDao;
 import logic.dao.TypeOfContractDao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -162,15 +161,12 @@ final class App {
 	}
 
 	private static void setResources(AssignResources res) {
-		dflResDirectories = new ArrayList<>();
-		dflResFiles = new ArrayList<>();
-		dflResFiles.add("/placeholder");
-		dflResFiles.add("/placeholder1");
+		dflResDirectories = ExtractorFileLister.listDflDirs();
+		dflResFiles = ExtractorFileLister.listDflFiles();
 
 		if(res == AssignResources.ALL) {
-			webResDirectories = new ArrayList<>();
-			webResFiles = new ArrayList<>();
-			ExtractorFileLister.list(webResDirectories, webResFiles);
+			webResDirectories = ExtractorFileLister.listWebDirs();
+			webResFiles = ExtractorFileLister.listWebFiles();
 		}
 	}
 
