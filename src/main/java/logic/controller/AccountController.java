@@ -126,6 +126,10 @@ public final class AccountController {
 			tot += 1.0;
 		}		
 		
+		if(tot == 0) { //avoid division by zero
+			return map;
+		}
+
 		Iterator<String> keys = map.keySet().iterator();		
 		
 		if(keys.hasNext()) {
