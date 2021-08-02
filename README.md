@@ -33,7 +33,7 @@ Testing is achieved on two "levels":
 $ pwd # ensure we are inside root project directory (which includes pom.xml)
 */Whork
 $ mvn test # runs unit tests
-$ mvn test -Dtest=test.selenium.Selenium* # runs Selenium API tests
+$ ./run-selenium-tests.sh # runs Selenium API tests
 $ chromium . # from there open project (in side/whork-*.side) using Selenium IDE plugin
 ~~~
 
