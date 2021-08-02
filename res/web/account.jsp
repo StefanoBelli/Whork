@@ -622,29 +622,37 @@
                                 Map<String, Double> mapCountry = AccountController.getCountryCandidateByFiscalCode(userBean.getCompany());
                         		keys = mapCountry.keySet().iterator();
                         		i=0;
+                        		int j = 0;
                         		key = null;
+                        		
+                        		List<String> listColors = new ArrayList<>();
+                        		listColors.add("primary"); listColors.add("danger"); listColors.add("cyan"); listColors.add("success");
                         		
                         		while(keys.hasNext()) {
                         			key = keys.next();
                         			
-                        		%>                        			
-	                       			<div class="row mb-3 align-items-center mt-1 mt-5">
-	                                   	<div class="col-4 text-right">
-	                                       	<span class="text-muted font-14"><%=key%></span>
-	                                   	</div>
-	                                   	<div class="col-5">
-	                                       	<div class="progress" style="height: 5px;">
-	                                          		<div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
-	                                               	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-	                                       	</div>
-	                                   	</div>
-	                                   	<div class="col-3 text-right">
-	                                       	<span class="mb-0 font-14 text-dark font-weight-medium"><%=mapCountry.get(key)%>%</span>
-	                                   	</div>
-	                               	</div>                        			
+                        		%>
+                        			
+                        			<div class="row mb-3 align-items-center mt-1 mt-5">
+                                    	<div class="col-4 text-right">
+                                        	<span class="text-muted font-14"><%=key%></span>
+                                    	</div>
+                                    	<div class="col-5">
+                                        	<div class="progress" style="height: 5px;">
+                                           		<div class="progress-bar bg-<%=listColors.get(j)%>" role="progressbar" style="width: 100%"
+                                                	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        	</div>
+                                    	</div>
+                                    	<div class="col-3 text-right">
+                                        	<span class="mb-0 font-14 text-dark font-weight-medium"><%=(int)Math.round(mapCountry.get(key)*100)%>%</span>
+                                    	</div>
+                                	</div>
+                        			
                         			
                         		<%
-                        			i++;                        			
+                        			i++;
+                        			j++;
+                        			j = (j>i) ? 0 : j;
                         		}                        		
                                 %>                                
                             </div>
