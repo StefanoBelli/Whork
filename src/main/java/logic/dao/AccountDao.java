@@ -9,7 +9,6 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
 import logic.model.CompanyModel;
-import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserModel;
 
@@ -137,7 +136,7 @@ public final class AccountDao {
 		return n;
 	}
 	
-	public static List<String> getCountryFiscalCodeDecode(String code, CompanyModel company) throws DataAccessException, DataLogicException {				
+	public static List<String> getCountryFiscalCodeDecode(CompanyModel company) throws DataAccessException, DataLogicException {				
 		List<String> listJobSeekerCF = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT)) {
 			stmt.setString(1, company.getVat());

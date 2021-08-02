@@ -1576,14 +1576,14 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure FiscalCodeDecode
+-- procedure GetCountryByFiscalCode
 -- -----------------------------------------------------
 
 USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`FiscalCodeDecode`;
+DROP procedure IF EXISTS `whorkdb`.`GetCountryByFiscalCode`;
 
 DELIMITER $$
-CREATE PROCEDURE `FiscalCodeDecode` (in var_code VARCHAR(4))
+CREATE PROCEDURE `GetCountryByFiscalCode` (in var_code VARCHAR(4))
 BEGIN
 	SET TRANSACTION READ ONLY;
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
@@ -1715,6 +1715,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOffers` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOfClick` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmploymentStatusByCompanyVAT` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
