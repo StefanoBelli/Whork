@@ -25,8 +25,8 @@ jobs:
     - name: Run selenium test
       uses: GabrielBB/xvfb-action@v1
       with:
-      	run: bash run-selenium-test.sh
-	working-directory: ./
+        run: bash run-selenium-test.sh
+        working-directory: ./
     - name: Rename pom.xml to pom.xml.old (SonarCloud asks to run Maven goal instead of Action)
       run: mv pom.xml pom.xml.old
     - name: Static analysis scan (SonarCloud)
