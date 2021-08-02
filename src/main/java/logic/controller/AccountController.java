@@ -58,7 +58,8 @@ public final class AccountController {
 		
 	}	
 	
-	public static void editAccountController(String function, UserBean userBean, UserAuthBean userAuthBean, String newPassword) throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {
+	public static void editAccountController(String function, UserBean userBean, UserAuthBean userAuthBean, String newPassword) 
+			throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {
 		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
 		UserAuthModel userAuthModel = null;
 		
@@ -140,7 +141,7 @@ public final class AccountController {
 		return map;
 	}
 	
-	public static Map<String, Double> getCountryCandidateByFiscalCode(CompanyBean companyBean) throws DataAccessException, DataLogicException {
+	public static Map<String, Double> getCountryCandidateByFiscalCode(CompanyBean companyBean) throws DataAccessException {
 		List<String> listCountry = AccountDao.getCountryFiscalCodeDecode(ModelFactory.buildCompanyModel(companyBean));
 		
 		Map<String, Double> map = new HashMap<>();

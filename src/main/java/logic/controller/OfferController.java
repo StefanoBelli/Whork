@@ -45,6 +45,4 @@ public final class OfferController {
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}		
 	}
-	
-	
 }
