@@ -150,7 +150,7 @@ public final class AccountController {
 			if(map.containsKey(listCountry.get(i))) {
 				map.replace(listCountry.get(i), map.get(listCountry.get(i))+1.0);				
 			} else {
-				map.put(listCountry.get(i), 1.0);				
+				map.put(listCountry.get(i), 1.0);
 			}
 			tot += 1.0;
 		}

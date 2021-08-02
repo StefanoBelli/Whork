@@ -143,8 +143,10 @@ public final class AccountDao {
 			stmt.execute();
 
 			try (ResultSet rs = stmt.getResultSet()) {
-				while(rs.next()) {		
-					listJobSeekerCF.add(rs.getString(1));				
+				while(rs.next()) {
+					String cf = rs.getString(1);
+					if(!listJobSeekerCF.contains(cf))
+						listJobSeekerCF.add(cf);
 				}
 			}
 		} catch(SQLException e) {
