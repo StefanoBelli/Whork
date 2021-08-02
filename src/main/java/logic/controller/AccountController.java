@@ -139,4 +139,33 @@ public final class AccountController {
 		
 		return map;
 	}
+	
+	public static Map<String, Double> getCountryCandidateByFiscalCode(CompanyBean companyBean) throws DataAccessException, DataLogicException {
+		List<String> listCountry = AccountDao.getCountryFiscalCodeDecode(ModelFactory.buildCompanyModel(companyBean));
+		
+		Map<String, Double> map = new HashMap<>();
+		double tot = 0;
+		
+		for(int i=0; i<listCountry.size(); i++) {
+			if(map.containsKey(listCountry.get(i))) {
+				map.replace(listCountry.get(i), map.get(listCountry.get(i))+1.0);				
+			} else {
+				map.put(listCountry.get(i), 1.0);				
+			}
+			tot += 1.0;
+		}
+		
+		if(tot == 0) { //avoid division by zero
+			return map;
+		}
+		
+		Iterator<String> keys = map.keySet().iterator();		
+		
+		if(keys.hasNext()) {
+			String key = keys.next();
+			map.replace(key, map.get(key)/tot);
+		}
+		
+		return map;		
+	}
 }

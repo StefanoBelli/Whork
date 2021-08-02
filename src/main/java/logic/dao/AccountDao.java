@@ -37,7 +37,7 @@ public final class AccountDao {
 	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
 			"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String FISCAL_CODE_DECODE = 
-			"{ call FiscalCodeDecode(?) }";
+			"{ call GetCountryByFiscalCode(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 			"More than two result set, this is unexpected";
 	
@@ -155,7 +155,9 @@ public final class AccountDao {
 		for(int i=0;  i<listJobSeekerCF.size(); i++) {
 			String country = getCountryFiscalCodeDecodePrivateMethod(listJobSeekerCF.get(i).substring(11, 15));
 			if(country != null) 
-				listCode.add(country);			
+				listCode.add(country);
+			else 
+				listCode.add("Italy");
 		}
 		return listCode;
 	}
@@ -165,12 +167,12 @@ public final class AccountDao {
 			stmt.setString(1, code);
 			stmt.execute();
 
-			try (ResultSet rs = stmt.getResultSet()) {				
-				if(!rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED);
-				}
+			try (ResultSet rs = stmt.getResultSet()) {
+				if(rs.next())
+					return rs.getString(1);
+				else
+					return null;
 				
-				return rs.getString(1);
 			}
 
 		} catch(SQLException e) {

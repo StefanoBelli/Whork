@@ -1583,7 +1583,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetCountryByFiscalCode`;
 
 DELIMITER $$
-CREATE PROCEDURE `GetCountryByFiscalCode` (in var_code VARCHAR(4))
+CREATE PROCEDURE `GetCountryByFiscalCode` (in var_code VARCHAR(5))
 BEGIN
 	SET TRANSACTION READ ONLY;
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
@@ -10380,9 +10380,7 @@ INSERT INTO FiscalCode(Country, Code) VALUES("Tonga", "Z728");
 INSERT INTO FiscalCode(Country, Code) VALUES("Tuvalu", "Z732");
 INSERT INTO FiscalCode(Country, Code) VALUES("Vanuatu", "Z733");
 INSERT INTO FiscalCode(Country, Code) VALUES("Nuova Caledonia", "Z716");
-INSERT INTO FiscalCode(Country, Code) VALUES("Saint-Martin (FR)", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Sahara occidentale", "Z339");
-INSERT INTO FiscalCode(Country, Code) VALUES("Saint-Barthélemy", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Bermuda", "Z400");
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Cook (NZ)", "Z703");
 INSERT INTO FiscalCode(Country, Code) VALUES("Gibilterra", "Z113");
@@ -10390,20 +10388,14 @@ INSERT INTO FiscalCode(Country, Code) VALUES("Isole Cayman", "Z530");
 INSERT INTO FiscalCode(Country, Code) VALUES("Anguilla", "Z529");
 INSERT INTO FiscalCode(Country, Code) VALUES("Polinesia francese", "Z723");
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Fær Øer", "Z108");
-INSERT INTO FiscalCode(Country, Code) VALUES("Jersey", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Aruba", "Z501");
-INSERT INTO FiscalCode(Country, Code) VALUES("Sint Maarten (NL)", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Groenlandia", "Z402");
-INSERT INTO FiscalCode(Country, Code) VALUES("Sark", null);
-INSERT INTO FiscalCode(Country, Code) VALUES("Guernsey", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Falkland (Malvine)", "Z609");
 INSERT INTO FiscalCode(Country, Code) VALUES("Isola di Man", "Z122");
 INSERT INTO FiscalCode(Country, Code) VALUES("Montserrat", "Z531");
-INSERT INTO FiscalCode(Country, Code) VALUES("Curaçao", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Pitcairn", "Z722");
 INSERT INTO FiscalCode(Country, Code) VALUES("Saint Pierre e Miquelon", "Z403");
 INSERT INTO FiscalCode(Country, Code) VALUES("Sant'Elena", "Z340");
-INSERT INTO FiscalCode(Country, Code) VALUES("Terre australi e antartiche francesi", null);
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Turks e Caicos", "Z519");
 INSERT INTO FiscalCode(Country, Code) VALUES("Isole Vergini britanniche", "Z525");
 INSERT INTO FiscalCode(Country, Code) VALUES("Wallis e Futuna", "Z729");
