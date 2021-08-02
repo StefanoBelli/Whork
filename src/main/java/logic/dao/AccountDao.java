@@ -164,7 +164,7 @@ public final class AccountDao {
 		return listCode;
 	}
 	
-	private static String getCountryFiscalCodeDecodePrivateMethod(String code) throws DataAccessException, DataLogicException {	
+	private static String getCountryFiscalCodeDecodePrivateMethod(String code) throws DataAccessException {	
 		try (CallableStatement stmt = CONN.prepareCall(FISCAL_CODE_DECODE)) {
 			stmt.setString(1, code);
 			stmt.execute();
