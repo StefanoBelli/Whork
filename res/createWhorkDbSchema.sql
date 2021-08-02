@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`Offer` (
   `Name` VARCHAR(45) NOT NULL,
   `Description` VARCHAR(4096) NOT NULL,
   `JobPhysicalLocationFullAddress` VARCHAR(45) NOT NULL,
-  `Company_VATNumber` VARCHAR(11) NOT NULL,
+  `Company_VATNumber` CHAR(11) NOT NULL,
   `SalaryEUR` INT NULL,
   `Photo` VARCHAR(4096) NULL,
   `WorkShift` CHAR(13) NOT NULL,
@@ -1599,6 +1599,30 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure GetEmployeeUserDetailsByCompanyVAT
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetEmployeeUserDetailsByCompanyVAT` (in var_vat CHAR(11))
+BEGIN
+	SET TRANSACTION READ ONLY;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
+    
+    START TRANSACTION;
+    
+    SELECT Name, Surname, PhoneNumber, Note, Photo, CF, Email
+    FROM EmployeeUserDetails JOIN Auth ON CF=EmployeeUserDetails_CF
+    WHERE Company_VAT = var_vat AND IsRecruiter = TRUE AND IsAdmin = FALSE;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 
 
@@ -1716,6 +1740,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`TotalNumberOfClick` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmploymentStatusByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
