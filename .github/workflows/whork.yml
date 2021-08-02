@@ -20,13 +20,6 @@ jobs:
       run: sudo mysql -u root -proot -e "source res/createWhorkDbSchema.sql"
     - name: Build, test and compute code coverage
       run: mvn clean compile jacoco:prepare-agent test jacoco:report
-    - uses: browser-actions/setup-chrome@latest
-    - run: chrome --version
-    - name: Run selenium test
-      uses: GabrielBB/xvfb-action@v1
-      with:
-        run: bash run-selenium-tests.sh
-        working-directory: ./
     - name: Rename pom.xml to pom.xml.old (SonarCloud asks to run Maven goal instead of Action)
       run: mv pom.xml pom.xml.old
     - name: Static analysis scan (SonarCloud)
