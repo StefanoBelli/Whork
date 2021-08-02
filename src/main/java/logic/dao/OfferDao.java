@@ -53,8 +53,6 @@ public final class OfferDao {
 		}		
 	}
 	
-
-
 	public static OfferModel getOfferById(int id) 
 			throws DataAccessException, DataLogicException {
 		
@@ -85,7 +83,6 @@ public final class OfferDao {
 				om.setJobPhysicalLocationFullAddress(rs.getString(4));
 				om.setDescription(rs.getString(3));
 				om.setId(id);
-				
 				
 				if(rs.next()) {
 					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEID_MOREOFFERS);
@@ -137,7 +134,7 @@ public final class OfferDao {
 					om.setJobCategory(JobCategoryDao.getJobCategory(rs.getString(16)));
 					
 					offers.add(om);
-				}while(rs.next());
+				} while(rs.next());
 			}
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
@@ -164,12 +161,10 @@ public final class OfferDao {
 			stmt.setString(13, offerModel.getJobCategory().getCategory());
 			stmt.setString(14, offerModel.getEmployee().getCf());
 			stmt.execute();
-			} catch (SQLException e) {
-				throw new DataAccessException(e);
-			}
-		
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
 	}
-	
 	
 	private static String strOrNull(String s) {
 		if(s == null) {
@@ -191,7 +186,6 @@ public final class OfferDao {
 				
 				n = rs.getInt(1);
 			}
-			
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -211,10 +205,10 @@ public final class OfferDao {
 				
 				n = rs.getInt(1);
 			}
-			
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
+		
 		return n;
 	}
 }

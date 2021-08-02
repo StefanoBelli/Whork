@@ -53,12 +53,11 @@ public final class AccountDao {
 					CandidatureModel element = new CandidatureModel();
 					element.setOffer(OfferDao.getOfferById(rs.getInt(1)));					
 					element.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
-					element.setCandidatureDate(rs.getDate(3));					
-					listCandidatureModel.add(element);			
-					
+					element.setCandidatureDate(rs.getDate(3));
+
+					listCandidatureModel.add(element);
 				}				
 			}
-
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -77,7 +76,6 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-		
 	}
 	
 	public static void editJobSeekerInfoAccount(JobSeekerUserModel userModel, String email) throws DataAccessException {		
@@ -92,7 +90,6 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-				
 	}
 	
 	public static void editJobSeekerBiography(JobSeekerUserModel userModel) throws DataAccessException {		
@@ -103,7 +100,6 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-				
 	}
 	
 	public static void editJobSeekerPicture(JobSeekerUserModel userModel, String photo) throws DataAccessException {		
@@ -114,7 +110,6 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-				
 	}
 	
 	public static int countOfEmployees(CompanyModel company) throws DataAccessException, DataLogicException {		
@@ -129,14 +124,14 @@ public final class AccountDao {
 				
 				n = rs.getInt(1) - 1; //admin is not counted
 			}
-			
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
+
 		return n;
 	}
 	
-	public static List<String> getCountryFiscalCodeDecode(CompanyModel company) throws DataAccessException, DataLogicException {				
+	public static List<String> getCountryFiscalCodeDecode(CompanyModel company) throws DataAccessException {				
 		List<String> listJobSeekerCF = new ArrayList<>();
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT)) {
 			stmt.setString(1, company.getVat());
@@ -161,6 +156,7 @@ public final class AccountDao {
 			else 
 				listCode.add("Italy");
 		}
+
 		return listCode;
 	}
 	
@@ -174,17 +170,11 @@ public final class AccountDao {
 					return rs.getString(1);
 				else
 					return null;
-				
 			}
-
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-		
 	}
-	
-	
-	
 }
 
 

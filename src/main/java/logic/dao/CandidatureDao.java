@@ -85,7 +85,6 @@ public final class CandidatureDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-				
 	}
 	
 	public static List<CandidatureModel> getCandidatureByCompanyVat(CompanyModel company) 
@@ -109,8 +108,7 @@ public final class CandidatureDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
+		
 		return listCandidatureModel;
 	}
-
-	
 }

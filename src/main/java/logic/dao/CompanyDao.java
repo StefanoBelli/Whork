@@ -53,7 +53,6 @@ public final class CompanyDao {
 
 				return cm;
 			}
-
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -95,7 +94,6 @@ public final class CompanyDao {
 
 				return cm;
 			}
-
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -124,10 +122,8 @@ public final class CompanyDao {
 
 				return cm;
 			}
-
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
-
 	}
 }
