@@ -2,11 +2,81 @@
   "id": "71eaff2c-7b9c-4607-91ed-d04edb779e8c",
   "version": "2.0",
   "name": "WhorkPrj",
-  "url": "http://localhost:8080/post_offer.jsp",
+  "url": "http://localhost:8080/",
   "tests": [{
     "id": "0e2de04a-bd71-42cb-b065-71275c7f39ee",
     "name": "test_post_offer",
     "commands": [{
+      "id": "996fde46-22c4-471d-abfa-ea84543c3fc2",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "932b8c4b-a4cf-4927-a619-ea5e5ed52b35",
+      "comment": "",
+      "command": "click",
+      "target": "name=login",
+      "targets": [
+        ["name=login", "name"],
+        ["css=form:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@name='login']", "xpath:attributes"],
+        ["xpath=//form[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e3328660-d36b-4043-81e9-ce5279172b9e",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "new@abc.dom"
+    }, {
+      "id": "d8158417-9f65-4d90-8dd7-dde222f0ee8e",
+      "comment": "",
+      "command": "type",
+      "target": "name=passwd",
+      "targets": [
+        ["name=passwd", "name"],
+        ["css=input:nth-child(6)", "css:finder"],
+        ["xpath=//input[@name='passwd']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "ciaone123"
+    }, {
+      "id": "dd621d98-0f10-4914-b794-1f2ea28bf667",
+      "comment": "",
+      "command": "click",
+      "target": "name=stayLoggedIn",
+      "targets": [
+        ["name=stayLoggedIn", "name"],
+        ["css=input:nth-child(10)", "css:finder"],
+        ["xpath=//input[@name='stayLoggedIn']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "53815fb2-279a-48a6-bcf6-79ba1c395ad2",
+      "comment": "",
+      "command": "click",
+      "target": "css=input:nth-child(4)",
+      "targets": [
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@value='Login']", "xpath:attributes"],
+        ["xpath=//form[@id='loginf']/input", "xpath:idRelative"],
+        ["xpath=//form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "6f4b4620-d226-444e-a257-297aad2b1e4b",
       "comment": "",
       "command": "open",
