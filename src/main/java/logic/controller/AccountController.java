@@ -184,4 +184,8 @@ public final class AccountController {
 		
 		return mapBean;		
 	}
+	
+	public static int getNumberOfferOfAnEmployee(UserBean userBean) throws DataAccessException {
+		return AccountDao.getNumberOfferOfAnEmployee(ModelFactory.buildUserModel(userBean));
+	}
 }

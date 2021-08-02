@@ -1,8 +1,6 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-INSERT INTO Company VALUES ('VATnumber', 'Nome azienda 1', 'MNAMNA80A41Z330U', null);
-
 INSERT INTO TypeOfContract VALUES ('contratto');
 
 INSERT INTO Qualification VALUES ('qualifica');
@@ -11,7 +9,7 @@ INSERT INTO JobCategory VALUES ('Hired on a temporary basis');
 
 INSERT INTO JobPosition VALUES ('ingegnere');
 
-INSERT INTO EmployeeUserDetails VALUES ('nome dipendente 1', 'cognome dipendente 1', '785689328', 'VATnumber', 1, 1, null, null, '1GLLEI00D08D619D');
+INSERT INTO EmployeeUserDetails VALUES ('nome dipendente 1', 'cognome dipendente 1', '785689328', 'VATnumber', 1, 0, null, null, '1GLLEI00D08D619D');
 
 INSERT INTO Offer VALUES (1, 'Nome 1', 'Descrizione', 'company', 'VATnumber', 5000, 'photo', 'qualche ora', 'ingegnere', 'qualifica', 'contratto', STR_TO_DATE('11-11-2021', '%d-%m-%Y'), 1, null, 1, 'Hired on a temporary basis', '1GLLEI00D08D619D');
 

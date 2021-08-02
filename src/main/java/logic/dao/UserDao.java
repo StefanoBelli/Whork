@@ -223,7 +223,7 @@ public final class UserDao {
 	
 	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException, DataLogicException {
 		Map<String, EmployeeUserModel> map = new HashMap<>();
-		try(CallableStatement stmt = CONN.prepareCall(STMT_GETUSER_BYCF)) {
+		try(CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT)) {
 			stmt.setString(1, company.getVat());
 			stmt.execute();
 

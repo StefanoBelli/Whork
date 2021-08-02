@@ -515,7 +515,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good <%=name%> <%=surname%>!</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><%=name%> <%=surname%></h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -658,48 +658,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-lg-5">
+                      <div class="card">
+                        <div class="card-body">
+                       	 <div class="card-box ribbon-box">
+						  <div class="ribbon ribbon-primary">Messages</div>
+                    	   <div class="clearfix"></div>
+                    		<div class="inbox-widget">
+	                         <a href="#">
+	                            <div class="inbox-item">
+	                                 <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+	                                 <p class="inbox-item-author">Tomaslau</p>
+	                                 <p class="inbox-item-text">I've finished it! See you so...</p>
+	                                 <p class="inbox-item-date">
+	                                     <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+	                                 </p>
+	                            </div>
+	                         </a>                        
+	                      </div>
+	                     </div>
+                        </div>
+                       </div>
+                    </div>
                 </div>
                 <!-- *************************************************************** -->
                 <!-- End Sales Charts Section -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
-                <!-- Start Location and Earnings Charts Section -->
-                <!-- *************************************************************** -->
-                <div class="row">
-                    <div class="col-md-6 col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-start">
-                                    <h4 class="card-title mb-0">Earning Statistics</h4>
-                                    <div class="ml-auto">
-                                        <div class="dropdown sub-dropdown">
-                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
-                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <i data-feather="more-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" href="#">Insert</a>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pl-4 mb-5">
-                                    <div class="stats ct-charts position-relative" style="height: 315px;"></div>
-                                </div>
-                                <ul class="list-inline text-center mt-4 mb-0">
-                                    <li class="list-inline-item text-muted font-italic">Earnings for this month</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>
-                <!-- *************************************************************** -->
-                <!-- End Location and Earnings Charts Section -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
+                <!-- *************************************************************** -->                
                 <!-- Start Top Leader Table -->
                 <!-- *************************************************************** -->
                 <div class="row">
@@ -725,11 +709,9 @@
                                     <table class="table no-wrap v-middle mb-0">
                                         <thead>
                                             <tr class="border-0">
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Recruiter
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted px-2">Fiscal Code
-                                                </th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">Number of Post</th>                                                                                               
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Recruiter</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Fiscal Code</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">Number of Posts</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">Phone Number</th>
                                             </tr>
                                         </thead>
@@ -750,14 +732,14 @@
 	                                                        <div class="mr-3"><img src="../assets/images/users/widget-table-pic1.jpg"
 	                                                                alt="user" class="rounded-circle" width="45" height="45"/></div>
 	                                                        <div class="">
-	                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium"><%=(mapRecruiter.get(key).getName().append(" ").append(mapRecruiter.get(key).getSurname())%></h5>
+	                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium"><%=mapRecruiter.get(key).getName() + " " + mapRecruiter.get(key).getSurname()%></h5>
 	                                                            <span class="text-muted font-14"><%=key%></span>
 	                                                        </div>
 	                                                    </div>
 	                                                </td>
 	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getCf()%></td>                                                
-	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getCf()%></td>                                                
-	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getPhoneNumber()%></td>                                                
+	                                                <td class="border-top-0 text-muted px-4 py-4 font-14"><%=AccountController.getNumberOfferOfAnEmployee(mapRecruiter.get(key))%></td>                                                
+	                                                <td class="border-top-0 text-muted px-4 py-4 font-14"><%=mapRecruiter.get(key).getPhoneNumber()%></td>                                                
 	                                            </tr>
                                             
 										<%
