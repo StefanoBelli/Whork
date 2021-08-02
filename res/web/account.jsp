@@ -43,10 +43,7 @@
 		listMonth.add("Nov");
 		listMonth.add("Dec");
 		
-		for(int i=0; i<listCandidatureByVat.size(); i++) {
-			
-			System.out.println(listMonth.get(i) + " " + listCandidatureByVat.get(i));
-			
+		for(int i=0; i<listCandidatureByVat.size(); i++) {			
 			map = new HashMap<Object,Object>(); map.put("label", listMonth.get(i)); map.put("y", listCandidatureByVat.get(i)); list.add(map);		
 		}
 		 
@@ -63,10 +60,7 @@
 		String key = null;
 		
 		if(keys.hasNext()) {
-			key = keys.next();
-			
-			System.out.println(key + " " + mapEmployment.get(key));
-			
+			key = keys.next();	
 			mapPieChart = new HashMap<Object,Object>(); mapPieChart.put("label", key); mapPieChart.put("y", mapEmployment.get(key)*100); mapPieChart.put("exploded", true); listPieChart.add(mapPieChart);		
 		}
 		
@@ -397,8 +391,7 @@
                                 <li class="sidebar-item"><a href="ui-tab.html" class="sidebar-link"><span
                                             class="hide-menu"> Tabs </span></a></li>
                                 <li class="sidebar-item"><a href="ui-tooltip-popover.html" class="sidebar-link"><span
-                                            class="hide-menu"> Tooltip &
-                                            Popover</span></a></li>
+                                            class="hide-menu"> Tooltip & Popover</span></a></li>
                                 <li class="sidebar-item"><a href="ui-notification.html" class="sidebar-link"><span
                                             class="hide-menu">Notification</span></a></li>
                                 <li class="sidebar-item"><a href="ui-progressbar.html" class="sidebar-link"><span

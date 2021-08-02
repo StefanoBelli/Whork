@@ -9,7 +9,7 @@ INSERT INTO EmployeeUserDetails VALUES ('nome dipendente 2', 'cognome dipendente
 
 INSERT INTO EmployeeUserDetails VALUES ('nome dipendente 3', 'cognome dipendente 3', '785689328', 'VATnumber', 1, 1, null, null, '3GLLEI00D08D619D');
 
-INSERT INTO Auth VALUES ('kanocat772@hyprhost.com', '0', 0, 'MGLLEI00D08D619E', null,  null);
+INSERT INTO Auth VALUES ('momahe3353@flipssl.com', '0', 0, 'MGLLEI00D08D619E', null,  null);
 
 INSERT INTO Auth VALUES ('email2@email.com', 0, 0, '2GLLEI00D08D619D', null, null); /* employee */ 
 

@@ -9,6 +9,7 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.CandidatureModel;
 import logic.model.CompanyModel;
+import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserModel;
 
@@ -34,6 +35,8 @@ public final class AccountDao {
 			"{ call ChangePictureJobSeekerUser(?, ?) }";
 	private static final String COUNT_OF_EMPLOYEES = 
 			"{ call CountOfEmployee(?) }";
+	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
+			"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String FISCAL_CODE_DECODE = 
 			"{ call FiscalCodeDecode(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
@@ -134,7 +137,31 @@ public final class AccountDao {
 		return n;
 	}
 	
-	public static String getCountryFiscalCodeDecode(String code) throws DataAccessException, DataLogicException {
+	public static List<String> getCountryFiscalCodeDecode(String code, CompanyModel company) throws DataAccessException, DataLogicException {				
+		List<String> listJobSeekerCF = new ArrayList<>();
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				while(rs.next()) {		
+					listJobSeekerCF.add(rs.getString(1));				
+				}
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		
+		List<String> listCode = new ArrayList<>();
+		for(int i=0;  i<listJobSeekerCF.size(); i++) {
+			String country = getCountryFiscalCodeDecodePrivateMethod(listJobSeekerCF.get(i).substring(11, 15));
+			if(country != null) 
+				listCode.add(country);			
+		}
+		return listCode;
+	}
+	
+	private static String getCountryFiscalCodeDecodePrivateMethod(String code) throws DataAccessException, DataLogicException {	
 		try (CallableStatement stmt = CONN.prepareCall(FISCAL_CODE_DECODE)) {
 			stmt.setString(1, code);
 			stmt.execute();
@@ -152,6 +179,8 @@ public final class AccountDao {
 		}
 		
 	}
+	
+	
 	
 }
 
