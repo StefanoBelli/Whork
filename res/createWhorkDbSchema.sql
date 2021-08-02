@@ -1623,6 +1623,30 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure GetNumberOffersOfAnEmployee
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetNumberOffersOfAnEmployee`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetNumberOffersOfAnEmployee` (in var_cf CHAR(16))
+BEGIN
+	SET TRANSACTION READ ONLY;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
+    
+    START TRANSACTION;
+    
+    SELECT COUNT(OfferID)
+    FROM Offer
+    WHERE EmployeeUserDetails_CF = var_cf;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 
 
@@ -1741,6 +1765,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetCandidatureByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmploymentStatusByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetNumberOffersOfAnEmployee` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

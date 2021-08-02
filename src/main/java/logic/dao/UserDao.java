@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.sql.ResultSet;
 import java.sql.Date;
 
@@ -36,6 +38,8 @@ public final class UserDao {
 		"{ call RegisterJobSeekerUserDetails(?,?,?,?,?,?,?,?,?,?,?,?) }";
 	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
 		"{ call GetEmploymentStatusByCompanyVAT(?) }";
+	private static final String STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT = 
+			"{ call GetEmployeeUserDetailsByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
@@ -130,7 +134,7 @@ public final class UserDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
-
+		
 		return null;
 	}
 
@@ -215,5 +219,35 @@ public final class UserDao {
 			throw new DataAccessException(e);
 		}
 		return listEmploymentStatus;
+	}
+	
+	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException, DataLogicException {
+		Map<String, EmployeeUserModel> map = new HashMap<>();
+		try(CallableStatement stmt = CONN.prepareCall(STMT_GETUSER_BYCF)) {
+			stmt.setString(1, company.getVat());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				while(rs.next()) {
+					EmployeeUserModel model = new EmployeeUserModel();
+				
+					model.setName(rs.getString(1));
+					model.setSurname(rs.getString(2));
+					model.setPhoneNumber(rs.getString(3));
+					model.setCompany(company);
+					model.setRecruiter(true);
+					model.setAdmin(false);
+					model.setNote(rs.getString(4));
+					model.setPhoto(rs.getString(5));
+					model.setCf(rs.getString(6));
+					map.put(rs.getString(7), model);
+				}
+			}				
+
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		
+		return map;
 	}
 }

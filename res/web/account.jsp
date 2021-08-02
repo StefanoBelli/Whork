@@ -734,63 +734,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="border-top-0 px-2 py-4">
-                                                    <div class="d-flex no-block align-items-center">
-                                                        <div class="mr-3"><img
-                                                                src="../assets/images/users/widget-table-pic1.jpg"
-                                                                alt="user" class="rounded-circle" width="45"
-                                                                height="45" /></div>
-                                                        <div class="">
-                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium">Hanna
-                                                                Gover</h5>
-                                                            <span class="text-muted font-14">hgover@gmail.com</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>                                                
-                                                <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>                                                
-                                                <td class="border-top-0 text-muted px-2 py-4 font-14">Elite Admin</td>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="px-2 py-4">
-                                                    <div class="d-flex no-block align-items-center">
-                                                        <div class="mr-3"><img
-                                                                src="../assets/images/users/widget-table-pic2.jpg"
-                                                                alt="user" class="rounded-circle" width="45"
-                                                                height="45" /></div>
-                                                        <div class="">
-                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium">Daniel
-                                                                Kristeen
-                                                            </h5>
-                                                            <span class="text-muted font-14">Kristeen@gmail.com</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>                                                
-                                               <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>
-                                               <td class="text-muted px-2 py-4 font-14">Real Homes WP Theme</td>  
-                                            </tr>
-                                            <tr>
-                                                <td class="px-2 py-4">
-                                                    <div class="d-flex no-block align-items-center">
-                                                        <div class="mr-3"><img
-                                                                src="../assets/images/users/widget-table-pic3.jpg"
-                                                                alt="user" class="rounded-circle" width="45"
-                                                                height="45" /></div>
-                                                        <div class="">
-                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium">Julian
-                                                                Josephs
-                                                            </h5>
-                                                            <span class="text-muted font-14">Josephs@gmail.com</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
-                                                <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
-                                                <td class="text-muted px-2 py-4 font-14">MedicalPro WP Theme</td>
-                                            </tr>                                            
+                                        
+                                        <%
+                                        	Map<String, UserBean> mapRecruiter = AccountController.getEmployeeByCompanyVAT(userBean.getCompany());                                    		
+                                    		
+                                    		keys = mapRecruiter.keySet().iterator();                                    		
+                                    		
+                                    		while(keys.hasNext()) {
+                                    			key = keys.next();
+                                    			
+                                    	%>                                        
+	                                            <tr>
+	                                                <td class="border-top-0 px-2 py-4">
+	                                                    <div class="d-flex no-block align-items-center">
+	                                                        <div class="mr-3"><img src="../assets/images/users/widget-table-pic1.jpg"
+	                                                                alt="user" class="rounded-circle" width="45" height="45"/></div>
+	                                                        <div class="">
+	                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium"><%=(mapRecruiter.get(key).getName().append(" ").append(mapRecruiter.get(key).getSurname())%></h5>
+	                                                            <span class="text-muted font-14"><%=key%></span>
+	                                                        </div>
+	                                                    </div>
+	                                                </td>
+	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getCf()%></td>                                                
+	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getCf()%></td>                                                
+	                                                <td class="border-top-0 text-muted px-2 py-4 font-14"><%=mapRecruiter.get(key).getPhoneNumber()%></td>                                                
+	                                            </tr>
+                                            
+										<%
+                                    		}
+										%>                                                                                       
                                         </tbody>
                                     </table>
                                 </div>
