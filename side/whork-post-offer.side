@@ -7,6 +7,13 @@
     "id": "0e2de04a-bd71-42cb-b065-71275c7f39ee",
     "name": "test_post_offer",
     "commands": [{
+      "id": "7b1bf1dc-22b3-4223-98be-7740ccd923f7",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/logout",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "996fde46-22c4-471d-abfa-ea84543c3fc2",
       "comment": "",
       "command": "open",
@@ -43,13 +50,7 @@
       "comment": "",
       "command": "type",
       "target": "name=passwd",
-      "targets": [
-        ["name=passwd", "name"],
-        ["css=input:nth-child(6)", "css:finder"],
-        ["xpath=//input[@name='passwd']", "xpath:attributes"],
-        ["xpath=//div[@id='credInput']/input[2]", "xpath:idRelative"],
-        ["xpath=//input[2]", "xpath:position"]
-      ],
+      "targets": [],
       "value": "ciaone123"
     }, {
       "id": "dd621d98-0f10-4914-b794-1f2ea28bf667",
