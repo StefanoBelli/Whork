@@ -3277,7 +3277,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -144,
+											"left": -80,
 											"top": 912,
 											"height": 13
 										},
@@ -3288,11 +3288,11 @@
 												"$ref": "AAAAAAF6w3JkGK3uFT4="
 											},
 											"font": "Arial;13;1",
-											"left": 141,
+											"left": 173,
 											"top": 951,
-											"width": 324.3525390625,
+											"width": 255.02978515625,
 											"height": 13,
-											"text": "Cred. check using crypto hash comparison methods"
+											"text": "Credential syntax and then validity check"
 										},
 										{
 											"_type": "LabelView",
@@ -3302,7 +3302,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -144,
+											"left": -80,
 											"top": 912,
 											"width": 86.6708984375,
 											"height": 13,
@@ -3316,16 +3316,16 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": -144,
+											"left": -80,
 											"top": 912,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 136,
+									"left": 168,
 									"top": 944,
-									"width": 334.3525390625,
+									"width": 265.02978515625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF6w3JkGK3vNUg="
@@ -3343,9 +3343,9 @@
 							],
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 136,
+							"left": 168,
 							"top": 944,
-							"width": 334.3525390625,
+							"width": 265.02978515625,
 							"height": 41,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6w3JkGK3uFT4="
@@ -8117,7 +8117,7 @@
 											"top": 1295,
 											"width": 135,
 											"height": 39,
-											"text": "Cryptographically hash new password and update database",
+											"text": "Replace old password with the new one",
 											"wordWrap": true
 										},
 										{
@@ -8620,7 +8620,7 @@
 											"top": 631,
 											"width": 231,
 											"height": 52,
-											"text": "Override previous valid token - invalidating it - with the new one having expiry time of 24h starting from now",
+											"text": "Override previous valid token - invalidating it - by generating a new one with expiry time 24h from now and having it replace the old token",
 											"wordWrap": true
 										},
 										{
@@ -12966,7 +12966,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF6w2RBPa0fi28="
 					},
-					"name": "Cred. check using crypto hash comparison methods"
+					"name": "Credential syntax and then validity check"
 				},
 				{
 					"_type": "UMLDecisionNode",
@@ -13264,7 +13264,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF6w2RBPa0fi28="
 					},
-					"name": "Cryptographically hash new password and update database"
+					"name": "Replace old password with the new one"
 				},
 				{
 					"_type": "UMLMergeNode",
@@ -13288,7 +13288,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF6w2RBPa0fi28="
 					},
-					"name": "Override previous valid token - invalidating it - with the new one having expiry time of 24h starting from now"
+					"name": "Override previous valid token - invalidating it - by generating a new one with expiry time 24h from now and having it replace the old token"
 				},
 				{
 					"_type": "UMLAction",
