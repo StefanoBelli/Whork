@@ -24,7 +24,7 @@ INSERT INTO Candidature VALUES (6, 'MGLLEI00D08D612D', STR_TO_DATE('16-05-2021',
 
 INSERT INTO Offer VALUES (7, 'Nome 7', 'Descrizione', 'company', 'VATnumber', 5000, 'photo', 'qualche ora', 'ingegnere', 'qualifica', 'contratto', STR_TO_DATE('17-11-2021', '%d-%m-%Y'), 7, null, 1, 'Hired on a temporary basis', '4GLLEI00D08D619D');
 
-INSERT INTO Candidature VALUES (7, 'MGLLEI00D08D612D', STR_TO_DATE('17-08-2021', '%d-%m-%Y'));
+INSERT INTO Candidature VALUES (7, 'MGLLEI00D08D612D', STR_TO_DATE('17-08-2021', '%d-%m-%Y'));	
 
 INSERT INTO `ChatLog` VALUES
   (1, "elio", "magliari", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
@@ -42,4 +42,5 @@ INSERT INTO `ChatLog` VALUES
   (13, "anuar", "elio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
   (14, "elio", "anuar", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
   (15, "anuar", "elio", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
-  (16, "anuar", "elio", "arrivederci", STR_TO_DATE('18-04-2021', '%d-%m-%Y'));
+  (16, "anuar", "elio", "arrivederci", STR_TO_DATE('18-04-2021', '%d-%m-%Y')),
+  (18, "e", "elio", "euro", STR_TO_DATE('20-04-2021', '%d-%m-%Y'));
