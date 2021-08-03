@@ -25,3 +25,21 @@ INSERT INTO Candidature VALUES (6, 'MGLLEI00D08D612D', STR_TO_DATE('16-05-2021',
 INSERT INTO Offer VALUES (7, 'Nome 7', 'Descrizione', 'company', 'VATnumber', 5000, 'photo', 'qualche ora', 'ingegnere', 'qualifica', 'contratto', STR_TO_DATE('17-11-2021', '%d-%m-%Y'), 7, null, 1, 'Hired on a temporary basis', '4GLLEI00D08D619D');
 
 INSERT INTO Candidature VALUES (7, 'MGLLEI00D08D612D', STR_TO_DATE('17-08-2021', '%d-%m-%Y'));
+
+INSERT INTO `ChatLog` VALUES
+  (1, "elio", "magliari", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
+  (2, "magliari", "elio", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
+  (3, "elio", "magliari", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
+  (4, "magliari", "elio", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
+  (5, "magliari", "elio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
+  (6, "elio", "magliari", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
+  (7, "magliari", "elio", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
+  (8, "elio", "magliari", "arrivederci", STR_TO_DATE('17-04-2021', '%d-%m-%Y')),
+  (9, "anuar", "elio", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
+  (10, "elio", "anuar", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
+  (11, "anuar", "elio", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
+  (12, "elio", "anuar", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
+  (13, "anuar", "elio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
+  (14, "elio", "anuar", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
+  (15, "anuar", "elio", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
+  (16, "anuar", "elio", "arrivederci", STR_TO_DATE('18-04-2021', '%d-%m-%Y'));

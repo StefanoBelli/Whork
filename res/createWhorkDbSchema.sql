@@ -1657,9 +1657,15 @@ DROP procedure IF EXISTS `whorkdb`.`GetLastMessage`;
 DELIMITER $$
 CREATE PROCEDURE `GetLastMessage` (in var_email VARCHAR(255))
 BEGIN
+	declare exit handler for sqlexception 
+	begin 
+		ROLLBACK; -- rollback any changes made in the transaction 
+		RESIGNAL; -- raise again the sql exception to the caller
+	end;
+	
 	SET TRANSACTION READ ONLY;
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
-    
+	
     START TRANSACTION;
     
     SELECT chat.LogEntryId, chat.SenderEmail, chat.ReceiverEmail, chat.Text, chat.DateDeliveryRequest
@@ -1668,10 +1674,10 @@ BEGIN
 	(
    		SELECT SenderEmail, ReceiverEmail, MAX(DateDeliveryRequest) AS LatestTime
    		FROM ChatLog 
-  		group by ReceiverEmail
-	) AS c2  ON chat.ReceiverEmail = c2.ReceiverEmail AND chat.`DateDeliveryRequest` = c2.LatestTime
-	WHERE chat.`SenderEmail` = var_email OR chat.`ReceiverEmail` = var_email
-	ORDER BY DateDeliveryRequest DESC;
+  		GROUP BY ReceiverEmail
+	) AS c2  ON chat.ReceiverEmail = c2.ReceiverEmail AND chat.DateDeliveryRequest = c2.LatestTime
+	WHERE chat.SenderEmail = var_email OR chat.ReceiverEmail = var_email
+	ORDER BY chat.DateDeliveryRequest DESC;
     
     COMMIT;
 END$$
