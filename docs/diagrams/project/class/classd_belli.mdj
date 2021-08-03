@@ -15064,7 +15064,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 2941,
+											"top": 2933,
 											"width": 597.67626953125,
 											"height": 13,
 											"text": "«dao»"
@@ -15078,7 +15078,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;1",
 											"left": 2141,
-											"top": 2956,
+											"top": 2948,
 											"width": 597.67626953125,
 											"height": 13,
 											"text": "UserDao"
@@ -15093,7 +15093,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2720,
-											"top": 1152,
+											"top": 1136,
 											"width": 73.67724609375,
 											"height": 13,
 											"text": "(from Model)"
@@ -15108,7 +15108,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2720,
-											"top": 1152,
+											"top": 1136,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
@@ -15116,7 +15116,7 @@
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
 									"left": 2136,
-									"top": 2936,
+									"top": 2928,
 									"width": 607.67626953125,
 									"height": 38,
 									"stereotypeLabel": {
@@ -15154,7 +15154,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 2979,
+											"top": 2971,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15173,7 +15173,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 2994,
+											"top": 2986,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15192,7 +15192,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3009,
+											"top": 3001,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15211,7 +15211,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3024,
+											"top": 3016,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15230,7 +15230,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3039,
+											"top": 3031,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15249,7 +15249,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3054,
+											"top": 3046,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15268,7 +15268,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3069,
+											"top": 3061,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15287,7 +15287,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3084,
+											"top": 3076,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15306,20 +15306,39 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3099,
+											"top": 3091,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
 											"text": "-STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT: String {readOnly}",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAF7C5cn+O4Mkjs=",
+											"_parent": {
+												"$ref": "AAAAAAF6yLTe5Fq7J54="
+											},
+											"model": {
+												"$ref": "AAAAAAF7C5cnxu3rkXY="
+											},
+											"fillColor": "#00d8b4",
+											"font": "Arial;13;0",
+											"left": 2141,
+											"top": 3106,
+											"width": 597.67626953125,
+											"height": 13,
+											"underline": true,
+											"text": "-STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT: String {readOnly}",
 											"horizontalAlignment": 0
 										}
 									],
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
 									"left": 2136,
-									"top": 2974,
+									"top": 2966,
 									"width": 607.67626953125,
-									"height": 143
+									"height": 158
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -15343,7 +15362,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3122,
+											"top": 3129,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15362,7 +15381,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3137,
+											"top": 3144,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15381,7 +15400,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3152,
+											"top": 3159,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15400,7 +15419,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3167,
+											"top": 3174,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15419,7 +15438,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3182,
+											"top": 3189,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15438,7 +15457,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3197,
+											"top": 3204,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15457,7 +15476,7 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3212,
+											"top": 3219,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
@@ -15476,20 +15495,39 @@
 											"fillColor": "#00d8b4",
 											"font": "Arial;13;0",
 											"left": 2141,
-											"top": 3227,
+											"top": 3234,
 											"width": 597.67626953125,
 											"height": 13,
 											"underline": true,
 											"text": "+getEmploymentStatusByCompanyVat(companyModel: CompanyModel): EmploymentStatusModel[0..*]",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7C5U4b+s0lys=",
+											"_parent": {
+												"$ref": "AAAAAAF6yLTe5Fq8KG4="
+											},
+											"model": {
+												"$ref": "AAAAAAF7C5U4L+sT9Cs="
+											},
+											"fillColor": "#00d8b4",
+											"font": "Arial;13;0",
+											"left": 2141,
+											"top": 3249,
+											"width": 597.67626953125,
+											"height": 13,
+											"underline": true,
+											"text": "+getEmployeeByCompanyVAT(companyModel: CompanyModel): MapOf{String_EmployeeUserModel}",
 											"horizontalAlignment": 0
 										}
 									],
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
 									"left": 2136,
-									"top": 3117,
+									"top": 3124,
 									"width": 607.67626953125,
-									"height": 128
+									"height": 143
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -15504,7 +15542,7 @@
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
 									"left": 1328,
-									"top": 536,
+									"top": 528,
 									"width": 10,
 									"height": 10
 								},
@@ -15521,7 +15559,7 @@
 									"fillColor": "#00d8b4",
 									"font": "Arial;13;0",
 									"left": 1328,
-									"top": 536,
+									"top": 528,
 									"width": 10,
 									"height": 10
 								}
@@ -15530,9 +15568,9 @@
 							"font": "Arial;13;0",
 							"containerChangeable": true,
 							"left": 2136,
-							"top": 2936,
+							"top": 2928,
 							"width": 607.67626953125,
-							"height": 309,
+							"height": 339,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6yLTe5Fq2vMU="
 							},
@@ -18682,7 +18720,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2457:3244;2457:3320;2840:3320;2840:3408",
+							"points": "2457:3266;2457:3320;2840:3320;2840:3408",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySETD/NznOo="
@@ -19340,7 +19378,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2408:2936;2408:2832;4208:2832;4208:2856",
+							"points": "2408:2928;2408:2832;4208:2832;4208:2856",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySaeX/+sIFI="
@@ -19434,7 +19472,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2457:2936;2457:2912;3936:2912;3936:3032;4080:3032",
+							"points": "2457:2928;2457:2912;3936:2912;3936:3032;4080:3032",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySaukQBTbuI="
@@ -19938,7 +19976,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2000,
-									"top": 3251,
+									"top": 3259,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -19958,7 +19996,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 2792,
-									"top": 3248,
+									"top": 3256,
 									"width": 41.919921875,
 									"height": 13,
 									"alpha": 0.022163857465966663,
@@ -19981,7 +20019,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2000,
-									"top": 3281,
+									"top": 3289,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -19998,7 +20036,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2456:2336;2000:2336;2000:3272;2848:3272;2848:3201",
+							"points": "2456:2336;2000:2336;2000:3280;2848:3280;2848:3201",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yTABBif7Cn0="
@@ -31306,7 +31344,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2439:2936;2439:2800;4392:2800;4392:2721",
+							"points": "2439:2928;2439:2800;4392:2800;4392:2721",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF7ASe9tU6ghVc="
@@ -31400,7 +31438,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yLTe41q1tPk="
 							},
-							"points": "2192:2936;2192:2432;4128:2432;4128:1944;4248:1944",
+							"points": "2192:2928;2192:2432;4128:2432;4128:1944;4248:1944",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF7ASjCP1ZLTPQ="
@@ -37038,6 +37076,18 @@
 							"isStatic": true,
 							"type": "String",
 							"isReadOnly": true
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAF7C5cnxu3rkXY=",
+							"_parent": {
+								"$ref": "AAAAAAF6yLTe41qzHDQ="
+							},
+							"name": "STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT",
+							"visibility": "private",
+							"isStatic": true,
+							"type": "String",
+							"isReadOnly": true
 						}
 					],
 					"operations": [
@@ -37281,6 +37331,37 @@
 										"$ref": "AAAAAAF6yUQK3G6fcwk="
 									},
 									"multiplicity": "0..*",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7C5U4L+sT9Cs=",
+							"_parent": {
+								"$ref": "AAAAAAF6yLTe41qzHDQ="
+							},
+							"name": "getEmployeeByCompanyVAT",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7C5ZmLuvnGNA=",
+									"_parent": {
+										"$ref": "AAAAAAF7C5U4L+sT9Cs="
+									},
+									"name": "companyModel",
+									"type": {
+										"$ref": "AAAAAAF6yUIMT2HrGpM="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7C5ZmLuvoGq8=",
+									"_parent": {
+										"$ref": "AAAAAAF7C5U4L+sT9Cs="
+									},
+									"type": "MapOf{String_EmployeeUserModel}",
 									"direction": "return"
 								}
 							]

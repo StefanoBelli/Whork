@@ -221,7 +221,7 @@ public final class UserDao {
 		return listEmploymentStatus;
 	}
 	
-	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException, DataLogicException {
+	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException {
 		Map<String, EmployeeUserModel> map = new HashMap<>();
 		try(CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT)) {
 			stmt.setString(1, company.getVat());
@@ -242,8 +242,7 @@ public final class UserDao {
 					model.setCf(rs.getString(6));
 					map.put(rs.getString(7), model);
 				}
-			}				
-
+			}
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
