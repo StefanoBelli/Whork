@@ -1647,6 +1647,37 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure GetLastMessage
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetLastMessage`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetLastMessage` (in var_email VARCHAR(255))
+BEGIN
+	SET TRANSACTION READ ONLY;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
+    
+    START TRANSACTION;
+    
+    SELECT SenderEmail, ReceiverEmail, Text, DateDeliveryRequest
+	FROM ChatLog AS chat
+	INNER JOIN
+	(
+   		SELECT SenderEmail, ReceiverEmail, MAX(DateDeliveryRequest) AS LatestTime
+   		FROM ChatLog 
+  		group by ReceiverEmail
+	) AS c2  ON chat.ReceiverEmail = c2.ReceiverEmail AND chat.`DateDeliveryRequest` = c2.LatestTime
+	WHERE chat.`SenderEmail` = var_email OR chat.`ReceiverEmail` = var_email;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+
 
 
 
@@ -1766,6 +1797,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetEmploymentStatusByCompanyVAT` TO 'whork
 GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetNumberOffersOfAnEmployee` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetLastMessage` TO 'whork';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

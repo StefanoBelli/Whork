@@ -614,7 +614,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title mb-4">Candidate by Location</h4>
-                                <div class="" style="height:180px">
+                                <div class="" style="height:300px">
                                     <div id="visitbylocate" style="height:100%"></div>
                                 </div>
                                 
@@ -665,16 +665,89 @@
 						  <div class="ribbon ribbon-primary">Messages</div>
                     	   <div class="clearfix"></div>
                     		<div class="inbox-widget">
-	                         <a href="#">
-	                            <div class="inbox-item">
-	                                 <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
-	                                 <p class="inbox-item-author">Tomaslau</p>
-	                                 <p class="inbox-item-text">I've finished it! See you so...</p>
-	                                 <p class="inbox-item-date">
-	                                     <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-	                                 </p>
-	                            </div>
-	                         </a>                        
+                   			 <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
+                           	 class="position-relative mt-2" style="height: 300px; overflow: auto;">                                               		
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>   
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>    
+		                       <a href="#">
+		                          <div class="inbox-item">
+		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+		                               <p class="inbox-item-author">Tomaslau</p>
+		                               <p class="inbox-item-text">I've finished it! See you so...</p>
+		                               <p class="inbox-item-date">
+		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
+		                               </p>
+		                          </div>
+		                       </a>     
+                         	</div>	                                             
 	                      </div>
 	                     </div>
                         </div>
