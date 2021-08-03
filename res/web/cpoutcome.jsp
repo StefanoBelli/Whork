@@ -2,6 +2,10 @@
 <html xml:lang="en">
 	<head>
 		<title>Whork - Password Change Outcome</title>
+		<script src="js/common.js"></script>
+		<script>
+			redirect("login.jsp", 5000);
+		</script>
 	</head>
 
 	<body>
