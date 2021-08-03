@@ -482,6 +482,7 @@
                            	 
                            	 <%
                            	 	List<ChatLogEntryBean> listChat = AccountController.getLastMessage(email);
+                           	    String picture = null;
                            	 	if(listChat.size() == 0) {
                            	 %>
                            	 		<h3> There are not messages here! </h3> 
@@ -489,10 +490,10 @@
                            	 	} else {
 	                        	 	for(i=0; i<listChat.size(); i++) {
 	                           	 		String nameChat = (!listChat.get(i).getSenderEmail().equals(email)) ? listChat.get(i).getSenderEmail() : listChat.get(i).getReceiverEmail();
-	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();
-	                           	 		String picture = null;	                           	 		 
+	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();	                           	 			                           	 		 
 	                           	 		
-	                           	 		picture = AccountController.getPictureForMessage(userBean).getPhoto();
+	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);	                           	 		
+	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
 	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
 	                         %>
 	                           	 		<a href="#">
@@ -562,13 +563,16 @@
                                     		keys = mapRecruiter.keySet().iterator();                                    		
                                     		
                                     		while(keys.hasNext()) {
-                                    			key = keys.next();
+                                    			key = keys.next();                                    			
+                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());	                           	 		
+        	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
+        	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
                                     			
                                     	%>                                        
 	                                            <tr>
 	                                                <td class="border-top-0 px-2 py-4">
 	                                                    <div class="d-flex no-block align-items-center">
-	                                                        <div class="mr-3"><img src="../assets/images/users/widget-table-pic1.jpg"
+	                                                        <div class="mr-3"><img src='<%=picture%>'
 	                                                                alt="user" class="rounded-circle" width="45" height="45"/></div>
 	                                                        <div class="">
 	                                                            <h5 class="text-dark mb-0 font-16 font-weight-medium"><%=mapRecruiter.get(key).getName() + " " + mapRecruiter.get(key).getSurname()%></h5>

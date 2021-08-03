@@ -30,6 +30,7 @@ import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserAuthModel;
+import logic.model.UserModel;
 import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
@@ -203,7 +204,10 @@ public final class AccountController {
 		return listMessage;
 	}
 	
-	public static UserBean getPictureForMessage(UserBean userBean) throws DataAccessException, DataLogicException {
-		return BeanFactory.buildUserBean(UserDao.getUserByCf(userBean.getCf()));
+	public static UserBean getPictureForMessage(String cf) throws DataAccessException, DataLogicException {
+		UserModel user = UserDao.getUserByCf(cf);
+		
+		if(user == null) return null;		
+		return BeanFactory.buildUserBean(user);
 	}
 }
