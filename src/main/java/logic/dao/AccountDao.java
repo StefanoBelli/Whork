@@ -38,6 +38,8 @@ public final class AccountDao {
 			"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String FISCAL_CODE_DECODE = 
 			"{ call GetCountryByFiscalCode(?) }";
+	private static final String STMT_GET_NUMBER_OFFETS_OF_AN_EMPLOYEE = 
+			"{ call GetNumberOffersOfAnEmployee(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 			"More than two result set, this is unexpected";
 	
@@ -174,6 +176,21 @@ public final class AccountDao {
 		} catch(SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+	
+	public static int getNumberOfferOfAnEmployee(UserModel user) throws DataAccessException {	
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_NUMBER_OFFETS_OF_AN_EMPLOYEE)) {
+			stmt.setString(1, user.getCf());
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				if(rs.next())
+					return rs.getInt(1);				
+			}
+		} catch(SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return 0;
 	}
 }
 

@@ -23,6 +23,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
+import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
 import logic.model.UserAuthModel;
@@ -133,7 +134,7 @@ public final class AccountController {
 
 		Iterator<String> keys = map.keySet().iterator();		
 		
-		if(keys.hasNext()) {
+		while(keys.hasNext()) {
 			String key = keys.next();
 			map.replace(key, map.get(key)/tot);
 		}		
@@ -162,11 +163,29 @@ public final class AccountController {
 		
 		Iterator<String> keys = map.keySet().iterator();		
 		
-		if(keys.hasNext()) {
+		while(keys.hasNext()) {
 			String key = keys.next();
 			map.replace(key, map.get(key)/tot);
 		}
 		
 		return map;		
+	}
+	
+	public static Map<String, UserBean> getEmployeeByCompanyVAT(CompanyBean companyBean) throws DataAccessException, DataLogicException {
+		Map<String, EmployeeUserModel> map = UserDao.getEmployeeByCompanyVAT(ModelFactory.buildCompanyModel(companyBean));		
+		Map<String, UserBean> mapBean = new HashMap<>();
+		
+		Iterator<String> keys = map.keySet().iterator();		
+		
+		while(keys.hasNext()) {
+			String key = keys.next();
+			mapBean.put(key, BeanFactory.buildUserBean(map.get(key)));
+		}
+		
+		return mapBean;		
+	}
+	
+	public static int getNumberOfferOfAnEmployee(UserBean userBean) throws DataAccessException {
+		return AccountDao.getNumberOfferOfAnEmployee(ModelFactory.buildUserModel(userBean));
 	}
 }
