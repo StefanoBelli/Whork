@@ -171,7 +171,7 @@ public final class AccountController {
 		return map;		
 	}
 	
-	public static Map<String, UserBean> getEmployeeByCompanyVAT(CompanyBean companyBean) throws DataAccessException, DataLogicException {
+	public static Map<String, UserBean> getEmployeeByCompanyVAT(CompanyBean companyBean) throws DataAccessException {
 		Map<String, EmployeeUserModel> map = UserDao.getEmployeeByCompanyVAT(ModelFactory.buildCompanyModel(companyBean));		
 		Map<String, UserBean> mapBean = new HashMap<>();
 		
