@@ -196,7 +196,7 @@
 											"top": 239,
 											"width": 297.26708984375,
 											"height": 13,
-											"text": "On Login View With Password Recovery Banner"
+											"text": "On Login View With Password Restore Banner"
 										},
 										{
 											"_type": "LabelView",
@@ -2023,12 +2023,12 @@
 										"$ref": "AAAAAAF7Cy51Qyj8mPk="
 									},
 									"font": "Arial;13;0",
-									"left": 126,
-									"top": 103,
-									"width": 356.09716796875,
+									"left": 6,
+									"top": 215,
+									"width": 226.1796875,
 									"height": 13,
-									"alpha": -0.5530770352825971,
-									"distance": 230.3410514867031,
+									"alpha": -0.4899572948235076,
+									"distance": 170,
 									"hostEdge": {
 										"$ref": "AAAAAAF7Cy51Qyj9LjM="
 									},
@@ -2046,8 +2046,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 154,
-									"top": 299,
+									"left": 10,
+									"top": 365,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -2067,8 +2067,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 199,
-									"top": 300,
+									"left": 55,
+									"top": 366,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -2080,12 +2080,12 @@
 							],
 							"font": "Arial;13;0",
 							"head": {
-								"$ref": "AAAAAAF7CycpNycIbE0="
+								"$ref": "AAAAAAF7CydOyCcjRy8="
 							},
 							"tail": {
 								"$ref": "AAAAAAF7Cylq+CeuIMs="
 							},
-							"points": "224:492;184:492;184:120;560:120",
+							"points": "224:492;40:492;40:252;208:252",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF7Cy51Qyj+HCk="
@@ -2660,6 +2660,18 @@
 							"propertyLabel": {
 								"$ref": "AAAAAAF7C0CSIinOgLQ="
 							}
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAF7DJF5oygr2jQ=",
+							"_parent": {
+								"$ref": "AAAAAAF7CycL9Cb9ecc="
+							},
+							"font": "Arial;13;0",
+							"left": 584,
+							"width": 60,
+							"height": 25,
+							"text": "Login"
 						}
 					]
 				}
@@ -2687,7 +2699,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF7CycL8ib8+Hk="
 					},
-					"name": "On Login View With Password Recovery Banner"
+					"name": "On Login View With Password Restore Banner"
 				},
 				{
 					"_type": "UMLAction",
@@ -2937,7 +2949,7 @@
 						"$ref": "AAAAAAF7Cylq+CesP4w="
 					},
 					"target": {
-						"$ref": "AAAAAAF7CycpNycGv8g="
+						"$ref": "AAAAAAF7CydOyCchKnA="
 					}
 				},
 				{
