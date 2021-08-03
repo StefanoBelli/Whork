@@ -1662,7 +1662,7 @@ BEGIN
     
     START TRANSACTION;
     
-    SELECT SenderEmail, ReceiverEmail, Text, DateDeliveryRequest
+    SELECT chat.LogEntryId, chat.SenderEmail, chat.ReceiverEmail, chat.Text, chat.DateDeliveryRequest
 	FROM ChatLog AS chat
 	INNER JOIN
 	(
@@ -1670,7 +1670,8 @@ BEGIN
    		FROM ChatLog 
   		group by ReceiverEmail
 	) AS c2  ON chat.ReceiverEmail = c2.ReceiverEmail AND chat.`DateDeliveryRequest` = c2.LatestTime
-	WHERE chat.`SenderEmail` = var_email OR chat.`ReceiverEmail` = var_email;
+	WHERE chat.`SenderEmail` = var_email OR chat.`ReceiverEmail` = var_email
+	ORDER BY DateDeliveryRequest DESC;
     
     COMMIT;
 END$$

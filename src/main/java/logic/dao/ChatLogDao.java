@@ -23,6 +23,8 @@ public final class ChatLogDao {
 		"{ call AddChatLogEntry(?,?,?,?) }";
 	private static final String STMT_GET_CHAT_LOG = 
 		"{ call GetChatLog(?,?,?,?) }";
+	private static final String STMT_GET_LAST_MESSAGE = 
+			"{ call GetLastMessage(?) }";
 	private static final String NON_EXISTANT_USER_ERROR = "Non-existant user";
 
 	public static void addLogEntry(ChatLogEntryModel entry) 
@@ -72,5 +74,38 @@ public final class ChatLogDao {
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+		
+	public static List<ChatLogEntryModel> getLastMessage(String email) throws DataAccessException {
+		List<ChatLogEntryModel> cle = new ArrayList<>();
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_LAST_MESSAGE)) {
+			stmt.setString(1, email);				
+			stmt.execute();
+
+			try(ResultSet rs = stmt.getResultSet()) {
+				while(rs.next()) {
+					ChatLogEntryModel model = new ChatLogEntryModel();
+					model.setLogEntryId(rs.getLong(1));
+					model.setSenderEmail(rs.getString(2));
+					model.setReceiverEmail(rs.getString(3));
+					model.setText(rs.getString(4));
+					model.setDeliveryRequestTime(rs.getTimestamp(5).getTime());
+					
+					if(checkListLastMessage(cle, model.getSenderEmail(), model.getReceiverEmail()))
+						cle.add(model);
+				}				
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return cle;
+	}
+	
+	private static boolean checkListLastMessage(List<ChatLogEntryModel> listChatLogModel, String senderEmail, String receiverEmail) {
+		for(int i=0; i<listChatLogModel.size(); i++) {
+			if(listChatLogModel.get(i).getReceiverEmail().equals(senderEmail) && listChatLogModel.get(i).getSenderEmail().equals(receiverEmail))
+				return false;
+		}
+		return true;
 	}
 }
