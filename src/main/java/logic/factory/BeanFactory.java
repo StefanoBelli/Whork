@@ -2,6 +2,7 @@ package logic.factory;
 
 import logic.model.UserModel;
 import logic.model.CandidatureModel;
+import logic.model.ChatLogEntryModel;
 import logic.model.CompanyModel;
 import logic.model.ComuneModel;
 import logic.model.EmployeeUserModel;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import logic.bean.CandidatureBean;
+import logic.bean.ChatLogEntryBean;
 import logic.bean.CompanyBean;
 import logic.bean.ComuneBean;
 import logic.bean.EmploymentStatusBean;
@@ -289,6 +291,16 @@ public final class BeanFactory {
 		candidatureBean.setJobSeeker(jobSeeker);
 		candidatureBean.setOffer(offer);
 		return candidatureBean;
+	}
+	
+	public static ChatLogEntryBean buildChatEntryLogBean(ChatLogEntryModel chatModel) {
+		ChatLogEntryBean chatBean = new ChatLogEntryBean();
+		chatBean.setLogEntryId(chatModel.getLogEntryId());
+		chatBean.setSenderEmail(chatModel.getSenderEmail());
+		chatBean.setReceiverEmail(chatModel.getReceiverEmail());
+		chatBean.setText(chatModel.getText());
+		chatBean.setDeliveryRequestTime(chatModel.getDeliveryRequestTime());
+		return chatBean;
 	}
 	
 }

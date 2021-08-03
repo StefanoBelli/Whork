@@ -27,20 +27,20 @@ INSERT INTO Offer VALUES (7, 'Nome 7', 'Descrizione', 'company', 'VATnumber', 50
 INSERT INTO Candidature VALUES (7, 'MGLLEI00D08D612D', STR_TO_DATE('17-08-2021', '%d-%m-%Y'));	
 
 INSERT INTO `ChatLog` VALUES
-  (1, "elio", "magliari", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
-  (2, "magliari", "elio", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
-  (3, "elio", "magliari", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
-  (4, "magliari", "elio", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
-  (5, "magliari", "elio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
-  (6, "elio", "magliari", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
-  (7, "magliari", "elio", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
-  (8, "elio", "magliari", "arrivederci", STR_TO_DATE('17-04-2021', '%d-%m-%Y')),
-  (9, "anuar", "elio", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
-  (10, "elio", "anuar", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
-  (11, "anuar", "elio", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
-  (12, "elio", "anuar", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
-  (13, "anuar", "elio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
-  (14, "elio", "anuar", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
-  (15, "anuar", "elio", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
-  (16, "anuar", "elio", "arrivederci", STR_TO_DATE('18-04-2021', '%d-%m-%Y')),
-  (18, "e", "elio", "euro", STR_TO_DATE('20-04-2021', '%d-%m-%Y'));
+  (1, "pocili8012@flipssl.com", "magliari", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
+  (2, "magliari", "pocili8012@flipssl.com", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
+  (3, "pocili8012@flipssl.com", "magliari", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
+  (4, "magliari", "pocili8012@flipssl.com", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
+  (5, "magliari", "pocili8012@flipssl.comelio", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
+  (6, "pocili8012@flipssl.com", "magliari", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
+  (7, "magliari", "pocili8012@flipssl.com", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
+  (8, "pocili8012@flipssl.com", "magliari", "arrivederci", STR_TO_DATE('17-04-2021', '%d-%m-%Y')),
+  (9, "anuar", "pocili8012@flipssl.com", "ciao", STR_TO_DATE('10-04-2021', '%d-%m-%Y')),
+  (10, "pocili8012@flipssl.com", "anuar", "hi", STR_TO_DATE('11-04-2021', '%d-%m-%Y')),
+  (11, "anuar", "pocili8012@flipssl.com", "come stai?", STR_TO_DATE('12-04-2021', '%d-%m-%Y')),
+  (12, "pocili8012@flipssl.com", "anuar", "fine, u?", STR_TO_DATE('13-04-2021', '%d-%m-%Y')),
+  (13, "anuar", "pocili8012@flipssl.com", "where r u?", STR_TO_DATE('14-04-2021', '%d-%m-%Y')),
+  (14, "pocili8012@flipssl.com", "anuar", "qui", STR_TO_DATE('15-04-2021', '%d-%m-%Y')),
+  (15, "anuar", "pocili8012@flipssl.com", "ok", STR_TO_DATE('16-04-2021', '%d-%m-%Y')),
+  (16, "anuar", "pocili8012@flipssl.com", "arrivederci", STR_TO_DATE('18-04-2021', '%d-%m-%Y'));
+

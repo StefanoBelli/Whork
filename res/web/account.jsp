@@ -9,12 +9,14 @@
 <%@ page import="logic.bean.ComuneBean" %>
 <%@ page import="logic.bean.ProvinciaBean" %>
 <%@ page import="logic.bean.RegioneBean" %>
+<%@ page import="logic.bean.ChatLogEntryBean" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.google.gson.Gson"%>
 <%@ page import="com.google.gson.JsonObject"%>
 
 <%
     UserBean userBean = ServletUtil.getUserForSession(request);
+	String email = ServletUtil.getUserEmailForSession(request);
 	String name = userBean.getName();
 	String surname = userBean.getSurname();
 %>
@@ -666,17 +668,37 @@
                     	   <div class="clearfix"></div>
                     		<div class="inbox-widget">
                    			 <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
-                           	 class="position-relative mt-2" style="height: 300px; overflow: auto;">                                               		
-		                       <a href="#">
-		                          <div class="inbox-item">
-		                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
-		                               <p class="inbox-item-author">Tomaslau</p>
-		                               <p class="inbox-item-text">I've finished it! See you so...</p>
-		                               <p class="inbox-item-date">
-		                                   <button type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success">Reply</button>
-		                               </p>
-		                          </div>
-		                       </a>    
+                           	 class="position-relative mt-2" style="height: 300px; overflow: auto;">   
+                           	 
+                           	 <%
+                           	 	List<ChatLogEntryBean> listChat = AccountController.getLastMessage(email);
+                           	 	if(listChat.size() == 0) {
+                           	 %>
+                           	 		<h3> There are not messages here! </h3> 
+                           	 <%
+                           	 	} else {
+	                        	 	for(i=0; i<listChat.size(); i++) {
+	                           	 		String nameChat = (!listChat.get(i).getSenderEmail().equals(email)) ? listChat.get(i).getSenderEmail() : listChat.get(i).getReceiverEmail();
+	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();
+		                     %>
+	                           	 		<a href="#">
+				                          <div class="inbox-item">		
+				                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+				                               <p class="inbox-item-author"><%=nameChat%></p>
+				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
+				                               <p class="inbox-item-date">
+				                               	   <%=date.substring(0, date.length()-13)%>
+				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success" href="chat.jsp">Reply</a>
+				                               </p>
+				                          </div>
+				                       </a>
+				             <%
+	                         		}
+                           	 	}
+	                         %>
+                           	 
+                           	                                             		
+		                           
                          	</div>	                                             
 	                      </div>
 	                     </div>
@@ -778,7 +800,6 @@
 <%		
 	} else {
 
-	String email = ServletUtil.getUserEmailForSession(request);	
 	String fullName = name.concat(" ").concat(surname);
 	String phone = userBean.getPhoneNumber();
 	String cf = userBean.getCf();

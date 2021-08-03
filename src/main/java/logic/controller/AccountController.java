@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import logic.bean.CandidatureBean;
+import logic.bean.ChatLogEntryBean;
 import logic.bean.CompanyBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.dao.AccountDao;
+import logic.dao.ChatLogDao;
 import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
@@ -23,6 +25,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
+import logic.model.ChatLogEntryModel;
 import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
@@ -187,5 +190,16 @@ public final class AccountController {
 	
 	public static int getNumberOfferOfAnEmployee(UserBean userBean) throws DataAccessException {
 		return AccountDao.getNumberOfferOfAnEmployee(ModelFactory.buildUserModel(userBean));
+	}
+	
+	public static List<ChatLogEntryBean> getLastMessage(String email) throws DataAccessException {
+		List<ChatLogEntryModel> listMessageModel = ChatLogDao.getLastMessage(email);
+		List<ChatLogEntryBean> listMessage = new ArrayList<>();
+		
+		for(int i=0; i<listMessageModel.size(); i++) {
+			listMessage.add(BeanFactory.buildChatEntryLogBean(listMessageModel.get(i)));
+		}
+		
+		return listMessage;
 	}
 }
