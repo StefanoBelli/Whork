@@ -202,4 +202,8 @@ public final class AccountController {
 		
 		return listMessage;
 	}
+	
+	public static UserBean getPictureForMessage(UserBean userBean) throws DataAccessException, DataLogicException {
+		return BeanFactory.buildUserBean(UserDao.getUserByCf(userBean.getCf()));
+	}
 }

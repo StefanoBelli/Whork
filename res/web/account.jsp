@@ -163,7 +163,7 @@
 				theme: "light2",
 				animationEnabled: true,
 				exportFileName: "",
-				exportEnabled: true,
+				exportEnabled: false,
 				title:{
 					text: ""
 				},
@@ -490,10 +490,14 @@
 	                        	 	for(i=0; i<listChat.size(); i++) {
 	                           	 		String nameChat = (!listChat.get(i).getSenderEmail().equals(email)) ? listChat.get(i).getSenderEmail() : listChat.get(i).getReceiverEmail();
 	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();
-		                     %>
+	                           	 		String picture = null;	                           	 		 
+	                           	 		
+	                           	 		picture = AccountController.getPictureForMessage(userBean).getPhoto();
+	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
+	                         %>
 	                           	 		<a href="#">
 				                          <div class="inbox-item">		
-				                               <div class="inbox-item-img"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" alt=""></div>
+				                               <div class="inbox-item-img"><img src='<%=picture%>' class="rounded-circle" alt=""></div>
 				                               <p class="inbox-item-author"><%=nameChat%></p>
 				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
 				                               <p class="inbox-item-date">
