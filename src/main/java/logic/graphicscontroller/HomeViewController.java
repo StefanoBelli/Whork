@@ -80,15 +80,7 @@ public final class HomeViewController extends GraphicsController {
 		GraphicsUtil.loadDataInChoiceBox(qualificationCB, QualificationPool.getQualifications(), QualificationBean.class);
 		GraphicsUtil.loadDataInChoiceBox(typeOfContractCB, TypeOfContractPool.getTypesOfContract(), TypeOfContractBean.class);
 
-		if(LoginHandler.getSessionUser()== null || !LoginHandler.getSessionUser().isEmployee()) {
-			postOfferBtn.setVisible(false);
-		}else if(LoginHandler.getSessionUser().isAdmin()) {
-			postOfferBtn.setVisible(true);
-			postOfferBtn.setDisable(true);
-		}else {
-			postOfferBtn.setVisible(true);
-			postOfferBtn.setDisable(false);
-		}
+		
 		
 		setListeners();
 	}
@@ -105,6 +97,16 @@ public final class HomeViewController extends GraphicsController {
 			accountBtn.setText("My account");
 		} else {
 			accountBtn.setText("Login");
+		}
+		
+		if(LoginHandler.getSessionUser()== null || !LoginHandler.getSessionUser().isEmployee()) {
+			postOfferBtn.setVisible(false);
+		}else if(LoginHandler.getSessionUser().isAdmin()) {
+			postOfferBtn.setVisible(true);
+			postOfferBtn.setDisable(true);
+		}else {
+			postOfferBtn.setVisible(true);
+			postOfferBtn.setDisable(false);
 		}
 
 		loadOffersNoFilters();
