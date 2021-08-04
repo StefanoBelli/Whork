@@ -18,6 +18,7 @@ public final class HomeView implements ControllableView {
 	private static final String CONFIG_WIN_TITLE = "Whork - Find a job";
 	private static final String CATEGORY_MSG = "Select a Category: ";
 	private static final String SEARCH_BTN_MSG = "Search";
+	private static final String POST_OFFER_BTN_MSG = "Post Offer";
 	private static final String RESET_BTN_MSG = "Reset Filters";
 	private static final String POSITION_MSG = "Select a Position: ";
 	private static final String QUALIFICATION_MSG = "Select a qualify: ";
@@ -26,6 +27,7 @@ public final class HomeView implements ControllableView {
 	private static final int LIST_VIEW_MIN_HEIGHT = 495;
 	private static final int FLT_SPACING = 80;
 	
+	private Button postOfferBtn;
 	private Button accountBtn;
 	private TextField searchField;
 	private Button searchBtn;
@@ -54,6 +56,7 @@ public final class HomeView implements ControllableView {
 		accountBtn = new Button();
 		searchField= new TextField();
 		searchBtn = new Button(SEARCH_BTN_MSG);
+		postOfferBtn = new Button(POST_OFFER_BTN_MSG);
 		resetBtn = new Button(RESET_BTN_MSG);
 		offersLst = new ListView<>();
 		categoryMessage = new Label(CATEGORY_MSG);
@@ -80,6 +83,7 @@ public final class HomeView implements ControllableView {
 		
 		hboxsrc.getChildren().add(resetBtn);
 		hboxsrc.getChildren().add(accountBtn);
+		hboxsrc.getChildren().add(postOfferBtn);
 		hboxsrc.setPadding(new Insets(10, 0, 0, 10));
 		
 		HBox hboxflt=new HBox();
@@ -143,6 +147,7 @@ public final class HomeView implements ControllableView {
 			qualificationCB,
 			typeOfContractCB,
 			resetBtn,
+			postOfferBtn
 		};
 	}
 

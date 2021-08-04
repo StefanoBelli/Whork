@@ -22,6 +22,7 @@ import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.exception.InternalException;
 import logic.factory.BeanFactory;
+
 import logic.graphicscontroller.state.Context;
 import logic.pool.JobCategoryPool;
 import logic.pool.JobPositionPool;
@@ -33,11 +34,13 @@ import logic.view.AccountView;
 import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.LoginView;
+import logic.view.PostOfferView;
 import logic.view.OfferItem;
 import logic.view.ViewStack;
 
 public final class HomeViewController extends GraphicsController {
-	
+
+
 	private static final String SELECT_AN_OPTION = "--select an option--";
 	
 	private Button accountBtn;
@@ -49,6 +52,7 @@ public final class HomeViewController extends GraphicsController {
 	private ChoiceBox<String> jobPositionCB;
 	private ChoiceBox<String> qualificationCB;
 	private ChoiceBox<String> typeOfContractCB;
+	private Button postOfferBtn;
 	
 	private List<OfferBean> offers = new ArrayList<>();
 	
@@ -69,12 +73,23 @@ public final class HomeViewController extends GraphicsController {
 		qualificationCB=(ChoiceBox<String>) n[6];
 		typeOfContractCB=(ChoiceBox<String>) n[7];
 		resetBtn = (Button) n[8];
+		postOfferBtn=(Button) n[9];
 		
 		GraphicsUtil.loadDataInChoiceBox(jobCategoryCB, JobCategoryPool.getJobCategories(), JobCategoryBean.class);
 		GraphicsUtil.loadDataInChoiceBox(jobPositionCB, JobPositionPool.getJobPositions(), JobPositionBean.class);
 		GraphicsUtil.loadDataInChoiceBox(qualificationCB, QualificationPool.getQualifications(), QualificationBean.class);
 		GraphicsUtil.loadDataInChoiceBox(typeOfContractCB, TypeOfContractPool.getTypesOfContract(), TypeOfContractBean.class);
 
+		if(LoginHandler.getSessionUser()== null || !LoginHandler.getSessionUser().isEmployee()) {
+			postOfferBtn.setVisible(false);
+		}else if(LoginHandler.getSessionUser().isAdmin()) {
+			postOfferBtn.setVisible(true);
+			postOfferBtn.setDisable(true);
+		}else {
+			postOfferBtn.setVisible(true);
+			postOfferBtn.setDisable(false);
+		}
+		
 		setListeners();
 	}
 
@@ -82,6 +97,7 @@ public final class HomeViewController extends GraphicsController {
 		accountBtn.setOnMouseClicked(new HandleAccountButtonRequest());
 		searchBtn.setOnMouseClicked(new HandleSearchButtonRequest());
 		resetBtn.setOnMouseClicked(new HandleResetButtonRequest());
+		postOfferBtn.setOnMouseClicked(new HandlePostOfferButtonRequest());
 	}
 
 	private void dynamicViewUpdate() {
@@ -153,6 +169,14 @@ public final class HomeViewController extends GraphicsController {
 			}
 		}
 	}
+	
+	
+	private final class HandlePostOfferButtonRequest implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			GraphicsUtil.showAndWaitWindow(PostOfferView.class);
+		}
+	}
 
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
 		@Override
@@ -165,7 +189,7 @@ public final class HomeViewController extends GraphicsController {
 		private OfferBean offer;
 		private Context context;
 		private Button candidateBtn;
-
+		
 		public HandleCandidateRequest(OfferBean offer, Button candidateBtn, Context context) {
 			this.offer = offer;
 			this.context=context;
