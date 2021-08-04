@@ -1703,7 +1703,7 @@
 											"top": 326.5,
 											"width": 92,
 											"height": 13,
-											"text": "Join chat",
+											"text": "Chat",
 											"wordWrap": true
 										},
 										{
@@ -7404,7 +7404,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF1EzbZkJelE74="
 					},
-					"name": "Join chat",
+					"name": "Chat",
 					"ownedElements": [
 						{
 							"_type": "UMLInclude",

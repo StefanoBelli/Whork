@@ -2405,6 +2405,18 @@
 							"propertyLabel": {
 								"$ref": "AAAAAAF6w12ASyu3rzQ="
 							}
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAF7EcOeCxNDKtU=",
+							"_parent": {
+								"$ref": "AAAAAAF6wwzxeicgFpE="
+							},
+							"font": "Arial;13;0",
+							"top": 264,
+							"width": 60,
+							"height": 25,
+							"text": "Chat"
 						}
 					]
 				}
