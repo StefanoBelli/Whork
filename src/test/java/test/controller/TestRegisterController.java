@@ -182,7 +182,7 @@ public class TestRegisterController {
 			// unhandled
 		}
 
-		assertEquals(null, CompanyDao.getCompanyByName("12345678900"));
+		assertEquals(null, CompanyDao.getCompanyByVat("12345678900"));
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class TestRegisterController {
 	@Test
 	public void testRegisterValidVATExistingCompanyRecruiter()
 			throws InternalException, AlreadyExistantUserException, DataAccessException, DataLogicException {
-		String email = "recr@ferrari";
+		String email = "recr@ferrero";
 		String password = "ciao123";
 		String userCf = "MMMMXXXXZZZZKKKK";
 
@@ -270,7 +270,7 @@ public class TestRegisterController {
 			}
 		}
 
-		assertEquals("recr@ferrari", UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean)));
+		assertEquals("recr@ferrero", UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean)));
 	}
 
 	/**
@@ -285,7 +285,7 @@ public class TestRegisterController {
 		
 		boolean passTest = false;
 
-		String email = "recr@ferrari";
+		String email = "recr@ferrero";
 		String password = "ciao123";
 		String userCf = "MMMMXXXXZZZZKKKK";
 
@@ -325,7 +325,7 @@ public class TestRegisterController {
 
 		boolean passTest = false;
 
-		String email = "recr@fererero";
+		String email = "recr.2@ferrero";
 		String password = "ciao123";
 		String userCf = "MMMMXXXXKKKKZZZZ";
 
@@ -333,8 +333,8 @@ public class TestRegisterController {
 		UserAuthBean userAuthBean = BeanFactory.buildUserAuthBean(email, password);
 
 		userBean.setCf(userCf);
-		userBean.setName("FERRERO Employee");
-		userBean.setSurname("User");
+		userBean.setName("FERRERO Employee 1");
+		userBean.setSurname("User 2");
 		userBean.setPhoto(null);
 		userBean.setPhoneNumber("1234567890");
 		userBean.setAdmin(true);
