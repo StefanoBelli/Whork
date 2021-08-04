@@ -138,7 +138,13 @@ if(sessionUser==null){
 		<form action="/account.jsp" method="post">
 			<input type="submit" name="account" value="My Account">
 		</form>
+
+<%if(sessionUser.isAdmin()){ %>
+		<button name="post_offer" onclick="location.href='/post_jsp'" title="Only recruiters can post offers" disabled>Post Offer</button>
+<%}else if(sessionUser.isRecruiter()){ %>
+		<button name="post_offer" onclick="location.href='/post_jsp'">Post Offer</button>
 <%
+}
 }
 %>
 	</div>
