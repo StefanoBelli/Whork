@@ -39,6 +39,36 @@ public final class RegisterController {
 	private static final String ISVATEU_REST_API_ENDPOINT =
 		"https://www.isvat.eu/live/IT/";
 
+	/**
+	 * to avoid redundant checks, please note that it is method caller responsibility
+	 * to ensure that:
+	 *  * companyBean is NOT null
+	 *  * companyBean holds data for a valid and registered company (SQL integrity constraint violation othw)
+	 * @param pairedBeans
+	 * @throws InternalException
+	 * @throws AlreadyExistantUserException
+	 */
+	public static void registerEmployeeForExistingCompany(Pair<UserBean, UserAuthBean> pairedBeans) 
+			throws InternalException, AlreadyExistantUserException {
+		UserModel user = ModelFactory.buildUserModel(pairedBeans.getFirst());
+		UserAuthModel userAuth = ModelFactory.buildUserAuthModel(pairedBeans.getSecond());
+		String confirmToken = Util.generateToken();
+
+		if(alreadyExistantUser(user, userAuth)) {
+			throw new AlreadyExistantUserException();
+		}
+
+		try {
+			UserDao.registerUserDetails(user);
+			UserAuthDao.registerUserAuth(user, userAuth, confirmToken);
+		} catch(DataAccessException e) {
+			Util.exceptionLog(e);
+			throw new InternalException(DATA_ACCESS_ERROR);
+		}
+
+		sendMailWithConfirmationToken(userAuth, confirmToken);
+	}
+
 	public static void register(Pair<UserBean, UserAuthBean> pairedBeans) 
 			throws InternalException, InvalidVatCodeException, 
 				AlreadyExistantCompanyException, AlreadyExistantUserException {

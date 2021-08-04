@@ -13304,7 +13304,7 @@
 											"font": "Arial;13;0",
 											"left": 2461,
 											"top": 2213,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"text": "«controller»"
 										},
@@ -13318,7 +13318,7 @@
 											"font": "Arial;13;1",
 											"left": 2461,
 											"top": 2228,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"text": "RegisterController"
 										},
@@ -13356,7 +13356,7 @@
 									"font": "Arial;13;0",
 									"left": 2456,
 									"top": 2208,
-									"width": 483.966796875,
+									"width": 523.3984375,
 									"height": 38,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF6yI2xluBTJC8="
@@ -13394,7 +13394,7 @@
 											"font": "Arial;13;0",
 											"left": 2461,
 											"top": 2251,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-DATA_ACCESS_ERROR: String {readOnly}",
@@ -13413,7 +13413,7 @@
 											"font": "Arial;13;0",
 											"left": 2461,
 											"top": 2266,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-UNABLE_TO_SEND_EMAIL: String {readOnly}",
@@ -13432,7 +13432,7 @@
 											"font": "Arial;13;0",
 											"left": 2461,
 											"top": 2281,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-ISVATEU_REST_API_ENDPOINT: String {readOnly}",
@@ -13443,7 +13443,7 @@
 									"font": "Arial;13;0",
 									"left": 2456,
 									"top": 2246,
-									"width": 483.966796875,
+									"width": 523.3984375,
 									"height": 53
 								},
 								{
@@ -13469,10 +13469,29 @@
 											"font": "Arial;13;0",
 											"left": 2461,
 											"top": 2304,
-											"width": 473.966796875,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "+register(pairedBeans: PairOf{UserBean_UserAuthBean})",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7EAoA6MfUhWE=",
+											"_parent": {
+												"$ref": "AAAAAAF6yI2xl+BYsHA="
+											},
+											"model": {
+												"$ref": "AAAAAAF7EAoAoMezb7M="
+											},
+											"fillColor": "#00a9ff",
+											"font": "Arial;13;0",
+											"left": 2461,
+											"top": 2319,
+											"width": 513.3984375,
+											"height": 13,
+											"underline": true,
+											"text": "+registerEmployeeForExistingCompany(pairedBeans: PairOf{UserBean_UserAuthBean})",
 											"horizontalAlignment": 0
 										},
 										{
@@ -13487,8 +13506,8 @@
 											"fillColor": "#00a9ff",
 											"font": "Arial;13;0",
 											"left": 2461,
-											"top": 2319,
-											"width": 473.966796875,
+											"top": 2334,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "+confirm(email: String, regToken: String)",
@@ -13506,8 +13525,8 @@
 											"fillColor": "#00a9ff",
 											"font": "Arial;13;0",
 											"left": 2461,
-											"top": 2334,
-											"width": 473.966796875,
+											"top": 2349,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-isValidVatCode(company: CompanyModel): Boolean",
@@ -13525,8 +13544,8 @@
 											"fillColor": "#00a9ff",
 											"font": "Arial;13;0",
 											"left": 2461,
-											"top": 2349,
-											"width": 473.966796875,
+											"top": 2364,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-alreadyExistantUser(user: UserModel, userAuth: UserAuthModel): Boolean",
@@ -13544,8 +13563,8 @@
 											"fillColor": "#00a9ff",
 											"font": "Arial;13;0",
 											"left": 2461,
-											"top": 2364,
-											"width": 473.966796875,
+											"top": 2379,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-alreadyExistantCompany(company: CompanyModel): Boolean",
@@ -13563,8 +13582,8 @@
 											"fillColor": "#00a9ff",
 											"font": "Arial;13;0",
 											"left": 2461,
-											"top": 2379,
-											"width": 473.966796875,
+											"top": 2394,
+											"width": 513.3984375,
 											"height": 13,
 											"underline": true,
 											"text": "-sendMailWithConfirmationToken(userAuth: UserAuthModel, confirmToken: String)",
@@ -13575,8 +13594,8 @@
 									"font": "Arial;13;0",
 									"left": 2456,
 									"top": 2299,
-									"width": 483.966796875,
-									"height": 98
+									"width": 523.3984375,
+									"height": 113
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -13618,8 +13637,8 @@
 							"containerChangeable": true,
 							"left": 2456,
 							"top": 2208,
-							"width": 483.966796875,
-							"height": 189,
+							"width": 523.3984375,
+							"height": 204,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6yI2xluBSHms="
 							},
@@ -19566,7 +19585,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2704:2396;2704:2504;2384:2504;2384:2608",
+							"points": "2704:2411;2704:2504;2384:2504;2384:2608",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6ySst4RZSAKs="
@@ -19600,7 +19619,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2719,
-									"top": 2495,
+									"top": 2502,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -19620,7 +19639,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 2711,
-									"top": 2551,
+									"top": 2558,
 									"width": 52.7490234375,
 									"height": 13,
 									"alpha": 0.5325041365065966,
@@ -19643,7 +19662,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 2689,
-									"top": 2496,
+									"top": 2503,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -19660,7 +19679,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2704:2396;2704:2608",
+							"points": "2704:2411;2704:2608",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yStBSBb5d0U="
@@ -19754,7 +19773,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2704:2396;2704:2504;2880:2504;2880:2608",
+							"points": "2704:2411;2704:2504;2880:2504;2880:2608",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yStOqRegN5g="
@@ -19848,7 +19867,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2704:2396;2704:2504;3128:2504;3128:2608",
+							"points": "2704:2411;2704:2504;3128:2504;3128:2608",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yStb5BhHnnc="
@@ -20692,7 +20711,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 3041,
+									"left": 3061,
 									"top": 2271,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -20712,7 +20731,7 @@
 										"$ref": "AAAAAAF6yT38ElpVGh0="
 									},
 									"font": "Arial;13;0",
-									"left": 3021,
+									"left": 3041,
 									"top": 2256,
 									"width": 41.919921875,
 									"height": 13,
@@ -20735,7 +20754,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 3041,
+									"left": 3061,
 									"top": 2301,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -20753,7 +20772,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2939:2292;3144:2292",
+							"points": "2978:2292;3144:2292",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yT38ElpYu+4="
@@ -26166,7 +26185,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2939:2360;3216:2360;3216:2544;3712:2544",
+							"points": "2978:2360;3216:2360;3216:2544;3712:2544",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yWOh0QsdL18="
@@ -26260,7 +26279,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2939:2376;3960:2376;3960:2203",
+							"points": "2978:2376;3960:2376;3960:2203",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yWO3nAwPfwg="
@@ -26354,7 +26373,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yI2xluBRH6w="
 							},
-							"points": "2939:2392;3384:2392;3384:2776;5248:2776;5248:1880;5050:1880",
+							"points": "2978:2392;3384:2392;3384:2776;5248:2776;5248:1880;5050:1880",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yWPomQ4ou6Q="
@@ -30637,8 +30656,8 @@
 							"left": 1648,
 							"top": 16,
 							"width": 241,
-							"height": 25,
-							"text": "Notation: PairOf{X_Y} eq. Pair<X,Y>"
+							"height": 40,
+							"text": "Notation: PairOf{X_Y} eq. Pair<X,Y>\n               MapOf{X_Y} eq. Map<X,Y>"
 						},
 						{
 							"_type": "UMLClassView",
@@ -36437,6 +36456,26 @@
 									"_id": "AAAAAAF6yJBSguekHX4=",
 									"_parent": {
 										"$ref": "AAAAAAF6yI71W+aOg0U="
+									},
+									"name": "pairedBeans",
+									"type": "PairOf{UserBean_UserAuthBean}"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7EAoAoMezb7M=",
+							"_parent": {
+								"$ref": "AAAAAAF6yI2xluBP5BY="
+							},
+							"name": "registerEmployeeForExistingCompany",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7EAqzZshTAlw=",
+									"_parent": {
+										"$ref": "AAAAAAF7EAoAoMezb7M="
 									},
 									"name": "pairedBeans",
 									"type": "PairOf{UserBean_UserAuthBean}"
