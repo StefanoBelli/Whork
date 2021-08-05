@@ -236,10 +236,11 @@ public final class AccountServlet extends HttpServlet {
 				userRecruiter.setPhoneNumber(req.getParameter("phoneNumberForm"));
 				userRecruiter.setPhoto(ServletUtil.saveUserFile(req, "photoForm", userRecruiter.getCf()));
 				
-				RegisterController.registerEmployeeForExistingCompany(new Pair<UserBean, UserAuthBean>(userRecruiter, userAuthRecruiter));
+				RegisterController.registerEmployeeForExistingCompany(
+					new Pair<>(userRecruiter, userAuthRecruiter));
 				
 				return "Receruiter has been added successfully!";
-		    }			
+		    }	
 
 			return null;
 		}
@@ -247,7 +248,7 @@ public final class AccountServlet extends HttpServlet {
 
 	private interface UserAccountPropertyAlterer {
 		String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-			throws DataAccessException, DataLogicException, InternalException,
-				InvalidPasswordException, IOException, ServletException, InternalException, AlreadyExistantUserException;
+			throws DataAccessException, DataLogicException, InvalidPasswordException, 
+			IOException, ServletException, InternalException, AlreadyExistantUserException;
 	}
 }

@@ -44,6 +44,7 @@ public final class RegisterController {
 	 * to ensure that:
 	 *  * companyBean is NOT null
 	 *  * companyBean holds data for a valid and registered company (SQL integrity constraint violation othw)
+	 *  * pairedBeans.getFirst().isRecruiter() should at least be true
 	 * @param pairedBeans
 	 * @throws InternalException
 	 * @throws AlreadyExistantUserException
