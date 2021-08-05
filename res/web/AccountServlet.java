@@ -54,12 +54,10 @@ public final class AccountServlet extends HttpServlet {
 
 	    final StringBuilder descriptiveErrorBuilder = new StringBuilder();
 	    final StringBuilder successBuilder = new StringBuilder();
-	    String rs = null;
 
 		for(final Map.Entry<String,UserAccountPropertyAlterer> uap : UAPS.entrySet()) {
 			try {
-				rs = uap.getValue().doAlterProperty(req, userBean);
-				if(rs != null) successBuilder.append(rs).append("<br>");
+				successBuilder.append(uap.getValue().doAlterProperty(req, userBean)).append("<br>");
 			} catch(DataAccessException | DataLogicException | IOException | ServletException | InternalException | AlreadyExistantUserException e) {
 				Util.exceptionLog(e);
 				descriptiveErrorBuilder.append(uap.getKey()).append(" says: ").append(ERROR_MSG).append("<br>");
@@ -69,7 +67,7 @@ public final class AccountServlet extends HttpServlet {
 		}
 
 		final String descriptiveError = descriptiveErrorBuilder.toString();
-		final String success = successBuilder.toString();
+		final String success = (successBuilder != null) ? successBuilder.toString() : null;
 
 		if (!descriptiveError.isEmpty()) req.getSession().setAttribute("descriptive_error", descriptiveError);
 		if (!success.isEmpty()) req.getSession().setAttribute("change_alert", success);
@@ -246,7 +244,7 @@ public final class AccountServlet extends HttpServlet {
 				
 				RegisterController.registerEmployeeForExistingCompany(new Pair<UserBean, UserAuthBean>(userRecruiter, userAuthRecruiter));
 				
-				return "The confirmation email has been sent!";
+				return "The confirm email has been sended!";
 		    }			
 
 			return null;

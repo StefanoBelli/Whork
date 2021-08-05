@@ -516,7 +516,7 @@
 	                           	 		
 	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);	                           	 		
 	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
-	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
+	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
 	                         %>
 	                           	 		<a href="#">
 				                          <div class="inbox-item">		
@@ -543,22 +543,7 @@
                 </div>
                 <!-- *************************************************************** -->
                 <!-- End Sales Charts Section -->
-                <!-- *************************************************************** -->                
-                <!-- Start Top Leader Table -->
                 <!-- *************************************************************** -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-4">
-                                    <h4 class="card-title">Recruiters</h4>
-                                    <div class="ml-auto">
-                                        <div class="dropdown sub-dropdown">
-                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
-                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                <i data-feather="more-vertical"></i>
-                                            </button>
 <%
 	String descError = (String) request.getSession().getAttribute("descriptive_error");
  	String success = (String) request.getSession().getAttribute("change_alert");
@@ -578,7 +563,23 @@
 	}
 	request.getSession().setAttribute("descriptive_error", null);
 	request.getSession().setAttribute("change_alert", null);
-%>                                            
+%>
+				<!-- *************************************************************** -->
+                <!-- Start Top Leader Table -->
+                <!-- *************************************************************** -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-4">
+                                    <h4 class="card-title">Recruiters</h4>
+                                    <div class="ml-auto">
+                                        <div class="dropdown sub-dropdown">
+                                            <button class="btn btn-link text-muted dropdown-toggle" type="button"
+                                                id="dd1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i data-feather="more-vertical"></i>
+                                            </button>                                            
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">                                                
                                                 <a class="dropdown-item" onclick="addRecruiter()">Add Recruiter</a>
                                             </div>
@@ -610,10 +611,9 @@
                                     		
                                     		while(keys.hasNext()) {
                                     			key = keys.next();                                    			
-                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());	                           	 		
-        	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
-        	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
-                                    			
+                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());                                    			
+        	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;        	                           	 		
+        	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
                                     	%>
 	                                            <tr>
 	                                                <td class="border-top-0 px-2 py-4">
@@ -662,7 +662,12 @@
 </body>
 
 <%		
-	} else {
+	} else if(!userBean.isAdmin() && userBean.isRecruiter()){
+%>		
+		
+		
+<%		
+	} else {	
 
 	String fullName = name.concat(" ").concat(surname);
 	String phone = userBean.getPhoneNumber();

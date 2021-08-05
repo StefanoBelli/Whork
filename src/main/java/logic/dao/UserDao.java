@@ -39,7 +39,7 @@ public final class UserDao {
 	private static final String STMT_GET_EMPLOYMENT_STATUS_BY_COMPANY_VAT = 
 		"{ call GetEmploymentStatusByCompanyVAT(?) }";
 	private static final String STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT = 
-			"{ call GetEmployeeUserDetailsByCompanyVAT(?) }";
+		"{ call GetEmployeeUserDetailsByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
