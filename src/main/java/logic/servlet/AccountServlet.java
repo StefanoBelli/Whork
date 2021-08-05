@@ -67,8 +67,8 @@ public final class AccountServlet extends HttpServlet {
 		}
 
 		final String descriptiveError = descriptiveErrorBuilder.toString();
-		final String success = successBuilder.toString();
-		
+		final String success = (successBuilder != null) ? successBuilder.toString() : null;
+
 		if (!descriptiveError.isEmpty()) req.getSession().setAttribute("descriptive_error", descriptiveError);
 		if (!success.isEmpty()) req.getSession().setAttribute("change_alert", success);
 		
@@ -224,7 +224,7 @@ public final class AccountServlet extends HttpServlet {
 		@Override
 		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
 				throws InternalException, AlreadyExistantUserException, IOException, ServletException {
-			if(userBean.isRecruiter()) {	    	
+			if(userBean.isAdmin()) {	    	
 		    	UserBean userRecruiter = new UserBean();
 		    	UserAuthBean userAuthRecruiter = new UserAuthBean();
 		    	
@@ -236,11 +236,16 @@ public final class AccountServlet extends HttpServlet {
 				userRecruiter.setPhoneNumber(req.getParameter("phoneNumberForm"));
 				userRecruiter.setPhoto(ServletUtil.saveUserFile(req, "photoForm", userRecruiter.getCf()));
 				
-				RegisterController.registerEmployeeForExistingCompany(
-					new Pair<>(userRecruiter, userAuthRecruiter));
+				userRecruiter.setAdmin(false);
+				userRecruiter.setEmployee(true);
+				userRecruiter.setRecruiter(true);
+				userRecruiter.setCompany(userBean.getCompany());
+				userRecruiter.setNote(null);
 				
-				return "Receruiter has been added successfully!";
-		    }	
+				RegisterController.registerEmployeeForExistingCompany(new Pair<UserBean, UserAuthBean>(userRecruiter, userAuthRecruiter));
+				
+				return "The confirm email has been sended!";
+		    }			
 
 			return null;
 		}
@@ -248,7 +253,7 @@ public final class AccountServlet extends HttpServlet {
 
 	private interface UserAccountPropertyAlterer {
 		String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-			throws DataAccessException, DataLogicException, InvalidPasswordException, 
-			IOException, ServletException, InternalException, AlreadyExistantUserException;
+			throws DataAccessException, DataLogicException, InternalException,
+				InvalidPasswordException, IOException, ServletException, InternalException, AlreadyExistantUserException;
 	}
 }
