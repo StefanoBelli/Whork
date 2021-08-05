@@ -516,7 +516,7 @@
 	                           	 		
 	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);	                           	 		
 	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
-	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
+	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
 	                         %>
 	                           	 		<a href="#">
 				                          <div class="inbox-item">		
@@ -611,10 +611,9 @@
                                     		
                                     		while(keys.hasNext()) {
                                     			key = keys.next();                                    			
-                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());	                           	 		
-        	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
-        	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
-                                    			
+                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());                                    			
+        	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;        	                           	 		
+        	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
                                     	%>
 	                                            <tr>
 	                                                <td class="border-top-0 px-2 py-4">
@@ -663,7 +662,12 @@
 </body>
 
 <%		
-	} else {
+	} else if(!userBean.isAdmin() && userBean.isRecruiter()){
+%>		
+		
+		
+<%		
+	} else {	
 
 	String fullName = name.concat(" ").concat(surname);
 	String phone = userBean.getPhoneNumber();
