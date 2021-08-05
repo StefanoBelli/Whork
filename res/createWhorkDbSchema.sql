@@ -1649,6 +1649,30 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure GetTotalClickNumberOfAnEmployee 
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetTotalClickNumberOfAnEmployee`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetTotalClickNumberOfAnEmployee` (in var_VAT CHAR(11))
+BEGIN
+	SET TRANSACTION READ ONLY;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT SUM(ClickStats)
+    FROM Offer
+    WHERE EmployeeUserDetails_CF = var_VAT;
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure GetLastMessage
 -- -----------------------------------------------------
 
@@ -1803,6 +1827,7 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetEmploymentStatusByCompanyVAT` TO 'whork
 GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetNumberOffersOfAnEmployee` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetTotalClickNumberOfAnEmployee` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetLastMessage` TO 'whork';
 
 

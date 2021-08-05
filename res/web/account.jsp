@@ -226,20 +226,16 @@
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent">                   
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        
-                        <%
-                        	String picture = null; 
-                	 		picture = userBean.getPhoto();
-                	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar4.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
-                         %>
-                        <img src="<%=picture%>" alt="user" class="rounded-circle"
-                            width="80">
-                        <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                class="text-dark"><%=name%> <%=surname%></span> 
-                    </a>                       
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                	<div class="col-7 align-self-center">                                          
+                        <div class="d-flex align-items-center">                   
+		                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+		                        aria-haspopup="true" aria-expanded="false">                        
+		                        <span class="ml-2 d-none d-lg-inline-block"><span style="font-size:18pt"><%=name%> <%=surname%></span>
+		                        <br><span class="text-dark"><%=userBean.getCompany().getSocialReason()%></span></span>
+		                    </a>
+                    	</div>
+                    </div>                      
                 </div>
             </nav>
         </header>
@@ -259,25 +255,33 @@
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Home</span></a></li>
                         <li class="list-divider"></li>
+                        
                         <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
                         
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chat.jsp"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Chat</span></a></li>                        
-
+                                    class="hide-menu">Chat</span></a></li>
+						
+						<%
+							if(userBean.isRecruiter()) {
+						%>
+							<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="post_offer.jsp"
+	                                aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
+	                                    class="hide-menu">Post Offer</span></a></li>
+						<%
+							}
+						%>
                         <li class="list-divider"></li>                        
                         
                         <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>
 
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="login.jsp"
-                                aria-expanded="false"><i data-feather="lock" class="feather-icon"></i><span
-                                    class="hide-menu">Login
-                                </span></a>
+                                aria-expanded="false"><i data-feather="log-in" class="feather-icon"></i><span
+                                    class="hide-menu">Login</span></a>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
                                 href="register.jsp" aria-expanded="false"><i data-feather="lock"
-                                    class="feather-icon"></i><span class="hide-menu">Register
-                                </span></a>
+                                    class="feather-icon"></i><span class="hide-menu">Register</span></a>
                         </li>
                         
                         <li class="list-divider"></li>                        
@@ -302,23 +306,31 @@
             <!-- ============================================================== -->
             <div class="page-breadcrumb">
                 <div class="row">
-                    <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><%=name%> <%=surname%></h3>
-                        <h3 class="breadcrumb-item"><%=userBean.getCompany().getSocialReason()%></h3>
+                    <div class="col-7 align-self-center">                                          
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item">Dashboard
-                                    </li>
+                                    <li class="breadcrumb-item"><h3>Dashboard</h3></li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">                        
+                    <div class="col-5 align-self-center">                    
+                        <div class="customize-input float-right"> 
+                        <%
+                        	String picture = null; 
+                	 		picture = userBean.getPhoto();
+                	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar4.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
+                        %>
+                        	<img src="<%=picture%>" alt="user" class="rounded-circle" width="60">            
                             <a><%=new Date().toString().substring(0, 10)%></a>
                         </div>
                     </div>
+                </div>                
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                    
+                    </div>                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -639,9 +651,524 @@
 </body>
 
 <%		
-	//} else if(!userBean.isAdmin() && userBean.isRecruiter()){
-%>	
-	
+	} else if(!userBean.isAdmin() && userBean.isRecruiter()){
+
+		Gson gsonObj = new Gson();
+		Map<Object,Object> map = null;
+		List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
+		List<Integer> listCandidatureByVat = CandidatureController.getCandidatureByCompanyVat(userBean.getCompany());
+		List<String> listMonth = new ArrayList<>();
+		listMonth.add("Jan");
+		listMonth.add("Feb");
+		listMonth.add("Mar");
+		listMonth.add("Apr");
+		listMonth.add("May");
+		listMonth.add("Jun");
+		listMonth.add("Jul");
+		listMonth.add("Aug");
+		listMonth.add("Sep");
+		listMonth.add("Oct");
+		listMonth.add("Nov");
+		listMonth.add("Dec");
+		
+		for(int i=0; i<listCandidatureByVat.size(); i++) {			
+			map = new HashMap<Object,Object>(); map.put("label", listMonth.get(i)); map.put("y", listCandidatureByVat.get(i)); list.add(map);		
+		}
+		 
+		String dataPoints = gsonObj.toJson(list);
+		
+		
+		Gson gsonObjPieChart = new Gson();
+		Map<Object,Object> mapPieChart = null;
+		List<Map<Object,Object>> listPieChart = new ArrayList<Map<Object,Object>>();
+		
+		Map<String, Double> mapEmployment = AccountController.getEmploymentStatusBtCompanyVAT(userBean.getCompany());
+		Iterator<String> keys = mapEmployment.keySet().iterator();
+		int i=0;
+		String key = null;
+		
+		if(keys.hasNext()) {
+			key = keys.next();	
+			mapPieChart = new HashMap<Object,Object>(); mapPieChart.put("label", key); mapPieChart.put("y", mapEmployment.get(key)*100); mapPieChart.put("exploded", true); listPieChart.add(mapPieChart);		
+		}
+		
+		while(keys.hasNext()) {
+			key = keys.next();
+			mapPieChart = new HashMap<Object,Object>(); mapPieChart.put("label", key); mapPieChart.put("y", mapEmployment.get(key)*100); listPieChart.add(mapPieChart);			
+			i++;
+		}
+		 
+		String dataPointsPieChart = gsonObjPieChart.toJson(listPieChart);	
+%>
+
+
+<head>
+    <meta charset="utf-8">    
+    <!-- Favicon icon <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">-->    
+    <title>Account - Whork</title>
+    <!-- Custom CSS -->
+    <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+    <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="../dist/css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/whork.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+ 	<link href="https://fonts.googleapis.com/css2?family=Kameron&display=swap" rel="stylesheet">
+ 	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+ 	<link rel="stylesheet" href="css/accountAdminCompany.css">
+ 	
+ 	 <!-- All Jquery     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+ 	 -->
+    <!-- ============================================================== -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <!-- apps -->
+    <!-- apps     <script src="../dist/js/app-style-switcher.js"></script>
+        <script src="../dist/js/sidebarmenu.js"></script>
+    
+    -->
+    <script src="../dist/js/feather.min.js"></script>
+    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <script src="../assets/extra-libs/c3/d3.min.js"></script>
+    <script src="../assets/extra-libs/c3/c3.min.js"></script>
+    <script src="../assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
+    
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="js/accountAdmin.js"></script>
+    <link rel="stylesheet" href="css/account.css">
+    
+	<script type="text/javascript">
+		window.onload = function() { 
+			 
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2",
+				title: {
+					text: ""
+				},
+				subtitles: [{
+					text: ""
+				}],
+				axisY: {
+					title: "",
+					labelFormatter: addSymbols
+				},
+				data: [{
+					type: "bar",
+					indexLabel: "{y}",
+					indexLabelFontColor: "#444",
+					indexLabelPlacement: "inside",
+					dataPoints: <%out.print(dataPoints);%>			
+				}]
+			});
+			chart.render();
+			 
+			function addSymbols(e) {
+				var suffixes = ["", "K", "M", "B"];
+			 
+				var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+				if(order > suffixes.length - 1)
+					order = suffixes.length - 1;
+			 
+				var suffix = suffixes[order];
+				return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+			}
+		
+		
+			var chartPieChart = new CanvasJS.Chart("chartContainerPieChart", {
+				theme: "light2",
+				animationEnabled: true,
+				exportFileName: "",
+				exportEnabled: false,
+				title:{
+					text: ""
+				},
+				data: [{
+					type: "pie",
+					showInLegend: true,
+					legendText: "{label}",
+					toolTipContent: "{label}: <strong>{y}%</strong>",
+					indexLabel: "{label} {y}%",
+					dataPoints: <%out.print(dataPointsPieChart);%>			
+				}]
+			});	 
+			chartPieChart.render();
+		 
+		}
+	</script>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ti-menu ti-close"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-brand">
+                        <!-- Logo icon -->
+                        <a href="index.jsp">
+                            <span class="whork"> W<span class="hred">h</span>ork</span>
+                        </a>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                        data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ti-more"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                	<div class="col-7 align-self-center">                                          
+                        <div class="d-flex align-items-center">                   
+		                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+		                        aria-haspopup="true" aria-expanded="false">                        
+		                        <span class="ml-2 d-none d-lg-inline-block"><span style="font-size:18pt"><%=name%> <%=surname%></span>
+		                        <br><span class="text-dark"><%=userBean.getCompany().getSocialReason()%></span></span>
+		                    </a>
+                    	</div>
+                    </div>                      
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar" data-sidebarbg="skin6">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="index.jsp"
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Home</span></a></li>
+                        <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
+                        
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chat.jsp"
+                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
+                                    class="hide-menu">Chat</span></a></li>
+
+						<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="post_offer.jsp"
+                                aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
+                                    class="hide-menu">Post Offer</span></a></li>
+
+                        <li class="list-divider"></li>                        
+                        
+                        <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="login.jsp"
+                                aria-expanded="false"><i data-feather="log-in" class="feather-icon"></i><span
+                                    class="hide-menu">Login</span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
+                                href="register.jsp" aria-expanded="false"><i data-feather="lock"
+                                    class="feather-icon"></i><span class="hide-menu">Register</span></a>
+                        </li>
+                        
+                        <li class="list-divider"></li>                        
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout"
+                                aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
+                                    class="hide-menu">Logout</span></a></li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">                                          
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><h3>Dashboard</h3></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-center">                    
+                        <div class="customize-input float-right"> 
+                        <%
+                        	String picture = null; 
+                	 		picture = userBean.getPhoto();
+                	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar4.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
+                        %>
+                        	<img src="<%=picture%>" alt="user" class="rounded-circle" width="60">            
+                            <a><%=new Date().toString().substring(0, 10)%></a>
+                        </div>
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                    
+                    </div>                    
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- *************************************************************** -->
+                <!-- Start First Cards -->
+                <!-- *************************************************************** -->
+                <div class="card-group">
+                    <div class="card border-right">
+                        <div class="card-body">
+                            <div class="d-flex d-lg-flex d-md-block align-items-center">
+                                <div>
+                                    <div class="d-inline-flex align-items-center">
+                                        <h2 class="text-dark mb-1 font-weight-medium"><%=AccountController.getNumberOfEmployees(userBean)%></h2>                                        
+                                    </div>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Number of employees of the company on this site</h6>
+                                </div>
+                                <div class="ml-auto mt-md-3 mt-lg-0">
+                                    <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-right">
+                        <div class="card-body">
+                            <div class="d-flex d-lg-flex d-md-block align-items-center">
+                                <div>
+                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><%=AccountController.getNumberOfferOfAnEmployee(userBean)%></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Number of Offers posted</h6>
+                                </div>
+                                <div class="ml-auto mt-md-3 mt-lg-0">
+                                    <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-right">
+                        <div class="card-body">
+                            <div class="d-flex d-lg-flex d-md-block align-items-center">
+                                <div>
+                                    <div class="d-inline-flex align-items-center">
+                                        <h2 class="text-dark mb-1 font-weight-medium"><%=AccountController.getNUmberClickOfAnEmployee(userBean)%></h2>                                        
+                                    </div>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total number of clicks</h6>
+                                </div>
+                                <div class="ml-auto mt-md-3 mt-lg-0">
+                                    <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <!-- *************************************************************** -->
+                <!-- End First Cards -->
+                <!-- *************************************************************** -->
+                <!-- *************************************************************** -->
+                <!-- Start Sales Charts Section -->
+                <!-- *************************************************************** -->
+                <div class="row">
+                	<%
+						if(mapEmployment.size() != 0) {
+                    %>
+                    <div class="col-lg-5 col-md-12">                       
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Average Employment Status of Candidate</h4>                                
+                                   	<div id="chartContainerPieChart" style="height: 400px; width: 100%;">                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                     	}
+                    %>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Number of Candidate</h4>
+								<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Candidate by Location</h4>
+                                <div class="" style="height:300px">
+                                    <div id="visitbylocate" style="height:100%"></div>
+                                </div>
+                                
+                                <%
+                                Map<String, Double> mapCountry = AccountController.getCountryCandidateByFiscalCode(userBean.getCompany());
+                        		keys = mapCountry.keySet().iterator();
+                        		i=0;
+                        		int j = 0;
+                        		key = null;
+                        		
+                        		List<String> listColors = new ArrayList<>();
+                        		listColors.add("primary"); listColors.add("danger"); listColors.add("cyan"); listColors.add("success");
+                        		
+                        		if(mapCountry.size() == 0) {
+                        		%>
+                        			<div class="row mb-3 align-items-center mt-1 mt-5">
+                                    	<div class="col-4 text-right">
+                                        	<span class="text-muted font-14">There are not candidate for your offers</span>
+                                    	</div>
+                                    	<div class="col-5">
+                                        	<div class="progress" style="height: 5px;">
+                                           		<div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        	</div>
+                                    	</div>                                    	
+                                	</div>
+                        		<%
+                        		}                        		
+                        		
+                        		while(keys.hasNext()) {
+                        			key = keys.next();
+                        			
+                        		%>
+                        			
+                        			<div class="row mb-3 align-items-center mt-1 mt-5">
+                                    	<div class="col-4 text-right">
+                                        	<span class="text-muted font-14"><%=key%></span>
+                                    	</div>
+                                    	<div class="col-5">
+                                        	<div class="progress" style="height: 5px;">
+                                           		<div class="progress-bar bg-<%=listColors.get(j)%>" role="progressbar" style="width: 100%"
+                                                	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        	</div>
+                                    	</div>
+                                    	<div class="col-3 text-right">
+                                        	<span class="mb-0 font-14 text-dark font-weight-medium"><%=(int)Math.round(mapCountry.get(key)*100)%>%</span>
+                                    	</div>
+                                	</div>
+                        			
+                        			
+                        		<%
+                        			i++;
+                        			j++;
+                        			j = (j>i) ? 0 : j;
+                        		}                        		
+                                %>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5">
+                      <div class="card">
+                        <div class="card-body">
+                       	 <div class="card-box ribbon-box">
+						  <div class="ribbon ribbon-primary">Messages</div>
+                    	   <div class="clearfix"></div>
+                    		<div class="inbox-widget">
+                   			 <div data-spy="scroll" data-target="#navbar-example2" data-offset="0"
+                           	 class="position-relative mt-2" style="height: 300px; overflow: auto;">   
+                           	 
+                           	 <%
+                           	 	List<ChatLogEntryBean> listChat = AccountController.getLastMessage(email);                           	    
+                           	 	if(listChat.size() == 0) {
+                           	 %>
+                           	 		<h3> There are not messages here! </h3> 
+                           	 <%
+                           	 	} else {
+	                        	 	for(i=0; i<listChat.size(); i++) {
+	                           	 		String nameChat = (!listChat.get(i).getSenderEmail().equals(email)) ? listChat.get(i).getSenderEmail() : listChat.get(i).getReceiverEmail();
+	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();	                           	 			                           	 		 
+	                           	 		
+	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);	                           	 		
+	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
+	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
+	                         %>
+	                           	 		<a href="#">
+				                          <div class="inbox-item">		
+				                               <div class="inbox-item-img"><img src='<%=picture%>' class="rounded-circle" alt=""></div>
+				                               <p class="inbox-item-author"><%=nameChat%></p>
+				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
+				                               <p class="inbox-item-date">
+				                               	   <%=date.substring(0, date.length()-13)%>
+				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success" href="chat.jsp">Reply</a>
+				                               </p>
+				                          </div>
+				                       </a>
+				             <%
+	                         		}
+                           	 	}
+	                         %>
+
+                         	</div>	                                             
+	                      </div>
+	                     </div>
+                        </div>
+                       </div>
+                    </div>
+                </div>
+                <!-- *************************************************************** -->
+                <!-- End Sales Charts Section -->
+                <!-- *************************************************************** -->                
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->            
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->   
+</body>	
 		
 <%		
 	} else {	

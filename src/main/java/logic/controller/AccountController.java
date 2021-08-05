@@ -193,6 +193,10 @@ public final class AccountController {
 		return AccountDao.getNumberOfferOfAnEmployee(ModelFactory.buildUserModel(userBean));
 	}
 	
+	public static int getNUmberClickOfAnEmployee(UserBean userBean) throws DataAccessException {
+		return AccountDao.getNUmberClickOfAnEmployee(ModelFactory.buildUserModel(userBean));
+	}
+	
 	public static List<ChatLogEntryBean> getLastMessage(String email) throws DataAccessException {
 		List<ChatLogEntryModel> listMessageModel = ChatLogDao.getLastMessage(email);
 		List<ChatLogEntryBean> listMessage = new ArrayList<>();
