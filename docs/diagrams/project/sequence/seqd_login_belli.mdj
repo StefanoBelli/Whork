@@ -6223,7 +6223,7 @@
 									"top": 1600,
 									"width": 201,
 									"height": 116,
-									"text": "ubObject is an object of type UserBean which is later destroyed by actor when exiting program or logging out, in other words its lifecycle scope is application-wise and not limited to a single component object "
+									"text": "ubObject is an object of type UserBean which is later destroyed by the JVM when actor exits program or logs out, in other words its lifecycle scope is application-wise and not limited to a single component object "
 								},
 								{
 									"_type": "UMLSeqMessageView",
@@ -7581,7 +7581,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role10"
+					"name": "Role10",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
