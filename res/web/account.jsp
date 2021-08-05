@@ -121,6 +121,8 @@
     <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
     
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="js/accountAdmin.js"></script>
+    <link rel="stylesheet" href="css/account.css">
     
 	<script type="text/javascript">
 		window.onload = function() { 
@@ -284,10 +286,7 @@
                         
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chat.jsp"
                                 aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Chat</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-calendar.html"
-                                aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
-                                    class="hide-menu">Calendar</span></a></li>
+                                    class="hide-menu">Chat</span></a></li>                        
 
                         <li class="list-divider"></li>                        
                         
@@ -406,14 +405,21 @@
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-lg-5 col-md-12">
+                	<%
+						if(mapEmployment.size() != 0) {
+                    %>
+                    <div class="col-lg-5 col-md-12">                       
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Average Employment Status of Candidate</h4>
-                                <div id="chartContainerPieChart" style="height: 400px; width: 100%;"></div>
+                                <h4 class="card-title">Average Employment Status of Candidate</h4>                                
+                                   	<div id="chartContainerPieChart" style="height: 400px; width: 100%;">                               
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <%
+                     	}
+                    %>
                     <div class="col-lg-5 col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -439,6 +445,22 @@
                         		
                         		List<String> listColors = new ArrayList<>();
                         		listColors.add("primary"); listColors.add("danger"); listColors.add("cyan"); listColors.add("success");
+                        		
+                        		if(mapCountry.size() == 0) {
+                        		%>
+                        			<div class="row mb-3 align-items-center mt-1 mt-5">
+                                    	<div class="col-4 text-right">
+                                        	<span class="text-muted font-14">There are not candidate for your offers</span>
+                                    	</div>
+                                    	<div class="col-5">
+                                        	<div class="progress" style="height: 5px;">
+                                           		<div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                	aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        	</div>
+                                    	</div>                                    	
+                                	</div>
+                        		<%
+                        		}                        		
                         		
                         		while(keys.hasNext()) {
                         			key = keys.next();
@@ -511,9 +533,7 @@
 	                         		}
                            	 	}
 	                         %>
-                           	 
-                           	                                             		
-		                           
+
                          	</div>	                                             
 	                      </div>
 	                     </div>
@@ -539,13 +559,39 @@
                                                 aria-expanded="false">
                                                 <i data-feather="more-vertical"></i>
                                             </button>
+<%
+	String descError = (String) request.getSession().getAttribute("descriptive_error");
+ 	String success = (String) request.getSession().getAttribute("change_alert");
+	
+ 	if(descError != null) {
+%>
+		<div class="alert alert-danger" role="alert">
+			<%=descError%>
+		</div> 
+<%
+	} if(success != null) {
+%>		
+		<div class="alert alert-success" role="alert">
+			<%=success%>
+		</div>
+<%	
+	}
+	request.getSession().setAttribute("descriptive_error", null);
+	request.getSession().setAttribute("change_alert", null);
+%>                                            
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">                                                
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" onclick="addRecruiter()">Add Recruiter</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
+                                <form action="accountServlet" enctype="multipart/form-data" method="post">
+                                    <span id="addRecruiterForm"></span>
+                                    
+                                    <button id="addRecruiterButtonSubmit" name="addRecruiterButtonSubmit" type="submit" class="btn btn-info " style="display:none" >Submit</button>
+                                    <button id="addRecruiterButtonCancel" name="addRecruiterButtonCancel" onclick="addRecruiter()" class="btn btn-info " style="display:none" >Cancel</button>
+                                </form>
                                     <table class="table no-wrap v-middle mb-0">
                                         <thead>
                                             <tr class="border-0">
@@ -568,7 +614,7 @@
         	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
         	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + picture;
                                     			
-                                    	%>                                        
+                                    	%>
 	                                            <tr>
 	                                                <td class="border-top-0 px-2 py-4">
 	                                                    <div class="d-flex no-block align-items-center">
@@ -654,7 +700,7 @@
     
     
     <body>   
-     <form enctype="multipart/form-data" action="accountServlet" method="post">  
+     <form enctype="multipart/form-data" action="accountServlet" method="post"> 
 	   <div class="container">
 	    <div class="main-body">	     
 	    
