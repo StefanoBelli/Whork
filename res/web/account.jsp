@@ -77,14 +77,8 @@
 
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <meta charset="utf-8">    
+    <!-- Favicon icon <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">-->    
     <title>Account - Whork</title>
     <!-- Custom CSS -->
     <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
@@ -98,17 +92,18 @@
  	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
  	<link rel="stylesheet" href="css/accountAdminCompany.css">
  	
- 	 <!-- All Jquery -->
+ 	 <!-- All Jquery     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+ 	 -->
     <!-- ============================================================== -->
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- apps -->
-    <!-- apps -->
-    <script src="../dist/js/app-style-switcher.js"></script>
+    <!-- apps     <script src="../dist/js/app-style-switcher.js"></script>
+        <script src="../dist/js/sidebarmenu.js"></script>
+    
+    -->
     <script src="../dist/js/feather.min.js"></script>
     <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../dist/js/custom.min.js"></script>
     <!--This page JavaScript -->
@@ -231,38 +226,20 @@
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                   
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav float-right">                       
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <img src="../assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
-                                    width="40">
-                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark"><%=name%> <%=surname%></span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">                                
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="logout"><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
-                                <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="account.jsp" class="btn btn-sm btn-info">View
-                                        Profile</a></div>
-                            </div>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                    </ul>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">                   
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        
+                        <%
+                        	String picture = null; 
+                	 		picture = userBean.getPhoto();
+                	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar4.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
+                         %>
+                        <img src="<%=picture%>" alt="user" class="rounded-circle"
+                            width="80">
+                        <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                class="text-dark"><%=name%> <%=surname%></span> 
+                    </a>                       
                 </div>
             </nav>
         </header>
@@ -327,6 +304,7 @@
                 <div class="row">
                     <div class="col-7 align-self-center">
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><%=name%> <%=surname%></h3>
+                        <h3 class="breadcrumb-item"><%=userBean.getCompany().getSocialReason()%></h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -503,8 +481,7 @@
                            	 class="position-relative mt-2" style="height: 300px; overflow: auto;">   
                            	 
                            	 <%
-                           	 	List<ChatLogEntryBean> listChat = AccountController.getLastMessage(email);
-                           	    String picture = null;
+                           	 	List<ChatLogEntryBean> listChat = AccountController.getLastMessage(email);                           	    
                            	 	if(listChat.size() == 0) {
                            	 %>
                            	 		<h3> There are not messages here! </h3> 
@@ -662,9 +639,9 @@
 </body>
 
 <%		
-	} else if(!userBean.isAdmin() && userBean.isRecruiter()){
-%>		
-		
+	//} else if(!userBean.isAdmin() && userBean.isRecruiter()){
+%>	
+	
 		
 <%		
 	} else {	
