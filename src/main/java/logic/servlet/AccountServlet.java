@@ -16,6 +16,8 @@ import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.controller.CandidatureController;
+import logic.controller.RegisterController;
+import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
@@ -23,6 +25,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 import logic.util.Util;
+import logic.util.tuple.Pair;
 
 @MultipartConfig
 public final class AccountServlet extends HttpServlet {	
@@ -41,12 +44,13 @@ public final class AccountServlet extends HttpServlet {
 		UAPS.put("password", new UapPassword());
 		UAPS.put("candidature", new UapCandidature());
 		UAPS.put("photo", new UapPhoto());
+		UAPS.put("recruiter", new UapRecruiter());
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
-	    final UserBean userBean = ServletUtil.getUserForSession(req);
+	    final UserBean userBean = ServletUtil.getUserForSession(req);	    
 
 	    final StringBuilder descriptiveErrorBuilder = new StringBuilder();
 	    final StringBuilder successBuilder = new StringBuilder();
@@ -54,7 +58,7 @@ public final class AccountServlet extends HttpServlet {
 		for(final Map.Entry<String,UserAccountPropertyAlterer> uap : UAPS.entrySet()) {
 			try {
 				successBuilder.append(uap.getValue().doAlterProperty(req, userBean)).append("<br>");
-			} catch(DataAccessException | DataLogicException | IOException | ServletException | InternalException e) {
+			} catch(DataAccessException | DataLogicException | IOException | ServletException | InternalException | AlreadyExistantUserException e) {
 				Util.exceptionLog(e);
 				descriptiveErrorBuilder.append(uap.getKey()).append(" says: ").append(ERROR_MSG).append("<br>");
 			} catch(InvalidPasswordException e) {
@@ -214,10 +218,36 @@ public final class AccountServlet extends HttpServlet {
 			return null;
 		}
 	}
+	
+	private static final class UapRecruiter implements UserAccountPropertyAlterer {
+
+		@Override
+		public String doAlterProperty(HttpServletRequest req, UserBean userBean) 
+				throws InternalException, AlreadyExistantUserException, IOException, ServletException {
+			if(userBean.isRecruiter()) {	    	
+		    	UserBean userRecruiter = new UserBean();
+		    	UserAuthBean userAuthRecruiter = new UserAuthBean();
+		    	
+		    	userRecruiter.setName(req.getParameter("nameForm"));
+		    	userRecruiter.setSurname(req.getParameter("surnameForm"));
+		    	userAuthRecruiter.setEmail(req.getParameter("emailForm"));
+		    	userAuthRecruiter.setPassword(req.getParameter("passwordForm"));
+				userRecruiter.setCf(req.getParameter("fiscalCodeForm"));
+				userRecruiter.setPhoneNumber(req.getParameter("phoneNumberForm"));
+				userRecruiter.setPhoto(ServletUtil.saveUserFile(req, "photoForm", userRecruiter.getCf()));
+				
+				RegisterController.registerEmployeeForExistingCompany(new Pair<UserBean, UserAuthBean>(userRecruiter, userAuthRecruiter));
+				
+				return "Receruiter has been added successfully!";
+		    }			
+
+			return null;
+		}
+	}
 
 	private interface UserAccountPropertyAlterer {
 		String doAlterProperty(HttpServletRequest req, UserBean userBean) 
 			throws DataAccessException, DataLogicException, InternalException,
-				InvalidPasswordException, IOException, ServletException;
+				InvalidPasswordException, IOException, ServletException, InternalException, AlreadyExistantUserException;
 	}
 }
