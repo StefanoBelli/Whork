@@ -73,9 +73,8 @@
 		}
 		 
 		String dataPointsPieChart = gsonObjPieChart.toJson(listPieChart);	
-%>
-
-
+%>    
+   
 <head>
     <meta charset="utf-8">    
     <!-- Favicon icon <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">-->    
@@ -92,11 +91,11 @@
  	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
  	<link rel="stylesheet" href="css/accountAdminCompany.css">
  	
- 	 <!-- All Jquery     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
- 	 -->
+ 	 <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- apps -->
     <!-- apps     <script src="../dist/js/app-style-switcher.js"></script>
         <script src="../dist/js/sidebarmenu.js"></script>
@@ -648,7 +647,7 @@
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->   
-</body>
+</body> 
 
 <%		
 	} else if(!userBean.isAdmin() && userBean.isRecruiter()){

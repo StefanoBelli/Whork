@@ -1656,7 +1656,7 @@ USE `whorkdb`;
 DROP procedure IF EXISTS `whorkdb`.`GetTotalClickNumberOfAnEmployee`;
 
 DELIMITER $$
-CREATE PROCEDURE `GetTotalClickNumberOfAnEmployee` (in var_VAT CHAR(11))
+CREATE PROCEDURE `GetTotalClickNumberOfAnEmployee` (in var_cf CHAR(16))
 BEGIN
 	SET TRANSACTION READ ONLY;
 	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
@@ -1665,7 +1665,7 @@ BEGIN
     
     SELECT SUM(ClickStats)
     FROM Offer
-    WHERE EmployeeUserDetails_CF = var_VAT;
+    WHERE EmployeeUserDetails_CF = var_cf;
     
     COMMIT;
 END$$
