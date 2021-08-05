@@ -87,7 +87,7 @@ function editSocialAccount(website, twitter, facebook, instagram) {
 			
 		var edit = "";
 		edit = "<div class='col-sm-9 text-secondary'>";
-		edit += "<input type='text' name='websiteForm' class='form-control' onchange='noEmptySocial()' value='" + website + "' maxlength='45'>";
+		edit += "<input type='url' name='websiteForm' class='form-control' onchange='noEmptySocial()' value='" + website + "' maxlength='45'>";
 		edit += "</div>";
 		
 		if (box.innerHTML.length != edit.length) box.innerHTML = edit;
