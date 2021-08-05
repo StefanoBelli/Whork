@@ -44,7 +44,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF6wtEeWl6fScw="
 							},
-							"name": "SuccessfulLogin",
+							"name": "Login",
 							"ownedViews": [
 								{
 									"_type": "UMLFrameView",
@@ -65,9 +65,9 @@
 											"font": "Arial;13;0",
 											"left": 632.72998046875,
 											"top": 5,
-											"width": 95.6689453125,
+											"width": 32.80810546875,
 											"height": 13,
-											"text": "SuccessfulLogin"
+											"text": "Login"
 										},
 										{
 											"_type": "LabelView",
@@ -3208,7 +3208,7 @@
 													"top": 60,
 													"width": 113.27001953125,
 													"height": 13,
-													"text": "lh: LoginHandler"
+													"text": "LoginHandler"
 												},
 												{
 													"_type": "LabelView",
@@ -7458,7 +7458,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF6wtEeWl6fScw="
 							},
-							"name": "lh: LoginHandler",
+							"name": "LoginHandler",
 							"stereotype": "utility",
 							"represent": {
 								"$ref": "AAAAAAF6wucLqGIcvoA="
@@ -7581,8 +7581,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role10",
-					"type": ""
+					"name": "Role10"
 				},
 				{
 					"_type": "UMLAttribute",

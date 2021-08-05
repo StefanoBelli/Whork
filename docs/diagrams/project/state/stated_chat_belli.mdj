@@ -483,11 +483,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 256,
-							"top": 232,
-							"width": 371.0419921875,
+							"left": 232,
+							"top": 240,
+							"width": 433,
 							"height": 38,
-							"text": "click[btn == offer.startChatBtn]/showNewWindowAndStartNewChatSession"
+							"text": "click[btn.label == \"Chat\"]/showNewWindowAndStartNewChatSession"
 						},
 						{
 							"_type": "UMLStateView",
@@ -653,11 +653,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 544,
+							"left": 448,
 							"top": 368,
-							"width": 217.38427734375,
+							"width": 297.38427734375,
 							"height": 38,
-							"text": "networkResponse[resp == OK]/ setRemoteEmailAndEnableControls"
+							"text": "network[ev == RESPONSE && response == OK]/ setRemoteEmailTextAndEnableControls"
 						},
 						{
 							"_type": "UMLStateView",
@@ -916,11 +916,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 480,
-							"top": 168,
-							"width": 266.521484375,
+							"left": 472,
+							"top": 160,
+							"width": 346.521484375,
 							"height": 38,
-							"text": "networkResponse[resp == FAIL]/showClosedDialogAndDisableControls"
+							"text": "network[ev == RESPONSE && response == FAIL]/showClosedDialogAndDisableControls"
 						},
 						{
 							"_type": "UMLTextView",
@@ -931,9 +931,9 @@
 							"font": "Arial;13;0",
 							"left": 1048,
 							"top": 152,
-							"width": 293.2451171875,
+							"width": 436.994140625,
 							"height": 51,
-							"text": "networkEvent[ev == CLOSED]/showClosedDialogAndDisableControls"
+							"text": "network[ev == CLOSED_CONNECTION]/\nshowClosedDialogAndDisableControls"
 						},
 						{
 							"_type": "UMLTextView",
@@ -982,7 +982,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 771,
+									"left": 752,
 									"top": 462,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1003,7 +1003,7 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 771,
+									"left": 752,
 									"top": 447,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1024,7 +1024,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 771,
+									"left": 752,
 									"top": 492,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -1042,7 +1042,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6ww0zFCdN3uI="
 							},
-							"points": "771:303;771:483;808:483",
+							"points": "752:303;752:483;808:483",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6wyht/SnD/X0="
@@ -2082,11 +2082,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 1072,
-							"top": 504,
-							"width": 254.26416015625,
+							"left": 1064,
+							"top": 512,
+							"width": 369,
 							"height": 51,
-							"text": "click[btn == sendBtn]/pushMessageAndCleanTextArea"
+							"text": "click[btn.label == \"Send\"]/pushMessageAndCleanTextArea"
 						},
 						{
 							"_type": "UMLTextView",
@@ -2095,11 +2095,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 944,
-							"top": 544,
-							"width": 295.58740234375,
+							"left": 952,
+							"top": 568,
+							"width": 337,
 							"height": 51,
-							"text": "timer[ev == TIMEOUT]/pullMessagesShowThemRestartTimer"
+							"text": "timer[whichTimer == PM_TIMER && ev == TIMEOUT]/pullMessagesShowThemThenRestartTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
@@ -2201,11 +2201,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 712,
-							"top": 544,
-							"width": 225,
-							"height": 25,
-							"text": "timer[ev == TIMEOUT]/tokenRefresh"
+							"left": 688,
+							"top": 568,
+							"width": 257.3046875,
+							"height": 51,
+							"text": "timer[whichTimer == TR_TIMER && ev == TIMEOUT]/tokenRefreshThenRestartTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
@@ -2307,11 +2307,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 496,
-							"top": 504,
-							"width": 320.68603515625,
+							"left": 384,
+							"top": 496,
+							"width": 424.95263671875,
 							"height": 51,
-							"text": "timer[ev == TIMEOUT]/checkOnlineStatusAndSetRemoteColoring"
+							"text": "timer[whichTimer == COS_TIMER && ev == TIMEOUT]/checkOnlineStatusAndSetRemoteColoringThenRestartTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
