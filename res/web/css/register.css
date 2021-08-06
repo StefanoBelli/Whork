@@ -1,5 +1,47 @@
 body{margin-top:20px;}
 
+flex-split {
+  display:flex;
+  flex-direction:row;
+  height: 100vh;
+
+  div{
+    text-align: center;
+    width: 50vw;
+  }
+  
+}
+
+.btn{
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #333;
+  display: block;
+  font-family: sans-serif;
+  margin: 10px auto;
+  max-width: 100px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.ease .btn{
+  transition: all .6s ease;
+}
+
+.ease-in-out-back .btn{
+  transition: all .6s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+}
+
+.ease .btn:hover, .ease-in-out-back .btn:hover{
+  box-shadow: 10vw 0 0 #333 inset;
+  color: #fff;
+}
+
+View Compiled
+Run Pen
+
+
+
 .card-big-shadow {
     max-width: 320px;
     position: relative;

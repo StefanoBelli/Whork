@@ -12,23 +12,27 @@
 	 	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>		
 	</head>
 	
 	<body>
 <%
-String descError = (String) request.getAttribute("descriptive_error");
-if(descError != null) {
+	String descError = (String) request.getSession().getAttribute("descriptive_error");
+	
+	if(descError != null) {
 %>
-		<h3><%=descError%></h3>
+	<div class="alert alert-danger" role="alert">
+		<%=descError%>
+	</div> 
 <%
-}
+	}
+	request.getSession().setAttribute("descriptive_error", null);
 %>		
 		<div class="container bootstrap snippets bootdeys">
 			<div class="row">			 
 			    <div class="col-md-4 col-sm-6 content-card">
 			    	<form action="/reg_jobseeker.jsp" method="get">
-				    	<button type="submit">
+				    	<button type="submit">				    	
 				        <div class="card-big-shadow">
 				            <div class="card card-just-text" data-background="color" data-color="blue" data-radius="none">
 				                <div class="content">
@@ -38,13 +42,13 @@ if(descError != null) {
 				                </div>
 				            </div> <!-- end card -->
 				        </div>
-				    	</button>
-			    	</form>
+				        </button>
+			    	</form>				    	
 			    </div>
 			  
 			   
 				<div class="col-md-4 col-sm-6 content-card">
-				    <form action="/reg_jobseeker.jsp" method="get">
+				    <form action="/reg_company.jsp" method="get">
 			    		<button type="submit">
 				        <div class="card-big-shadow">
 				            <div class="card card-just-text" data-background="color" data-color="green" data-radius="none">
@@ -62,7 +66,7 @@ if(descError != null) {
 			    
 			    
 				 <div class="col-md-4 col-sm-6 content-card">
-				    <form action="/reg_jobseeker.jsp" method="get">
+				    <form action="/login.jsp" method="get">
 			    		<button type="submit">
 				        <div class="card-big-shadow">
 				            <div class="card card-just-text" data-background="color" data-color="yellow" data-radius="none">
