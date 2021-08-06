@@ -254,35 +254,17 @@
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Home</span></a></li>
                         <li class="list-divider"></li>
-                        
-                        <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
-                        
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chat.jsp"
-                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Chat</span></a></li>
 						
 						<%
 							if(userBean.isRecruiter()) {
 						%>
+							<li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
 							<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="post_offer.jsp"
 	                                aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
 	                                    class="hide-menu">Post Offer</span></a></li>
 						<%
 							}
-						%>
-                        <li class="list-divider"></li>                        
-                        
-                        <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="login.jsp"
-                                aria-expanded="false"><i data-feather="log-in" class="feather-icon"></i><span
-                                    class="hide-menu">Login</span></a>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="register.jsp" aria-expanded="false"><i data-feather="lock"
-                                    class="feather-icon"></i><span class="hide-menu">Register</span></a>
-                        </li>
-                        
+						%>                        
                         <li class="list-divider"></li>                        
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
@@ -881,27 +863,10 @@
                                     class="hide-menu">Home</span></a></li>
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
-                        
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="chat.jsp"
-                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Chat</span></a></li>
 
 						<li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="post_offer.jsp"
                                 aria-expanded="false"><i data-feather="edit" class="feather-icon"></i><span
                                     class="hide-menu">Post Offer</span></a></li>
-
-                        <li class="list-divider"></li>                        
-                        
-                        <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>
-
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="login.jsp"
-                                aria-expanded="false"><i data-feather="log-in" class="feather-icon"></i><span
-                                    class="hide-menu">Login</span></a>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                                href="register.jsp" aria-expanded="false"><i data-feather="lock"
-                                    class="feather-icon"></i><span class="hide-menu">Register</span></a>
-                        </li>
                         
                         <li class="list-divider"></li>                        
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="logout"
@@ -1248,15 +1213,15 @@
 	                  <div class="d-flex flex-column align-items-center text-center">
 	                  <a href="/index.jsp">
 <%
-if(userBean.getPhoto() == null) {
+	if(userBean.getPhoto() == null) {
 %>
-    <img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar.png" %>" alt="Admin" class="rounded-circle" width="150">
+    	<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar.png" %>" alt="Admin" class="rounded-circle" width="150">
 <%
-} else {
+	} else {
 %>
-    <img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + userBean.getPhoto() %>" alt="Admin" class="rounded-circle" width="150">
+    	<img src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + userBean.getPhoto() %>" alt="Admin" class="rounded-circle" width="150">
 <%
-}
+	}
 %>
  </a> 
                     <div class="mt-3">
