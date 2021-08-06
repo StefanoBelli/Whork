@@ -3,7 +3,7 @@
 <html xml:lang="en">
 
 	<head>
-		<title>Whork - Forgot my password</title>
+		<title>Forgot Password - Whork</title>
 		<link rel="stylesheet" href="css/forgotpwd.css">
 		<link rel="stylesheet" type="text/css" href="css/whork.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
@@ -14,7 +14,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 
-	<body style="background-color:#FA8072">
+	<body style="background-color:#B0C4DE">
 <%
 		String email = (String) request.getAttribute("reqEmail");
 		if(email != null) {
@@ -28,12 +28,12 @@
 		}
 %>
 
-	<div style="font-size:30pt; margin-left:150px; padding-top: 85px;">
+	<div style="font-size:30pt; margin-left:150px; padding-top: 40px;">
  		<a href="index.jsp">
             <span class="whork"> W<span class="hred">h</span>ork</span>
         </a>
     </div>
-	<div class="container h-100" style="padding-top:100px; margin-left:340px;">
+	<div class="container h-100" style="padding-top:90px; margin-left:340px;">
     		<div class="row h-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">

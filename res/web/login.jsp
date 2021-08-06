@@ -43,19 +43,19 @@
 		}
 %>
 </div>
-		<div style="font-size:30pt; margin-left:150px; padding-top: 85px;">
+		<div style="font-size:30pt; margin-left:150px; padding-top: 40px;">
 	 		<a href="index.jsp">
 	                <span class="whork"> W<span class="hred">h</span>ork</span>
 	        </a>
 	    </div>
-		<div class="container h-100" id="loginform" style="padding-top:50px; margin-left:340px;">
+		<div class="container h-100" id="loginform" style="padding-top:70px; margin-left:340px;">
     		<div class="row h-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">						
 
 						<div class="card">						
 							<div class="text-center mt-4">							
-								<p class="lead" style="font-family: URW Chancery L, cursive; font-size:30pt; font-weight:550px;">Sign in</p>
+								<p class="lead" style="font-family: URW Chancery L, cursive; font-size:30pt; font-weight:550;">Sign in</p>
 							</div>						
 							<div class="card-body">
 							

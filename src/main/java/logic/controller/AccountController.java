@@ -218,9 +218,7 @@ public final class AccountController {
 
 	public static UserBean getPictureForMessageByCf(String cf) throws DataAccessException, DataLogicException {
 		UserModel user = UserDao.getUserByCf(cf);
-
-		if (user == null)
-			return null;
+		if (user == null) return null;
 		return BeanFactory.buildUserBean(user);
 	}
 }
