@@ -495,8 +495,8 @@
 				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
-				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success"
-				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</a>
+				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
 				                               </p>
 				                          </div>
                                         </a>
@@ -1099,8 +1099,8 @@
 				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
-				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success"
-				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</a>
+				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
 				                               </p>
 				                          </div>
                                         </a>
