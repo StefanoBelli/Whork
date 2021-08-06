@@ -1347,7 +1347,8 @@
 	           <div class="card-body">
 	            <div class="row">                 
                   <a class="btn btn-info " href="/index.jsp">home</a>
-                  <a class="btn btn-info " href="/chat.jsp">chat</a>
+                  <a class="btn btn-info "
+                      onclick="window.open('/chat.jsp','Chat - Whork', width=674, height=634);">chat</a>
                   <a class="btn btn-info " href="/logout">logout</a>                 
                 </div>                
                </div>
