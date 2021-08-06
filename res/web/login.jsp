@@ -5,6 +5,10 @@
 	<head>
 		<title>Sign In - Whork</title>
 		<link rel="stylesheet" href="css/login.css">
+		<link rel="stylesheet" type="text/css" href="css/whork.css">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+	 	<link href="https://fonts.googleapis.com/css2?family=Kameron&display=swap" rel="stylesheet">
+	 	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -17,8 +21,11 @@
 <%
 		if(request.getAttribute("showMustLoginInfo") != null) {
 %>
-		<p id="mustlogin">You must be logged in to do that</p>
+		<div id="errmsg" class="alert alert-danger" role="alert">
+			<p id="mustlogin">You must be logged in to do that</p>
+		</div>
 <%
+			request.setAttribute("showMustLoginInfo", null);
 		}
 %>		
 
@@ -32,11 +39,16 @@
 			<%=errorMessage%>
 		</div>
 <%
+			request.setAttribute("errorMessage", null);
 		}
-		request.setAttribute("errorMessage", null);
 %>
 </div>
-		<div class="container h-100" id="loginform" style="padding-top: 150px">
+		<div style="font-size:30pt; margin-left:150px; padding-top: 85px;">
+	 		<a href="index.jsp">
+	                <span class="whork"> W<span class="hred">h</span>ork</span>
+	        </a>
+	    </div>
+		<div class="container h-100" id="loginform" style="padding-top:50px; margin-left:340px;">
     		<div class="row h-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">						
