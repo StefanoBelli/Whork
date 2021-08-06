@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="logic.util.Util" %>
 <!DOCTYPE HTML>
 <html xml:lang="en">
 	<head>
-		<title>Login to Whork</title>
+		<title>Sign In - Whork</title>
 		<link rel="stylesheet" href="css/login.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
@@ -11,7 +12,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 
-	<body lang="en">
+	<body lang="en" style="background-color: lightblue">
 
 <%
 		if(request.getAttribute("showMustLoginInfo") != null) {
@@ -35,19 +36,20 @@
 		request.setAttribute("errorMessage", null);
 %>
 </div>
-		<div class="container h-100" id="loginform">		
+		<div class="container h-100" id="loginform" style="padding-top: 150px">
     		<div class="row h-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">						
 
 						<div class="card">						
 							<div class="text-center mt-4">							
-								<p class="lead">Sign in to your account to continue</p>
+								<p class="lead" style="font-family: URW Chancery L, cursive; font-size:30pt; font-weight:550px;">Sign in</p>
 							</div>						
 							<div class="card-body">
+							
 								<div class="m-sm-4">
-									<div class="text-center">
-										<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Andrew Jones" class="img-fluid rounded-circle" width="132" height="132">
+									<div class="text-center" style="margin-top:-40px">
+										<img src="<%=Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar5.png"%>" class="img-fluid rounded-circle" width="132" height="132">
 									</div>
 									<form id="loginf" action="validateLogin" method="post">									
 									<div id="credInput">
