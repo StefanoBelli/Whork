@@ -139,12 +139,14 @@ if(sessionUser==null){
 			<input type="submit" name="account" value="My Account">
 		</form>
 
-<%if(sessionUser.isAdmin()){ %>
+<%	if(sessionUser.isEmployee()) {%>
+<%		if(!sessionUser.isRecruiter()){ %>
 		<button name="post_offer" onclick="location.href='/post_jsp'" title="Only recruiters can post offers" disabled>Post Offer</button>
-<%}else if(sessionUser.isRecruiter()){ %>
+<%		} else { %>
 		<button name="post_offer" onclick="location.href='/post_jsp'">Post Offer</button>
 <%
-}
+		}
+	}
 }
 %>
 	</div>
@@ -218,7 +220,7 @@ if(sessionUser == null || sessionUser.isEmployee()){
 <%
 } else { 
 %>
-		<button onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.getEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=600, height=400);">Chat with recruiter</button>
+		<button onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.getEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=674, height=634);">Chat with recruiter</button>
 <%
 	if(CandidatureController.getCandidature(offer.getId(), sessionUser.getCf()) == null) { 
 %>

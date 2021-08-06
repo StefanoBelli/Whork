@@ -53,9 +53,9 @@ if(chatController.isOnlineService()) {
 				}
 				
 				const date = new Date(msg.delivery_request_date);
-				const hhmm = padTime(date.getHours()) + ":" + padTime(date.getMinutes());
+				const hhmmss = padTime(date.getHours()) + ":" + padTime(date.getMinutes()) + ":" + padTime(date.getSeconds());
 
-				return document.createTextNode(msg.sender_email + "(" + hhmm + "): " + msg.text);
+				return document.createTextNode(msg.sender_email + "(" + hhmmss + "): " + msg.text);
 			}
 
 			function createDateElement(date) {

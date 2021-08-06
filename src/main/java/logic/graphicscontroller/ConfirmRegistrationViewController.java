@@ -58,11 +58,11 @@ public final class ConfirmRegistrationViewController extends GraphicsController 
 		public void handle(MouseEvent event) {
 			try {
 				RegisterController.confirm(emailField.getText(), tokenField.getText());
-				((Stage)view.getScene().getWindow()).close();
 				DialogFactory.info(
 					"Success - Whork",
 					"Your account is confirmed!",
 					"You may now login with your account").showAndWait();
+				((Stage) view.getScene().getWindow()).close();
 			} catch (InternalException e) {
 				DialogFactory.error(
 					"Error - Whork", 

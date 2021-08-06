@@ -20,6 +20,7 @@ import logic.bean.QualificationBean;
 import logic.bean.TypeOfContractBean;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
+import logic.controller.OfflineChatController;
 import logic.exception.InternalException;
 import logic.factory.BeanFactory;
 
@@ -79,8 +80,6 @@ public final class HomeViewController extends GraphicsController {
 		GraphicsUtil.loadDataInChoiceBox(jobPositionCB, JobPositionPool.getJobPositions(), JobPositionBean.class);
 		GraphicsUtil.loadDataInChoiceBox(qualificationCB, QualificationPool.getQualifications(), QualificationBean.class);
 		GraphicsUtil.loadDataInChoiceBox(typeOfContractCB, TypeOfContractPool.getTypesOfContract(), TypeOfContractBean.class);
-
-		
 		
 		setListeners();
 	}
@@ -101,7 +100,7 @@ public final class HomeViewController extends GraphicsController {
 		
 		if(LoginHandler.getSessionUser()== null || !LoginHandler.getSessionUser().isEmployee()) {
 			postOfferBtn.setVisible(false);
-		}else if(LoginHandler.getSessionUser().isAdmin()) {
+		}else if(!LoginHandler.getSessionUser().isRecruiter()) {
 			postOfferBtn.setVisible(true);
 			postOfferBtn.setDisable(true);
 		}else {
@@ -181,9 +180,22 @@ public final class HomeViewController extends GraphicsController {
 	}
 
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
+		private final String remoteEmail;
+
+		public HandleChatRequest(OfferBean offerBean) {
+			String tmpEmail = null;
+			try {
+				tmpEmail = OfflineChatController.getEmployeeEmail(offerBean.getEmployee());
+			} catch(InternalException e) {
+				GraphicsUtil.showExceptionStage(e);
+			}
+
+			this.remoteEmail = tmpEmail;
+		}
+
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(ChatView.class);
+			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmail);
 		}
 	}
 
@@ -206,7 +218,6 @@ public final class HomeViewController extends GraphicsController {
 				context.candidate();
 				candidateBtn.setDisable(true);
 			} catch (InternalException e) {
-				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}
 		}

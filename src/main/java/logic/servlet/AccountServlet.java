@@ -244,7 +244,7 @@ public final class AccountServlet extends HttpServlet {
 				userRecruiter.setCompany(userBean.getCompany());
 				userRecruiter.setNote(null);
 				
-				RegisterController.registerEmployeeForExistingCompany(new Pair<UserBean, UserAuthBean>(userRecruiter, userAuthRecruiter));
+				RegisterController.registerEmployeeForExistingCompany(new Pair<>(userRecruiter, userAuthRecruiter));
 				
 				return "The confirmation email has been sent!";
 		    }			
@@ -255,7 +255,7 @@ public final class AccountServlet extends HttpServlet {
 
 	private interface UserAccountPropertyAlterer {
 		String doAlterProperty(HttpServletRequest req, UserBean userBean) 
-			throws DataAccessException, DataLogicException, InternalException,
-				InvalidPasswordException, IOException, ServletException, InternalException, AlreadyExistantUserException;
+			throws DataAccessException, DataLogicException, InvalidPasswordException, 
+			IOException, ServletException, InternalException, AlreadyExistantUserException;
 	}
 }
