@@ -2194,6 +2194,24 @@
 											"height": 13,
 											"text": "+getAllOffers(): OfferBean[0..*]",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7Gyfmc+pEUiQ=",
+											"_parent": {
+												"$ref": "AAAAAAF6zrktbnM7Z5o="
+											},
+											"model": {
+												"$ref": "AAAAAAF7GyfmSepBVpg="
+											},
+											"fillColor": "#ff38ff",
+											"font": "Arial;13;0",
+											"left": 629,
+											"top": 500,
+											"width": 176.9091796875,
+											"height": 13,
+											"text": "+postOffer(offer: OfferBean)",
+											"horizontalAlignment": 0
 										}
 									],
 									"fillColor": "#ff38ff",
@@ -2201,7 +2219,7 @@
 									"left": 624,
 									"top": 480,
 									"width": 186.9091796875,
-									"height": 23
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -2244,7 +2262,7 @@
 							"left": 624,
 							"top": 432,
 							"width": 186.9091796875,
-							"height": 71,
+							"height": 86,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6zrktbnM1qMw="
 							},
@@ -5443,9 +5461,9 @@
 										"$ref": "AAAAAAF60p5GCK62Ock="
 									},
 									"font": "Arial;13;0",
-									"left": 277,
+									"left": 276,
 									"top": 734,
-									"width": 26.736328125,
+									"width": 28.158203125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -6190,9 +6208,9 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 56,
+									"left": 55,
 									"top": 412,
-									"width": 26.736328125,
+									"width": 28.158203125,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -6253,9 +6271,9 @@
 										"$ref": "AAAAAAF60qRQs73Bye8="
 									},
 									"font": "Arial;13;0",
-									"left": 133,
+									"left": 132,
 									"top": 412,
-									"width": 26.736328125,
+									"width": 28.158203125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -7020,7 +7038,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 657,
-									"top": 521,
+									"top": 536,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -7040,7 +7058,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 643,
-									"top": 524,
+									"top": 539,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -7060,7 +7078,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 684,
-									"top": 517,
+									"top": 532,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -7104,7 +7122,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6zrlzAnOIJ2g="
 							},
-							"points": "57:510;57:560;672:560;672:502",
+							"points": "57:510;57:560;672:560;672:517",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF60qk3Yc/gVbE="
@@ -8133,7 +8151,7 @@
 									"font": "Arial;13;0",
 									"left": 420,
 									"top": 89,
-									"width": 18.0654296875,
+									"width": 18.408203125,
 									"height": 13,
 									"alpha": 0.5880027103850758,
 									"distance": 21.633307652783937,
@@ -8939,7 +8957,7 @@
 									"font": "Arial;13;0",
 									"left": 1483,
 									"top": 358,
-									"width": 14.45361328125,
+									"width": 15.158203125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -11680,6 +11698,27 @@
 									},
 									"multiplicity": "0..*",
 									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7GyfmSepBVpg=",
+							"_parent": {
+								"$ref": "AAAAAAF6zrktbnMy1XY="
+							},
+							"name": "postOffer",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7GygkbusO8bk=",
+									"_parent": {
+										"$ref": "AAAAAAF7GyfmSepBVpg="
+									},
+									"name": "offer",
+									"type": {
+										"$ref": "AAAAAAF6zrlH3HNchrg="
+									}
 								}
 							]
 						}
