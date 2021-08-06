@@ -8,8 +8,7 @@ flex-split {
   div{
     text-align: center;
     width: 50vw;
-  }
-  
+  }  
 }
 
 .btn{
@@ -36,11 +35,6 @@ flex-split {
   box-shadow: 10vw 0 0 #333 inset;
   color: #fff;
 }
-
-View Compiled
-Run Pen
-
-
 
 .card-big-shadow {
     max-width: 320px;

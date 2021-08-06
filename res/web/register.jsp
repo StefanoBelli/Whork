@@ -12,7 +12,41 @@
 	 	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>		
+		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		
+<style>
+blockquote {
+margin: 0;
+background: #F0F0F1;
+color: #333334;
+padding: 20px 40px;
+position: relative;
+border-left: 35px solid #DFDEDE;
+font-family: 'Lato', sans-serif;
+}
+blockquote:before {
+content: "\201C";
+font-family: serif;
+position: absolute;
+left: -29px;
+top: 5px;
+color: #BCBCBC;
+font-size: 50px;
+text-shadow: 1px 2px 0 white;
+}
+blockquote p {
+margin: 0 0 16px;
+font-size: 20px;
+letter-spacing: .05em;
+line-height: 1.4;
+}
+blockquote cite {
+font-style: normal;
+font-weight: 300;
+}
+</style>
+		
+			
 	</head>
 	
 	<body>
@@ -28,6 +62,14 @@
 	}
 	request.getSession().setAttribute("descriptive_error", null);
 %>		
+
+		<div class="navbar-brand">
+            <!-- Logo icon -->
+            <a href="index.jsp" style="top: 20px; font-size:40pt">
+                <span class="whork"> W<span class="hred">h</span>ork</span>
+            </a>
+        </div>
+
 		<div class="container bootstrap snippets bootdeys">
 			<div class="row">			 
 			    <div class="col-md-4 col-sm-6 content-card">
@@ -44,8 +86,7 @@
 				        </div>
 				        </button>
 			    	</form>				    	
-			    </div>
-			  
+			    </div>			  
 			   
 				<div class="col-md-4 col-sm-6 content-card">
 				    <form action="/reg_company.jsp" method="get">
@@ -61,9 +102,7 @@
 				        </div>
 				        </button>
 			    	</form>
-				 </div>
-				
-			    
+				 </div>			    
 			    
 				 <div class="col-md-4 col-sm-6 content-card">
 				    <form action="/login.jsp" method="get">
@@ -84,13 +123,16 @@
 			</div>
 		</div>
 		
-		<div class="right-container">
-			<span class="whork"> W<span class="hred">h</span>ork</span>
-			<div class="catchphrase" style="font-size:18pt">
-				After all, work is still the best way to get life going.
-				Gustave Flaubert
-			</div>
+		<div class="right-container">			
+
+			<blockquote>
+			  <p>After all, work is still the best way to get life going..</p>
+			  <footer>— <cite>Gustave Flaubert</cite></footer>
+			</blockquote>
+
+			
 		</div>
+		
 		
 	</body>
 	
