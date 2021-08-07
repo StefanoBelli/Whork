@@ -8,9 +8,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.PasswordChangeViewController;
+import logic.util.GraphicsUtil;
 
 public final class PasswordChangeView implements ControllableView {
 
@@ -25,9 +27,12 @@ public final class PasswordChangeView implements ControllableView {
 	private static final String PASSWORD_PROMPT = "Enter your new password...";
 	private static final String TOKEN_PROMPT = "Enter your token...";
 	private static final String RETYPE_PASSWORD_PROMPT = "Retype your new password...";
+	private static final String FINAL_PHASE = 
+		"Password recovery final phase";
 	
 	private Scene scene;
 
+	private Text finalPhaseText;
 	private Label tokenLabel;
 	private TextField tokenTextField;
 	private Label passwordLabel;
@@ -47,6 +52,7 @@ public final class PasswordChangeView implements ControllableView {
 	}
 
 	private void init() {
+		finalPhaseText = new Text(FINAL_PHASE);
 		tokenLabel = new Label(SAY_TOKEN);
 		tokenTextField = new TextField();
 		passwordLabel = new Label(SAY_PASSWORD);
@@ -63,10 +69,12 @@ public final class PasswordChangeView implements ControllableView {
 		passwordTextField.setPromptText(PASSWORD_PROMPT);
 		retypePasswordTextField.setPromptText(RETYPE_PASSWORD_PROMPT);
 		continueButton.setDisable(true);
+		finalPhaseText.setFont(GraphicsUtil.getBoldFont());
 	}
 
 	private void populateScene() {
 		VBox vbox = new VBox(10);
+		vbox.getChildren().add(finalPhaseText);
 		vbox.getChildren().add(tokenLabel);
 		vbox.getChildren().add(tokenTextField);
 		vbox.getChildren().add(passwordLabel);

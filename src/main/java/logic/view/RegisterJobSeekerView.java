@@ -51,8 +51,8 @@ public final class RegisterJobSeekerView implements ControllableView {
 	private static final String TYPE_PHONE_NUMBER_HINT = "Type your phone number here...";
 	private static final String TYPE_TOWN_HINT = "Type your town here...";
 	private static final String TYPE_ADDRESS_HINT = "Type your address here...";
-	private static final double CONFIG_WIN_WIDTH = 490;
-	private static final double CONFIG_WIN_HEIGHT = 530;
+	private static final double CONFIG_WIN_WIDTH = 513;
+	private static final double CONFIG_WIN_HEIGHT = 575;
 	private static final double WEBVIEW_MAX_HEIGHT = 200;
 	private static final double WEBVIEW_MAX_WIDTH = 200;
 

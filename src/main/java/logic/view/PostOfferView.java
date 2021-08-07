@@ -12,8 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.PostOfferViewController;
+import logic.util.GraphicsUtil;
 
 public final class PostOfferView implements ControllableView {
 	
@@ -34,8 +36,9 @@ public final class PostOfferView implements ControllableView {
 	private static final int CONFIG_WIN_HEIGHT = 530;
 	private static final int TXT_WIDTH = 290;
 	private static final String OFFER_NOTE_MSG = "Offer Note: ";
-	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
+	private static final String POST_OFFER_MSG = "Post an offer by filling out this form";
 	
+	private Text postOfferText;
 	private Button postOfferBtn;
 	private Label offerDescriptionMessage;
 	private TextArea offerDescriptionTxt;
@@ -72,6 +75,7 @@ public final class PostOfferView implements ControllableView {
 	}
 	
 	private void init() {
+		postOfferText = new Text(POST_OFFER_MSG);
 		offerNameMessage= new Label(OFFER_NAME_MSG);
 		offerNameTxt=new TextField();
 		offerSalaryMessage=new Label(OFFER_SALARY_MSG);
@@ -95,11 +99,12 @@ public final class PostOfferView implements ControllableView {
 		postOfferBtn=new Button(POST_OFFER_BTN_MSG);
 		offerPhotoMessage=new Label(OFFER_PHOTO_MSG);
 		offerPhotoBtn=new Button(PHOTO_BTN_MSG);
-		photoDetailLbl= new Label("Nessun file selezionato.");
+		photoDetailLbl= new Label(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
 		controller.setup();
 	}
 
 	private void setNodesProps() {
+		postOfferText.setFont(GraphicsUtil.getBoldFont());
 		offerNameTxt.setMinWidth(TXT_WIDTH);
 		offerSalaryTxt.setMinWidth(TXT_WIDTH);
 		offerAddressTxt.setMinWidth(TXT_WIDTH);
@@ -175,7 +180,7 @@ public final class PostOfferView implements ControllableView {
 		
 		hboxphoto.getChildren().add(photoDetailLbl);
 		
-		
+		vbox.getChildren().add(postOfferText);
 		vbox.getChildren().add(hboxdetails);
 		vbox.getChildren().add(hboxflt);
 		
@@ -192,9 +197,6 @@ public final class PostOfferView implements ControllableView {
 		vbox.getChildren().add(hboxpostbtn);
 		vbox.setAlignment(Pos.CENTER);
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
-		
-
-		
 	}
 
 	@Override
@@ -211,7 +213,6 @@ public final class PostOfferView implements ControllableView {
 	@Override
 	public void visible() {
 		controller.update();
-		
 	}
 
 	@Override
@@ -232,7 +233,4 @@ public final class PostOfferView implements ControllableView {
 				photoDetailLbl
 		};
 	}
-	
-	
-
 }
