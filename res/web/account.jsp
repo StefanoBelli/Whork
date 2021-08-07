@@ -495,10 +495,11 @@
 				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
-				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success" href="chat.jsp">Reply</a>
+				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
 				                               </p>
 				                          </div>
-				                       </a>
+                                        </a>
 				             <%
 	                         		}
                            	 	}
@@ -581,7 +582,7 @@
                                     		
                                     		while(keys.hasNext()) {
                                     			key = keys.next();                                    			
-                                    			UserBean userPicture = AccountController.getPictureForMessage(mapRecruiter.get(key).getCf());                                    			
+                                    			UserBean userPicture = AccountController.getPictureForMessageByCf(mapRecruiter.get(key).getCf());                                    			
         	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;        	                           	 		
         	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar3.jpg" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
                                     	%>
@@ -1087,7 +1088,7 @@
 	                           	 		String nameChat = (!listChat.get(i).getSenderEmail().equals(email)) ? listChat.get(i).getSenderEmail() : listChat.get(i).getReceiverEmail();
 	                           	 		String date = new Date(listChat.get(i).getDeliveryRequestTime()).toString();	                           	 			                           	 		 
 	                           	 		
-	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);	                           	 		
+	                           	 		UserBean userPicture = AccountController.getPictureForMessage(nameChat);                           	 		
 	                           	 		picture = (userPicture != null) ? userPicture.getPhoto() : null;
 	                           	 		picture = (picture == null) ? Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "avatar2.png" : Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_USR_DATA) + "/" + picture;
 	                         %>
@@ -1098,10 +1099,11 @@
 				                               <p class="inbox-item-text"><%=listChat.get(i).getText()%></p>
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
-				                                   <a type="button" class="btn btn-icon btn-sm waves-effect waves-light btn-success" href="chat.jsp">Reply</a>
+				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
 				                               </p>
 				                          </div>
-				                       </a>
+                                        </a>
 				             <%
 	                         		}
                            	 	}
@@ -1345,7 +1347,8 @@
 	           <div class="card-body">
 	            <div class="row">                 
                   <a class="btn btn-info " href="/index.jsp">home</a>
-                  <a class="btn btn-info " href="/chat.jsp">chat</a>
+                  <a class="btn btn-info "
+                      onclick="window.open('/chat.jsp','Chat - Whork', width=674, height=634);">chat</a>
                   <a class="btn btn-info " href="/logout">logout</a>                 
                 </div>                
                </div>

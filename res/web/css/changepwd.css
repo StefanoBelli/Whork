@@ -1,0 +1,48 @@
+html,body { height: 100%; }
+
+body{
+	display: -ms-flexbox;
+	display: -webkit-box;
+	display: flex;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	background-color: #f5f5f5;
+}
+
+form{
+	padding-top: 10px;
+	font-size: 13px;
+	margin-top: 30px;
+	padding-left:40px;
+	padding-right:40px;
+}
+
+.card-title{ font-weight:300; padding-top:40px; font-family: URW Chancery L, cursive; font-size:30pt;}
+
+.btn{
+	font-size: 13px;
+}
+
+.login-form{ 
+	width:500px;
+	height:450px;
+	margin:20px;
+	background-color: #ffffff;
+}
+
+.sign-up{
+	text-align:center;
+	padding:20px 0 0;
+}
+
+span{
+	font-size:14px;
+}
+
+.submit-btn{
+	margin-top:40px;
+}

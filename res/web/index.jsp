@@ -141,9 +141,9 @@ if(sessionUser==null){
 
 <%	if(sessionUser.isEmployee()) {%>
 <%		if(!sessionUser.isRecruiter()){ %>
-		<button name="post_offer" onclick="location.href='/post_jsp'" title="Only recruiters can post offers" disabled>Post Offer</button>
+		<button name="post_offer" onclick="location.href='/post_offer.jsp'" title="Only recruiters can post offers" disabled>Post Offer</button>
 <%		} else { %>
-		<button name="post_offer" onclick="location.href='/post_jsp'">Post Offer</button>
+		<button name="post_offer" onclick="location.href='/post_offer.jsp'">Post Offer</button>
 <%
 		}
 	}

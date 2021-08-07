@@ -208,10 +208,17 @@ public final class AccountController {
 		return listMessage;
 	}
 	
-	public static UserBean getPictureForMessage(String cf) throws DataAccessException, DataLogicException {
+	public static UserBean getPictureForMessage(String email) throws DataAccessException, DataLogicException {
+		String cf = UserAuthDao.getUserCfAndBcryPwdByEmail(email).getFirst();
 		UserModel user = UserDao.getUserByCf(cf);
 		
-		if(user == null) return null;		
+		if(user == null) return null;
+		return BeanFactory.buildUserBean(user);
+	}
+
+	public static UserBean getPictureForMessageByCf(String cf) throws DataAccessException, DataLogicException {
+		UserModel user = UserDao.getUserByCf(cf);
+		if (user == null) return null;
 		return BeanFactory.buildUserBean(user);
 	}
 }

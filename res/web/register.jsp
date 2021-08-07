@@ -13,43 +13,9 @@
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		
-<style>
-blockquote {
-margin: 0;
-background: #F0F0F1;
-color: #333334;
-padding: 20px 40px;
-position: relative;
-border-left: 35px solid #DFDEDE;
-font-family: 'Lato', sans-serif;
-}
-blockquote:before {
-content: "\201C";
-font-family: serif;
-position: absolute;
-left: -29px;
-top: 5px;
-color: #BCBCBC;
-font-size: 50px;
-text-shadow: 1px 2px 0 white;
-}
-blockquote p {
-margin: 0 0 16px;
-font-size: 20px;
-letter-spacing: .05em;
-line-height: 1.4;
-}
-blockquote cite {
-font-style: normal;
-font-weight: 300;
-}
-</style>
-		
-			
 	</head>
 	
-	<body>
+	<body style="background-image: radial-gradient(#FFFFFF 0%, #8fbc8f 100%);">
 <%
 	String descError = (String) request.getSession().getAttribute("descriptive_error");
 	
@@ -61,26 +27,23 @@ font-weight: 300;
 <%
 	}
 	request.getSession().setAttribute("descriptive_error", null);
-%>		
-
-		<div class="navbar-brand">
-            <!-- Logo icon -->
-            <a href="index.jsp" style="top: 20px; font-size:40pt">
-                <span class="whork"> W<span class="hred">h</span>ork</span>
-            </a>
-        </div>
-
+%>
 		<div class="container bootstrap snippets bootdeys">
+			<div style="font-size:40pt; margin-left:400px; padding-top: 25px;">
+		 		<a href="index.jsp">
+		                <span class="whork"> W<span class="hred">h</span>ork</span>
+		        </a>
+	        </div>
 			<div class="row">			 
-			    <div class="col-md-4 col-sm-6 content-card">
+			    <div class="col-md-4 col-sm-6 content-card" style="top: 50px;">
 			    	<form action="/reg_jobseeker.jsp" method="get">
-				    	<button type="submit">				    	
+				    	<button type="submit">
 				        <div class="card-big-shadow">
 				            <div class="card card-just-text" data-background="color" data-color="blue" data-radius="none">
 				                <div class="content">
 				                    <h6 class="category">Sign Up</h6>
 				                    <h4 class="title">Are you a job seeker?</h4>
-				                    <p class="description">Job seeker is a person looking for a new job and he would want to get the opportunities of this website</p>			                	
+				                    <p class="description">If you are looking for a new job, surely you will have new opportunities.</p>			                	
 				                </div>
 				            </div> <!-- end card -->
 				        </div>
@@ -88,7 +51,7 @@ font-weight: 300;
 			    	</form>				    	
 			    </div>			  
 			   
-				<div class="col-md-4 col-sm-6 content-card">
+				<div class="col-md-4 col-sm-6 content-card" style="top: 50px;">
 				    <form action="/reg_company.jsp" method="get">
 			    		<button type="submit">
 				        <div class="card-big-shadow">
@@ -104,7 +67,7 @@ font-weight: 300;
 			    	</form>
 				 </div>			    
 			    
-				 <div class="col-md-4 col-sm-6 content-card">
+				 <div class="col-md-4 col-sm-6 content-card" style="top: 50px;">
 				    <form action="/login.jsp" method="get">
 			    		<button type="submit">
 				        <div class="card-big-shadow">
@@ -121,17 +84,18 @@ font-weight: 300;
 				 </div>
 					    
 			</div>
+			
+			<div class="right-container">			
+				<div class="row">
+					<blockquote>
+					  <p>After all, work is still the best way to get life going..</p>
+					  <footer><cite>Gustave Flaubert</cite></footer>
+					</blockquote>
+				</div>
+			</div>
 		</div>
 		
-		<div class="right-container">			
-
-			<blockquote>
-			  <p>After all, work is still the best way to get life going..</p>
-			  <footer>— <cite>Gustave Flaubert</cite></footer>
-			</blockquote>
-
-			
-		</div>
+		
 		
 		
 	</body>
