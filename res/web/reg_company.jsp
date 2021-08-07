@@ -3,8 +3,12 @@
 <html lang="en">
 	<head>
 		<title>Register as a company - Whork</title>
+		<link rel="stylesheet" href="css/reg_company.css">
 		<script src="js/reg_company.js"></script>
 		<script src="js/common.js"></script>
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	</head>
 
 	<body>
@@ -89,5 +93,52 @@ if(descError != null) {
 
 		<br/>
 		<p id="error"></p>
+		
+		
+		
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+  <div class="overlay" id="overlay">
+    <div class="sign-in" id="sign-in">
+      <h1>Welcome Back!</h1>
+      <p>To keep connected with us please login with your personal info</p>
+      <button class="switch-button" id="slide-right-button">Sign In</button>
+    </div>
+    <div class="sign-up" id="sign-up">
+      <h1>Hello, Friend!</h1>
+      <p>Enter your personal details and start a journey with us</p>
+      <button class="switch-button" id="slide-left-button">Sign Up</button>
+    </div>
+  </div>
+  <div class="form">
+    <div class="sign-in" id="sign-in-info">
+      <h1>Sign In</h1>
+      <form id="sign-in-form">      
+        <input type="email" placeholder="Email"/>
+        <input type="password" placeholder="Password"/>
+        <p class="forgot-password">Forgot your password?</p>
+        <button class="control-button in">Sign In</button>
+      </form>
+    </div>
+    <div class="sign-up" id="sign-up-info">
+      <h1>Create Account</h1>      
+		<form enctype="multipart/form-data" action="/completeRegistration" method="post" onsubmit="return check_company_fields();">
+		  
+		  
+		 
+		
+		  <!-- Submit button -->
+		  <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+		
+		  <!-- Register buttons -->
+      </form>
+    </div>
+  </div>
+</div>
+		
+		
 	</body>
 </html>
