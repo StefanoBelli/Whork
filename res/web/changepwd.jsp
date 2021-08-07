@@ -10,7 +10,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	
-	<body style="background-color:#20B2AA">
+	<body>
 <%
 	String token = (String) request.getParameter("token");
 	if(token != null) {
@@ -37,7 +37,25 @@
 <%
 	} else {
 %>
-		<h1>No token supplied</h1>
+		<div class="container">
+		    <div class="row">
+		        <div class="col-md-12">
+		            <div class="error-template">
+		                <h1>
+		                    Oops!</h1>
+		                <h2>
+		                    Token Not Found</h2>
+		                <div class="error-details">
+		                    Sorry, an error has occured, No token supplied!
+		                </div>
+		                <div class="error-actions">
+		                    <a href="index.jsp" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+		                        Take Me Home </a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 <%
 	}
 %>
