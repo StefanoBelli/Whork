@@ -15,8 +15,8 @@ import logic.graphicscontroller.PasswordChangeViewController;
 public final class PasswordChangeView implements ControllableView {
 
 	private static final String WIN_TITLE = "Whork - Change password";
-	private static final int CONFIG_WIN_WIDTH = 600;
-	private static final int CONFIG_WIN_HEIGHT = 400;
+	private static final int CONFIG_WIN_WIDTH = 265;
+	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String CHANGE_PWD = "Change your password";
 	private static final String SAY_TOKEN = "Token:";
 	private static final String SAY_PASSWORD = "New password:";
@@ -69,33 +69,23 @@ public final class PasswordChangeView implements ControllableView {
 	}
 
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
 		vbox.getChildren().add(changePasswordLabel);
+		vbox.getChildren().add(tokenLabel);
+		vbox.getChildren().add(tokenTextField);
+		vbox.getChildren().add(passwordLabel);
+		vbox.getChildren().add(passwordTextField);
+		vbox.getChildren().add(retypePasswordLabel);
+		vbox.getChildren().add(retypePasswordTextField);
 
-		HBox hboxToken = new HBox();
-		hboxToken.getChildren().add(tokenLabel);
-		hboxToken.getChildren().add(tokenTextField);
+		HBox btnsHbox = new HBox(5);
+		btnsHbox.getChildren().add(continueButton);
+		btnsHbox.getChildren().add(goBackButton);
 
-		HBox hboxPassword = new HBox();
-		hboxPassword.getChildren().add(passwordLabel);
-		hboxPassword.getChildren().add(passwordTextField);
-
-		HBox hboxRetypePassword = new HBox();
-		hboxRetypePassword.getChildren().add(retypePasswordLabel);
-		hboxRetypePassword.getChildren().add(retypePasswordTextField);
-
-		HBox hboxControlButtons = new HBox();
-		hboxControlButtons.getChildren().add(continueButton);
-		hboxControlButtons.getChildren().add(goBackButton);
-
-		vbox.getChildren().add(hboxToken);
-		vbox.getChildren().add(hboxPassword);
-		vbox.getChildren().add(hboxRetypePassword);
-		vbox.getChildren().add(hboxControlButtons);
+		vbox.getChildren().add(btnsHbox);
 
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
-
 	
 	@Override
 	public void setWindowProperties(Stage stage) {

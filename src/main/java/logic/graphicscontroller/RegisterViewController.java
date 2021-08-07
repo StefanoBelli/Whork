@@ -23,6 +23,7 @@ public final class RegisterViewController extends GraphicsController {
 		((Button)n[0]).setOnMouseClicked(new HandleJobSeekerRequest());
 		((Button)n[1]).setOnMouseClicked(new HandleCompanyRequest());
 		((Button)n[2]).setOnMouseClicked(new HandleConfirmRequest());
+		((Button)n[3]).setOnMouseClicked(new GraphicsUtil.HandleGoBackRequest(viewStack));
 	}
 
 	@Override
@@ -46,12 +47,11 @@ public final class RegisterViewController extends GraphicsController {
 		}
 	}
 
-	private static final class HandleConfirmRequest implements EventHandler<MouseEvent> {
+	private final class HandleConfirmRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(ConfirmRegistrationView.class);
+			viewStack.push(new ConfirmRegistrationView(viewStack));
 		}
 	}
-	
 }

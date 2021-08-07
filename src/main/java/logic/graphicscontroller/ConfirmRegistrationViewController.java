@@ -13,6 +13,7 @@ import logic.view.ViewStack;
 import logic.controller.RegisterController;
 import logic.exception.InternalException;
 import logic.factory.DialogFactory;
+import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public final class ConfirmRegistrationViewController extends GraphicsController {
@@ -33,6 +34,7 @@ public final class ConfirmRegistrationViewController extends GraphicsController 
 		tokenField.textProperty().addListener(new HandleChangedTextFields());
 		emailField.textProperty().addListener(new HandleChangedTextFields());
 		okButton.setOnMouseClicked(new HandleOkButton());
+		((Button)n[3]).setOnMouseClicked(new GraphicsUtil.HandleGoBackRequest(viewStack));
 	}
 
 	@Override
@@ -70,6 +72,5 @@ public final class ConfirmRegistrationViewController extends GraphicsController 
 					e.getMessage()).showAndWait();
 			}
 		}
-		
 	}
 }

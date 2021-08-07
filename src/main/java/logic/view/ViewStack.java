@@ -47,7 +47,7 @@ public final class ViewStack {
 	public void pop() {
 		if(validState) {
 			this.views.pop();
-			makeItVisible(this.views.getLast());
+			makeItVisible(this.views.getFirst());
 		}
 	}
 

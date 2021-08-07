@@ -77,7 +77,7 @@ public final class HomeView implements ControllableView {
 	private void populateScene() {
 		VBox vbox = new VBox();
 		
-		HBox hboxsrc= new HBox();
+		HBox hboxsrc= new HBox(10);
 		hboxsrc.getChildren().add(searchField);
 		hboxsrc.getChildren().add(searchBtn);
 		

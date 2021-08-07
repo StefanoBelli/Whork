@@ -98,7 +98,9 @@ public final class LoginViewController extends GraphicsController {
 		public void handle(MouseEvent event) {
 			String emailFieldText = emailField.getText();
 			String email = emailFieldText.isBlank() ? null : emailFieldText;
-			GraphicsUtil.showAndWaitWindow(PasswordRecoveryView.class, "setPresetEmail", email);
+			PasswordRecoveryView pwdRecView = new PasswordRecoveryView(viewStack);
+			pwdRecView.setPresetEmail(email);
+			viewStack.push(pwdRecView);
 		}
 	}
 
@@ -116,11 +118,11 @@ public final class LoginViewController extends GraphicsController {
 		}
 	}
 
-	private static final class HandleRegisterRequest implements EventHandler<MouseEvent> {
+	private final class HandleRegisterRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(RegisterView.class);
+			viewStack.push(new RegisterView(viewStack));
 		}
 	}
 }

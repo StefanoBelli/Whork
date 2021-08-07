@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import logic.controller.LoginController;
 import logic.factory.DialogFactory;
+import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
 import logic.view.PasswordChangeView;
@@ -31,6 +32,7 @@ public final class PasswordRecoveryViewController extends GraphicsController {
 		continueButton.setOnMouseClicked(new HandlePasswordRecoveryRequest());
 		((Button)n[2]).setOnMouseClicked(new HandleAlreadyHasToken());
 		emailAddressTextField.textProperty().addListener(new HandleChangedTextField());
+		((Button)n[3]).setOnMouseClicked(new GraphicsUtil.HandleGoBackRequest(viewStack));
 	}
 
 	@Override

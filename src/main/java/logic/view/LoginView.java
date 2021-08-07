@@ -21,25 +21,20 @@ public final class LoginView implements ControllableView {
 	private static final String EMAIL_PROMPT_MSG = "Type your email...";
 	private static final String PASSWORD_MSG = "Password";
 	private static final String PASSWORD_PROMPT_MSG = "Type your password...";
-	private static final String FORGOT_PASSWORD_MSG = "Forgot your password?";
-	private static final String FORGOT_PASSWORD_BTN_MSG = "Recover my password";
-	private static final String REGISTER_MSG = "Register for Whork";
-	private static final String REGISTER_BTN_MSG = "Register";
+	private static final String FORGOT_PASSWORD_BTN_MSG = "Forgot password?";
+	private static final String REGISTER_BTN_MSG = "I don't have an account";
 	private static final String STAY_LOGGED_IN_MSG = "Stay logged in";
 	private static final String LOGIN_BTN_MSG = "Login";
 	private static final int CONFIG_WIN_WIDTH = 265;
-	private static final int CONFIG_WIN_HEIGHT = 300;
+	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String WIN_TITLE = LOGIN_TO_WHORK_MSG;
 
 	private Scene scene;
 	
-	private Label loginToWhorkMessage;
 	private Label emailMessage;
 	private TextField emailField;
 	private Label passwordMessage;
 	private TextField passwordField;
-	private Label forgotPasswordMessage;
-	private Label registerMessage;
 	private Button registerButton;
 	private Button forgotPasswordButton;
 	private Button loginButton;
@@ -55,56 +50,44 @@ public final class LoginView implements ControllableView {
 	}
 
 	private void init() {
-		loginToWhorkMessage = new Label(LOGIN_TO_WHORK_MSG);
 		emailMessage = new Label(EMAIL_MSG);
 		emailField = new TextField();
 		passwordMessage = new Label(PASSWORD_MSG);
 		passwordField = new PasswordField();
-		forgotPasswordMessage = new Label(FORGOT_PASSWORD_MSG);
 		forgotPasswordButton = new Button(FORGOT_PASSWORD_BTN_MSG);
 		loginButton = new Button(LOGIN_BTN_MSG);
 		stayLoggedInBox = new CheckBox(STAY_LOGGED_IN_MSG);
 		registerButton = new Button(REGISTER_BTN_MSG);
-		registerMessage = new Label(REGISTER_MSG);
 		controller.setup();
 	}
 
 	private void setNodesProps() {
 		emailField.setPromptText(EMAIL_PROMPT_MSG);
 		passwordField.setPromptText(PASSWORD_PROMPT_MSG);
-		loginToWhorkMessage.setPadding(new Insets(10,10,10,10));
 		stayLoggedInBox.setSelected(true);
 		loginButton.setDisable(true);
 	}
 
 	private void populateScene() {
-		VBox vbox = new VBox();
-		vbox.getChildren().add(loginToWhorkMessage);
-		vbox.getChildren().add(emailMessage);
-		vbox.getChildren().add(emailField);
-		vbox.getChildren().add(passwordMessage);
-		vbox.getChildren().add(passwordField);
+		VBox credVbox = new VBox(10);
+		credVbox.getChildren().add(emailMessage);
+		credVbox.getChildren().add(emailField);
+		credVbox.getChildren().add(passwordMessage);
+		credVbox.getChildren().add(passwordField);
+		credVbox.getChildren().add(forgotPasswordButton);
+		credVbox.getChildren().add(stayLoggedInBox);
 
-		VBox vboxfp = new VBox();
-		vboxfp.getChildren().add(forgotPasswordMessage);
-		vboxfp.getChildren().add(forgotPasswordButton);
+		HBox logonHbox = new HBox(10);
+		logonHbox.getChildren().add(loginButton);
+		logonHbox.getChildren().add(registerButton);
+		
+		logonHbox.setPadding(new Insets(0,0,0,18));
 
-		VBox vboxlg = new VBox();
-		vboxlg.getChildren().add(loginButton);
-		vboxlg.getChildren().add(stayLoggedInBox);
+		VBox rootVbox = new VBox(25);
+		rootVbox.getChildren().add(credVbox);
+		rootVbox.getChildren().add(logonHbox);
 
-		HBox hboxrg = new HBox();
-		hboxrg.getChildren().add(registerMessage);
-		hboxrg.getChildren().add(registerButton);
-
-		HBox hbox = new HBox();
-		hbox.getChildren().add(vboxlg);
-		hbox.getChildren().add(vboxfp);
-
-		vbox.getChildren().add(hbox);
-		vbox.getChildren().add(hboxrg);
-
-		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
+		scene = new Scene(rootVbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
 
 	@Override

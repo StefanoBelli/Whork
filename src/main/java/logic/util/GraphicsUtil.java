@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -127,6 +128,19 @@ public final class GraphicsUtil {
 			if(newValue.length() > maxLength) {
 				textField.setText(oldValue);
 			}
+		}
+	}
+
+	public static final class HandleGoBackRequest implements EventHandler<MouseEvent> {
+		private final ViewStack viewStack;
+
+		public HandleGoBackRequest(ViewStack viewStack) {
+			this.viewStack = viewStack;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			viewStack.pop();
 		}
 	}
 	

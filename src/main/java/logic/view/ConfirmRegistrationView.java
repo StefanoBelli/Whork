@@ -1,5 +1,6 @@
 package logic.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,9 +18,10 @@ public final class ConfirmRegistrationView implements ControllableView {
 	private static final String TOKEN_FIELD_HINT = "Type your token here...";
 	private static final String EMAIL_MSG = "Email address:";
 	private static final String EMAIL_FIELD_HINT = "Type your email address here...";
+	private static final String GO_BACK_BTN = "Go back";
 	private static final String OK_BTN = "OK";	
 	private static final int CONFIG_WIN_WIDTH = 265;
-	private static final int CONFIG_WIN_HEIGHT = 300;
+	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String WIN_TITLE = "Confirm registration - Whork";
 
 	private Label tokenMessage;
@@ -27,6 +29,7 @@ public final class ConfirmRegistrationView implements ControllableView {
 	private Label emailMessage;
 	private TextField emailField;
 	private Button okButton;
+	private Button goBackBtn;
 
 	private GraphicsController controller;
 
@@ -38,12 +41,13 @@ public final class ConfirmRegistrationView implements ControllableView {
 	}
 	
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
 		vbox.getChildren().add(tokenMessage);
 		vbox.getChildren().add(tokenField);
 		vbox.getChildren().add(emailMessage);
 		vbox.getChildren().add(emailField);
 		vbox.getChildren().add(okButton);
+		vbox.getChildren().add(goBackBtn);
 
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
@@ -60,6 +64,7 @@ public final class ConfirmRegistrationView implements ControllableView {
 		emailMessage = new Label(EMAIL_MSG);
 		emailField = new TextField();
 		okButton = new Button(OK_BTN);
+		goBackBtn = new Button(GO_BACK_BTN);
 		controller.setup();
 	}
 
@@ -84,8 +89,8 @@ public final class ConfirmRegistrationView implements ControllableView {
 		return new Node[] { 
 			tokenField,
 			emailField,
-			okButton
+			okButton,
+			goBackBtn
 		};
 	}
-	
 }

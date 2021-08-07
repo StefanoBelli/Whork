@@ -12,18 +12,20 @@ import logic.graphicscontroller.RegisterViewController;
 public final class RegisterView implements ControllableView {
 	private Scene scene;
 
-	private static final String CHOOSE_MSG = "Choose one of the three options";
+	private static final String CHOOSE_MSG = "Choose one of the four options";
 	private static final String JOB_SEEKER_BTN = "Register as a job seeker";
 	private static final String COMPANY_BTN = "Register as a company";
 	private static final String CONFIRM_BTN = "Confirm a pending registration";
+	private static final String GO_BACK_BTN = "I already have an account";
 	private static final int CONFIG_WIN_WIDTH = 265;
-	private static final int CONFIG_WIN_HEIGHT = 300;
+	private static final int CONFIG_WIN_HEIGHT = 260;
 
 	private static final String WIN_TITLE = "Register - Whork";
 
 	private Label chooseLabel;
 	private Button jobSeekerBtn;
 	private Button companyBtn;
+	private Button goBackBtn;
 	private Button confirmBtn;
 
 	private GraphicsController controller;
@@ -36,10 +38,11 @@ public final class RegisterView implements ControllableView {
 	}
 
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
 		vbox.getChildren().add(chooseLabel);
 		vbox.getChildren().add(jobSeekerBtn);
 		vbox.getChildren().add(companyBtn);
+		vbox.getChildren().add(goBackBtn);
 		vbox.getChildren().add(confirmBtn);
 
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
@@ -54,9 +57,9 @@ public final class RegisterView implements ControllableView {
 		jobSeekerBtn = new Button(JOB_SEEKER_BTN);
 		companyBtn = new Button(COMPANY_BTN);
 		confirmBtn = new Button(CONFIRM_BTN);
+		goBackBtn = new Button(GO_BACK_BTN);
 		controller.setup();
 	}
-
 	
 	@Override
 	public Scene getScene() {
@@ -74,7 +77,8 @@ public final class RegisterView implements ControllableView {
 		return new Node[] { 
 			jobSeekerBtn,
 			companyBtn,
-			confirmBtn
+			confirmBtn,
+			goBackBtn
 		};
 	}
 

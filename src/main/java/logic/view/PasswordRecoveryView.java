@@ -15,14 +15,16 @@ public final class PasswordRecoveryView implements ControllableView {
 	private static final String BTN_MSG_SENDREQ = "Recover my password";
 	private static final String BTN_MSG_GOTTOKEN = "I already have a token";
 	private static final int CONFIG_WIN_WIDTH = 265;
-	private static final int CONFIG_WIN_HEIGHT = 300;
+	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String EMAIL_PROMPT_MSG = "Email address...";
+	private static final String GO_BACK_BTN = "Go back";
 
 	private Scene scene;
 
 	private TextField emailAddressTextField;
 	private Button sendRequestButton;
 	private Button alreadyHaveTokenButton;
+	private Button goBackBtn;
 
 	private GraphicsController controller;
 
@@ -37,6 +39,7 @@ public final class PasswordRecoveryView implements ControllableView {
 		emailAddressTextField = new TextField();
 		sendRequestButton = new Button(BTN_MSG_SENDREQ);
 		alreadyHaveTokenButton = new Button(BTN_MSG_GOTTOKEN);
+		goBackBtn = new Button(GO_BACK_BTN);
 		controller.setup();
 	}
 
@@ -45,10 +48,12 @@ public final class PasswordRecoveryView implements ControllableView {
 	}
 
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
 		vbox.getChildren().add(emailAddressTextField);
 		vbox.getChildren().add(sendRequestButton);
 		vbox.getChildren().add(alreadyHaveTokenButton);
+		vbox.getChildren().add(goBackBtn);
+
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
 	
@@ -57,7 +62,8 @@ public final class PasswordRecoveryView implements ControllableView {
 		return new Node[] {
 			emailAddressTextField,
 			sendRequestButton,
-			alreadyHaveTokenButton
+			alreadyHaveTokenButton,
+			goBackBtn
 		};
 	}
 
