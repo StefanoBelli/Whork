@@ -32,7 +32,6 @@ import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
-import logic.view.PostOfferView;
 import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
