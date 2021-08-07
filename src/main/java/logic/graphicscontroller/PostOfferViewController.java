@@ -32,13 +32,12 @@ import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
-import logic.view.PostOfferView;
+import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
 public final class PostOfferViewController extends GraphicsController {
 	private final UserBean sessionUser = LoginHandler.getSessionUser();
-	
-	
+
 	private Button postOfferBtn;
 	private TextArea offerDescriptionTxt;
 	private TextField offerSalaryTxt;
@@ -105,7 +104,7 @@ public final class PostOfferViewController extends GraphicsController {
 			if(offerPhoto != null) {
 				photoDetailLbl.setText(new StringBuilder("Selected: ").append(offerPhoto.getName()).toString());
 			} else {
-				photoDetailLbl.setText(PostOfferView.SELECT_FILE_MESSAGE);
+				photoDetailLbl.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
 			}
 		}
 	}
@@ -174,7 +173,6 @@ public final class PostOfferViewController extends GraphicsController {
 			offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(typeOfContract));
 			offerBean.setWorkShit(workShift);
 			return offerBean;
-			
 		}
 		
 		private boolean checksArePassing() {

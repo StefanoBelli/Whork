@@ -52,8 +52,8 @@ public final class RegisterCompanyView implements ControllableView {
 		" contractual relationship and the provision of services ";
 	private static final String CONFIRM_BTN = "Confirm";
 	private static final String ARE_YOU_RECRUITER_MESSAGE = "Are you a recruiter for your company?";
-	private static final double CONFIG_WIN_WIDTH = 503;
-	private static final double CONFIG_WIN_HEIGTH = 443;
+	private static final double CONFIG_WIN_WIDTH = 560;
+	private static final double CONFIG_WIN_HEIGTH = 480;
 
 	private Scene scene;
 	

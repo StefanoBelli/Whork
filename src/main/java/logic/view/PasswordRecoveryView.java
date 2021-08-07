@@ -5,9 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.PasswordRecoveryViewController;
+import logic.util.GraphicsUtil;
 
 public final class PasswordRecoveryView implements ControllableView {
 
@@ -18,9 +20,12 @@ public final class PasswordRecoveryView implements ControllableView {
 	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String EMAIL_PROMPT_MSG = "Email address...";
 	private static final String GO_BACK_BTN = "Go back";
+	private static final String TYPE_EMAIL_ADDR_TO_RECOVER_PWD_FOR = 
+		"Password recovery starting phase:\ntype a valid email address below";
 
 	private Scene scene;
 
+	private Text emailAddressToRecPwdForText;
 	private TextField emailAddressTextField;
 	private Button sendRequestButton;
 	private Button alreadyHaveTokenButton;
@@ -36,6 +41,7 @@ public final class PasswordRecoveryView implements ControllableView {
 	}
 
 	private void init() {
+		emailAddressToRecPwdForText = new Text(TYPE_EMAIL_ADDR_TO_RECOVER_PWD_FOR);
 		emailAddressTextField = new TextField();
 		sendRequestButton = new Button(BTN_MSG_SENDREQ);
 		alreadyHaveTokenButton = new Button(BTN_MSG_GOTTOKEN);
@@ -45,10 +51,12 @@ public final class PasswordRecoveryView implements ControllableView {
 
 	private void setNodesProps() {
 		emailAddressTextField.setPromptText(EMAIL_PROMPT_MSG);
+		emailAddressToRecPwdForText.setFont(GraphicsUtil.getBoldFont());
 	}
 
 	private void populateScene() {
 		VBox vbox = new VBox(10);
+		vbox.getChildren().add(emailAddressToRecPwdForText);
 		vbox.getChildren().add(emailAddressTextField);
 		vbox.getChildren().add(sendRequestButton);
 		vbox.getChildren().add(alreadyHaveTokenButton);

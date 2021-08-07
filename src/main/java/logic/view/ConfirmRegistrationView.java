@@ -6,9 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.ConfirmRegistrationViewController;
 import logic.graphicscontroller.GraphicsController;
+import logic.util.GraphicsUtil;
 
 public final class ConfirmRegistrationView implements ControllableView {
 	private Scene scene;
@@ -22,7 +24,9 @@ public final class ConfirmRegistrationView implements ControllableView {
 	private static final int CONFIG_WIN_WIDTH = 265;
 	private static final int CONFIG_WIN_HEIGHT = 260;
 	private static final String WIN_TITLE = "Confirm registration - Whork";
+	private static final String CONF_REG = "Registration final phase";
 
+	private Text confRegText;
 	private Label tokenMessage;
 	private TextField tokenField;
 	private Label emailMessage;
@@ -41,6 +45,7 @@ public final class ConfirmRegistrationView implements ControllableView {
 	
 	private void populateScene() {
 		VBox vbox = new VBox(10);
+		vbox.getChildren().add(confRegText);
 		vbox.getChildren().add(tokenMessage);
 		vbox.getChildren().add(tokenField);
 		vbox.getChildren().add(emailMessage);
@@ -55,9 +60,11 @@ public final class ConfirmRegistrationView implements ControllableView {
 		tokenField.setPromptText(TOKEN_FIELD_HINT);
 		emailField.setPromptText(EMAIL_FIELD_HINT);
 		okButton.setDisable(true);
+		confRegText.setFont(GraphicsUtil.getBoldFont());
 	}
 
 	private void init() {
+		confRegText = new Text(CONF_REG);
 		tokenMessage = new Label(TOKEN_MSG);
 		tokenField = new TextField();
 		emailMessage = new Label(EMAIL_MSG);
