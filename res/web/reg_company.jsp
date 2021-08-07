@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Register as a company - Whork</title>
+		<title>Sign Up as a company - Whork</title>
 		<link rel="stylesheet" href="css/reg_company.css">
 		<script src="js/reg_company.js"></script>
 		<script src="js/common.js"></script>
@@ -15,7 +15,7 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
 	</head>
 
-	<body>
+	<body style="background:#3598dc">
 <%
 	String descError = (String) request.getAttribute("descriptive_error");
 	if(descError != null) {
@@ -67,10 +67,12 @@
 		        	<label for="are_you_recruiter">
 		            	<input type="checkbox" name="are_you_recruiter" checked="true"> Are you a recruiter for your company?
 		            </label>
-		        </div>
-		        <div class="form-group">
-		        	<label for="your_photo">Your profile photo</label>
-		            <input type="file" name="your_photo" accept="image/png, image/jpeg">
+		            <span style="padding-left:40px">
+			            <label class="btn btn-default btn-file">                      	
+	                     	<font color="white">Your profile photo</font>
+	                     	<input type="file" name="your_photo" accept="image/png, image/jpeg" style="display:none">
+						</label>
+					</span>
 		        </div>
 		        <hr>
 		        <h5 style="font-weight:bold;">About the company</h5>
@@ -84,8 +86,10 @@
 		            <input type="text" id="company_fc" name="company_fiscal_code" class="form-control" placeholder="Enter company fiscal code here ..." maxlength=16 required>
 		        </div>
 		        <div class="form-group">
-		        	<label for="company_logo">Company logo</label>
-		            <input type="file" name="company_logo" accept="image/png, image/jpeg" required>
+		        	<label class="btn btn-default btn-file">
+                     	<font color="white">Company logo</font>
+                     	<input type="file" name="company_logo" accept="image/png, image/jpeg" required style="display:none">
+					</label>
 		        </div>        
 		        <div class="form-group">
 					<label for="privacy_policy">
@@ -95,9 +99,9 @@
 						the provision of services.
 					</label>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="text-align:center">
 		            <button disabled type="submit" id="submit" name="submit" value="Confirm" class="btn btn-primary btn-lg">Sign Up</button>
-		            <div class="hint-text">Already have an account? <a href="login.jsp">Login here</a></div>
+		            <div class="hint-text" style="padding-top:40px">Already have an account? <a href="login.jsp">Login here</a></div>
 		        </div>
 		    </form>
 		</div>
