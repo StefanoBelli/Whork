@@ -11,17 +11,17 @@ function check_company_fields() {
 
 	if(pwd != conf_pwd) {
 		ok = false;
-		error_field.innerHTML = "Passwords are not matching<br/>";
+		error_field.innerHTML = "<div class='alert alert-danger' role='alert'>Passwords are not matching</div>";
 	}
 	
 	if(!valid_fc(my_fc)) {
 		ok = false;
-		error_field.innerHTML += "Your fiscal code is not passing our validity test<br/>";
+		error_field.innerHTML += "<div class='alert alert-danger' role='alert'>Your fiscal code is not passing our validity test</div>";
 	}
 
 	if(!valid_fc(company_fc)) {
 		ok = false;
-		error_field.innerHTML += "Company fiscal code is not passing our validity test<br/>";
+		error_field.innerHTML += "<div class='alert alert-danger' role='alert'>Company fiscal code is not passing our validity test</div>";
 	}
 
 	return ok;
