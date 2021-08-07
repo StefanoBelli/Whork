@@ -135,11 +135,9 @@ public final class PostOfferView implements ControllableView {
 		vboxlbl.getChildren().add(offerNameMessage);
 		vboxtxt.getChildren().add(offerNameTxt);
 		
-		new HBox();
 		vboxlbl.getChildren().add(offerSalaryMessage);
 		vboxtxt.getChildren().add(offerSalaryTxt);
 		
-		new HBox();
 		vboxlbl.getChildren().add(offerAddressMessage);
 		vboxtxt.getChildren().add(offerAddressTxt);
 		
@@ -175,27 +173,24 @@ public final class PostOfferView implements ControllableView {
 		
 		HBox hboxphoto=new HBox();
 		hboxphoto.getChildren().add(offerPhotoMessage);
-		
 		hboxphoto.getChildren().add(offerPhotoBtn);
-		
 		hboxphoto.getChildren().add(photoDetailLbl);
 		
 		vbox.getChildren().add(postOfferText);
 		vbox.getChildren().add(hboxdetails);
 		vbox.getChildren().add(hboxflt);
-		
 		vbox.getChildren().add(offerDescriptionMessage);
-		
 		vbox.getChildren().add(offerDescriptionTxt);
-		
 		vbox.getChildren().add(hboxphoto);
-		
 		vbox.getChildren().add(postOfferBtn);
+
 		HBox hboxpostbtn= new HBox();
 		hboxpostbtn.getChildren().add(postOfferBtn);
-		hboxpostbtn.setPadding(new Insets(0,0,10,200));		
+		hboxpostbtn.setPadding(new Insets(0,0,10,200));
+
 		vbox.getChildren().add(hboxpostbtn);
 		vbox.setAlignment(Pos.CENTER);
+
 		scene = new Scene(vbox, CONFIG_WIN_WIDTH, CONFIG_WIN_HEIGHT);
 	}
 

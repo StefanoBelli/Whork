@@ -37,8 +37,7 @@ import logic.view.ViewStack;
 
 public final class PostOfferViewController extends GraphicsController {
 	private final UserBean sessionUser = LoginHandler.getSessionUser();
-	
-	
+
 	private Button postOfferBtn;
 	private TextArea offerDescriptionTxt;
 	private TextField offerSalaryTxt;
