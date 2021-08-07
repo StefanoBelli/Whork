@@ -17,7 +17,6 @@ public final class PasswordChangeView implements ControllableView {
 	private static final String WIN_TITLE = "Whork - Change password";
 	private static final int CONFIG_WIN_WIDTH = 265;
 	private static final int CONFIG_WIN_HEIGHT = 260;
-	private static final String CHANGE_PWD = "Change your password";
 	private static final String SAY_TOKEN = "Token:";
 	private static final String SAY_PASSWORD = "New password:";
 	private static final String SAY_RETYPE_PASSWORD = "Retype password:";
@@ -29,7 +28,6 @@ public final class PasswordChangeView implements ControllableView {
 	
 	private Scene scene;
 
-	private Label changePasswordLabel;
 	private Label tokenLabel;
 	private TextField tokenTextField;
 	private Label passwordLabel;
@@ -49,7 +47,6 @@ public final class PasswordChangeView implements ControllableView {
 	}
 
 	private void init() {
-		changePasswordLabel = new Label(CHANGE_PWD);
 		tokenLabel = new Label(SAY_TOKEN);
 		tokenTextField = new TextField();
 		passwordLabel = new Label(SAY_PASSWORD);
@@ -70,7 +67,6 @@ public final class PasswordChangeView implements ControllableView {
 
 	private void populateScene() {
 		VBox vbox = new VBox(10);
-		vbox.getChildren().add(changePasswordLabel);
 		vbox.getChildren().add(tokenLabel);
 		vbox.getChildren().add(tokenTextField);
 		vbox.getChildren().add(passwordLabel);

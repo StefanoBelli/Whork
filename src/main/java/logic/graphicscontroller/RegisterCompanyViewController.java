@@ -32,6 +32,8 @@ import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 import static logic.graphicscontroller.commons.RegisterCommons.HandlePrivacyPolicyCheckBoxClicked;
+
+import logic.graphicscontroller.commons.Commons;
 import logic.graphicscontroller.commons.RegisterCommons;
 
 public final class RegisterCompanyViewController extends GraphicsController {
@@ -131,7 +133,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 					RegisterController.register(createBeans());
 				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					RegisterCommons.ShowAndWaitDialog.internalException(e);
+					Commons.ShowAndWaitDialog.internalException(e);
 					return;
 				} catch (AlreadyExistantCompanyException e) {
 					DialogFactory.error(
@@ -150,7 +152,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 					return;
 				} catch (IOException e) {
 					Util.exceptionLog(e);
-					RegisterCommons.ShowAndWaitDialog.ioException();
+					Commons.ShowAndWaitDialog.ioException();
 					return;
 				}
 
@@ -191,7 +193,7 @@ public final class RegisterCompanyViewController extends GraphicsController {
 			});
 
 			if(!errorString.equals("")) {
-				RegisterCommons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
+				Commons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
 				return false;
 			}
 

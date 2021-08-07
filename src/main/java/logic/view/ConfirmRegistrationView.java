@@ -1,6 +1,5 @@
 package logic.view;
 
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

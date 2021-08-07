@@ -21,7 +21,8 @@ import logic.bean.UserBean;
 import logic.controller.OfferController;
 import logic.exception.InternalException;
 import logic.factory.BeanFactory;
-import logic.graphicscontroller.commons.PostOfferCommons;
+import logic.factory.DialogFactory;
+import logic.graphicscontroller.commons.Commons;
 import logic.graphicscontroller.formchecker.FormChecker;
 import logic.graphicscontroller.formchecker.OfferFormChecker;
 import logic.pool.JobCategoryPool;
@@ -140,11 +141,11 @@ public final class PostOfferViewController extends GraphicsController {
 					OfferController.postOffer(createBeans());
 				} catch (IOException e) {
 					Util.exceptionLog(e);
-					PostOfferCommons.ShowAndWaitDialog.ioException();
+					Commons.ShowAndWaitDialog.ioException();
 					return;
 				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					PostOfferCommons.ShowAndWaitDialog.internalException(e);
+					Commons.ShowAndWaitDialog.internalException(e);
 					return;
 				}
 
@@ -153,7 +154,7 @@ public final class PostOfferViewController extends GraphicsController {
 		}
 	
 		private void showSuccessDialogAndCloseStage(String offName) {
-			PostOfferCommons.ShowAndWaitDialog.success(sessionUser.getName(), offName);
+			ShowAndWaitDialog.success(sessionUser.getName(), offName);
 			((Stage) view.getScene().getWindow()).close();
 		}
 
@@ -184,15 +185,23 @@ public final class PostOfferViewController extends GraphicsController {
 			});
 
 			if(!errorString.equals("")) {
-				PostOfferCommons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
+				Commons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
 				return false;
 			}
 
 			return true;
 		}
 	}
-		
-		
 
+	public static final class ShowAndWaitDialog {
+		private ShowAndWaitDialog() {}
 
+		public static void success(String name, String offerName) {
+			final StringBuilder msgBuilder = new StringBuilder("You successfully post offer \"").append(offerName)
+					.append("\" for Whork.\nThe Whork team.");
+
+			DialogFactory.info("Success", new StringBuilder("Yay! ").append(name).append(" you did it!").toString(),
+					msgBuilder.toString()).showAndWait();
+		}
+	}
 }

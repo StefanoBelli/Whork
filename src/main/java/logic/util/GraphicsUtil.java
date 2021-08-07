@@ -30,6 +30,9 @@ import logic.view.View;
 import logic.view.ViewStack;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public final class GraphicsUtil {
 	private GraphicsUtil() {}
 
@@ -160,5 +163,21 @@ public final class GraphicsUtil {
 		});
 		choiceBox.setItems(FXCollections.observableArrayList(items));
 		choiceBox.getSelectionModel().select(0);
+	}
+
+	public static String getMapsIframe(String query) {
+		StringBuilder builder = new StringBuilder();
+
+		try {
+			builder.append("<html><body><iframe title='whereareyou' width='200' height='200'")
+					.append(" style='border:0' loading='lazy' allowfullscreen src='https://www.google.com")
+					.append("/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=")
+					.append(URLEncoder.encode(query, "UTF-8")).append("'></iframe></body></html>");
+		} catch (UnsupportedEncodingException e) {
+			Util.exceptionLog(e);
+			return e.getMessage();
+		}
+
+		return builder.toString();
 	}
 }

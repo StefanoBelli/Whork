@@ -4,7 +4,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
-import logic.exception.InternalException;
 import logic.factory.DialogFactory;
 
 public final class RegisterCommons {
@@ -20,27 +19,6 @@ public final class RegisterCommons {
 				ERROR, 
 				"Already existant user", 
 				"Another user with same email and/or fiscal code already exists").showAndWait();
-		}
-
-		public static void internalException(InternalException e) {
-			DialogFactory.error(
-				"Internal exception", 
-				"Something bad just happened, we don't know much about it",
-				e.getMessage()).showAndWait();
-		}
-
-		public static void ioException() {
-			DialogFactory.error(
-				ERROR, 
-				"Unable to copy one or more file", 
-				"Check logs to get more infos").showAndWait();
-		}
-
-		public static void formDoesNotPassChecks(String errorString) {
-			DialogFactory.error(
-				"Form does not pass checks", 
-				"Errors are following, fix them all", 
-				errorString).showAndWait();
 		}
 
 		public static void success(String name, String email, String company) {

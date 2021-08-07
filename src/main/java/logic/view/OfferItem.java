@@ -1,8 +1,5 @@
 package logic.view;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -92,7 +89,7 @@ public final class OfferItem {
 		qualificationLbl.setText("Requirements qualification: "+itemBean.getQualification().getQualify());
 		typeOfContractLbl.setText("Type Of Contract: "+itemBean.getTypeOfContract().getContract());
 		publishDateLbl.setText("Publish Date: "+itemBean.getPublishDate().toString());
-		mapWebView.getEngine().loadContent(getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
+		mapWebView.getEngine().loadContent(GraphicsUtil.getMapsIframe(itemBean.getJobPhysicalLocationFullAddress()));
 
 		mapWebView.setMaxHeight(WEBVIEW_MAX_HEIGHT);
 		mapWebView.setMaxWidth(MAX_WIDTH);
@@ -143,23 +140,5 @@ public final class OfferItem {
 		itemBox.getChildren().add(buttons);
 		
 		return itemBox;
-	}
-	
-	private static String getMapsIframe(String query) {
-		StringBuilder builder = new StringBuilder();
-		
-		try {
-			builder
-				.append("<html><body><iframe title='whereareyou' width='200' height='200'")
-				.append(" style='border:0' loading='lazy' allowfullscreen src='https://www.google.com")
-				.append("/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=")
-				.append(URLEncoder.encode(query, "UTF-8"))
-				.append("'></iframe></body></html>");
-		} catch (UnsupportedEncodingException e) {
-			Util.exceptionLog(e);
-			return e.getMessage();
-		}
-
-		return builder.toString();
 	}
 }

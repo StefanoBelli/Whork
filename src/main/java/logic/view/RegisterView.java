@@ -3,11 +3,12 @@ package logic.view;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.RegisterViewController;
+import logic.util.GraphicsUtil;
 
 public final class RegisterView implements ControllableView {
 	private Scene scene;
@@ -22,7 +23,7 @@ public final class RegisterView implements ControllableView {
 
 	private static final String WIN_TITLE = "Register - Whork";
 
-	private Label chooseLabel;
+	private Text chooseText;
 	private Button jobSeekerBtn;
 	private Button companyBtn;
 	private Button goBackBtn;
@@ -39,7 +40,7 @@ public final class RegisterView implements ControllableView {
 
 	private void populateScene() {
 		VBox vbox = new VBox(10);
-		vbox.getChildren().add(chooseLabel);
+		vbox.getChildren().add(chooseText);
 		vbox.getChildren().add(jobSeekerBtn);
 		vbox.getChildren().add(companyBtn);
 		vbox.getChildren().add(goBackBtn);
@@ -49,11 +50,11 @@ public final class RegisterView implements ControllableView {
 	}
 
 	private void setNodesProps() {
-		//future usage
+		chooseText.setFont(GraphicsUtil.getBoldFont());
 	}
 
 	private void init() {
-		chooseLabel = new Label(CHOOSE_MSG);
+		chooseText = new Text(CHOOSE_MSG);
 		jobSeekerBtn = new Button(JOB_SEEKER_BTN);
 		companyBtn = new Button(COMPANY_BTN);
 		confirmBtn = new Button(CONFIRM_BTN);

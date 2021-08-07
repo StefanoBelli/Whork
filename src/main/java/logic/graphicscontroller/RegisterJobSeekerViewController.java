@@ -45,6 +45,8 @@ import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 import logic.util.tuple.Pair;
 import static logic.graphicscontroller.commons.RegisterCommons.HandlePrivacyPolicyCheckBoxClicked;
+
+import logic.graphicscontroller.commons.Commons;
 import logic.graphicscontroller.commons.RegisterCommons;
 import java.util.stream.Collectors;
 
@@ -114,28 +116,10 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 		//no need to update anything
 	}
 
-	private static String getMapsIframe(String query) {
-		StringBuilder builder = new StringBuilder();
-		
-		try {
-			builder
-				.append("<html><body><iframe title='whereareyou' width='200' height='200'")
-				.append(" style='border:0' loading='lazy' allowfullscreen src='https://www.google.com")
-				.append("/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=")
-				.append(URLEncoder.encode(query, "UTF-8"))
-				.append("'></iframe></body></html>");
-		} catch (UnsupportedEncodingException e) {
-			Util.exceptionLog(e);
-			return e.getMessage();
-		}
-
-		return builder.toString();
-	}
-
 	private void loadMap(String query) {
 		if(!query.equalsIgnoreCase(currentMapQuery)) {
 			currentMapQuery = query;
-			mapWebView.getEngine().loadContent(getMapsIframe(query));
+			mapWebView.getEngine().loadContent(GraphicsUtil.getMapsIframe(query));
 		}
 	}
 
@@ -209,7 +193,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 					RegisterController.register(createBeans());
 				} catch (InternalException e) {
 					Util.exceptionLog(e);
-					RegisterCommons.ShowAndWaitDialog.internalException(e);
+					Commons.ShowAndWaitDialog.internalException(e);
 					return;
 				} catch (InvalidVatCodeException | AlreadyExistantCompanyException e) { //should not happen here
 					Util.exceptionLog(e);
@@ -220,7 +204,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 					return;
 				} catch (IOException e) {
 					Util.exceptionLog(e);
-					RegisterCommons.ShowAndWaitDialog.ioException();
+					Commons.ShowAndWaitDialog.ioException();
 					return;
 				}
 
@@ -236,7 +220,7 @@ public final class RegisterJobSeekerViewController extends GraphicsController {
 			});
 
 			if(!errorString.equals("")) {
-				RegisterCommons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
+				Commons.ShowAndWaitDialog.formDoesNotPassChecks(errorString);
 				return false;
 			}
 
