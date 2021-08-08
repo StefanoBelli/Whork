@@ -11,6 +11,9 @@ import logic.net.protocol.annotation.RequestHandler;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Stefano Belli
+ */
 public final class StatelessProtocol {
 	private final Map<String, Method> handlers = new HashMap<>();
 	private final Object impl;

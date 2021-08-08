@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.LoginViewController;
 
+/** 
+ * @author Stefano Belli
+ */
 public final class LoginView implements ControllableView {
 
 	private static final String LOGIN_TO_WHORK_MSG = "Login to Whork";

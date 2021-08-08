@@ -40,6 +40,9 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import logic.exception.SendMailException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class Util {
 	private Util() {}
 
@@ -106,6 +109,9 @@ public final class Util {
 		return responseBuilder.toString();
 	}
 
+	/**
+	 * @author Elio Magliari
+	 */
 	private static String getBirthMonthFromEncoding(char c) {
 		switch(c) {
 			case('A'): return "01";
@@ -124,6 +130,9 @@ public final class Util {
 		}
 	}
 
+	/**
+	 * @author Elio Magliari
+	 */
 	public static Date deriveBirthdayFromFiscalCode(String fiscalCode) {
 		String day = fiscalCode.substring(9, 11); // DAY
 		int dayIntegerLess40 = Integer.parseInt(day) - 40;

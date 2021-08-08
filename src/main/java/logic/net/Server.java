@@ -8,6 +8,9 @@ import org.java_websocket.WebSocket;
 import logic.net.protocol.StatelessProtocol;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Stefano Belli
+ */
 public final class Server {
 	private final WSServer webSocketServer;
 	

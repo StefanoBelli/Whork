@@ -7,6 +7,7 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 /**
+ * @author Stefano Belli
  * We may suppport a SSL/TLS version in the future...
  */
 public final class WSServer extends WebSocketServer {

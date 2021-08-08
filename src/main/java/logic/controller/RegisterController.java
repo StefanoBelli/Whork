@@ -27,6 +27,9 @@ import logic.model.EmployeeUserModel;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterController {
 	private RegisterController(){}
 

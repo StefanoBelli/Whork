@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.util.ServletUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class AlreadyLoggedInFilter implements Filter {
 
 	@Override

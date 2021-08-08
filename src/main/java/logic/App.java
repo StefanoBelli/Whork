@@ -39,6 +39,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * @author Stefano Belli
+ */
 final class App {
 	// Logger tagged "WhorkStartup" for startup phase
 	private static final Logger LOGGER = LoggerFactory.getLogger("WhorkStartup");

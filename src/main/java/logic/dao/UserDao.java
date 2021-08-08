@@ -20,6 +20,9 @@ import logic.model.UserModel;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class UserDao {
 	private UserDao() {}
 
@@ -158,6 +161,9 @@ public final class UserDao {
 		}
 	}
 	
+	/**
+	 * @author ???
+	 */
 	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
 		String email = null;
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_EMAIL_BY_CF)) {
@@ -178,6 +184,9 @@ public final class UserDao {
 		
 	}
 	
+	/**
+	 * @author ???
+	 */
 	public static String getJobSeekerEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
 		String email = null;
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_JOBSEEKER_EMAIL_BY_CF)) {
@@ -198,6 +207,9 @@ public final class UserDao {
 		
 	}
 	
+	/**
+	 * @author ???
+	 */
 	public static List<EmploymentStatusModel> getEmploymentStatusByCompanyVat(CompanyModel company) 
 			throws DataAccessException, DataLogicException {
 		List<EmploymentStatusModel> listEmploymentStatus = new ArrayList<>();
@@ -221,6 +233,9 @@ public final class UserDao {
 		return listEmploymentStatus;
 	}
 	
+	/**
+	 * @author ???
+	 */
 	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException {
 		Map<String, EmployeeUserModel> map = new HashMap<>();
 		try(CallableStatement stmt = CONN.prepareCall(STMT_GET_EMPLOYEE_USER_DETAILS_BY_COMPANY_VAT)) {

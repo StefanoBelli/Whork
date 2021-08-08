@@ -1,5 +1,8 @@
 package logic.util.tuple;
 
+/**
+ * @author Stefano Belli
+ */
 public final class Threeple<F,S,T> {
 	private F first;
 	private S second;

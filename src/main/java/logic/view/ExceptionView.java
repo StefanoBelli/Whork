@@ -14,6 +14,8 @@ import logic.graphicscontroller.GraphicsController;
 
 
 /**
+ * @author Stefano Belli
+ * 
  * IMPORTANTE: Questa classe non ha la responsabilità di chiudere altre eventuali
  * Window (Stage in JavaFX). L'applicazione termina effettivamente solo se tutte le
  * Window sono chiuse, pertanto è responsabilità del metodo chiamante chiuderle.'

@@ -18,6 +18,9 @@ import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.RegisterJobSeekerViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterJobSeekerView implements ControllableView {
 	private static final String WIN_TITLE = "Register as a job seeker - Whork";
 	private static final String AUTH_MESSAGE = "Authentication";

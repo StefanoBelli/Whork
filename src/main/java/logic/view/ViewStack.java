@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
+ * @author Stefano Belli
+ * 
  * Questa struttura dati permette ad un singolo stage di assumere
  * più schermate (di fatto tornare indietro di molteplici schermate)
  * l'ultima nello stack è la schermata visibile.

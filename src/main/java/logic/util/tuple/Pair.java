@@ -1,5 +1,8 @@
 package logic.util.tuple;
 
+/**
+ * @author Stefano Belli
+ */
 public final class Pair<K,V> {
 	private K first;
 	private V second;

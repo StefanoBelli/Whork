@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.util.ServletUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = -1148126128216681856L;
 

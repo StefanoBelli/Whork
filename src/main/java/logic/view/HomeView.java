@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.HomeViewController;
 
+/**
+ * @author Stefano Belli
+ */
 public final class HomeView implements ControllableView {
 	private static final String CONFIG_WIN_TITLE = "Whork - Find a job";
 	private static final String CATEGORY_MSG = "Select a Category: ";

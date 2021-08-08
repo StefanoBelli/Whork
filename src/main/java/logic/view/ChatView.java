@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import logic.graphicscontroller.ChatViewController;
 import logic.graphicscontroller.GraphicsController;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ChatView implements ControllableView {
 	private static final String WIN_TITLE = "Chat - Whork";
 

@@ -14,6 +14,9 @@ import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.PasswordChangeViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class PasswordChangeView implements ControllableView {
 
 	private static final String WIN_TITLE = "Whork - Change password";

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import logic.controller.LoginController;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ForgotPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = -1486000896916636582L;
 

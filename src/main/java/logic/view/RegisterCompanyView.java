@@ -16,6 +16,9 @@ import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.RegisterCompanyViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterCompanyView implements ControllableView {
 	private static final String TYPE_VAT_HINT = "Type VAT here...";
 	private static final String TYPE_COMPANY_FC_HINT = "Type company fiscal code here...";

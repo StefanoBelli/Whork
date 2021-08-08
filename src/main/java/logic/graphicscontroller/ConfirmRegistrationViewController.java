@@ -16,6 +16,9 @@ import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ConfirmRegistrationViewController extends GraphicsController {
 	private TextField tokenField;
 	private TextField emailField;

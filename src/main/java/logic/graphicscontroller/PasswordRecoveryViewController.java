@@ -15,6 +15,9 @@ import logic.view.ControllableView;
 import logic.view.PasswordChangeView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class PasswordRecoveryViewController extends GraphicsController {
 
 	private TextField emailAddressTextField;
