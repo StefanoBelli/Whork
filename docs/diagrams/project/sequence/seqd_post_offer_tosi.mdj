@@ -17,7 +17,7 @@
 					"_parent": {
 						"$ref": "AAAAAAF7IhU1qgpwLqo="
 					},
-					"name": "Interaction1",
+					"name": "sd",
 					"ownedElements": [
 						{
 							"_type": "UMLSequenceDiagram",
@@ -61,7 +61,7 @@
 											"top": 10,
 											"width": 56.58642578125,
 											"height": 13,
-											"text": "interaction"
+											"text": "sd"
 										}
 									],
 									"font": "Arial;13;0",
@@ -433,7 +433,7 @@
 											"top": 13,
 											"width": 60.97900390625,
 											"height": 13,
-											"text": "interaction"
+											"text": "sd"
 										}
 									],
 									"font": "Arial;13;0",
