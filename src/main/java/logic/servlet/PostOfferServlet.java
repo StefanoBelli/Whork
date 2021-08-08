@@ -84,7 +84,7 @@ public final class PostOfferServlet extends HttpServlet {
 		offerBean.setQualification(BeanFactory.buildQualificationBean
 				(req.getParameter("qualification")));
 		offerBean.setNote(req.getParameter("note"));
-		offerBean.setWorkShit(req.getParameter("work_shift"));
+		offerBean.setWorkShift(req.getParameter("work_shift"));
 		offerBean.setEmployee(userBean);
 		
 		

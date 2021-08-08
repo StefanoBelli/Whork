@@ -92,7 +92,7 @@ public final class BeanFactory {
 			offerBean.setCompany(BeanFactory.buildCompanyBean(offerModel.getCompany()));
 			offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 			offerBean.setPhoto(offerModel.getPhoto());
-			offerBean.setWorkShit(offerModel.getWorkShift());
+			offerBean.setWorkShift(offerModel.getWorkShift());
 			offerBean.setJobPosition(BeanFactory.buildJobPositionBean(offerModel.getJobPosition()));
 			offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
 			offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
@@ -237,7 +237,7 @@ public final class BeanFactory {
 		offerBean.setClickStats(offerModel.getClickStats());
 		offerBean.setSalaryEUR(offerModel.getSalaryEUR());
 		offerBean.setPublishDate(offerModel.getPublishDate());
-		offerBean.setWorkShit(offerModel.getWorkShift());
+		offerBean.setWorkShift(offerModel.getWorkShift());
 		offerBean.setQualification(BeanFactory.buildQualificationBean(offerModel.getQualification()));
 		offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(offerModel.getTypeOfContract()));
 		offerBean.setPhoto(offerModel.getPhoto());

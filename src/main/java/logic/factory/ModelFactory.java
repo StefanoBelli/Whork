@@ -169,7 +169,7 @@ public final class ModelFactory {
 		offerModel.setCompany(ModelFactory.buildCompanyModel(offerBean.getCompany()));
 		offerModel.setSalaryEUR(offerBean.getSalaryEUR());
 		offerModel.setPhoto(offerBean.getPhoto());
-		offerModel.setWorkShift(offerBean.getWorkShit());
+		offerModel.setWorkShift(offerBean.getWorkShift());
 		offerModel.setJobPosition(ModelFactory.buildJobPositionModel(offerBean.getJobPosition()));
 		offerModel.setQualification(ModelFactory.buildQualificationModel(offerBean.getQualification()));
 		offerModel.setTypeOfContract(ModelFactory.buildTypeOfContractModel(offerBean.getTypeOfContract()));

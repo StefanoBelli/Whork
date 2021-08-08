@@ -83,7 +83,7 @@ public final class OfferItem {
 		socialReasonLbl.setText("Company: "+itemBean.getCompany().getSocialReason());
 		
 		salaryLbl.setText("Salary: "+Integer.toString(itemBean.getSalaryEUR())+" €");
-		workShiftLbl.setText("Work Shift: "+itemBean.getWorkShit());
+		workShiftLbl.setText("Work Shift: "+itemBean.getWorkShift());
 		jobPositionLbl.setText("Position: "+itemBean.getJobPosition().getPosition());
 		jobCategoryLbl.setText("Category: "+itemBean.getJobCategory().getCategory());
 		qualificationLbl.setText("Requirements qualification: "+itemBean.getQualification().getQualify());

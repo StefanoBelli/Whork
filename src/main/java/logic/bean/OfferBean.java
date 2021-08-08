@@ -31,10 +31,12 @@ public final class OfferBean implements Serializable {
 	public int getId() {
 		return id;
 	}
-		public void setId(int id) {
+	
+	public void setId(int id) {
 		this.id = id;
 	}
-		public String getOfferName() {
+	
+	public String getOfferName() {
 		return offerName;
 	}
 		
@@ -66,11 +68,11 @@ public final class OfferBean implements Serializable {
 		this.note = note;
 	}
 
-	public String getWorkShit() {
+	public String getWorkShift() {
 		return workShift;
 	}
 	
-	public void setWorkShit(String workShift) {
+	public void setWorkShift(String workShift) {
 		this.workShift = workShift;
 	}
 

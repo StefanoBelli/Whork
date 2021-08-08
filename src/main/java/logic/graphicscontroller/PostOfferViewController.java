@@ -32,10 +32,10 @@ import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ControllableView;
-import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
 public final class PostOfferViewController extends GraphicsController {
+	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private final UserBean sessionUser = LoginHandler.getSessionUser();
 
 	private Button postOfferBtn;
@@ -104,7 +104,7 @@ public final class PostOfferViewController extends GraphicsController {
 			if(offerPhoto != null) {
 				photoDetailLbl.setText(new StringBuilder("Selected: ").append(offerPhoto.getName()).toString());
 			} else {
-				photoDetailLbl.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
+				photoDetailLbl.setText(SELECT_FILE_MESSAGE);
 			}
 		}
 	}
@@ -171,7 +171,7 @@ public final class PostOfferViewController extends GraphicsController {
 			offerBean.setQualification(BeanFactory.buildQualificationBean(qualification));
 			offerBean.setSalaryEUR(Integer.parseInt(salary));
 			offerBean.setTypeOfContract(BeanFactory.buildTypeOfContractBean(typeOfContract));
-			offerBean.setWorkShit(workShift);
+			offerBean.setWorkShift(workShift);
 			return offerBean;
 		}
 		
