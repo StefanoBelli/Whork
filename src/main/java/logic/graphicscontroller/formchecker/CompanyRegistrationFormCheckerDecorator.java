@@ -2,6 +2,9 @@ package logic.graphicscontroller.formchecker;
 
 import logic.util.Util;
 
+/**
+ * @author Stefano Belli
+ */
 public final class CompanyRegistrationFormCheckerDecorator  extends FormCheckerDecorator {
 	public CompanyRegistrationFormCheckerDecorator(FormChecker formChecker) {
 		super(formChecker);
