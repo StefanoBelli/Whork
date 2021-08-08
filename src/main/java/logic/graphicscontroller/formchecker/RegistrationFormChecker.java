@@ -2,6 +2,9 @@ package logic.graphicscontroller.formchecker;
 
 import logic.util.Util;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegistrationFormChecker extends FormChecker {
 	/**
 	 * caller has responsibility to ensure correct entry placement within the raw array,

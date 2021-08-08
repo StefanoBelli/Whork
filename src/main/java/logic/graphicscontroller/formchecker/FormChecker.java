@@ -1,5 +1,8 @@
 package logic.graphicscontroller.formchecker;
 
+/**
+ * @author Stefano Belli
+ */
 public abstract class FormChecker {
 	public abstract String doChecks(Object[] formEntries);
 
