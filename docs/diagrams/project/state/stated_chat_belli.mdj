@@ -2097,9 +2097,9 @@
 							"font": "Arial;13;0",
 							"left": 952,
 							"top": 560,
-							"width": 353.3955078125,
-							"height": 51,
-							"text": "timerTimeout[whichTimer == PM_TIMER]/pullMessagesShowThemThenRestartPMTimer"
+							"width": 425,
+							"height": 38,
+							"text": "timerTimeout[3s elapsed since timer started counting && whichTimer == PM_TIMER]/pullMessagesShowThemThenRestartPMTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
@@ -2201,11 +2201,11 @@
 								"$ref": "AAAAAAF6wwzxeicgFpE="
 							},
 							"font": "Arial;13;0",
-							"left": 656,
-							"top": 568,
-							"width": 280.9052734375,
+							"left": 480,
+							"top": 560,
+							"width": 457,
 							"height": 51,
-							"text": "timerTimeout[whichTimer == TR_TIMER]/tokenRefreshThenRestartTRTimer"
+							"text": "timerTimeout[4m45s elapsed since timer started counting && whichTimer == TR_TIMER]/tokenRefreshThenRestartTRTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
@@ -2311,7 +2311,7 @@
 							"top": 496,
 							"width": 470.4716796875,
 							"height": 51,
-							"text": "timerTimeout[whichTimer == COS_TIMER]/checkOnlineStatusAndSetRemoteColoringThenRestartCOSTimer"
+							"text": "timerTimeout[2s elapsed since timer started counting && whichTimer == COS_TIMER]/checkOnlineStatusAndSetRemoteColoringThenRestartCOSTimer"
 						},
 						{
 							"_type": "UMLTransitionView",
