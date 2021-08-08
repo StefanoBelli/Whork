@@ -6,7 +6,7 @@ String token = (String) request.getParameter("token");
 String email = (String) request.getParameter("email");
 if(token != null && email != null) {
 %>
-<!DOCTYPE HTML> <!-- TODO use same approach as success.jsp -->
+<!DOCTYPE HTML>
 <html lang="en">
 	<head>
 		<title>Confirm registration - Whork</title>
