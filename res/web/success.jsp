@@ -1,23 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-String email = (String) request.getAttribute("email");
-String name = (String) request.getAttribute("name");
-String companyName = (String) request.getAttribute("company");
 
-if(email != null && name != null) {
-%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>Success - Whork</title>
 		<script src="js/common.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/success.css">
 		<script>
 			redirect("login.jsp", 10000);
 		</script>
 	</head>
-	<body>
-		<h1>Success</h1>		
+	
+<%
+	String email = (String) request.getAttribute("email");
+	String name = (String) request.getAttribute("name");
+	String companyName = (String) request.getAttribute("company");
+
+	if(email != null && name != null) {
+%>
+	<body style="background-color: #90EE90">
 		<div class="card">
 	      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
 	        <i class="checkmark">&#10003;</i>
@@ -33,18 +35,37 @@ if(email != null && name != null) {
 		      	<button type="submit" class="button button2">Go to Login page</button>
 		      </a>
 	      </div>
-      </div>
-
 <%
-if(companyName != null) {
-%>
-		<h2>About your company</h2>
-		Just to confirm, we correctly registered and verified your company: <%=companyName%>
+		if(companyName != null) {
+%>			
+			<h1>About your company</h1>
+			<p> Just to confirm, we correctly registered and verified your company: <%=companyName%> </p>
 <%
-}
+		}
 %>
+		</div>
 	</body>
-</html>
 <%
-}
+	} else {
 %>
+	<body style="background-color: #FFA07A">
+		<div class="card">
+	      <div style="border-radius:200px; height:200px; width:200px; background: #ffcccb; margin:0 auto;">
+	        <i style="color:#FF0000">&#10007;</i>
+	      </div>
+	      <h1 style="color:#FF0000">Error</h1> 
+	      <p>Something went wrong.</p>
+	      <div style="padding-top:40px">
+		      <a href="login.jsp">
+		      	<button type="submit" class="button button1">Go to Login page</button>
+		      </a>
+	      </div>
+	     </div>
+	 </body>
+	     
+<%
+	}
+%>
+
+</html>
+
