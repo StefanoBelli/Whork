@@ -23,9 +23,14 @@ public final class ChatLogDao {
 		"{ call AddChatLogEntry(?,?,?,?) }";
 	private static final String STMT_GET_CHAT_LOG = 
 		"{ call GetChatLog(?,?,?,?) }";
-	private static final String STMT_GET_LAST_MESSAGE = 
-			"{ call GetLastMessage(?) }";
-	private static final String NON_EXISTANT_USER_ERROR = "Non-existant user";
+	private static final String NON_EXISTANT_USER_ERROR = 
+		"Non-existant user";
+	private static final String STMT_GET_CHATTING_PEERS =
+		"{ call GetChattingPeers(?) }";
+	private static final String STMT_GET_LAST_MSG_WITH_PEER =
+		"{ call GetLastMessageWithPeer(?,?) }";
+	private static final String ERR_MORE_LASTMSGS_THAN_ONE = 
+		"More than one last messages retrieved";
 
 	public static void addLogEntry(ChatLogEntryModel entry) 
 			throws DataAccessException, DataLogicException {
@@ -75,37 +80,53 @@ public final class ChatLogDao {
 			throw new DataAccessException(e);
 		}
 	}
-		
-	public static List<ChatLogEntryModel> getLastMessage(String email) throws DataAccessException {
-		List<ChatLogEntryModel> cle = new ArrayList<>();
-		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_LAST_MESSAGE)) {
-			stmt.setString(1, email);				
+
+	public static List<String> getChattingPeers(String email) 
+			throws DataAccessException {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_CHATTING_PEERS)) {
+			stmt.setString(1, email);
 			stmt.execute();
 
-			try(ResultSet rs = stmt.getResultSet()) {
-				while(rs.next()) {
-					ChatLogEntryModel model = new ChatLogEntryModel();
-					model.setLogEntryId(rs.getLong(1));
-					model.setSenderEmail(rs.getString(2));
-					model.setReceiverEmail(rs.getString(3));
-					model.setText(rs.getString(4));
-					model.setDeliveryRequestTime(rs.getTimestamp(5).getTime());
-					
-					if(checkListLastMessage(cle, model.getSenderEmail(), model.getReceiverEmail()))
-						cle.add(model);
-				}				
+			try (ResultSet rs = stmt.getResultSet()) {
+				List<String> remotes = new ArrayList<>();
+
+				while (rs.next()) {
+					remotes.add(rs.getString(1));
+				}
+
+				return remotes;
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
-		return cle;
 	}
-	
-	private static boolean checkListLastMessage(List<ChatLogEntryModel> listChatLogModel, String senderEmail, String receiverEmail) {
-		for(int i=0; i<listChatLogModel.size(); i++) {
-			if(listChatLogModel.get(i).getReceiverEmail().equals(senderEmail) && listChatLogModel.get(i).getSenderEmail().equals(receiverEmail))
-				return false;
+
+	public static ChatLogEntryModel getLastMessageWithPeer(String firstEmail, String secondEmail) 
+			throws DataAccessException, DataLogicException {
+		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_LAST_MSG_WITH_PEER)) {
+			stmt.setString(1, firstEmail);
+			stmt.setString(2, secondEmail);
+			stmt.execute();
+
+			try (ResultSet rs = stmt.getResultSet()) {
+				ChatLogEntryModel entry = new ChatLogEntryModel();
+
+				if(rs.next()) {
+					entry.setLogEntryId(rs.getLong(1));
+					entry.setSenderEmail(rs.getString(2));
+					entry.setReceiverEmail(rs.getString(3));
+					entry.setText(rs.getString(4));
+					entry.setDeliveryRequestTime(rs.getTimestamp(5).getTime());
+				}
+
+				if(rs.next()) {
+					throw new DataLogicException(ERR_MORE_LASTMSGS_THAN_ONE);
+				}
+
+				return entry;
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
 		}
-		return true;
 	}
 }

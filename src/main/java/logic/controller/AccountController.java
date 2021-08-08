@@ -25,7 +25,6 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
-import logic.model.ChatLogEntryModel;
 import logic.model.EmployeeUserModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
@@ -197,15 +196,18 @@ public final class AccountController {
 		return AccountDao.getNUmberClickOfAnEmployee(ModelFactory.buildUserModel(userBean));
 	}
 	
-	public static List<ChatLogEntryBean> getLastMessage(String email) throws DataAccessException {
-		List<ChatLogEntryModel> listMessageModel = ChatLogDao.getLastMessage(email);
-		List<ChatLogEntryBean> listMessage = new ArrayList<>();
-		
-		for(int i=0; i<listMessageModel.size(); i++) {
-			listMessage.add(BeanFactory.buildChatEntryLogBean(listMessageModel.get(i)));
+	public static List<ChatLogEntryBean> getLastMessage(String email) 
+			throws DataAccessException, DataLogicException {
+		List<String> peersEmail = ChatLogDao.getChattingPeers(email);
+		List<ChatLogEntryBean> lastMessagesWithEachPeer = new ArrayList<>();
+
+		for(final String peerEmail : peersEmail) {
+			lastMessagesWithEachPeer.add(
+				BeanFactory.buildChatEntryLogBean(
+					ChatLogDao.getLastMessageWithPeer(email, peerEmail)));
 		}
-		
-		return listMessage;
+
+		return lastMessagesWithEachPeer;
 	}
 	
 	public static UserBean getPictureForMessage(String email) throws DataAccessException, DataLogicException {
