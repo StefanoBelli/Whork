@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
+/**
+ * @author Stefano Belli
+ */
 public final class CompanyDao {
 	private CompanyDao() {}
 

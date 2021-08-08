@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import logic.util.ServletUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class MustBeLoggedInFilter implements Filter {
 
 	@Override

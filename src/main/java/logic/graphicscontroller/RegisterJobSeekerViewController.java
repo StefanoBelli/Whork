@@ -50,6 +50,9 @@ import java.util.stream.Collectors;
 
 import org.controlsfx.control.textfield.TextFields;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterJobSeekerViewController extends GraphicsController {
 	private TextField emailField;
 	private PasswordField passwordField;

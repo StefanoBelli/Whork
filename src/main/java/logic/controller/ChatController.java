@@ -25,6 +25,9 @@ import logic.dao.ChatLogDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ChatController {
 	private ChatController() {}
 

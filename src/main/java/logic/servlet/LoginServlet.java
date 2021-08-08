@@ -15,6 +15,9 @@ import logic.bean.UserBean;
 import logic.controller.LoginController;
 import logic.exception.InternalException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -9153792726136664317L;
 	private static final int COOKIE_MAX_AGE = 43200; /* 30 days */

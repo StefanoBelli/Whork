@@ -17,6 +17,9 @@ import logic.util.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * @author Stefano Belli
+ */
 public final class WhorkDesktopLauncher extends Application {
 
 	private View mainView = null;

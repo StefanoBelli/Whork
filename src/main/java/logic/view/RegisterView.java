@@ -10,6 +10,9 @@ import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.RegisterViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterView implements ControllableView {
 	private Scene scene;
 

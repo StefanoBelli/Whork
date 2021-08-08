@@ -12,6 +12,9 @@ import logic.graphicscontroller.ConfirmRegistrationViewController;
 import logic.graphicscontroller.GraphicsController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ConfirmRegistrationView implements ControllableView {
 	private Scene scene;
 

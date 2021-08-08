@@ -33,6 +33,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ * @author Stefano Belli
+ */
 public final class GraphicsUtil {
 	private GraphicsUtil() {}
 
@@ -147,6 +150,9 @@ public final class GraphicsUtil {
 		}
 	}
 	
+	/**
+	 * @author Michele Tosi
+	 */
 	public static void loadDataInChoiceBox(ChoiceBox<String> choiceBox,List<?> data, Object object) {
 		List<String> items= new ArrayList<>();
 		items.add("--select an option--");

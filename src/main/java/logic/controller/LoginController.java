@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * @author Stefano Belli
+ */
 public final class LoginController {
 	private LoginController() {}
 

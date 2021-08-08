@@ -17,6 +17,9 @@ import logic.model.UserAuthModel;
 import logic.model.UserModel;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Stefano Belli
+ */
 public final class UserAuthDao {
 	private UserAuthDao() {}
 

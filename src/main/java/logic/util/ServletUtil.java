@@ -20,6 +20,9 @@ import logic.bean.UserBean;
 import logic.controller.LoginController;
 import logic.factory.BeanFactory;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ServletUtil {
 	private ServletUtil() {}
 	

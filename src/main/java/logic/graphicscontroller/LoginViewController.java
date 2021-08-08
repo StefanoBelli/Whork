@@ -19,6 +19,9 @@ import logic.view.PasswordRecoveryView;
 import logic.view.RegisterView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class LoginViewController extends GraphicsController {
 
 	private TextField emailField;

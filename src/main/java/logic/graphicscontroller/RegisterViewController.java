@@ -11,6 +11,9 @@ import logic.view.RegisterCompanyView;
 import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterViewController extends GraphicsController {
 
 	public RegisterViewController(ControllableView view, ViewStack viewStack) {

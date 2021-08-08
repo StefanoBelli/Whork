@@ -11,6 +11,9 @@ import logic.graphicscontroller.GraphicsController;
 import logic.graphicscontroller.PasswordRecoveryViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Stefano Belli
+ */
 public final class PasswordRecoveryView implements ControllableView {
 
 	private static final String WIN_TITLE = "Whork - Password recovery";

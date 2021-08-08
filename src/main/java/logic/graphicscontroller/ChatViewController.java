@@ -17,6 +17,9 @@ import logic.util.GraphicsUtil;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ChatViewController extends GraphicsController {
 
 	private Text chattingWithText;

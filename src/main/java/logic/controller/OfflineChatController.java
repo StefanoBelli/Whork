@@ -17,6 +17,9 @@ import logic.factory.ModelFactory;
 import logic.model.ChatLogEntryModel;
 import logic.util.Util;
 
+/**
+ * @author Stefano Belli
+ */
 public final class OfflineChatController {
 	private OfflineChatController() {}
 

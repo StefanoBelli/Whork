@@ -13,6 +13,9 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.model.ChatLogEntryModel;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ChatLogDao {
 	private ChatLogDao() {}
 

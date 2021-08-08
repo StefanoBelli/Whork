@@ -11,6 +11,9 @@ import javafx.scene.control.TextArea;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class ExceptionViewController extends GraphicsController {
 	private Exception e;
 

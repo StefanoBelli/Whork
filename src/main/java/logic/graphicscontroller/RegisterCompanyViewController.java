@@ -36,6 +36,9 @@ import static logic.graphicscontroller.commons.RegisterCommons.HandlePrivacyPoli
 import logic.graphicscontroller.commons.Commons;
 import logic.graphicscontroller.commons.RegisterCommons;
 
+/**
+ * @author Stefano Belli
+ */
 public final class RegisterCompanyViewController extends GraphicsController {
 	private TextField emailField;
 	private PasswordField passwordField;

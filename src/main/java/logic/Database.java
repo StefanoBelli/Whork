@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class Database {
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	
@@ -41,12 +44,8 @@ public final class Database {
 			}
 
 			url.append("&noAccessToProcedureBodies=true");
-
-			url.append("&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-
-
-			url.append("&useUnicode=true&useJDBCCompliantTimezoneShift=true");
-			url.append("&useLegacyDatetimeCode=false&serverTimezone=UTC");
+			url.append("&useUnicode=true&useJDBCCompliantTimezoneShift=true"); //elio magliari suggestion
+			url.append("&useLegacyDatetimeCode=false&serverTimezone=UTC"); //elio magliari suggestion
 			
 			instance = new Database(url.toString());
 		}

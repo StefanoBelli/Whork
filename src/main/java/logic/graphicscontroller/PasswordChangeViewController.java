@@ -13,6 +13,9 @@ import logic.util.GraphicsUtil;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
+/**
+ * @author Stefano Belli
+ */
 public final class PasswordChangeViewController extends GraphicsController {
 
 	private TextField tokenTextField;

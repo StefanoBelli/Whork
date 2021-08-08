@@ -2,6 +2,9 @@ package logic.exception;
 
 import java.sql.SQLException;
 
+/**
+ * @author Stefano Belli
+ */
 public final class DataAccessException extends Exception {
 	private static final long serialVersionUID = -1586073117767458937L;
 	
