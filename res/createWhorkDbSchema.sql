@@ -5,8 +5,7 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
--- SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
 -- Schema whorkdb
@@ -1673,41 +1672,60 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure GetLastMessage
+-- procedure GetChattingPeers 
 -- -----------------------------------------------------
 
 USE `whorkdb`;
-DROP procedure IF EXISTS `whorkdb`.`GetLastMessage`;
+DROP procedure IF EXISTS `whorkdb`.`GetChattingPeers`;
 
 DELIMITER $$
-CREATE PROCEDURE `GetLastMessage` (in var_email VARCHAR(255))
+CREATE PROCEDURE `GetChattingPeers` (in var_senderEmail VARCHAR(255))
 BEGIN
-	declare exit handler for sqlexception 
-	begin 
-		ROLLBACK; -- rollback any changes made in the transaction 
-		RESIGNAL; -- raise again the sql exception to the caller
-	end;
-	
 	SET TRANSACTION READ ONLY;
-	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;	
-	
-    START TRANSACTION;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
     
-    SELECT chat.LogEntryId, chat.SenderEmail, chat.ReceiverEmail, chat.Text, chat.DateDeliveryRequest
-	FROM ChatLog AS chat
-	INNER JOIN
-	(
-   		SELECT SenderEmail, ReceiverEmail, MAX(DateDeliveryRequest) AS LatestTime
-   		FROM ChatLog 
-  		GROUP BY ReceiverEmail
-	) AS c2  ON chat.ReceiverEmail = c2.ReceiverEmail AND chat.DateDeliveryRequest = c2.LatestTime
-	WHERE chat.SenderEmail = var_email OR chat.ReceiverEmail = var_email
-	ORDER BY chat.DateDeliveryRequest DESC;
+    START TRANSACTION;
+
+    SELECT DISTINCT ReceiverEmail
+	FROM ChatLog
+	WHERE SenderEmail = var_senderEmail
+	UNION
+	SELECT DISTINCT SenderEmail
+	FROM ChatLog
+	WHERE ReceiverEmail = var_senderEmail;
     
     COMMIT;
 END$$
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure GetLastMessageWithPeer 
+-- -----------------------------------------------------
+
+USE `whorkdb`;
+DROP procedure IF EXISTS `whorkdb`.`GetLastMessageWithPeer`;
+
+DELIMITER $$
+CREATE PROCEDURE `GetLastMessageWithPeer` (in var_senderEmail VARCHAR(255), in var_receiverEmail VARCHAR(255))
+BEGIN
+	SET TRANSACTION READ ONLY;
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    
+    START TRANSACTION;
+    
+    SELECT *
+	FROM ChatLog
+	WHERE LogEntryId = (SELECT max(LogEntryId)
+						FROM ChatLog
+						WHERE (SenderEmail = var_senderEmail AND ReceiverEmail = var_receiverEmail) OR
+								(SenderEmail = var_receiverEmail AND ReceiverEmail = var_senderEmail));
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
 
 
 
@@ -1828,8 +1846,8 @@ GRANT EXECUTE ON procedure `whorkdb`.`GetCountryByFiscalCode` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetEmployeeUserDetailsByCompanyVAT` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetNumberOffersOfAnEmployee` TO 'whork';
 GRANT EXECUTE ON procedure `whorkdb`.`GetTotalClickNumberOfAnEmployee` TO 'whork';
-GRANT EXECUTE ON procedure `whorkdb`.`GetLastMessage` TO 'whork';
-
+GRANT EXECUTE ON procedure `whorkdb`.`GetLastMessageWithPeer` TO 'whork';
+GRANT EXECUTE ON procedure `whorkdb`.`GetChattingPeers` TO 'whork';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
