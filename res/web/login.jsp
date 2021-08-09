@@ -80,12 +80,12 @@
 											</small>
 										<%
 													}
-										%>									        
+										%>								        
 										</div>										
 										<div>
 											<div class="custom-control custom-checkbox align-items-center">
-												<input type="checkbox" class="custom-control-input" value="remember-me" name="stayLoggedIn" checked="true">
-												<label class="custom-control-label text-small" for="stayLoggedIn">Remember me next time</label>
+												<input type="checkbox" value="remember-me" name="stayLoggedIn" checked="true">
+												<label for="stayLoggedIn">Remember me next time</label>
 											</div>
 										</div>
 										<div class="text-center mt-3">											
