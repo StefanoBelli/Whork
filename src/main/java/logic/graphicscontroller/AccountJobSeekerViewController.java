@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import logic.bean.OfferBean;
 import logic.bean.UserBean;
 import logic.controller.OfflineChatController;
@@ -20,6 +22,7 @@ import logic.view.ViewStack;
 
 public final class AccountJobSeekerViewController extends GraphicsController {
 	
+	private static final double MAX_WIDTH = 200;
 	private Button homeBtn;
 	private Button chatBtn;
 	private Button logoutBtn;
@@ -29,6 +32,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private TextField phoneField;
 	private TextField fiscalCodeField;
 	private TextField addressField;
+	private ImageView imgView;
 	private Label nameLabel;
 	private Label statusLabel;
 	private Label locationLabel;
@@ -65,6 +69,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		instaField = (TextField) n[14];
 		facebookField = (TextField) n[15];
 		bioField = (TextField) n[16];
+		imgView = (ImageView) n[17];
 		
 		user = LoginHandler.getSessionUser();
 		
@@ -85,6 +90,22 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	public void setDescription() {
+		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
+		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
+
+		imgView.setFitWidth(MAX_WIDTH);
+		imgView.setPreserveRatio(true);
+
+		StringBuilder pathBuilder = new StringBuilder("file:");
+		
+		if(user.getPhoto()!=null) {
+			imgView.setImage(
+					new Image(pathBuilder.append(usrData).append("/").append(user.getPhoto()).toString()));
+		} else {
+			imgView.setImage(
+					new Image(pathBuilder.append(dflRoot).append("/avatar.png").toString()));
+		}
+		
 		builder = new StringBuilder();
 		builder.append(user.getName())
 		.append(" ")

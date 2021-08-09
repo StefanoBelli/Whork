@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public final class AccountJobSeekerView implements ControllableView {
 	private TextField phoneField;
 	private TextField fiscalCodeField;
 	private TextField addressField;
+	private ImageView imgView;
 	private Label nameLabel;
 	private Label statusLabel;
 	private Label locationLabel;
@@ -50,6 +52,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		logoutBtn = new Button("Logout");
 		chatBtn = new Button("Chat");
 		
+		imgView = new ImageView();
 		nameLabel = new Label();
 		statusLabel = new Label();
 		locationLabel = new Label();
@@ -108,6 +111,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		hboxHeader.setPadding(new Insets(10, 0, 0, 10));
 
 		VBox vboxPers = new VBox();
+		vboxPers.getChildren().add(imgView);
 		vboxPers.getChildren().add(nameLabel);
 		vboxPers.getChildren().add(statusLabel);
 		vboxPers.getChildren().add(locationLabel);
@@ -142,12 +146,13 @@ public final class AccountJobSeekerView implements ControllableView {
                 + "-fx-border-color: black");
 		
 		HBox hboxLev = new HBox(10);
-		hboxLev.setAlignment(Pos.CENTER);
 		hboxLev.getChildren().add(vboxPers);
 		hboxLev.getChildren().add(vboxData);
+		hboxLev.setPadding(new Insets(10, 10, 10, 10));
 
 		VBox vboxBio = new VBox();
 		vboxBio.getChildren().add(bioField);
+		vboxBio.setPadding(new Insets(10, 10, 10, 10));
 
 		vbox.getChildren().add(hboxHeader);
 		vbox.getChildren().add(hboxLev);
@@ -192,7 +197,8 @@ public final class AccountJobSeekerView implements ControllableView {
 			twitterField,
 			instaField,
 			facebookField,
-			bioField
+			bioField,
+			imgView
 		};
 	}
 	
