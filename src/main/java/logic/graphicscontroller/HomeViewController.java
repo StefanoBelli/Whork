@@ -31,7 +31,7 @@ import logic.pool.QualificationPool;
 import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
-import logic.view.AccountView;
+import logic.view.AccountJobSeekerView;
 import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.LoginView;
@@ -166,7 +166,7 @@ public final class HomeViewController extends GraphicsController {
 				GraphicsUtil.showAndWaitWindow(LoginView.class);
 				dynamicViewUpdate();
 			} else {
-				viewStack.push(new AccountView(viewStack));
+				viewStack.push(new AccountJobSeekerView(viewStack));
 			}
 		}
 	}
