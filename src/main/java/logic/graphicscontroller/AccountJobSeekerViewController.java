@@ -16,10 +16,9 @@ import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ChatView;
 import logic.view.ControllableView;
-import logic.view.HomeView;
 import logic.view.ViewStack;
 
-public final class AccountViewController extends GraphicsController {
+public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	private Button homeBtn;
 	private Button chatBtn;
@@ -42,7 +41,7 @@ public final class AccountViewController extends GraphicsController {
 	private StringBuilder builder;
 	private UserBean user;
 	
-	public AccountViewController(ControllableView view, ViewStack viewStack) {
+	public AccountJobSeekerViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
 
@@ -131,7 +130,7 @@ public final class AccountViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			viewStack.push(new HomeView(viewStack));
+			viewStack.pop();
 		}
 	}
 	

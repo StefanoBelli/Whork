@@ -11,10 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import logic.graphicscontroller.AccountViewController;
+import logic.graphicscontroller.AccountJobSeekerViewController;
 import logic.graphicscontroller.GraphicsController;
 
-public final class AccountView implements ControllableView {
+public final class AccountJobSeekerView implements ControllableView {
 
 	private Scene scene;
 	
@@ -38,8 +38,8 @@ public final class AccountView implements ControllableView {
 	
 	private GraphicsController controller;
 
-	public AccountView(ViewStack viewStack) {
-		controller = new AccountViewController(this, viewStack);
+	public AccountJobSeekerView(ViewStack viewStack) {
+		controller = new AccountJobSeekerViewController(this, viewStack);
 		init();
 		setNodesProps();
 		populateScene();
