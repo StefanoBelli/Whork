@@ -7,9 +7,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.bean.CandidatureBean;
 import logic.bean.OfferBean;
 import logic.bean.UserBean;
 import logic.controller.OfflineChatController;
@@ -41,6 +43,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private TextField instaField;
 	private TextField facebookField;
 	private TextField bioField;
+	private ListView<CandidatureBean> listCandidature;
 	
 	private StringBuilder builder;
 	private UserBean user;
@@ -70,12 +73,14 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField = (TextField) n[15];
 		bioField = (TextField) n[16];
 		imgView = (ImageView) n[17];
-		
+		listCandidature = (ListView<CandidatureBean>) n[18];
+
 		user = LoginHandler.getSessionUser();
 		
 		setDescription();
 		setSocial();
 		setPersonal();
+		settingTextField();
 		
 		if(user.getBiography() == null) bioField.setText("Insert here your bio");
 		else bioField.setText(user.getBiography());
@@ -133,13 +138,26 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	public void setPersonal() {
-		builder = new StringBuilder();
 		nameField.setText(user.getName());
 		surnameField.setText(user.getSurname());
 		emailField.setText(user.getSurname());  // insert email
 		phoneField.setText(user.getPhoneNumber());
 		fiscalCodeField.setText(user.getCf());
 		addressField.setText(user.getHomeAddress());
+	}
+	
+	public void settingTextField() {
+		nameField.setEditable(false);
+		surnameField.setEditable(false);
+		emailField.setEditable(false);
+		phoneField.setEditable(false);
+		fiscalCodeField.setEditable(false);
+		addressField.setEditable(false);
+		websiteField.setEditable(false);
+		twitterField.setEditable(false);
+		instaField.setEditable(false);
+		facebookField.setEditable(false);
+		bioField.setEditable(true);
 	}
 	
 	@Override

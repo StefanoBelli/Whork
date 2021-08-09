@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -17,16 +18,30 @@ import logic.graphicscontroller.GraphicsController;
 
 public final class AccountJobSeekerView implements ControllableView {
 
+	private final String NAME = "Name";
+	private final String SURNAME = "Surname";
+	private final String EMAIL = "Email";
+	private final String PHONE = "Phone";
+	private final String FISCALCODE = "Fiscal Code";
+	private final String ADDRESS = "Address";
+	private final String BIO = "My Biography";
+	
 	private Scene scene;
 
 	private Button homeBtn;
 	private Button logoutBtn;
 	private Button chatBtn;
+	private Label nameLabelText;
 	private TextField nameField;
+	private Label surnameLabelText;
 	private TextField surnameField;
+	private Label emailLabelText;
 	private TextField emailField;
+	private Label phoneLabelText;
 	private TextField phoneField;
+	private Label fiscalCodeLabelText;
 	private TextField fiscalCodeField;
+	private Label addressLabelText;
 	private TextField addressField;
 	private ImageView imgView;
 	private Label nameLabel;
@@ -36,7 +51,9 @@ public final class AccountJobSeekerView implements ControllableView {
 	private TextField twitterField;
 	private TextField instaField;
 	private TextField facebookField;
+	private Label bioLabelText;
 	private TextField bioField;
+	private ListView<Object> listCandidature;
 	
 	private GraphicsController controller;
 
@@ -61,7 +78,13 @@ public final class AccountJobSeekerView implements ControllableView {
 		twitterField = new TextField();
 		instaField = new TextField();
 		facebookField = new TextField();
-		
+
+		nameLabelText = new Label(NAME);
+		surnameLabelText = new Label(SURNAME);
+		emailLabelText = new Label(EMAIL);
+		phoneLabelText = new Label(PHONE);
+		fiscalCodeLabelText = new Label(FISCALCODE);
+		addressLabelText = new Label(ADDRESS);
 		nameField = new TextField();
 		surnameField = new TextField();
 		emailField = new TextField();
@@ -69,22 +92,24 @@ public final class AccountJobSeekerView implements ControllableView {
 		fiscalCodeField = new TextField();
 		addressField = new TextField();
 		
+		bioLabelText = new Label(BIO);
 		bioField = new TextField();
 		
+		listCandidature = new ListView<>();
 	}
 
 	private void setNodesProps() {
-		nameField.setMaxWidth(450);
+		nameField.setMaxWidth(600);
 		nameField.setAlignment(Pos.CENTER);
-		surnameField.setMaxWidth(450);
+		surnameField.setMaxWidth(600);
 		surnameField.setAlignment(Pos.CENTER);
-		emailField.setMaxWidth(450);
+		emailField.setMaxWidth(600);
 		emailField.setAlignment(Pos.CENTER);
-		phoneField.setMaxWidth(450);
+		phoneField.setMaxWidth(600);
 		phoneField.setAlignment(Pos.CENTER);
-		fiscalCodeField.setMaxWidth(450);
+		fiscalCodeField.setMaxWidth(600);
 		fiscalCodeField.setAlignment(Pos.CENTER);
-		addressField.setMaxWidth(450);
+		addressField.setMaxWidth(600);
 		addressField.setAlignment(Pos.CENTER);
 		websiteField.setMaxWidth(450);
 		websiteField.setAlignment(Pos.CENTER);
@@ -115,6 +140,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxPers.getChildren().add(nameLabel);
 		vboxPers.getChildren().add(statusLabel);
 		vboxPers.getChildren().add(locationLabel);
+		vboxPers.setAlignment(Pos.CENTER);
 		vboxPers.setPadding(new Insets(10, 10, 10, 10));
 		vboxPers.setStyle("-fx-border-style: solid;"
                 + "-fx-border-width: 1;"
@@ -131,14 +157,19 @@ public final class AccountJobSeekerView implements ControllableView {
                 + "-fx-border-color: black");
 		
 		vboxPers.getChildren().add(vboxSocial);
-		
 
 		VBox vboxData = new VBox();
+		vboxData.getChildren().add(nameLabelText);
 		vboxData.getChildren().add(nameField);
+		vboxData.getChildren().add(surnameLabelText);
 		vboxData.getChildren().add(surnameField);
+		vboxData.getChildren().add(emailLabelText);
 		vboxData.getChildren().add(emailField);
+		vboxData.getChildren().add(phoneLabelText);
 		vboxData.getChildren().add(phoneField);
+		vboxData.getChildren().add(fiscalCodeLabelText);
 		vboxData.getChildren().add(fiscalCodeField);
+		vboxData.getChildren().add(addressLabelText);
 		vboxData.getChildren().add(addressField);
 		vboxData.setPadding(new Insets(10, 10, 10, 10));
 		vboxData.setStyle("-fx-border-style: solid;"
@@ -149,10 +180,15 @@ public final class AccountJobSeekerView implements ControllableView {
 		hboxLev.getChildren().add(vboxPers);
 		hboxLev.getChildren().add(vboxData);
 		hboxLev.setPadding(new Insets(10, 10, 10, 10));
-
+		
 		VBox vboxBio = new VBox();
+		vboxBio.getChildren().add(bioLabelText);
 		vboxBio.getChildren().add(bioField);
 		vboxBio.setPadding(new Insets(10, 10, 10, 10));
+		vboxBio.setMaxSize(600, 600);
+		vboxBio.setStyle("-fx-border-style: solid;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-color: black");
 
 		vbox.getChildren().add(hboxHeader);
 		vbox.getChildren().add(hboxLev);
@@ -198,7 +234,8 @@ public final class AccountJobSeekerView implements ControllableView {
 			instaField,
 			facebookField,
 			bioField,
-			imgView
+			imgView,
+			listCandidature
 		};
 	}
 	
