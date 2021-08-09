@@ -186,7 +186,7 @@ if(offer.getPhoto() == null) {
 			Salary: <%=offer.getSalaryEUR() %>
 		</div>
 		<div class="workShift">
-			Work Shift: <%=offer.getWorkShit() %>
+			Work Shift: <%=offer.getWorkShift() %>
 		</div>
 		<div class="jobPosition">
 			Job Position: <%=offer.getJobPosition().getPosition() %>
