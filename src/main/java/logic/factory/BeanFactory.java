@@ -46,7 +46,7 @@ public final class BeanFactory {
 
 		return companyBean;
 	}
-	
+
 	public static CompanyBean buildCompanyBean(CompanyModel companyModel) {
 		CompanyBean companyBean = new CompanyBean();
 		companyBean.setCf(companyModel.getCf());

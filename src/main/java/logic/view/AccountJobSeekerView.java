@@ -17,7 +17,7 @@ import logic.graphicscontroller.GraphicsController;
 public final class AccountJobSeekerView implements ControllableView {
 
 	private Scene scene;
-	
+
 	private Button homeBtn;
 	private Button logoutBtn;
 	private Button chatBtn;
@@ -68,53 +68,9 @@ public final class AccountJobSeekerView implements ControllableView {
 		
 		bioField = new TextField();
 		
-		controller.setup();
 	}
 
 	private void setNodesProps() {
-		VBox vbox = new VBox();
-		
-		HBox hboxHeader = new HBox(10);
-		hboxHeader.getChildren().add(homeBtn);
-		hboxHeader.getChildren().add(chatBtn);
-		hboxHeader.getChildren().add(logoutBtn);		
-		hboxHeader.setPadding(new Insets(10, 0, 0, 10));
-		
-		VBox vboxPers = new VBox();
-		vboxPers.getChildren().add(nameLabel);
-		vboxPers.getChildren().add(statusLabel);
-		vboxPers.getChildren().add(locationLabel);
-		vboxPers.setPadding(new Insets(10,500,500,10));
-		
-		VBox vboxSocial = new VBox();
-		vboxPers.getChildren().add(websiteField);
-		vboxPers.getChildren().add(twitterField);
-		vboxPers.getChildren().add(instaField);
-		vboxPers.getChildren().add(facebookField);
-		vboxPers.setPadding(new Insets(10,500,500,10));
-		
-		VBox vboxData = new VBox();
-		vboxPers.getChildren().add(nameField);
-		vboxPers.getChildren().add(surnameField);
-		vboxPers.getChildren().add(emailField);
-		vboxPers.getChildren().add(phoneField);
-		vboxPers.getChildren().add(fiscalCodeField);
-		vboxPers.getChildren().add(addressField);
-		vboxPers.setPadding(new Insets(10,500,500,10));
-		
-		VBox vboxBio = new VBox();
-		vboxBio.getChildren().add(bioField);
-		
-		vbox.getChildren().add(hboxHeader);
-		vbox.getChildren().add(vboxPers);
-		vbox.getChildren().add(vboxSocial);
-		vbox.getChildren().add(vboxData);
-		vbox.getChildren().add(vboxBio);
-
-		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
-	}
-
-	private void populateScene() {
 		nameField.setMaxWidth(450);
 		nameField.setAlignment(Pos.CENTER);
 		surnameField.setMaxWidth(450);
@@ -136,6 +92,69 @@ public final class AccountJobSeekerView implements ControllableView {
 		facebookField.setMaxWidth(450);
 		facebookField.setAlignment(Pos.CENTER);
 		bioField.setMaxWidth(450);
+		
+		controller.setup();
+	}
+
+		
+	
+	private void populateScene() {
+		VBox vbox = new VBox();
+		
+		HBox hboxHeader = new HBox(10);
+		hboxHeader.getChildren().add(homeBtn);
+		hboxHeader.getChildren().add(chatBtn);
+		hboxHeader.getChildren().add(logoutBtn);		
+		hboxHeader.setPadding(new Insets(10, 0, 0, 10));
+
+		VBox vboxPers = new VBox();
+		vboxPers.getChildren().add(nameLabel);
+		vboxPers.getChildren().add(statusLabel);
+		vboxPers.getChildren().add(locationLabel);
+		vboxPers.setPadding(new Insets(10, 10, 10, 10));
+		vboxPers.setStyle("-fx-border-style: solid;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-color: black");
+
+		VBox vboxSocial = new VBox();
+		vboxSocial.getChildren().add(websiteField);
+		vboxSocial.getChildren().add(twitterField);
+		vboxSocial.getChildren().add(instaField);
+		vboxSocial.getChildren().add(facebookField);
+		vboxSocial.setPadding(new Insets(10, 10, 10, 10));
+		vboxSocial.setStyle("-fx-border-style: solid;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-color: black");
+		
+		vboxPers.getChildren().add(vboxSocial);
+		
+
+		VBox vboxData = new VBox();
+		vboxData.getChildren().add(nameField);
+		vboxData.getChildren().add(surnameField);
+		vboxData.getChildren().add(emailField);
+		vboxData.getChildren().add(phoneField);
+		vboxData.getChildren().add(fiscalCodeField);
+		vboxData.getChildren().add(addressField);
+		vboxData.setPadding(new Insets(10, 10, 10, 10));
+		vboxData.setStyle("-fx-border-style: solid;"
+                + "-fx-border-width: 1;"
+                + "-fx-border-color: black");
+		
+		HBox hboxLev = new HBox(10);
+		hboxLev.setAlignment(Pos.CENTER);
+		hboxLev.getChildren().add(vboxPers);
+		hboxLev.getChildren().add(vboxData);
+
+		VBox vboxBio = new VBox();
+		vboxBio.getChildren().add(bioField);
+
+		vbox.getChildren().add(hboxHeader);
+		vbox.getChildren().add(hboxLev);
+		vbox.getChildren().add(vboxBio);
+
+		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
+		
 	}
 
 	@Override
