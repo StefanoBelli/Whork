@@ -30469,6 +30469,25 @@
 											"underline": true,
 											"text": "+info(title: String, headerText: String, contentText: String): Alert",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7LsphhRzEy4k=",
+											"_parent": {
+												"$ref": "AAAAAAF6ydtkoCOAUsI="
+											},
+											"model": {
+												"$ref": "AAAAAAF7LsphIRyRI4U="
+											},
+											"fillColor": "#c082ff",
+											"font": "Arial;13;0",
+											"left": 4981,
+											"top": 154,
+											"width": 494.228515625,
+											"height": 13,
+											"underline": true,
+											"text": "+input(title: String, headerText: String, contentText: String): Dialog<String>",
+											"horizontalAlignment": 0
 										}
 									],
 									"fillColor": "#c082ff",
@@ -30476,7 +30495,7 @@
 									"left": 4976,
 									"top": 104,
 									"width": 504.228515625,
-									"height": 53
+									"height": 68
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -30519,7 +30538,7 @@
 							"left": 4976,
 							"top": 56,
 							"width": 504.228515625,
-							"height": 101,
+							"height": 116,
 							"nameCompartment": {
 								"$ref": "AAAAAAF6ydtkoCN66T0="
 							},
@@ -30558,7 +30577,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 5097,
-									"top": 259,
+									"top": 266,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -30578,7 +30597,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 5032,
-									"top": 199,
+									"top": 206,
 									"width": 41.919921875,
 									"height": 13,
 									"alpha": -5.497787136206387,
@@ -30601,7 +30620,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 5127,
-									"top": 260,
+									"top": 267,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -30618,7 +30637,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yXMHxi0WfSg="
 							},
-							"points": "5112:376;5112:156",
+							"points": "5112:376;5112:171",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yd9vODWYVd0="
@@ -30652,7 +30671,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 5401,
-									"top": 259,
+									"top": 266,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -30672,7 +30691,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 5456,
-									"top": 208,
+									"top": 215,
 									"width": 41.919921875,
 									"height": 13,
 									"alpha": -0.8567056197609495,
@@ -30695,7 +30714,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 5431,
-									"top": 260,
+									"top": 267,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -30712,7 +30731,7 @@
 							"tail": {
 								"$ref": "AAAAAAF6yXNhaC+KgLo="
 							},
-							"points": "5416:376;5416:156",
+							"points": "5416:376;5416:171",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF6yd+A4Tao32A="
@@ -43164,6 +43183,53 @@
 										"$ref": "AAAAAAF6yd2YLS1UlHo="
 									},
 									"type": "Alert",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7LsphIRyRI4U=",
+							"_parent": {
+								"$ref": "AAAAAAF6ydtknyN3gXY="
+							},
+							"name": "input",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7LsrJuR06mTk=",
+									"_parent": {
+										"$ref": "AAAAAAF7LsphIRyRI4U="
+									},
+									"name": "title",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7LsrJux07Iwg=",
+									"_parent": {
+										"$ref": "AAAAAAF7LsphIRyRI4U="
+									},
+									"name": "headerText",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7LsrJvB087JE=",
+									"_parent": {
+										"$ref": "AAAAAAF7LsphIRyRI4U="
+									},
+									"name": "contentText",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7LsrJvR09x2o=",
+									"_parent": {
+										"$ref": "AAAAAAF7LsphIRyRI4U="
+									},
+									"type": "Dialog<String>",
 									"direction": "return"
 								}
 							]

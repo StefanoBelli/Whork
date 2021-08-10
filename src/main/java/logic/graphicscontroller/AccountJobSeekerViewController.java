@@ -1,6 +1,7 @@
 package logic.graphicscontroller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -12,10 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
-import logic.bean.OfferBean;
 import logic.bean.UserBean;
-import logic.controller.OfflineChatController;
-import logic.exception.InternalException;
+import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.view.ChatView;
@@ -25,6 +24,8 @@ import logic.view.ViewStack;
 public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	private static final double MAX_WIDTH = 200;
+	private static final String WHORK = "whork";
+
 	private Button homeBtn;
 	private Button chatBtn;
 	private Button logoutBtn;
@@ -45,13 +46,13 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private TextField bioField;
 	private ListView<CandidatureBean> listCandidature;
 	
-	private StringBuilder builder;
 	private UserBean user;
 	
 	public AccountJobSeekerViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setup() {
 		Node[] n = view.getNodes();
@@ -90,7 +91,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	public void setListeners() {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
-		chatBtn.setOnMouseClicked(new HandleHomeRequest());
+		chatBtn.setOnMouseClicked(new HandleChatRequest());
 		logoutBtn.setOnMouseClicked(new HandleLogoutRequest());
 	}
 	
@@ -111,10 +112,10 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					new Image(pathBuilder.append(dflRoot).append("/avatar.png").toString()));
 		}
 		
-		builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 		builder.append(user.getName())
-		.append(" ")
-		.append(user.getSurname());
+				.append(" ")
+				.append(user.getSurname());
 		nameLabel.setText(builder.toString());
 		statusLabel.setText(user.getEmploymentStatus().getStatus());
 		builder.append(user.getComune().getNome())
@@ -127,9 +128,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	public void setSocial() {
 		if(user.getWebsite() == null) user.setWebsite("https://whork.it");
-		if(user.getTwitter() == null) user.setTwitter("whork");
-		if(user.getFacebook() == null) user.setFacebook("whork");
-		if(user.getInstagram() == null) user.setInstagram("whork");
+		if(user.getTwitter() == null) user.setTwitter(WHORK);
+		if(user.getFacebook() == null) user.setFacebook(WHORK);
+		if(user.getInstagram() == null) user.setInstagram(WHORK);
 		
 		websiteField.setText(user.getWebsite());
 		twitterField.setText(user.getTwitter());
@@ -174,22 +175,17 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
-		private final String remoteEmail;
-
-		public HandleChatRequest(OfferBean offerBean) {
-			String tmpEmail = null;
-			try {
-				tmpEmail = OfflineChatController.getEmployeeEmail(offerBean.getEmployee());
-			} catch(InternalException e) {
-				GraphicsUtil.showExceptionStage(e);
-			}
-
-			this.remoteEmail = tmpEmail;
-		}
 
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmail);
+			Optional<String> remoteEmailOpt = 
+				DialogFactory
+					.input("Chat", "Remote email address", "Type in remote's email address")
+					.showAndWait();
+
+			if(remoteEmailOpt.isPresent()) {
+				GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmailOpt.get());
+			}
 		}
 	}
 

@@ -18,13 +18,13 @@ import logic.graphicscontroller.GraphicsController;
 
 public final class AccountJobSeekerView implements ControllableView {
 
-	private final String NAME = "Name";
-	private final String SURNAME = "Surname";
-	private final String EMAIL = "Email";
-	private final String PHONE = "Phone";
-	private final String FISCALCODE = "Fiscal Code";
-	private final String ADDRESS = "Address";
-	private final String BIO = "My Biography";
+	private static final String NAME = "Name";
+	private static final String SURNAME = "Surname";
+	private static final String EMAIL = "Email";
+	private static final String PHONE = "Phone";
+	private static final String FISCALCODE = "Fiscal Code";
+	private static final String ADDRESS = "Address";
+	private static final String BIO = "My Biography";
 	
 	private Scene scene;
 
