@@ -25,7 +25,10 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String FISCALCODE = "Fiscal Code";
 	private static final String ADDRESS = "Address";
 	private static final String BIO = "My Biography";
-	
+
+	private static final String COMMON_STYLING =
+		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
+
 	private Scene scene;
 
 	private Button homeBtn;
@@ -96,6 +99,8 @@ public final class AccountJobSeekerView implements ControllableView {
 		bioField = new TextField();
 		
 		listCandidature = new ListView<>();
+		
+		controller.setup();
 	}
 
 	private void setNodesProps() {
@@ -120,11 +125,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		facebookField.setMaxWidth(450);
 		facebookField.setAlignment(Pos.CENTER);
 		bioField.setMaxWidth(450);
-		
-		controller.setup();
 	}
-
-		
 	
 	private void populateScene() {
 		VBox vbox = new VBox();
@@ -142,9 +143,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxPers.getChildren().add(locationLabel);
 		vboxPers.setAlignment(Pos.CENTER);
 		vboxPers.setPadding(new Insets(10, 10, 10, 10));
-		vboxPers.setStyle("-fx-border-style: solid;"
-                + "-fx-border-width: 1;"
-                + "-fx-border-color: black");
+		vboxPers.setStyle(COMMON_STYLING);
 
 		VBox vboxSocial = new VBox();
 		vboxSocial.getChildren().add(websiteField);
@@ -152,9 +151,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxSocial.getChildren().add(instaField);
 		vboxSocial.getChildren().add(facebookField);
 		vboxSocial.setPadding(new Insets(10, 10, 10, 10));
-		vboxSocial.setStyle("-fx-border-style: solid;"
-                + "-fx-border-width: 1;"
-                + "-fx-border-color: black");
+		vboxSocial.setStyle(COMMON_STYLING);
 		
 		vboxPers.getChildren().add(vboxSocial);
 
@@ -172,9 +169,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxData.getChildren().add(addressLabelText);
 		vboxData.getChildren().add(addressField);
 		vboxData.setPadding(new Insets(10, 10, 10, 10));
-		vboxData.setStyle("-fx-border-style: solid;"
-                + "-fx-border-width: 1;"
-                + "-fx-border-color: black");
+		vboxData.setStyle(COMMON_STYLING);
 		
 		HBox hboxLev = new HBox(10);
 		hboxLev.getChildren().add(vboxPers);
@@ -186,16 +181,13 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxBio.getChildren().add(bioField);
 		vboxBio.setPadding(new Insets(10, 10, 10, 10));
 		vboxBio.setMaxSize(600, 600);
-		vboxBio.setStyle("-fx-border-style: solid;"
-                + "-fx-border-width: 1;"
-                + "-fx-border-color: black");
+		vboxBio.setStyle(COMMON_STYLING);
 
 		vbox.getChildren().add(hboxHeader);
 		vbox.getChildren().add(hboxLev);
 		vbox.getChildren().add(vboxBio);
 
 		scene = new Scene(vbox, DefaultWindowSize.WIDTH, DefaultWindowSize.HEIGHT);
-		
 	}
 
 	@Override
@@ -238,5 +230,4 @@ public final class AccountJobSeekerView implements ControllableView {
 			listCandidature
 		};
 	}
-	
 }
