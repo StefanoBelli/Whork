@@ -56,7 +56,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private static TextField twitterField;
 	private static TextField instaField;
 	private static TextField facebookField;
-	private TextField bioField;
+	private static TextField bioField;
 	private static Button editSocialBtn;
 	private static Button submitSocialBtn;
 	private static Button cancelSocialBtn;
@@ -70,6 +70,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private static Button changePasswordBtn;
 	private static Button submitPersonalBtn;
 	private static Button cancelPersonalBtn;
+	private static Button editBioBtn;
+	private static Button submitBioBtn;
+	private static Button cancelBioBtn;
 	private ListView<CandidatureBean> listCandidatureView;
 	
 	private List<CandidatureBean> list;
@@ -117,6 +120,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		oldPasswordLabel = (Label) n[29];
 		newPasswordLabel = (Label) n[30];
 		confirmPasswordLabel = (Label) n[31];
+		editBioBtn = (Button) n[32];
+		submitBioBtn = (Button) n[33];
+		cancelBioBtn = (Button) n[34];
 
 		user = LoginHandler.getSessionUser();
 		try {
@@ -132,9 +138,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		settingTextField();
 		settingButton();
 		setCandidature();
-		
-		if(user.getBiography() == null) bioField.setText("Insert here your bio");
-		else bioField.setText(user.getBiography());
+		setBio();		
 
 		setListeners();
 	}
@@ -150,8 +154,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		changePasswordBtn.setOnMouseClicked(new HandleChangePasswordRequest());
 		submitPersonalBtn.setOnMouseClicked(new HandleSubmitPersonalRequest());
 		cancelPersonalBtn.setOnMouseClicked(new HandleCancelPersonalRequest());
+		
+		editBioBtn.setOnMouseClicked(new HandleEditBioRequest());
+		submitBioBtn.setOnMouseClicked(new HandleSubmitBioRequest());
+		cancelBioBtn.setOnMouseClicked(new HandleCancelBioRequest());
 	}
-	
+
 	private void setDescription() {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
@@ -204,12 +212,16 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		fiscalCodeField.setText(user.getCf());
 		addressField.setText(user.getHomeAddress());
 	}
-	
+
+	private void setBio() {
+		if(user.getBiography() == null) bioField.setText("Insert here your bio");
+		else bioField.setText(user.getBiography());
+	}
 	private void settingTextField() {
 		Personal.text();
 		fiscalCodeField.setEditable(false);
 		Social.text(false);
-		bioField.setEditable(false);
+		Bio.text(false);
 	}
 
 	private void setCandidature() {
@@ -226,6 +238,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private void settingButton() {
 		Social.button(false);
 		Personal.button(false);
+		Bio.button(false);
 	}
 	
 	@Override
@@ -322,9 +335,11 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private final class HandleSubmitPersonalRequest implements EventHandler<MouseEvent> {
 
 		@Override
-		public void handle(MouseEvent event) {			
+		public void handle(MouseEvent event) {
+			Personal.text();
+			Personal.button(false);
+			
 			if(!oldPasswordField.isVisible()) {
-				Personal.text();
 				user.setName(nameField.getText());
 				user.setSurname(surnameField.getText());
 				user.setPhoneNumber(phoneField.getText());
@@ -337,8 +352,6 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					Util.exceptionLog(e);
 					GraphicsUtil.showExceptionStage(e);
 				}
-	
-				Personal.button(false);
 			} else {
 				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
 					try {
@@ -365,6 +378,42 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			Personal.button(false);
 			Personal.text();
 			setPersonal();
+		}
+	}
+
+	private final class HandleEditBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(true);
+			Bio.text(true);
+		}
+	}
+
+	private final class HandleSubmitBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(false);
+			Bio.text(false);
+			
+			user.setBiography(bioField.getText());
+			try {
+				AccountController.editAccountController("JobSeekerBiography", user, BeanFactory.buildUserAuthBean(email, ""), null);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
+	}
+
+	private final class HandleCancelBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(false);
+			Bio.text(false);
+			setBio();
 		}
 	}
 
@@ -474,6 +523,21 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			oldPasswordLabel.setVisible(false);
 			newPasswordLabel.setVisible(false);
 			confirmPasswordLabel.setVisible(false);
+		}
+		
+	}
+	
+	private static class Bio extends Edit {
+
+		protected static void button(boolean variable) {
+			if(variable == true) editBioBtn.setVisible(false);
+			else editBioBtn.setVisible(true);
+			submitBioBtn.setVisible(variable);
+			cancelBioBtn.setVisible(variable);
+		}
+
+		protected static void text(boolean variable) {
+			bioField.setEditable(variable);
 		}
 		
 	}

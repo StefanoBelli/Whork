@@ -89,6 +89,9 @@ public final class AccountJobSeekerView implements ControllableView {
 	private TextField confirmPasswordField;
 	private Label bioLabelText;
 	private TextField bioField;
+	private Button editBioBtn;
+	private Button submitBioBtn;
+	private Button cancelBioBtn;
 	private ListView<Object> listCandidatureView;
 	
 	private GraphicsController controller;
@@ -147,7 +150,10 @@ public final class AccountJobSeekerView implements ControllableView {
 		
 		bioLabelText = new Label(BIO);
 		bioField = new TextField();
-		
+		editBioBtn = new Button(EDIT);
+		submitBioBtn = new Button(SUBMIT);
+		cancelBioBtn = new Button(CANCEL);
+
 		listCandidatureView = new ListView<>();
 		
 		controller.setup();
@@ -258,9 +264,15 @@ public final class AccountJobSeekerView implements ControllableView {
 		hboxLev.getChildren().add(vboxCand);
 		hboxLev.setPadding(new Insets(10, 10, 10, 10));
 		
-		VBox vboxBio = new VBox();
+		VBox vboxBio = new VBox(5);
 		vboxBio.getChildren().add(bioLabelText);
 		vboxBio.getChildren().add(bioField);
+		HBox hboxEditBio = new HBox(10);
+		hboxEditBio.getChildren().add(editBioBtn);
+		hboxEditBio.getChildren().add(submitBioBtn);
+		hboxEditBio.getChildren().add(cancelBioBtn);
+		hboxEditBio.setPadding(new Insets(10, 10, 10, 10));
+		vboxBio.getChildren().add(hboxEditBio);
 		vboxBio.setPadding(new Insets(10, 10, 10, 10));
 		vboxBio.setStyle(COMMON_STYLING);
 
@@ -322,7 +334,10 @@ public final class AccountJobSeekerView implements ControllableView {
 			confirmPasswordField,
 			oldPasswordLabel,
 			newPasswordLabel,
-			confirmPasswordLabel
+			confirmPasswordLabel,
+			editBioBtn,
+			submitBioBtn,
+			cancelBioBtn
 		};
 	}
 }
