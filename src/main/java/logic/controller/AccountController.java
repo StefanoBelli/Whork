@@ -196,6 +196,10 @@ public final class AccountController {
 		return AccountDao.getNUmberClickOfAnEmployee(ModelFactory.buildUserModel(userBean));
 	}
 	
+	public static String getEmailJobSeekerByCF(UserBean userBean) throws DataAccessException, DataLogicException {
+		return UserDao.getJobSeekerEmailByCf(ModelFactory.buildUserModel(userBean));
+	}
+	
 	public static List<ChatLogEntryBean> getLastMessage(String email) 
 			throws DataAccessException, DataLogicException {
 		List<String> peersEmail = ChatLogDao.getChattingPeers(email);

@@ -34,6 +34,7 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String EDIT = "Edit";
 	private static final String SUBMIT = "Submit";
 	private static final String CANCEL = "Cancel";
+	private static final String CHANGEPASSWORD = "Change Password";
 	
 	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
 	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+200;
@@ -73,6 +74,10 @@ public final class AccountJobSeekerView implements ControllableView {
 	private Button editSocialBtn;
 	private Button submitSocialBtn;
 	private Button cancelSocialBtn;
+	private Button editPersonalBtn;
+	private Button changePasswordBtn;
+	private Button submitPersonalBtn;
+	private Button cancelPersonalBtn;
 	private Label bioLabelText;
 	private TextField bioField;
 	private ListView<Object> listCandidatureView;
@@ -120,6 +125,10 @@ public final class AccountJobSeekerView implements ControllableView {
 		phoneField = new TextField();
 		fiscalCodeField = new TextField();
 		addressField = new TextField();
+		editPersonalBtn = new Button(EDIT);
+		changePasswordBtn = new Button(CHANGEPASSWORD);
+		submitPersonalBtn = new Button(SUBMIT);
+		cancelPersonalBtn = new Button(CANCEL);
 		
 		bioLabelText = new Label(BIO);
 		bioField = new TextField();
@@ -205,6 +214,13 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxData.getChildren().add(fiscalCodeField);
 		vboxData.getChildren().add(addressLabelText);
 		vboxData.getChildren().add(addressField);
+		HBox hboxPersonalButton = new HBox(10);
+		hboxPersonalButton.getChildren().add(editPersonalBtn);
+		hboxPersonalButton.getChildren().add(changePasswordBtn);
+		hboxPersonalButton.getChildren().add(submitPersonalBtn);
+		hboxPersonalButton.getChildren().add(cancelPersonalBtn);
+		hboxPersonalButton.setPadding(new Insets(10, 10, 10, 10));
+		vboxData.getChildren().add(hboxPersonalButton);
 		vboxData.setPrefSize(450, 300);
 		vboxData.setPadding(new Insets(10, 10, 10, 10));
 		vboxData.setStyle(COMMON_STYLING);
@@ -275,7 +291,11 @@ public final class AccountJobSeekerView implements ControllableView {
 			listCandidatureView,
 			editSocialBtn,
 			submitSocialBtn,
-			cancelSocialBtn
+			cancelSocialBtn,
+			editPersonalBtn,
+			changePasswordBtn,
+			submitPersonalBtn,
+			cancelPersonalBtn
 		};
 	}
 }

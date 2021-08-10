@@ -23,6 +23,7 @@ import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.InvalidPasswordException;
+import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
@@ -39,12 +40,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private Button homeBtn;
 	private Button chatBtn;
 	private Button logoutBtn;
-	private TextField nameField;
-	private TextField surnameField;
-	private TextField emailField;
-	private TextField phoneField;
-	private TextField fiscalCodeField;
-	private TextField addressField;
+	private static TextField nameField;
+	private static TextField surnameField;
+	private static TextField emailField;
+	private static TextField phoneField;
+	private static TextField fiscalCodeField;
+	private static TextField addressField;
 	private ImageView imgView;
 	private Label nameLabel;
 	private Label statusLabel;
@@ -57,11 +58,16 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private static Button editSocialBtn;
 	private static Button submitSocialBtn;
 	private static Button cancelSocialBtn;
+	private static Button editPersonalBtn;
+	private static Button changePasswordBtn;
+	private static Button submitPersonalBtn;
+	private static Button cancelPersonalBtn;
 	private ListView<CandidatureBean> listCandidatureView;
 	
 	private List<CandidatureBean> list;
 	
 	private UserBean user;
+	private String email;
 	
 	public AccountJobSeekerViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
@@ -93,8 +99,18 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		editSocialBtn = (Button) n[19];
 		submitSocialBtn = (Button) n[20];
 		cancelSocialBtn = (Button) n[21];
+		editPersonalBtn = (Button) n[22];
+		changePasswordBtn = (Button) n[23];
+		submitPersonalBtn = (Button) n[24];
+		cancelPersonalBtn = (Button) n[25];
 
 		user = LoginHandler.getSessionUser();
+		try {
+			email = AccountController.getEmailJobSeekerByCF(user);
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
 		
 		setDescription();
 		setSocial();
@@ -116,6 +132,11 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		editSocialBtn.setOnMouseClicked(new HandleEditSocialRequest());
 		submitSocialBtn.setOnMouseClicked(new HandleSubmitSocialRequest());
 		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());
+		
+		editPersonalBtn.setOnMouseClicked(new HandleEditPersonalRequest());
+		changePasswordBtn.setOnMouseClicked(new HandleEditPersonalRequest()); // change password
+		submitPersonalBtn.setOnMouseClicked(new HandleSubmitPersonalRequest());
+		cancelPersonalBtn.setOnMouseClicked(new HandleCancelPersonalRequest());
 	}
 	
 	private void setDescription() {
@@ -149,7 +170,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				.append(user.getComune().getCap());
 		locationLabel.setText(builder.toString());
 	}
-	
+
 	private void setSocial() {
 		if(user.getWebsite() == null) user.setWebsite("https://whork.it");
 		if(user.getTwitter() == null) user.setTwitter(WHORK);
@@ -165,23 +186,16 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private void setPersonal() {
 		nameField.setText(user.getName());
 		surnameField.setText(user.getSurname());
-		emailField.setText(user.getSurname());  // insert email
+		emailField.setText(email);
 		phoneField.setText(user.getPhoneNumber());
 		fiscalCodeField.setText(user.getCf());
 		addressField.setText(user.getHomeAddress());
 	}
 	
 	private void settingTextField() {
-		nameField.setEditable(false);
-		surnameField.setEditable(false);
-		emailField.setEditable(false);
-		phoneField.setEditable(false);
+		Personal.text(false);
 		fiscalCodeField.setEditable(false);
-		addressField.setEditable(false);
-		websiteField.setEditable(false);
-		twitterField.setEditable(false);
-		instaField.setEditable(false);
-		facebookField.setEditable(false);
+		Social.text(false);
 		bioField.setEditable(false);
 	}
 
@@ -197,9 +211,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	private void settingButton() {
-		editSocialBtn.setVisible(true);
-		submitSocialBtn.setVisible(false);
-		cancelSocialBtn.setVisible(false);
+		Social.button(false);
+		Personal.button(false);
 	}
 	
 	@Override
@@ -240,8 +253,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.socialButton(true);
-			Social.socialText(true);
+			Social.button(true);
+			Social.text(true);
 		}
 	}
 
@@ -249,7 +262,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.socialText(false);
+			Social.text(false);
 			user.setWebsite(websiteField.getText());
 			user.setTwitter(twitterField.getText());
 			user.setFacebook(facebookField.getText());
@@ -261,7 +274,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}
-			Social.socialButton(false);
+			Social.button(false);
 		}
 	}
 
@@ -269,12 +282,50 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.socialButton(false);
-			Social.socialText(false);
-			websiteField.setText(user.getWebsite());
-			twitterField.setText(user.getTwitter());
-			facebookField.setText(user.getFacebook());
-			instaField.setText(user.getInstagram());			
+			Social.button(false);
+			Social.text(false);
+			setSocial();			
+		}
+	}
+	
+	private final class HandleEditPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(true);
+			Personal.text(true);
+		}
+	}
+	
+	private final class HandleSubmitPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.text(false);
+			user.setName(nameField.getText());
+			user.setSurname(surnameField.getText());
+			user.setPhoneNumber(phoneField.getText());
+			user.setHomeAddress(addressField.getText());
+
+			try {
+				AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
+				LoginHandler.setSessionUser(user);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+
+			Personal.button(false);
+		}
+	}
+	
+	private final class HandleCancelPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(false);
+			Personal.text(false);
+			setPersonal();			
 		}
 	}
 
@@ -310,21 +361,51 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			viewStack.pop();
 		}
 	}
-	
-	private static class Social {
 
-		private static void socialButton(boolean variable) {
+	
+	private abstract static class Edit {
+		static void button(boolean variable) {}
+		static void text(boolean variable) {}
+	}
+	
+	private static class Social extends Edit {
+
+		protected static void button(boolean variable) {
 			if(variable == true) editSocialBtn.setVisible(false);
 			else editSocialBtn.setVisible(true);
 			submitSocialBtn.setVisible(variable);
 			cancelSocialBtn.setVisible(variable);
 		}
-		
-		private static void socialText(boolean variable) {
+
+		protected static void text(boolean variable) {
 			websiteField.setEditable(variable);
 			twitterField.setEditable(variable);
 			instaField.setEditable(variable);
 			facebookField.setEditable(variable);
+		}
+		
+	}
+
+	private static class Personal extends Edit {
+
+		protected static void button(boolean variable) {
+			if(variable == true) {
+				editPersonalBtn.setVisible(false);
+				changePasswordBtn.setVisible(false);
+			} else {
+				editPersonalBtn.setVisible(true);
+				changePasswordBtn.setVisible(true);
+			}
+			submitPersonalBtn.setVisible(variable);
+			cancelPersonalBtn.setVisible(variable);
+		}
+
+		protected static void text(boolean variable) {
+			nameField.setEditable(variable);
+			surnameField.setEditable(variable);
+			emailField.setEditable(variable);
+			phoneField.setEditable(variable);
+			addressField.setEditable(variable);
 		}
 		
 	}
