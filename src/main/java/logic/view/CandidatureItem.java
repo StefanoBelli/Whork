@@ -1,20 +1,23 @@
 package logic.view;
 
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import logic.bean.CandidatureBean;
+import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.exception.InternalException;
-import logic.graphicscontroller.AccountJobSeekerViewController;
+import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public class CandidatureItem {
-	private final double MAX_WIDTH = 100;
+	private final double MAX_WIDTH = 50;
 	HBox itemBox;
 	ImageView imgView;
 	Text nameCompanyField;
@@ -23,6 +26,9 @@ public class CandidatureItem {
 	Text jobPositionField;
 	Text emailField;
 	Button deleteBtn;
+	
+	CandidatureBean candidatureBean;
+	UserBean user;
 	
 	private void init() {
 		itemBox = new HBox();
@@ -39,6 +45,8 @@ public class CandidatureItem {
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 		
 		init();
+		candidatureBean = candidature;
+		user = LoginHandler.getSessionUser();
 		
 		imgView.setFitWidth(MAX_WIDTH);
 		imgView.setPreserveRatio(true);
@@ -46,7 +54,7 @@ public class CandidatureItem {
 		StringBuilder pathBuilder = new StringBuilder("file:");
 		
 		imgView.setImage(
-					new Image(pathBuilder.append(dflRoot).append("/offerPhoto.jpg").toString()));
+					new Image(pathBuilder.append(dflRoot).append("/avatar1.png").toString()));
 		
 		
 		nameCompanyField.setText(candidature.getOffer().getCompany().getSocialReason());
@@ -64,7 +72,7 @@ public class CandidatureItem {
 	}
 
 	private void setListeners(CandidatureBean candidature) {
-		deleteBtn.setOnMouseClicked(new AccountJobSeekerViewController.HandleHomeRequest());
+		deleteBtn.setOnMouseClicked(new HandleDeleteRequest());
 	}
 
 	public Node getBox() {
@@ -74,10 +82,24 @@ public class CandidatureItem {
 		itemBox.getChildren().add(contractField);
 		itemBox.getChildren().add(jobPositionField);
 		itemBox.getChildren().add(emailField);
+		itemBox.getChildren().add(deleteBtn);
 		
 		itemBox.setSpacing(20);		
 		
 		return itemBox;
+	}
+	
+	private final class HandleDeleteRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			try {
+				CandidatureController.deleteCandidature(user, candidatureBean);
+			} catch (InternalException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
 	}
 }
 

@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,10 +19,15 @@ import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
+import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.exception.InternalException;
+import logic.exception.InvalidPasswordException;
+import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
+import logic.view.CandidatureItem;
 import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
@@ -32,24 +40,43 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private Button homeBtn;
 	private Button chatBtn;
 	private Button logoutBtn;
-	private TextField nameField;
-	private TextField surnameField;
-	private TextField emailField;
-	private TextField phoneField;
-	private TextField fiscalCodeField;
-	private TextField addressField;
+	private static TextField nameField;
+	private static TextField surnameField;
+	private static TextField emailField;
+	private static TextField phoneField;
+	private static TextField fiscalCodeField;
+	private static TextField addressField;
 	private ImageView imgView;
 	private Label nameLabel;
 	private Label statusLabel;
 	private Label locationLabel;
-	private TextField websiteField;
-	private TextField twitterField;
-	private TextField instaField;
-	private TextField facebookField;
-	private TextField bioField;
-	private ListView<CandidatureBean> listCandidature;
+	private static TextField websiteField;
+	private static TextField twitterField;
+	private static TextField instaField;
+	private static TextField facebookField;
+	private static TextField bioField;
+	private static Button editSocialBtn;
+	private static Button submitSocialBtn;
+	private static Button cancelSocialBtn;
+	private static Button editPersonalBtn;
+	private static Label oldPasswordLabel;
+	private static Label newPasswordLabel;
+	private static Label confirmPasswordLabel;
+	private static TextField oldPasswordField;
+	private static TextField newPasswordField;
+	private static TextField confirmPasswordField;
+	private static Button changePasswordBtn;
+	private static Button submitPersonalBtn;
+	private static Button cancelPersonalBtn;
+	private static Button editBioBtn;
+	private static Button submitBioBtn;
+	private static Button cancelBioBtn;
+	private ListView<CandidatureBean> listCandidatureView;
+	
+	private List<CandidatureBean> list;
 	
 	private UserBean user;
+	private String email;
 	
 	public AccountJobSeekerViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
@@ -77,28 +104,61 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField = (TextField) n[15];
 		bioField = (TextField) n[16];
 		imgView = (ImageView) n[17];
-		listCandidature = (ListView<CandidatureBean>) n[18];
+		listCandidatureView = (ListView<CandidatureBean>) n[18];
+		editSocialBtn = (Button) n[19];
+		submitSocialBtn = (Button) n[20];
+		cancelSocialBtn = (Button) n[21];
+		editPersonalBtn = (Button) n[22];
+		changePasswordBtn = (Button) n[23];
+		submitPersonalBtn = (Button) n[24];
+		cancelPersonalBtn = (Button) n[25];
+		oldPasswordField = (TextField) n[26];
+		newPasswordField = (TextField) n[27];
+		confirmPasswordField = (TextField) n[28];
+		oldPasswordLabel = (Label) n[29];
+		newPasswordLabel = (Label) n[30];
+		confirmPasswordLabel = (Label) n[31];
+		editBioBtn = (Button) n[32];
+		submitBioBtn = (Button) n[33];
+		cancelBioBtn = (Button) n[34];
 
 		user = LoginHandler.getSessionUser();
+		try {
+			email = AccountController.getEmailJobSeekerByCF(user);
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
 		
 		setDescription();
 		setSocial();
 		setPersonal();
 		settingTextField();
-		
-		if(user.getBiography() == null) bioField.setText("Insert here your bio");
-		else bioField.setText(user.getBiography());
+		settingButton();
+		setCandidature();
+		setBio();		
 
 		setListeners();
 	}
 	
-	public void setListeners() {
+	private void setListeners() {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
 		chatBtn.setOnMouseClicked(new HandleChatRequest());
 		logoutBtn.setOnMouseClicked(new HandleLogoutRequest());
+		editSocialBtn.setOnMouseClicked(new HandleEditSocialRequest());
+		submitSocialBtn.setOnMouseClicked(new HandleSubmitSocialRequest());
+		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());		
+		editPersonalBtn.setOnMouseClicked(new HandleEditPersonalRequest());
+		changePasswordBtn.setOnMouseClicked(new HandleChangePasswordRequest());
+		submitPersonalBtn.setOnMouseClicked(new HandleSubmitPersonalRequest());
+		cancelPersonalBtn.setOnMouseClicked(new HandleCancelPersonalRequest());
+		
+		editBioBtn.setOnMouseClicked(new HandleEditBioRequest());
+		submitBioBtn.setOnMouseClicked(new HandleSubmitBioRequest());
+		cancelBioBtn.setOnMouseClicked(new HandleCancelBioRequest());
 	}
-	
-	public void setDescription() {
+
+	private void setDescription() {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 
@@ -121,6 +181,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				.append(user.getSurname());
 		nameLabel.setText(builder.toString());
 		statusLabel.setText(user.getEmploymentStatus().getStatus());
+		builder =  new StringBuilder();
 		builder.append(user.getComune().getNome())
 				.append(", ")
 				.append(user.getComune().getProvincia().getSigla())
@@ -128,8 +189,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				.append(user.getComune().getCap());
 		locationLabel.setText(builder.toString());
 	}
-	
-	public void setSocial() {
+
+	private void setSocial() {
 		if(user.getWebsite() == null) user.setWebsite("https://whork.it");
 		if(user.getTwitter() == null) user.setTwitter(WHORK);
 		if(user.getFacebook() == null) user.setFacebook(WHORK);
@@ -141,38 +202,70 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField.setText(user.getFacebook());
 	}
 	
-	public void setPersonal() {
+	private void setPersonal() {
 		nameField.setText(user.getName());
 		surnameField.setText(user.getSurname());
-		emailField.setText(user.getSurname());  // insert email
+		emailField.setText(email);
 		phoneField.setText(user.getPhoneNumber());
 		fiscalCodeField.setText(user.getCf());
 		addressField.setText(user.getHomeAddress());
-	}
-	
-	public void settingTextField() {
-		nameField.setEditable(false);
-		surnameField.setEditable(false);
-		emailField.setEditable(false);
-		phoneField.setEditable(false);
-		fiscalCodeField.setEditable(false);
-		addressField.setEditable(false);
-		websiteField.setEditable(false);
-		twitterField.setEditable(false);
-		instaField.setEditable(false);
-		facebookField.setEditable(false);
-		bioField.setEditable(true);
+		oldPasswordField.setText("");
+		newPasswordField.setText("");
+		confirmPasswordField.setText("");
 	}
 
-	public void setCandidature() throws InternalException {
-		//List<CandidatureBean> list = AccountController.getSeekerCandidature(user);
-		//for(CandidatureBean candidature: list) {
-			
-		//}
+	private void setBio() {
+		if(user.getBiography() == null) bioField.setText("Insert here your bio");
+		else bioField.setText(user.getBiography());
 	}
+	private void settingTextField() {
+		Personal.text();
+		fiscalCodeField.setEditable(false);
+		Social.text(false);
+		Bio.text(false);
+	}
+
+	private void setCandidature() {
+		try {
+			list = AccountController.getSeekerCandidature(user);
+		} catch (InternalException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		fillListView(FXCollections.observableArrayList(list));
+	}
+	
+	private void settingButton() {
+		Social.button(false);
+		Personal.button(false);
+		Bio.button(false);
+	}
+	
 	@Override
 	public void update() {
 		//no need to update anything
+	}
+	
+	private void fillListView(ObservableList<CandidatureBean> list) {
+		listCandidatureView.setItems(list);
+		listCandidatureView.setCellFactory((ListView<CandidatureBean> oUnused) -> new ListCell<CandidatureBean>() {
+				@Override
+				public void updateItem(CandidatureBean itemBean, boolean empty) {
+					super.updateItem(itemBean, empty);
+					if (itemBean != null) {
+						CandidatureItem newItem = new CandidatureItem();
+						try {
+							newItem.setInfo(itemBean);
+						} catch (InternalException e) {
+							Util.exceptionLog(e);
+							GraphicsUtil.showExceptionStage(e);
+						}
+						setGraphic(newItem.getBox());
+					}
+				}
+			}
+		);
 	}
 	
 	private final class HandleHomeRequest implements EventHandler<MouseEvent> {
@@ -182,7 +275,210 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			viewStack.pop();
 		}
 	}
+
+	private final class HandleEditSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Social.button(true);
+			Social.text(true);
+		}
+	}
+
+	private final class HandleSubmitSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			
+			if(websiteField.getText() == "" ||
+				twitterField.getText() == "" ||
+				facebookField.getText() == "" ||
+				instaField.getText() == "") {
+				
+				DialogFactory.error(
+						"Social Data", 
+						"Unable to change data", 
+						"You cannot leave empty field").showAndWait();
+				Social.text(false);
+				Social.button(false);
+				return;
+			}
+			user.setWebsite(websiteField.getText());
+			user.setTwitter(twitterField.getText());
+			user.setFacebook(facebookField.getText());
+			user.setInstagram(instaField.getText());
+			try {
+				AccountController.editAccountController("SocialAccounts", user, null, null);
+				LoginHandler.setSessionUser(user);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+			Social.text(false);
+			Social.button(false);
+		}
+	}
+
+	private final class HandleCancelSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Social.button(false);
+			Social.text(false);
+			setSocial();			
+		}
+	}
 	
+	private final class HandleEditPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(true);
+			Personal.text(true);
+		}
+	}
+	
+	private final class HandleChangePasswordRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(true);
+			Personal.text(false);
+		}
+	}
+	
+	private final class HandleSubmitPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {
+			Personal.button(false);
+			
+			if(!oldPasswordField.isVisible()) {
+				if(nameField.getText() == "" ||
+					surnameField.getText() == "" ||
+					phoneField.getText() == "" ||
+					addressField.getText() == "") {
+
+						DialogFactory.error(
+								"Personal Data", 
+								"Unable to change data", 
+								"You cannot leave empty field").showAndWait();
+						Personal.text();
+						return;
+				}
+				
+				user.setName(nameField.getText());
+				user.setSurname(surnameField.getText());
+				user.setPhoneNumber(phoneField.getText());
+				user.setHomeAddress(addressField.getText());
+				Personal.text();
+
+				try {
+					AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
+					LoginHandler.setSessionUser(user);
+				} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+					Util.exceptionLog(e);
+					GraphicsUtil.showExceptionStage(e);
+				}
+			} else {
+				Personal.text();
+				if(oldPasswordField.getText() == "" ||
+					newPasswordField.getText() == "" ||
+					confirmPasswordField.getText() == "") {
+
+							DialogFactory.error(
+									"Password Data", 
+									"Unable to change data", 
+									"You cannot leave empty field").showAndWait();
+							
+							oldPasswordField.setText("");
+							newPasswordField.setText("");
+							confirmPasswordField.setText("");
+							return;
+				}
+				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
+					try {
+						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
+								newPasswordField.getText());
+					} catch (DataAccessException | InternalException | DataLogicException e) {
+						Util.exceptionLog(e);
+						GraphicsUtil.showExceptionStage(e);
+					} catch (InvalidPasswordException e) {
+						DialogFactory.error(
+								"Passwords not equals!", 
+								"Unable to change password", 
+								"Try to write the correct old password").showAndWait();
+					}
+				} else {
+					DialogFactory.error(
+							"Passwords not equals!", 
+							"Unable to change password", 
+							"Try to write the same new password in the confirmation field").showAndWait();
+				}
+				oldPasswordField.setText("");
+				newPasswordField.setText("");
+				confirmPasswordField.setText("");
+			}
+		}
+
+	}
+	
+	private final class HandleCancelPersonalRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(false);
+			Personal.text();
+			setPersonal();
+		}
+	}
+
+	private final class HandleEditBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(true);
+			Bio.text(true);
+		}
+	}
+
+	private final class HandleSubmitBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(false);
+			Bio.text(false);
+			
+			if(bioField.getText() == "") {
+
+				DialogFactory.error(
+						"Bio Data", 
+						"Unable to change data", 
+						"You cannot leave empty field").showAndWait();
+
+				return;
+			}
+			
+			user.setBiography(bioField.getText());
+			try {
+				AccountController.editAccountController("JobSeekerBiography", user, BeanFactory.buildUserAuthBean(email, ""), null);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
+	}
+
+	private final class HandleCancelBioRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Bio.button(false);
+			Bio.text(false);
+			setBio();
+		}
+	}
+
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
 
 		@Override
@@ -214,5 +510,97 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 			viewStack.pop();
 		}
+	}
+
+	
+	private abstract static class Edit {
+		static void button(boolean variable) {}
+		static void text(boolean variable) {}
+	}
+	
+	private static class Social extends Edit {
+
+		protected static void button(boolean variable) {
+			if(variable == true) editSocialBtn.setVisible(false);
+			else editSocialBtn.setVisible(true);
+			submitSocialBtn.setVisible(variable);
+			cancelSocialBtn.setVisible(variable);
+		}
+
+		protected static void text(boolean variable) {
+			websiteField.setEditable(variable);
+			twitterField.setEditable(variable);
+			instaField.setEditable(variable);
+			facebookField.setEditable(variable);
+		}
+		
+	}
+
+	private static class Personal extends Edit {
+
+		protected static void button(boolean variable) {
+			if(variable == true) {
+				editPersonalBtn.setVisible(false);
+				changePasswordBtn.setVisible(false);
+			} else {
+				editPersonalBtn.setVisible(true);
+				changePasswordBtn.setVisible(true);
+			}
+			submitPersonalBtn.setVisible(variable);
+			cancelPersonalBtn.setVisible(variable);
+		}
+
+		protected static void text(boolean variable) {
+			nameField.setEditable(variable);
+			surnameField.setEditable(variable);
+			emailField.setEditable(variable);
+			phoneField.setEditable(variable);
+			addressField.setEditable(variable);
+			if(variable == true) {
+				oldPasswordField.setVisible(false);
+				newPasswordField.setVisible(false);
+				confirmPasswordField.setVisible(false);
+				oldPasswordLabel.setVisible(false);
+				newPasswordLabel.setVisible(false);
+				confirmPasswordLabel.setVisible(false);
+			} else {
+				oldPasswordField.setVisible(true);
+				newPasswordField.setVisible(true);
+				confirmPasswordField.setVisible(true);
+				oldPasswordLabel.setVisible(true);
+				newPasswordLabel.setVisible(true);
+				confirmPasswordLabel.setVisible(true);
+			}
+		}
+		
+		protected static void text() {
+			nameField.setEditable(false);
+			surnameField.setEditable(false);
+			emailField.setEditable(false);
+			phoneField.setEditable(false);
+			addressField.setEditable(false);
+			oldPasswordField.setVisible(false);
+			newPasswordField.setVisible(false);
+			confirmPasswordField.setVisible(false);
+			oldPasswordLabel.setVisible(false);
+			newPasswordLabel.setVisible(false);
+			confirmPasswordLabel.setVisible(false);
+		}
+		
+	}
+	
+	private static class Bio extends Edit {
+
+		protected static void button(boolean variable) {
+			if(variable == true) editBioBtn.setVisible(false);
+			else editBioBtn.setVisible(true);
+			submitBioBtn.setVisible(variable);
+			cancelBioBtn.setVisible(variable);
+		}
+
+		protected static void text(boolean variable) {
+			bioField.setEditable(variable);
+		}
+		
 	}
 }
