@@ -165,17 +165,17 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 
 	public void setCandidature() throws InternalException {
-		List<CandidatureBean> list = AccountController.getSeekerCandidature(user);
-		for(CandidatureBean candidature: list) {
+		//List<CandidatureBean> list = AccountController.getSeekerCandidature(user);
+		//for(CandidatureBean candidature: list) {
 			
-		}
+		//}
 	}
 	@Override
 	public void update() {
 		//no need to update anything
 	}
 	
-	public final static class HandleHomeRequest implements EventHandler<MouseEvent> {
+	private final class HandleHomeRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {			
