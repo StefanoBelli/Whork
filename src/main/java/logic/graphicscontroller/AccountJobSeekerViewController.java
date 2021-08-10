@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
+import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
@@ -26,6 +27,7 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
+import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.view.CandidatureItem;
 import logic.view.ChatView;
@@ -59,6 +61,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private static Button submitSocialBtn;
 	private static Button cancelSocialBtn;
 	private static Button editPersonalBtn;
+	private static Label oldPasswordLabel;
+	private static Label newPasswordLabel;
+	private static Label confirmPasswordLabel;
+	private static TextField oldPasswordField;
+	private static TextField newPasswordField;
+	private static TextField confirmPasswordField;
 	private static Button changePasswordBtn;
 	private static Button submitPersonalBtn;
 	private static Button cancelPersonalBtn;
@@ -103,6 +111,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		changePasswordBtn = (Button) n[23];
 		submitPersonalBtn = (Button) n[24];
 		cancelPersonalBtn = (Button) n[25];
+		oldPasswordField = (TextField) n[26];
+		newPasswordField = (TextField) n[27];
+		confirmPasswordField = (TextField) n[28];
+		oldPasswordLabel = (Label) n[29];
+		newPasswordLabel = (Label) n[30];
+		confirmPasswordLabel = (Label) n[31];
 
 		user = LoginHandler.getSessionUser();
 		try {
@@ -131,10 +145,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		logoutBtn.setOnMouseClicked(new HandleLogoutRequest());
 		editSocialBtn.setOnMouseClicked(new HandleEditSocialRequest());
 		submitSocialBtn.setOnMouseClicked(new HandleSubmitSocialRequest());
-		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());
-		
+		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());		
 		editPersonalBtn.setOnMouseClicked(new HandleEditPersonalRequest());
-		changePasswordBtn.setOnMouseClicked(new HandleEditPersonalRequest()); // change password
+		changePasswordBtn.setOnMouseClicked(new HandleChangePasswordRequest());
 		submitPersonalBtn.setOnMouseClicked(new HandleSubmitPersonalRequest());
 		cancelPersonalBtn.setOnMouseClicked(new HandleCancelPersonalRequest());
 	}
@@ -193,7 +206,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	private void settingTextField() {
-		Personal.text(false);
+		Personal.text();
 		fiscalCodeField.setEditable(false);
 		Social.text(false);
 		bioField.setEditable(false);
@@ -297,26 +310,52 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 	}
 	
+	private final class HandleChangePasswordRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Personal.button(true);
+			Personal.text(false);
+		}
+	}
+	
 	private final class HandleSubmitPersonalRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Personal.text(false);
-			user.setName(nameField.getText());
-			user.setSurname(surnameField.getText());
-			user.setPhoneNumber(phoneField.getText());
-			user.setHomeAddress(addressField.getText());
-
-			try {
-				AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
-				LoginHandler.setSessionUser(user);
-			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.showExceptionStage(e);
+			if(!oldPasswordField.isVisible()) {
+				Personal.text();
+				user.setName(nameField.getText());
+				user.setSurname(surnameField.getText());
+				user.setPhoneNumber(phoneField.getText());
+				user.setHomeAddress(addressField.getText());
+	
+				try {
+					AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
+					LoginHandler.setSessionUser(user);
+				} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+					Util.exceptionLog(e);
+					GraphicsUtil.showExceptionStage(e);
+				}
+	
+				Personal.button(false);
+			} else {
+				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
+					try {
+						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
+								newPasswordField.getText());
+					} catch (DataAccessException | InternalException | InvalidPasswordException
+							| DataLogicException e) {
+						Util.exceptionLog(e);
+						GraphicsUtil.showExceptionStage(e);
+					}
+				} else {
+					DialogFactory.error(
+							"Passwords not equals!", "Unable to change password", "Try to write the same new password in the confirmation field").showAndWait();
+				}
 			}
-
-			Personal.button(false);
 		}
+
 	}
 	
 	private final class HandleCancelPersonalRequest implements EventHandler<MouseEvent> {
@@ -324,8 +363,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {			
 			Personal.button(false);
-			Personal.text(false);
-			setPersonal();			
+			Personal.text();
+			setPersonal();
 		}
 	}
 
@@ -406,6 +445,35 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			emailField.setEditable(variable);
 			phoneField.setEditable(variable);
 			addressField.setEditable(variable);
+			if(variable == true) {
+				oldPasswordField.setVisible(false);
+				newPasswordField.setVisible(false);
+				confirmPasswordField.setVisible(false);
+				oldPasswordLabel.setVisible(false);
+				newPasswordLabel.setVisible(false);
+				confirmPasswordLabel.setVisible(false);
+			} else {
+				oldPasswordField.setVisible(true);
+				newPasswordField.setVisible(true);
+				confirmPasswordField.setVisible(true);
+				oldPasswordLabel.setVisible(true);
+				newPasswordLabel.setVisible(true);
+				confirmPasswordLabel.setVisible(true);
+			}
+		}
+		
+		protected static void text() {
+			nameField.setEditable(false);
+			surnameField.setEditable(false);
+			emailField.setEditable(false);
+			phoneField.setEditable(false);
+			addressField.setEditable(false);
+			oldPasswordField.setVisible(false);
+			newPasswordField.setVisible(false);
+			confirmPasswordField.setVisible(false);
+			oldPasswordLabel.setVisible(false);
+			newPasswordLabel.setVisible(false);
+			confirmPasswordLabel.setVisible(false);
 		}
 		
 	}

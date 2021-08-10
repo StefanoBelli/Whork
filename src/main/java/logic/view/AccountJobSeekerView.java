@@ -31,6 +31,9 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String FISCALCODE = "Fiscal Code";
 	private static final String ADDRESS = "Address";
 	private static final String BIO = "My Biography";
+	private static final String OLDPASSWORD = "Old Password";
+	private static final String NEWPASSWORD = "New Password";
+	private static final String CONFIRMPASSWORD = "Confirm Password";
 	private static final String EDIT = "Edit";
 	private static final String SUBMIT = "Submit";
 	private static final String CANCEL = "Cancel";
@@ -78,6 +81,12 @@ public final class AccountJobSeekerView implements ControllableView {
 	private Button changePasswordBtn;
 	private Button submitPersonalBtn;
 	private Button cancelPersonalBtn;
+	private TextField oldPasswordField;
+	private Label oldPasswordLabel;
+	private Label newPasswordLabel;
+	private Label confirmPasswordLabel;
+	private TextField newPasswordField;
+	private TextField confirmPasswordField;
 	private Label bioLabelText;
 	private TextField bioField;
 	private ListView<Object> listCandidatureView;
@@ -125,6 +134,12 @@ public final class AccountJobSeekerView implements ControllableView {
 		phoneField = new TextField();
 		fiscalCodeField = new TextField();
 		addressField = new TextField();
+		oldPasswordLabel = new Label(OLDPASSWORD);
+		newPasswordLabel = new Label(NEWPASSWORD);
+		confirmPasswordLabel = new Label(CONFIRMPASSWORD);
+		oldPasswordField = new TextField();
+		newPasswordField = new TextField();
+		confirmPasswordField = new TextField();
 		editPersonalBtn = new Button(EDIT);
 		changePasswordBtn = new Button(CHANGEPASSWORD);
 		submitPersonalBtn = new Button(SUBMIT);
@@ -201,7 +216,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		
 		vboxPers.getChildren().add(vboxSocial);
 
-		VBox vboxData = new VBox();
+		VBox vboxData = new VBox(5);
 		vboxData.getChildren().add(nameLabelText);
 		vboxData.getChildren().add(nameField);
 		vboxData.getChildren().add(surnameLabelText);
@@ -214,6 +229,12 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxData.getChildren().add(fiscalCodeField);
 		vboxData.getChildren().add(addressLabelText);
 		vboxData.getChildren().add(addressField);
+		vboxData.getChildren().add(oldPasswordLabel);
+		vboxData.getChildren().add(oldPasswordField);
+		vboxData.getChildren().add(newPasswordLabel);
+		vboxData.getChildren().add(newPasswordField);
+		vboxData.getChildren().add(confirmPasswordLabel);
+		vboxData.getChildren().add(confirmPasswordField);
 		HBox hboxPersonalButton = new HBox(10);
 		hboxPersonalButton.getChildren().add(editPersonalBtn);
 		hboxPersonalButton.getChildren().add(changePasswordBtn);
@@ -295,7 +316,13 @@ public final class AccountJobSeekerView implements ControllableView {
 			editPersonalBtn,
 			changePasswordBtn,
 			submitPersonalBtn,
-			cancelPersonalBtn
+			cancelPersonalBtn,
+			oldPasswordField,
+			newPasswordField,
+			confirmPasswordField,
+			oldPasswordLabel,
+			newPasswordLabel,
+			confirmPasswordLabel
 		};
 	}
 }
