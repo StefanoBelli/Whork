@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,6 +23,7 @@ import logic.exception.InternalException;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
+import logic.view.CandidatureItem;
 import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
@@ -47,7 +51,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private TextField instaField;
 	private TextField facebookField;
 	private TextField bioField;
-	private ListView<CandidatureBean> listCandidature;
+	private ListView<CandidatureBean> listCandidatureView;
+	
+	private List<CandidatureBean> list;
 	
 	private UserBean user;
 	
@@ -77,7 +83,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField = (TextField) n[15];
 		bioField = (TextField) n[16];
 		imgView = (ImageView) n[17];
-		listCandidature = (ListView<CandidatureBean>) n[18];
+		listCandidatureView = (ListView<CandidatureBean>) n[18];
 
 		user = LoginHandler.getSessionUser();
 		
@@ -85,6 +91,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		setSocial();
 		setPersonal();
 		settingTextField();
+		setCandidature();
 		
 		if(user.getBiography() == null) bioField.setText("Insert here your bio");
 		else bioField.setText(user.getBiography());
@@ -121,6 +128,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				.append(user.getSurname());
 		nameLabel.setText(builder.toString());
 		statusLabel.setText(user.getEmploymentStatus().getStatus());
+		builder =  new StringBuilder();
 		builder.append(user.getComune().getNome())
 				.append(", ")
 				.append(user.getComune().getProvincia().getSigla())
@@ -161,18 +169,44 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		twitterField.setEditable(false);
 		instaField.setEditable(false);
 		facebookField.setEditable(false);
-		bioField.setEditable(true);
+		bioField.setEditable(false);
 	}
 
-	public void setCandidature() throws InternalException {
-		//List<CandidatureBean> list = AccountController.getSeekerCandidature(user);
-		//for(CandidatureBean candidature: list) {
-			
-		//}
+	public void setCandidature() {
+		try {
+			list = AccountController.getSeekerCandidature(user);
+		} catch (InternalException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		fillListView(FXCollections.observableArrayList(list));
 	}
+	
 	@Override
 	public void update() {
 		//no need to update anything
+	}
+	
+	private void fillListView(ObservableList<CandidatureBean> list) {
+		listCandidatureView.setItems(list);
+		listCandidatureView.setCellFactory((ListView<CandidatureBean> oUnused) -> new ListCell<CandidatureBean>() {
+				@Override
+				public void updateItem(CandidatureBean itemBean, boolean empty) {
+					super.updateItem(itemBean, empty);
+					if (itemBean != null) {
+						CandidatureItem newItem = new CandidatureItem();
+						try {
+							newItem.setInfo(itemBean);
+						} catch (InternalException e) {
+							Util.exceptionLog(e);
+							GraphicsUtil.showExceptionStage(e);
+						}
+						setGraphic(newItem.getBox());
+					}
+				}
+			}
+		);
 	}
 	
 	private final class HandleHomeRequest implements EventHandler<MouseEvent> {

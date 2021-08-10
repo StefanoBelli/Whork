@@ -9,12 +9,11 @@ import javafx.scene.text.Text;
 import logic.bean.CandidatureBean;
 import logic.controller.CandidatureController;
 import logic.exception.InternalException;
-import logic.graphicscontroller.AccountJobSeekerViewController;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public class CandidatureItem {
-	private final double MAX_WIDTH = 100;
+	private final double MAX_WIDTH = 50;
 	HBox itemBox;
 	ImageView imgView;
 	Text nameCompanyField;
@@ -46,7 +45,7 @@ public class CandidatureItem {
 		StringBuilder pathBuilder = new StringBuilder("file:");
 		
 		imgView.setImage(
-					new Image(pathBuilder.append(dflRoot).append("/offerPhoto.jpg").toString()));
+					new Image(pathBuilder.append(dflRoot).append("/avatar1.png").toString()));
 		
 		
 		nameCompanyField.setText(candidature.getOffer().getCompany().getSocialReason());
@@ -64,7 +63,7 @@ public class CandidatureItem {
 	}
 
 	private void setListeners(CandidatureBean candidature) {
-		deleteBtn.setOnMouseClicked(new AccountJobSeekerViewController.HandleHomeRequest());
+		//deleteBtn.setOnMouseClicked(new AccountJobSeekerViewController.HandleHomeRequest());
 	}
 
 	public Node getBox() {
@@ -74,6 +73,7 @@ public class CandidatureItem {
 		itemBox.getChildren().add(contractField);
 		itemBox.getChildren().add(jobPositionField);
 		itemBox.getChildren().add(emailField);
+		itemBox.getChildren().add(deleteBtn);
 		
 		itemBox.setSpacing(20);		
 		
