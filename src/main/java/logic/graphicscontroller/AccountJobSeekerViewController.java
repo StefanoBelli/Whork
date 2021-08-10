@@ -19,7 +19,10 @@ import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
+import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.exception.InternalException;
+import logic.exception.InvalidPasswordException;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
@@ -46,11 +49,14 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private Label nameLabel;
 	private Label statusLabel;
 	private Label locationLabel;
-	private TextField websiteField;
-	private TextField twitterField;
-	private TextField instaField;
-	private TextField facebookField;
+	private static TextField websiteField;
+	private static TextField twitterField;
+	private static TextField instaField;
+	private static TextField facebookField;
 	private TextField bioField;
+	private static Button editSocialBtn;
+	private static Button submitSocialBtn;
+	private static Button cancelSocialBtn;
 	private ListView<CandidatureBean> listCandidatureView;
 	
 	private List<CandidatureBean> list;
@@ -84,6 +90,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		bioField = (TextField) n[16];
 		imgView = (ImageView) n[17];
 		listCandidatureView = (ListView<CandidatureBean>) n[18];
+		editSocialBtn = (Button) n[19];
+		submitSocialBtn = (Button) n[20];
+		cancelSocialBtn = (Button) n[21];
 
 		user = LoginHandler.getSessionUser();
 		
@@ -91,6 +100,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		setSocial();
 		setPersonal();
 		settingTextField();
+		settingButton();
 		setCandidature();
 		
 		if(user.getBiography() == null) bioField.setText("Insert here your bio");
@@ -99,13 +109,16 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		setListeners();
 	}
 	
-	public void setListeners() {
+	private void setListeners() {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
 		chatBtn.setOnMouseClicked(new HandleChatRequest());
 		logoutBtn.setOnMouseClicked(new HandleLogoutRequest());
+		editSocialBtn.setOnMouseClicked(new HandleEditSocialRequest());
+		submitSocialBtn.setOnMouseClicked(new HandleSubmitSocialRequest());
+		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());
 	}
 	
-	public void setDescription() {
+	private void setDescription() {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 
@@ -137,7 +150,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		locationLabel.setText(builder.toString());
 	}
 	
-	public void setSocial() {
+	private void setSocial() {
 		if(user.getWebsite() == null) user.setWebsite("https://whork.it");
 		if(user.getTwitter() == null) user.setTwitter(WHORK);
 		if(user.getFacebook() == null) user.setFacebook(WHORK);
@@ -149,7 +162,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField.setText(user.getFacebook());
 	}
 	
-	public void setPersonal() {
+	private void setPersonal() {
 		nameField.setText(user.getName());
 		surnameField.setText(user.getSurname());
 		emailField.setText(user.getSurname());  // insert email
@@ -158,7 +171,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		addressField.setText(user.getHomeAddress());
 	}
 	
-	public void settingTextField() {
+	private void settingTextField() {
 		nameField.setEditable(false);
 		surnameField.setEditable(false);
 		emailField.setEditable(false);
@@ -172,7 +185,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		bioField.setEditable(false);
 	}
 
-	public void setCandidature() {
+	private void setCandidature() {
 		try {
 			list = AccountController.getSeekerCandidature(user);
 		} catch (InternalException e) {
@@ -181,6 +194,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 
 		fillListView(FXCollections.observableArrayList(list));
+	}
+	
+	private void settingButton() {
+		editSocialBtn.setVisible(true);
+		submitSocialBtn.setVisible(false);
+		cancelSocialBtn.setVisible(false);
 	}
 	
 	@Override
@@ -216,7 +235,49 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			viewStack.pop();
 		}
 	}
-	
+
+	private final class HandleEditSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Social.socialButton(true);
+			Social.socialText(true);
+		}
+	}
+
+	private final class HandleSubmitSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Social.socialText(false);
+			user.setWebsite(websiteField.getText());
+			user.setTwitter(twitterField.getText());
+			user.setFacebook(facebookField.getText());
+			user.setInstagram(instaField.getText());
+			try {
+				AccountController.editAccountController("SocialAccounts", user, null, null);
+				LoginHandler.setSessionUser(user);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+			Social.socialButton(false);
+		}
+	}
+
+	private final class HandleCancelSocialRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			Social.socialButton(false);
+			Social.socialText(false);
+			websiteField.setText(user.getWebsite());
+			twitterField.setText(user.getTwitter());
+			facebookField.setText(user.getFacebook());
+			instaField.setText(user.getInstagram());			
+		}
+	}
+
 	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
 
 		@Override
@@ -248,5 +309,23 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 			viewStack.pop();
 		}
+	}
+	
+	private static class Social {
+
+		private static void socialButton(boolean variable) {
+			if(variable == true) editSocialBtn.setVisible(false);
+			else editSocialBtn.setVisible(true);
+			submitSocialBtn.setVisible(variable);
+			cancelSocialBtn.setVisible(variable);
+		}
+		
+		private static void socialText(boolean variable) {
+			websiteField.setEditable(variable);
+			twitterField.setEditable(variable);
+			instaField.setEditable(variable);
+			facebookField.setEditable(variable);
+		}
+		
 	}
 }

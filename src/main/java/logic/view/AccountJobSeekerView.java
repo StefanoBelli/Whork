@@ -272,7 +272,10 @@ public final class AccountJobSeekerView implements ControllableView {
 			facebookField,
 			bioField,
 			imgView,
-			listCandidatureView
+			listCandidatureView,
+			editSocialBtn,
+			submitSocialBtn,
+			cancelSocialBtn
 		};
 	}
 }
