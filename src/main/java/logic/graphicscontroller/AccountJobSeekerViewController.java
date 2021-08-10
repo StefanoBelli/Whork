@@ -1,6 +1,7 @@
 package logic.graphicscontroller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.event.EventHandler;
@@ -14,6 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
+import logic.controller.AccountController;
+import logic.exception.InternalException;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
@@ -160,13 +163,19 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		facebookField.setEditable(false);
 		bioField.setEditable(true);
 	}
-	
+
+	public void setCandidature() throws InternalException {
+		List<CandidatureBean> list = AccountController.getSeekerCandidature(user);
+		for(CandidatureBean candidature: list) {
+			
+		}
+	}
 	@Override
 	public void update() {
 		//no need to update anything
 	}
 	
-	private final class HandleHomeRequest implements EventHandler<MouseEvent> {
+	public final static class HandleHomeRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {			
