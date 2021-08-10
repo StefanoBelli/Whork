@@ -82,7 +82,7 @@ public class SeleniumSearchOffer {
 		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
 		offer.setSalaryEUR(2100);
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
-		offer.setWorkShit("08:00 - 19:00");
+		offer.setWorkShift("08:00 - 19:00");
 		
 		OfferController.postOffer(offer);
 		
