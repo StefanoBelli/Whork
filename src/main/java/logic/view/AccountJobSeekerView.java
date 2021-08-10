@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -40,7 +41,7 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String CHANGEPASSWORD = "Change Password";
 	
 	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
-	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+200;
+	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+150;
 
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
@@ -81,12 +82,12 @@ public final class AccountJobSeekerView implements ControllableView {
 	private Button changePasswordBtn;
 	private Button submitPersonalBtn;
 	private Button cancelPersonalBtn;
-	private TextField oldPasswordField;
+	private PasswordField oldPasswordField;
 	private Label oldPasswordLabel;
 	private Label newPasswordLabel;
 	private Label confirmPasswordLabel;
-	private TextField newPasswordField;
-	private TextField confirmPasswordField;
+	private PasswordField newPasswordField;
+	private PasswordField confirmPasswordField;
 	private Label bioLabelText;
 	private TextField bioField;
 	private Button editBioBtn;
@@ -140,9 +141,9 @@ public final class AccountJobSeekerView implements ControllableView {
 		oldPasswordLabel = new Label(OLDPASSWORD);
 		newPasswordLabel = new Label(NEWPASSWORD);
 		confirmPasswordLabel = new Label(CONFIRMPASSWORD);
-		oldPasswordField = new TextField();
-		newPasswordField = new TextField();
-		confirmPasswordField = new TextField();
+		oldPasswordField = new PasswordField();
+		newPasswordField = new PasswordField();
+		confirmPasswordField = new PasswordField();
 		editPersonalBtn = new Button(EDIT);
 		changePasswordBtn = new Button(CHANGEPASSWORD);
 		submitPersonalBtn = new Button(SUBMIT);
@@ -253,7 +254,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxData.setStyle(COMMON_STYLING);
 		
 		VBox vboxCand = new VBox();
-		listCandidatureView.setPrefSize(800, 400);
+		listCandidatureView.setPrefSize(800, 600);
 		vboxCand.getChildren().add(listCandidatureView);
 		vboxCand.setPrefSize(800, 300);
 		vboxCand.setStyle(COMMON_STYLING);

@@ -17,7 +17,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
-import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
@@ -27,7 +26,6 @@ import logic.exception.InvalidPasswordException;
 import logic.factory.BeanFactory;
 import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
-import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.view.CandidatureItem;
 import logic.view.ChatView;
@@ -211,6 +209,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		phoneField.setText(user.getPhoneNumber());
 		fiscalCodeField.setText(user.getCf());
 		addressField.setText(user.getHomeAddress());
+		oldPasswordField.setText("");
+		newPasswordField.setText("");
+		confirmPasswordField.setText("");
 	}
 
 	private void setBio() {
@@ -288,7 +289,20 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.text(false);
+			
+			if(websiteField.getText() == "" ||
+				twitterField.getText() == "" ||
+				facebookField.getText() == "" ||
+				instaField.getText() == "") {
+				
+				DialogFactory.error(
+						"Social Data", 
+						"Unable to change data", 
+						"You cannot leave empty field").showAndWait();
+				Social.text(false);
+				Social.button(false);
+				return;
+			}
 			user.setWebsite(websiteField.getText());
 			user.setTwitter(twitterField.getText());
 			user.setFacebook(facebookField.getText());
@@ -300,6 +314,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}
+			Social.text(false);
 			Social.button(false);
 		}
 	}
@@ -336,15 +351,28 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Personal.text();
 			Personal.button(false);
 			
 			if(!oldPasswordField.isVisible()) {
+				if(nameField.getText() == "" ||
+					surnameField.getText() == "" ||
+					phoneField.getText() == "" ||
+					addressField.getText() == "") {
+
+						DialogFactory.error(
+								"Personal Data", 
+								"Unable to change data", 
+								"You cannot leave empty field").showAndWait();
+						Personal.text();
+						return;
+				}
+				
 				user.setName(nameField.getText());
 				user.setSurname(surnameField.getText());
 				user.setPhoneNumber(phoneField.getText());
 				user.setHomeAddress(addressField.getText());
-	
+				Personal.text();
+
 				try {
 					AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
 					LoginHandler.setSessionUser(user);
@@ -353,19 +381,43 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					GraphicsUtil.showExceptionStage(e);
 				}
 			} else {
+				Personal.text();
+				if(oldPasswordField.getText() == "" ||
+					newPasswordField.getText() == "" ||
+					confirmPasswordField.getText() == "") {
+
+							DialogFactory.error(
+									"Password Data", 
+									"Unable to change data", 
+									"You cannot leave empty field").showAndWait();
+							
+							oldPasswordField.setText("");
+							newPasswordField.setText("");
+							confirmPasswordField.setText("");
+							return;
+				}
 				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
 					try {
 						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
 								newPasswordField.getText());
-					} catch (DataAccessException | InternalException | InvalidPasswordException
-							| DataLogicException e) {
+					} catch (DataAccessException | InternalException | DataLogicException e) {
 						Util.exceptionLog(e);
 						GraphicsUtil.showExceptionStage(e);
+					} catch (InvalidPasswordException e) {
+						DialogFactory.error(
+								"Passwords not equals!", 
+								"Unable to change password", 
+								"Try to write the correct old password").showAndWait();
 					}
 				} else {
 					DialogFactory.error(
-							"Passwords not equals!", "Unable to change password", "Try to write the same new password in the confirmation field").showAndWait();
+							"Passwords not equals!", 
+							"Unable to change password", 
+							"Try to write the same new password in the confirmation field").showAndWait();
 				}
+				oldPasswordField.setText("");
+				newPasswordField.setText("");
+				confirmPasswordField.setText("");
 			}
 		}
 
@@ -396,6 +448,16 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		public void handle(MouseEvent event) {			
 			Bio.button(false);
 			Bio.text(false);
+			
+			if(bioField.getText() == "") {
+
+				DialogFactory.error(
+						"Bio Data", 
+						"Unable to change data", 
+						"You cannot leave empty field").showAndWait();
+
+				return;
+			}
 			
 			user.setBiography(bioField.getText());
 			try {
