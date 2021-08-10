@@ -10,7 +10,6 @@
 		</script>
 	</head>
 
-	<body>
 <%
 	String outcomeStr = (String) request.getParameter("ok");
 	boolean outcome = 
@@ -18,6 +17,7 @@
 
 	if(outcome) {
 %>
+	<body style="background-color: #90EE90">
 		<div class="card">
 	      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
 	        <i class="checkmark">&#10003;</i>
@@ -29,10 +29,12 @@
 		      	<button type="submit" class="button button2">Go to Login page</button>
 		      </a>
 	      </div>
-      </div>
+        </div>
+      </body>
 <%
 	} else {
 %>
+	<body style="background-color: #FFA07A">
 		<div class="card">
 	      <div style="border-radius:200px; height:200px; width:200px; background: #ffcccb; margin:0 auto;">
 	        <i style="color:#FF0000">&#10007;</i>
@@ -45,8 +47,8 @@
 		      </a>
 	      </div>
 	     </div>
+	 </body>
 <%
 	}
 %> 
-	</body>
 </html>
