@@ -1,12 +1,19 @@
 package logic.view;
 
+import java.util.Arrays;
 import java.util.Date;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.graphicscontroller.AccountCompanyViewController;
 import logic.graphicscontroller.GraphicsController;
+import logic.util.GraphicsUtil;
 
 public class AccountCompanyView implements ControllableView {
 	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
@@ -22,14 +30,37 @@ public class AccountCompanyView implements ControllableView {
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
 	
+	private final static String JAN = "Jan";
+	private final static String FEB = "Feb";
+	private final static String MAR = "Mar";
+	private final static String APR = "Apr";
+	private final static String MAY = "May";
+	private final static String JUN = "Jun";
+	private final static String JUL = "Jul";
+	private final static String AUG = "Aug";
+	private final static String SEP = "Sep";
+	private final static String OCT = "Oct";
+	private final static String NOV = "Nov";
+	private final static String DEC = "Dec";
+	
 	private Button homeBtn;
 	private Button postOfferBtn;
 	private Button logOutBtn;
 	private Text nameAdminText;
 	private Text nameCompanyText;
-	private Text dashboardText;
 	private ImageView imgAdminView;
 	private Text dateText;
+	private Text numberEmployeeText;
+	private Label numberEmployeeLabel;
+	private Text numberOfferText;
+	private Label numberOfferLabel;
+	private Text totalClickText;
+	private Label totalClickLabel;
+
+	private NumberAxis xAxis;
+	private CategoryAxis yAxis;
+	private StackedBarChart<Number, String> candidateBarChart;
+	private XYChart.Series<Number, String> series;
 
 	private Scene scene;
 
@@ -48,19 +79,31 @@ public class AccountCompanyView implements ControllableView {
 		logOutBtn = new Button("Log Out");
 		nameAdminText = new Text();
 		nameCompanyText = new Text();
-		dashboardText = new Text("Dashboard");
 		imgAdminView = new ImageView();
 		dateText = new Text(new Date().toString().substring(0, 10));
+		numberEmployeeText = new Text();
+		numberEmployeeLabel = new Label("Number of employees of the company on this site");
+		numberOfferText = new Text();
+		numberOfferLabel = new Label("Number of Offers posted");
+		totalClickText = new Text();
+		totalClickLabel = new Label("Total number of clicks");
+
+		xAxis = new NumberAxis();
+		yAxis = new CategoryAxis();
+		candidateBarChart = new StackedBarChart<Number, String>(xAxis, yAxis);
 
 		controller.setup();
 	}
 
 	private void setNodesProps() {
 		imgAdminView.prefWidth(20);
+		numberEmployeeText.setFont(GraphicsUtil.getBoldFont());
+		numberOfferText.setFont(GraphicsUtil.getBoldFont());
+		totalClickText.setFont(GraphicsUtil.getBoldFont());
 	}
 	
 	private void populateScene() {
-		VBox vbox = new VBox();
+		VBox vbox = new VBox(10);
 
 		VBox vboxPannel = new VBox(15);
 		vboxPannel.getChildren().add(homeBtn);
@@ -75,7 +118,6 @@ public class AccountCompanyView implements ControllableView {
 		VBox vboxHeader = new VBox(10);
 		vboxHeader.getChildren().add(nameAdminText);
 		vboxHeader.getChildren().add(nameCompanyText);
-		vboxHeader.getChildren().add(dashboardText);
 		hboxHeader.getChildren().add(vboxHeader);
 		hboxHeader.getChildren().add(imgAdminView);
 		hboxHeader.getChildren().add(dateText);
@@ -86,12 +128,43 @@ public class AccountCompanyView implements ControllableView {
 		vboxHeader.setPadding(new Insets(10, 400, 10, 10));
 		//vboxHeader.setPrefWidth(500);
 
-
-		HBox hboxHeaderPannel = new HBox();
+		HBox hboxHeaderPannel = new HBox(10);
 		hboxHeaderPannel.getChildren().add(vboxPannel);
 		hboxHeaderPannel.getChildren().add(hboxHeader);
+
+		HBox hboxNumber = new HBox(10);
+		VBox vboxNumberEmployee = new VBox(10);
+		vboxNumberEmployee.getChildren().add(numberEmployeeLabel);
+		vboxNumberEmployee.getChildren().add(numberEmployeeText);
+		vboxNumberEmployee.setAlignment(Pos.CENTER);
+		vboxNumberEmployee.setStyle(COMMON_STYLING);
+		vboxNumberEmployee.setPadding(new Insets(10, 10, 10, 10));
+		
+		VBox vboxNumberOffer = new VBox(10);
+		vboxNumberOffer.getChildren().add(numberOfferLabel);
+		vboxNumberOffer.getChildren().add(numberOfferText);
+		vboxNumberOffer.setAlignment(Pos.CENTER);
+		vboxNumberOffer.setStyle(COMMON_STYLING);
+		vboxNumberOffer.setPadding(new Insets(10, 10, 10, 10));
+		
+		VBox vboxTotalClick = new VBox(10);
+		vboxTotalClick.getChildren().add(totalClickLabel);
+		vboxTotalClick.getChildren().add(totalClickText);
+		vboxTotalClick.setAlignment(Pos.CENTER);
+		vboxTotalClick.setStyle(COMMON_STYLING);
+		vboxTotalClick.setPadding(new Insets(10, 10, 10, 10));
+
+		hboxNumber.getChildren().add(vboxNumberEmployee);
+		hboxNumber.getChildren().add(vboxNumberOffer);
+		hboxNumber.getChildren().add(vboxTotalClick);
+
+		HBox hboxChart = new HBox();
+		hboxChart.getChildren().add(candidateBarChart);
+		
 		
 		vbox.getChildren().add(hboxHeaderPannel);
+		vbox.getChildren().add(hboxNumber);
+		vbox.getChildren().add(hboxChart);
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
@@ -119,9 +192,15 @@ public class AccountCompanyView implements ControllableView {
 			logOutBtn,
 			nameAdminText,
 			nameCompanyText,
-			imgAdminView
+			imgAdminView,
+			numberEmployeeText,
+			numberOfferText,
+			totalClickText,
+			yAxis,
+			candidateBarChart			
 		};
 	}
+
 }
 
 
