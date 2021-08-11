@@ -1,7 +1,11 @@
 package logic.graphicscontroller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
@@ -16,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
+import logic.controller.CandidatureController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.util.GraphicsUtil;
@@ -137,18 +142,31 @@ public class AccountCompanyViewController extends GraphicsController {
 	}
 
 	private void setNumberCandidateChart() {
+		List<Integer> listCandidatureByVat = null;
 		series = new XYChart.Series<Number, String>();
 		
 		candidateBarChart.setTitle("Number of Candidate");
 		yAxis.setCategories(FXCollections.<String>observableArrayList(
 		        Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC)));
 		
+		try {
+			listCandidatureByVat = CandidatureController.getCandidatureByCompanyVat(user.getCompany());
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		List<String> listMonth = new ArrayList<>();
+		listMonth.add(JAN); listMonth.add(FEB); listMonth.add(MAR); listMonth.add(MAR);
+		listMonth.add(MAY); listMonth.add(JUN); listMonth.add(JUL); listMonth.add(AUG);
+		listMonth.add(SEP); listMonth.add(OCT); listMonth.add(NOV); listMonth.add(DEC);
+		
+		for(int i=0; i<listCandidatureByVat.size(); i++) {		
+			System.out.println(i + " " + listMonth.get(i) + " " + listCandidatureByVat.get(i));
+			series.getData().add(new XYChart.Data<Number, String>(listCandidatureByVat.get(i), listMonth.get(i)));
+		}
 		//series.setName("2003");
-		series.getData().add(new XYChart.Data<Number, String>(25601.34, JAN));
-		series.getData().add(new XYChart.Data<Number, String>(20148.82, FEB));
-		series.getData().add(new XYChart.Data<Number, String>(10000, MAR));
-		series.getData().add(new XYChart.Data<Number, String>(35407.15, APR));
-		series.getData().add(new XYChart.Data<Number, String>(12000, MAY));
+		
 		
 		candidateBarChart.getData().add(series);
 	}
