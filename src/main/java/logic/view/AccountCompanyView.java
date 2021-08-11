@@ -1,15 +1,21 @@
 package logic.view;
 
+import java.util.Date;
+
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.graphicscontroller.AccountAdminCompanyViewController;
+import logic.graphicscontroller.AccountCompanyViewController;
 import logic.graphicscontroller.GraphicsController;
 
-public class AccountAdminCompanyView implements ControllableView {
+public class AccountCompanyView implements ControllableView {
 	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
 	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+150;
 
@@ -19,13 +25,18 @@ public class AccountAdminCompanyView implements ControllableView {
 	private Button homeBtn;
 	private Button postOfferBtn;
 	private Button logOutBtn;
+	private Text nameAdminText;
+	private Text nameCompanyText;
+	private Text dashboardText;
+	private ImageView imgAdminView;
+	private Text dateText;
 
 	private Scene scene;
 
 	private GraphicsController controller;
 
-	public AccountAdminCompanyView(ViewStack viewStack) {
-		controller = new AccountAdminCompanyViewController(this, viewStack);
+	public AccountCompanyView(ViewStack viewStack) {
+		controller = new AccountCompanyViewController(this, viewStack);
 		init();
 		setNodesProps();
 		populateScene();
@@ -35,25 +46,51 @@ public class AccountAdminCompanyView implements ControllableView {
 		homeBtn = new Button("Home");
 		postOfferBtn = new Button("Post Offer");
 		logOutBtn = new Button("Log Out");
-		
+		nameAdminText = new Text();
+		nameCompanyText = new Text();
+		dashboardText = new Text("Dashboard");
+		imgAdminView = new ImageView();
+		dateText = new Text(new Date().toString().substring(0, 10));
+
 		controller.setup();
 	}
 
 	private void setNodesProps() {
-		
+		imgAdminView.prefWidth(20);
 	}
 	
 	private void populateScene() {
 		VBox vbox = new VBox();
 
-		VBox vboxPannel = new VBox();
+		VBox vboxPannel = new VBox(15);
 		vboxPannel.getChildren().add(homeBtn);
 		vboxPannel.getChildren().add(postOfferBtn);
 		vboxPannel.getChildren().add(logOutBtn);
+		vboxPannel.setPrefWidth(200);
 		vboxPannel.setPadding(new Insets(10, 10, 10, 10));
 		vboxPannel.setStyle(COMMON_STYLING);
 		
+		VBox vboxHeader = new VBox(10);
+		vboxHeader.getChildren().add(nameAdminText);
+		vboxHeader.getChildren().add(nameCompanyText);
+		vboxHeader.setPadding(new Insets(10, 10, 10, 10));
+		HBox hboxHeader = new HBox(10);
+		hboxHeader.getChildren().add(dashboardText);
+		hboxHeader.getChildren().add(imgAdminView);
+		hboxHeader.getChildren().add(dateText);
+		hboxHeader.setPrefWidth(200);
+		hboxHeader.setAlignment(Pos.CENTER);
+		hboxHeader.setPadding(new Insets(10, 10, 10, 10));
+		
+		vboxHeader.setPrefWidth(500);
+		vboxHeader.setStyle(COMMON_STYLING);
+		hboxHeader.setStyle(COMMON_STYLING);
+		vboxHeader.getChildren().add(hboxHeader);
+
+		
+		
 		vbox.getChildren().add(vboxPannel);
+		vbox.getChildren().add(vboxHeader);
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
@@ -78,7 +115,10 @@ public class AccountAdminCompanyView implements ControllableView {
 		return new Node[] {
 			homeBtn,
 			postOfferBtn,
-			logOutBtn
+			logOutBtn,
+			nameAdminText,
+			nameCompanyText,
+			imgAdminView
 		};
 	}
 }

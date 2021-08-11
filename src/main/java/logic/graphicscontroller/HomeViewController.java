@@ -31,7 +31,7 @@ import logic.pool.QualificationPool;
 import logic.pool.TypeOfContractPool;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
-import logic.view.AccountAdminCompanyView;
+import logic.view.AccountCompanyView;
 import logic.view.AccountJobSeekerView;
 import logic.view.ChatView;
 import logic.view.ControllableView;
@@ -167,13 +167,12 @@ public final class HomeViewController extends GraphicsController {
 				GraphicsUtil.showAndWaitWindow(LoginView.class);
 				dynamicViewUpdate();
 			} else {
-				if(LoginHandler.getSessionUser().isAdmin())	viewStack.push(new AccountAdminCompanyView(viewStack));
-				else if(!LoginHandler.getSessionUser().isAdmin() && LoginHandler.getSessionUser().isRecruiter()) viewStack.push(new AccountAdminCompanyView(viewStack));
+				if(LoginHandler.getSessionUser().isAdmin() || LoginHandler.getSessionUser().isRecruiter())	viewStack.push(new AccountCompanyView(viewStack));
 				else viewStack.push(new AccountJobSeekerView(viewStack));
 			}
 		}
 	}
-	
+
 	
 	private final class HandlePostOfferButtonRequest implements EventHandler<MouseEvent> {
 		@Override
