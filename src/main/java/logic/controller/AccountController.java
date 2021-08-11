@@ -200,6 +200,10 @@ public final class AccountController {
 		return UserDao.getJobSeekerEmailByCf(ModelFactory.buildUserModel(userBean));
 	}
 	
+	public static String getEmailEmployeeByCF(UserBean userBean) throws DataAccessException, DataLogicException {
+		return UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean));
+	}
+	
 	public static List<ChatLogEntryBean> getLastMessage(String email) 
 			throws DataAccessException, DataLogicException {
 		List<String> peersEmail = ChatLogDao.getChattingPeers(email);
@@ -213,7 +217,7 @@ public final class AccountController {
 
 		return lastMessagesWithEachPeer;
 	}
-	
+
 	public static UserBean getPictureForMessage(String email) throws DataAccessException, DataLogicException {
 		String cf = UserAuthDao.getUserCfAndBcryPwdByEmail(email).getFirst();
 		UserModel user = UserDao.getUserByCf(cf);

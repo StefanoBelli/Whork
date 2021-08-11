@@ -18,18 +18,18 @@ import logic.util.Util;
 
 public class CandidatureItem {
 	private final double MAX_WIDTH = 50;
-	HBox itemBox;
-	ImageView imgView;
-	Text nameCompanyField;
-	Text applicationDateField;
-	Text contractField;
-	Text jobPositionField;
-	Text emailField;
-	Button deleteBtn;
+	private HBox itemBox;
+	private ImageView imgView;
+	private Text nameCompanyField;
+	private Text applicationDateField;
+	private Text contractField;
+	private Text jobPositionField;
+	private Text emailField;
+	private Button deleteBtn;
 	
-	CandidatureBean candidatureBean;
-	UserBean user;
-	
+	private CandidatureBean candidatureBean;
+	private UserBean user;
+
 	private void init() {
 		itemBox = new HBox();
 		imgView = new ImageView();
@@ -68,10 +68,10 @@ public class CandidatureItem {
 		
 		emailField.setText(CandidatureController.getEmployeeEmailByCf(candidature.getOffer().getEmployee()));
 		
-		setListeners(candidature);
+		setListeners();
 	}
 
-	private void setListeners(CandidatureBean candidature) {
+	private void setListeners() {
 		deleteBtn.setOnMouseClicked(new HandleDeleteRequest());
 	}
 
