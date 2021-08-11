@@ -47,6 +47,8 @@ public final class UserDao {
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
 		"Multiple mails detected with same Cf";
+	private static final String DATA_LOGIC_ERROR_ANY_EMAIL = 
+		"There are no email for this user";
 	
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
@@ -160,7 +162,7 @@ public final class UserDao {
 	}
 	
 	/**
-	 * @author ???
+	 * @author Magliari Elio
 	 */
 	public static String getEmployeeEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
 		String email = null;
@@ -170,7 +172,7 @@ public final class UserDao {
 
 			try (ResultSet rs = stmt.getResultSet()) {
 				if(!rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERROR_SAMECF_MOREMAILS);
+					throw new DataLogicException(DATA_LOGIC_ERROR_ANY_EMAIL);
 				}
 
 				email = rs.getString(1);
@@ -183,7 +185,7 @@ public final class UserDao {
 	}
 	
 	/**
-	 * @author ???
+	 * @author Magliari Elio
 	 */
 	public static String getJobSeekerEmailByCf(UserModel userModel) throws DataLogicException, DataAccessException {
 		String email = null;
@@ -193,7 +195,7 @@ public final class UserDao {
 
 			try (ResultSet rs = stmt.getResultSet()) {
 				if(!rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERROR_SAMECF_MOREMAILS);
+					throw new DataLogicException(DATA_LOGIC_ERROR_ANY_EMAIL);
 				}
 
 				email = rs.getString(1);
@@ -206,7 +208,7 @@ public final class UserDao {
 	}
 	
 	/**
-	 * @author ???
+	 * @author Magliari Elio
 	 */
 	public static List<EmploymentStatusModel> getEmploymentStatusByCompanyVat(CompanyModel company) 
 			throws DataAccessException, DataLogicException {
@@ -230,7 +232,7 @@ public final class UserDao {
 	}
 	
 	/**
-	 * @author ???
+	 * @author Magliari Elio
 	 */
 	public static Map<String, EmployeeUserModel> getEmployeeByCompanyVAT(CompanyModel company) throws DataAccessException {
 		Map<String, EmployeeUserModel> map = new HashMap<>();

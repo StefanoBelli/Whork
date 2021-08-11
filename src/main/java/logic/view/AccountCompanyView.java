@@ -12,6 +12,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -46,6 +47,8 @@ public class AccountCompanyView implements ControllableView {
 	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
 	private PieChart pieChart;
+	
+	private ListView<Object> listChatView;
 
 	private Scene scene;
 
@@ -79,6 +82,7 @@ public class AccountCompanyView implements ControllableView {
 
 		pieChart = new PieChart(AccountCompanyViewController.setPieChart());
 
+		listChatView = new ListView<>();
 
 		controller.setup();
 
@@ -150,6 +154,7 @@ public class AccountCompanyView implements ControllableView {
 		HBox hboxChart = new HBox(10);
 		hboxChart.getChildren().add(pieChart);
 		hboxChart.getChildren().add(candidateBarChart);
+		hboxChart.getChildren().add(listChatView);
 
 
 		vbox.getChildren().add(hboxHeaderPannel);
@@ -187,7 +192,8 @@ public class AccountCompanyView implements ControllableView {
 			numberOfferText,
 			totalClickText,
 			yAxis,
-			candidateBarChart
+			candidateBarChart,
+			listChatView
 		};
 	}
 

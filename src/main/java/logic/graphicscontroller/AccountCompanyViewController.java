@@ -14,17 +14,22 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import logic.bean.ChatLogEntryBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.controller.CandidatureController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
+import logic.view.ChatItem;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
 import logic.view.ViewStack;
@@ -62,7 +67,10 @@ public class AccountCompanyViewController extends GraphicsController {
 	private XYChart.Series<Number, String> series;
 	private static ObservableList<PieChart.Data> pieChartData;
 
-	UserBean user;
+	private ListView<ChatLogEntryBean> listChatView;
+
+	private UserBean user;
+	private String email;
 
 	public AccountCompanyViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
@@ -83,13 +91,22 @@ public class AccountCompanyViewController extends GraphicsController {
 		totalClickText = (Text) n[8];
 		yAxis = (CategoryAxis) n[9];
 		candidateBarChart = (StackedBarChart<Number, String>) n[10];
+		listChatView = (ListView<ChatLogEntryBean>) n[11];
 
 		user = LoginHandler.getSessionUser();
+
+		try {
+			email = AccountController.getEmailEmployeeByCF(user);
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
 
 		setPostOfferButton();
 		setHeader();
 		setNumber();
 		setNumberCandidateChart();
+		setChat();
 
 		setListeners();
 	}
@@ -182,6 +199,40 @@ public class AccountCompanyViewController extends GraphicsController {
 
         return pieChartData;
 	}
+
+	private void setChat() {
+   	 	List<ChatLogEntryBean> listChat = null;
+		try {
+			listChat = AccountController.getLastMessage(email);
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}                           	    
+
+		fillListView(FXCollections.observableArrayList(listChat));
+	}
+
+	private void fillListView(ObservableList<ChatLogEntryBean> list) {
+		listChatView.setItems(list);
+		listChatView.setCellFactory((ListView<ChatLogEntryBean> oUnused) -> new ListCell<ChatLogEntryBean>() {
+				@Override
+				public void updateItem(ChatLogEntryBean itemBean, boolean empty) {
+					super.updateItem(itemBean, empty);
+					if (itemBean != null) {
+						ChatItem newItem = new ChatItem();
+						try {
+							newItem.setInfo(itemBean, email);
+						} catch (InternalException e) {
+							Util.exceptionLog(e);
+							GraphicsUtil.showExceptionStage(e);
+						}
+						setGraphic(newItem.getBox());
+					}
+				}
+			}
+		);
+	}
+
 	@Override
 	public void update() {
 		//no need to update anything
