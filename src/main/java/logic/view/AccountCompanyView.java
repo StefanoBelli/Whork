@@ -49,6 +49,7 @@ public class AccountCompanyView implements ControllableView {
 	private PieChart pieChart;
 	
 	private ListView<Object> listChatView;
+	private ListView<Object> listRecruiterView;
 
 	private Scene scene;
 
@@ -83,6 +84,7 @@ public class AccountCompanyView implements ControllableView {
 		pieChart = new PieChart(AccountCompanyViewController.setPieChart());
 
 		listChatView = new ListView<>();
+		listRecruiterView = new ListView<>();
 
 		controller.setup();
 
@@ -160,6 +162,7 @@ public class AccountCompanyView implements ControllableView {
 		vbox.getChildren().add(hboxHeaderPannel);
 		vbox.getChildren().add(hboxNumber);
 		vbox.getChildren().add(hboxChart);
+		vbox.getChildren().add(listRecruiterView);
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
@@ -193,7 +196,8 @@ public class AccountCompanyView implements ControllableView {
 			totalClickText,
 			yAxis,
 			candidateBarChart,
-			listChatView
+			listChatView,
+			listRecruiterView
 		};
 	}
 

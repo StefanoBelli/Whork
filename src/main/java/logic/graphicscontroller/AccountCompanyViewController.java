@@ -3,7 +3,9 @@ package logic.graphicscontroller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +34,7 @@ import logic.util.Util;
 import logic.view.ChatItem;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
+import logic.view.RecruiterItem;
 import logic.view.ViewStack;
 
 public class AccountCompanyViewController extends GraphicsController {
@@ -68,10 +71,12 @@ public class AccountCompanyViewController extends GraphicsController {
 	private static ObservableList<PieChart.Data> pieChartData;
 
 	private ListView<ChatLogEntryBean> listChatView;
+	private ListView<UserBean> listRecruiterView;
 
 	private UserBean user;
 	private String email;
-
+	private Map<String, UserBean> mapRecruiter;
+	
 	public AccountCompanyViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
@@ -92,6 +97,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		yAxis = (CategoryAxis) n[9];
 		candidateBarChart = (StackedBarChart<Number, String>) n[10];
 		listChatView = (ListView<ChatLogEntryBean>) n[11];
+		listRecruiterView = (ListView<UserBean>) n[12];
 
 		user = LoginHandler.getSessionUser();
 
@@ -107,6 +113,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		setNumber();
 		setNumberCandidateChart();
 		setChat();
+		setRecruiter();
 
 		setListeners();
 	}
@@ -209,10 +216,10 @@ public class AccountCompanyViewController extends GraphicsController {
 			GraphicsUtil.showExceptionStage(e);
 		}                           	    
 
-		fillListView(FXCollections.observableArrayList(listChat));
+		fillListViewChat(FXCollections.observableArrayList(listChat));
 	}
 
-	private void fillListView(ObservableList<ChatLogEntryBean> list) {
+	private void fillListViewChat(ObservableList<ChatLogEntryBean> list) {
 		listChatView.setItems(list);
 		listChatView.setCellFactory((ListView<ChatLogEntryBean> oUnused) -> new ListCell<ChatLogEntryBean>() {
 				@Override
@@ -232,6 +239,59 @@ public class AccountCompanyViewController extends GraphicsController {
 			}
 		);
 	}
+
+	private void setRecruiter() {
+		mapRecruiter = null;
+		List<UserBean> listRecruiter = new ArrayList<>();
+
+		try {
+			mapRecruiter = AccountController.getEmployeeByCompanyVAT(user.getCompany());                                    		
+		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		Iterator<String> keys = mapRecruiter.keySet().iterator();
+		String key = null;
+
+		while(keys.hasNext()) {
+			key = keys.next();
+			listRecruiter.add(mapRecruiter.get(key));
+		}
+		
+		fillListViewRecruiter(FXCollections.observableArrayList(listRecruiter));
+	}
+
+	private void fillListViewRecruiter(ObservableList<UserBean> list) {
+		listRecruiterView.setItems(list);
+		listRecruiterView.setCellFactory((ListView<UserBean> oUnused) -> new ListCell<UserBean>() {
+				@Override
+				public void updateItem(UserBean itemBean, boolean empty) {
+					super.updateItem(itemBean, empty);
+					if (itemBean != null) {
+						RecruiterItem newItem = new RecruiterItem();
+						try {
+							newItem.setInfo(itemBean, getKey(mapRecruiter, itemBean));
+						} catch (InternalException e) {
+							Util.exceptionLog(e);
+							GraphicsUtil.showExceptionStage(e);
+						}
+						setGraphic(newItem.getBox());
+					}
+				}
+			}
+		);
+	}
+
+	 public static <K, V> K getKey(Map<K, V> map, V value){
+        for (Map.Entry<K, V> entry: map.entrySet())
+        {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 
 	@Override
 	public void update() {

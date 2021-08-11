@@ -45,8 +45,6 @@ public final class UserDao {
 		"{ call GetEmployeeUserDetailsByCompanyVAT(?) }";
 	private static final String DATA_LOGIC_ERR_MORE_RS_THAN_EXPECTED =
 		"More than two result set, this is unexpected";
-	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
-		"Multiple mails detected with same Cf";
 	private static final String DATA_LOGIC_ERROR_ANY_EMAIL = 
 		"There are no email for this user";
 	
