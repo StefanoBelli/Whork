@@ -3,14 +3,14 @@ package logic.graphicscontroller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -60,6 +60,7 @@ public class AccountCompanyViewController extends GraphicsController {
 	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
 	private XYChart.Series<Number, String> series;
+	private static ObservableList<PieChart.Data> pieChartData;
 
 	UserBean user;
 
@@ -82,14 +83,14 @@ public class AccountCompanyViewController extends GraphicsController {
 		totalClickText = (Text) n[8];
 		yAxis = (CategoryAxis) n[9];
 		candidateBarChart = (StackedBarChart<Number, String>) n[10];
-		
+
 		user = LoginHandler.getSessionUser();
 
 		setPostOfferButton();
 		setHeader();
 		setNumber();
 		setNumberCandidateChart();
-		
+
 		setListeners();
 	}
 	
@@ -157,18 +158,29 @@ public class AccountCompanyViewController extends GraphicsController {
 		}
 
 		List<String> listMonth = new ArrayList<>();
-		listMonth.add(JAN); listMonth.add(FEB); listMonth.add(MAR); listMonth.add(MAR);
+		listMonth.add(JAN); listMonth.add(FEB); listMonth.add(MAR); listMonth.add(APR);
 		listMonth.add(MAY); listMonth.add(JUN); listMonth.add(JUL); listMonth.add(AUG);
 		listMonth.add(SEP); listMonth.add(OCT); listMonth.add(NOV); listMonth.add(DEC);
-		
+
 		for(int i=0; i<listCandidatureByVat.size(); i++) {		
-			System.out.println(i + " " + listMonth.get(i) + " " + listCandidatureByVat.get(i));
 			series.getData().add(new XYChart.Data<Number, String>(listCandidatureByVat.get(i), listMonth.get(i)));
 		}
 		//series.setName("2003");
 		
 		
 		candidateBarChart.getData().add(series);
+	}
+
+	public static ObservableList<PieChart.Data> setPieChart() {
+		pieChartData = 
+			FXCollections.observableArrayList(
+					new PieChart.Data("Grapefruit", 13),
+					new PieChart.Data("Oranges", 25),
+					new PieChart.Data("Plums", 10),
+					new PieChart.Data("Pears", 22),
+					new PieChart.Data("Apples", 30));
+
+        return pieChartData;
 	}
 	@Override
 	public void update() {
