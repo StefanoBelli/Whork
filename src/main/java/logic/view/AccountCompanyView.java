@@ -70,27 +70,28 @@ public class AccountCompanyView implements ControllableView {
 		vboxPannel.setPadding(new Insets(10, 10, 10, 10));
 		vboxPannel.setStyle(COMMON_STYLING);
 		
+		HBox hboxHeader = new HBox(10);
+		//hboxHeader.setPrefWidth(200);
 		VBox vboxHeader = new VBox(10);
 		vboxHeader.getChildren().add(nameAdminText);
 		vboxHeader.getChildren().add(nameCompanyText);
-		vboxHeader.setPadding(new Insets(10, 10, 10, 10));
-		HBox hboxHeader = new HBox(10);
-		hboxHeader.getChildren().add(dashboardText);
+		vboxHeader.getChildren().add(dashboardText);
+		hboxHeader.getChildren().add(vboxHeader);
 		hboxHeader.getChildren().add(imgAdminView);
 		hboxHeader.getChildren().add(dateText);
-		hboxHeader.setPrefWidth(200);
-		hboxHeader.setAlignment(Pos.CENTER);
-		hboxHeader.setPadding(new Insets(10, 10, 10, 10));
-		
-		vboxHeader.setPrefWidth(500);
-		vboxHeader.setStyle(COMMON_STYLING);
-		hboxHeader.setStyle(COMMON_STYLING);
-		vboxHeader.getChildren().add(hboxHeader);
 
+		hboxHeader.setAlignment(Pos.CENTER);
+		hboxHeader.setStyle(COMMON_STYLING);
+		hboxHeader.setPadding(new Insets(10, 10, 10, 10));
+		vboxHeader.setPadding(new Insets(10, 400, 10, 10));
+		//vboxHeader.setPrefWidth(500);
+
+
+		HBox hboxHeaderPannel = new HBox();
+		hboxHeaderPannel.getChildren().add(vboxPannel);
+		hboxHeaderPannel.getChildren().add(hboxHeader);
 		
-		
-		vbox.getChildren().add(vboxPannel);
-		vbox.getChildren().add(vboxHeader);
+		vbox.getChildren().add(hboxHeaderPannel);
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
