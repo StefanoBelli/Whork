@@ -1,9 +1,7 @@
 package logic.view;
 
-import java.util.Arrays;
 import java.util.Date;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,19 +28,6 @@ public class AccountCompanyView implements ControllableView {
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
 	
-	private final static String JAN = "Jan";
-	private final static String FEB = "Feb";
-	private final static String MAR = "Mar";
-	private final static String APR = "Apr";
-	private final static String MAY = "May";
-	private final static String JUN = "Jun";
-	private final static String JUL = "Jul";
-	private final static String AUG = "Aug";
-	private final static String SEP = "Sep";
-	private final static String OCT = "Oct";
-	private final static String NOV = "Nov";
-	private final static String DEC = "Dec";
-	
 	private Button homeBtn;
 	private Button postOfferBtn;
 	private Button logOutBtn;
@@ -60,7 +45,6 @@ public class AccountCompanyView implements ControllableView {
 	private NumberAxis xAxis;
 	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
-	private XYChart.Series<Number, String> series;
 
 	private Scene scene;
 
