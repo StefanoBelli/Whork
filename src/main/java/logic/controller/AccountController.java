@@ -213,7 +213,7 @@ public final class AccountController {
 
 		return lastMessagesWithEachPeer;
 	}
-	
+
 	public static UserBean getPictureForMessage(String email) throws DataAccessException, DataLogicException {
 		String cf = UserAuthDao.getUserCfAndBcryPwdByEmail(email).getFirst();
 		UserModel user = UserDao.getUserByCf(cf);

@@ -47,9 +47,7 @@ public final class UserDao {
 		"More than two result set, this is unexpected";
 	private static final String DATA_LOGIC_ERROR_SAMECF_MOREMAILS = 
 		"Multiple mails detected with same Cf";
-	private static final String DATA_LOGIC_ERR_NOCF = 
-		"No CF";
-
+	
 	private static UserModel getJobSeeker(ResultSet rs) 
 			throws SQLException {
 		JobSeekerUserModel m = new JobSeekerUserModel();
@@ -221,9 +219,7 @@ public final class UserDao {
 				while(rs.next()) {
 		
 					JobSeekerUserModel cm = (JobSeekerUserModel) UserDao.getUserByCf(rs.getString(1));
-					if(cm == null) throw new DataLogicException(DATA_LOGIC_ERR_NOCF);
-						
-					listEmploymentStatus.add(cm.getEmploymentStatus());
+					if(cm != null) listEmploymentStatus.add(cm.getEmploymentStatus());
 				
 				}
 			}
