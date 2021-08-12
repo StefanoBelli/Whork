@@ -3,6 +3,7 @@ package logic.view;
 import java.util.Date;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -76,7 +77,7 @@ public class ChatItem {
 		messageText.setText(chat.getText());
 
 		dateText.setText(date.substring(0, date.length()-13));
-		
+
 		setListeners();
 	}
 
@@ -90,9 +91,10 @@ public class ChatItem {
 		itemBox.getChildren().add(messageText);
 		itemBox.getChildren().add(dateText);
 		itemBox.getChildren().add(replyBtn);
-		
+
 		itemBox.setSpacing(20);		
-		
+		itemBox.setAlignment(Pos.CENTER);
+
 		return itemBox;
 	}
 
