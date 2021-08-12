@@ -15,7 +15,7 @@ import logic.util.GraphicsUtil;
 import logic.util.Util;
 
 public class RecruiterItem {
-	private final double MAX_WIDTH = 100;
+	private final double MAX_WIDTH = 50;
 
 	private HBox itemBox;
 	private ImageView imgView;
