@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.graphicscontroller.AccountJobSeekerViewController;
 import logic.graphicscontroller.GraphicsController;
+import logic.util.GraphicsUtil;
 
 public final class AccountJobSeekerView implements ControllableView {
 	private static final String HOME = "Home";
@@ -93,6 +94,8 @@ public final class AccountJobSeekerView implements ControllableView {
 	private Button editBioBtn;
 	private Button submitBioBtn;
 	private Button cancelBioBtn;
+
+	private Label candidatureLabel;
 	private ListView<Object> listCandidatureView;
 	
 	private GraphicsController controller;
@@ -155,6 +158,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		submitBioBtn = new Button(SUBMIT);
 		cancelBioBtn = new Button(CANCEL);
 
+		candidatureLabel = new Label("My candidature");
 		listCandidatureView = new ListView<>();
 		
 		controller.setup();
@@ -182,11 +186,18 @@ public final class AccountJobSeekerView implements ControllableView {
 		facebookField.setPrefWidth(450);
 		facebookField.setAlignment(Pos.CENTER);
 		bioField.setPrefWidth(500);
+		homeBtn.setFont(GraphicsUtil.getBoldFont());
+		logoutBtn.setFont(GraphicsUtil.getBoldFont());
+		chatBtn.setFont(GraphicsUtil.getBoldFont());
+		nameLabel.setFont(GraphicsUtil.getBoldFont());
+		statusLabel.setFont(GraphicsUtil.getBoldFont());
+		locationLabel.setFont(GraphicsUtil.getBoldFont());
+		candidatureLabel.setFont(GraphicsUtil.getBoldFont());
 	}
-	
+
 	private void populateScene() {
 		VBox vbox = new VBox();
-		
+
 		HBox hboxHeader = new HBox(10);
 		hboxHeader.getChildren().add(homeBtn);
 		hboxHeader.getChildren().add(chatBtn);
@@ -220,7 +231,7 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxSocial.getChildren().add(hboxSocialBtn);
 		vboxSocial.setPadding(new Insets(10, 10, 10, 10));
 		vboxSocial.setStyle(COMMON_STYLING);
-		
+
 		vboxPers.getChildren().add(vboxSocial);
 
 		VBox vboxData = new VBox(5);
@@ -252,19 +263,21 @@ public final class AccountJobSeekerView implements ControllableView {
 		vboxData.setPrefSize(450, 300);
 		vboxData.setPadding(new Insets(10, 10, 10, 10));
 		vboxData.setStyle(COMMON_STYLING);
-		
-		VBox vboxCand = new VBox();
+
+		VBox vboxCand = new VBox(10);
 		listCandidatureView.setPrefSize(800, 600);
+		vboxCand.getChildren().add(candidatureLabel);
 		vboxCand.getChildren().add(listCandidatureView);
 		vboxCand.setPrefSize(800, 300);
 		vboxCand.setStyle(COMMON_STYLING);
-		
+		vboxCand.setPadding(new Insets(10, 10, 10, 10));
+
 		HBox hboxLev = new HBox(10);
 		hboxLev.getChildren().add(vboxPers);
 		hboxLev.getChildren().add(vboxData);
 		hboxLev.getChildren().add(vboxCand);
 		hboxLev.setPadding(new Insets(10, 10, 10, 10));
-		
+
 		VBox vboxBio = new VBox(5);
 		vboxBio.getChildren().add(bioLabelText);
 		vboxBio.getChildren().add(bioField);

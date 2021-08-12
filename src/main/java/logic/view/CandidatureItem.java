@@ -1,6 +1,8 @@
 package logic.view;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -76,6 +78,8 @@ public class CandidatureItem {
 	}
 
 	public Node getBox() {
+		deleteBtn.setFont(GraphicsUtil.getBoldFont());
+
 		itemBox.getChildren().add(imgView);
 		itemBox.getChildren().add(nameCompanyField);
 		itemBox.getChildren().add(applicationDateField);
@@ -83,9 +87,11 @@ public class CandidatureItem {
 		itemBox.getChildren().add(jobPositionField);
 		itemBox.getChildren().add(emailField);
 		itemBox.getChildren().add(deleteBtn);
-		
+
 		itemBox.setSpacing(20);		
-		
+		itemBox.setAlignment(Pos.CENTER);
+		itemBox.setPadding(new Insets(10, 10, 10, 10));
+
 		return itemBox;
 	}
 	
