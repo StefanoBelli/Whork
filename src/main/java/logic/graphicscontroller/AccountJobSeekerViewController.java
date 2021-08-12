@@ -75,6 +75,10 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	private List<CandidatureBean> list;
 	
+	private Social socialInstance;
+	private Personal personalInstance;
+	private Bio bioInstance;
+
 	private UserBean user;
 	private String email;
 	
@@ -129,7 +133,15 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
 		}
-		
+
+		SocialHandler socialFactory = new SocialHandler();
+		PersonalHandler personalFactory = new PersonalHandler();
+		BioHandler bioFactory = new BioHandler();
+
+		socialInstance = (Social) socialFactory.createElement();
+		personalInstance = (Personal) personalFactory.createElement();
+		bioInstance = (Bio) bioFactory.createElement();
+
 		setDescription();
 		setSocial();
 		setPersonal();
@@ -219,10 +231,10 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		else bioField.setText(user.getBiography());
 	}
 	private void settingTextField() {
-		Personal.text();
+		personalInstance.text();
 		fiscalCodeField.setEditable(false);
-		Social.text(false);
-		Bio.text(false);
+		socialInstance.text(false);
+		bioInstance.text(false);
 	}
 
 	private void setCandidature() {
@@ -237,9 +249,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	private void settingButton() {
-		Social.button(false);
-		Personal.button(false);
-		Bio.button(false);
+		socialInstance.button(false);
+		personalInstance.button(false);
+		bioInstance.button(false);
 	}
 	
 	@Override
@@ -280,8 +292,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.button(true);
-			Social.text(true);
+			socialInstance.button(true);
+			socialInstance.text(true);
 		}
 	}
 
@@ -299,8 +311,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 						"Social Data", 
 						"Unable to change data", 
 						"You cannot leave empty field").showAndWait();
-				Social.text(false);
-				Social.button(false);
+				socialInstance.text(false);
+				socialInstance.button(false);
 				return;
 			}
 			user.setWebsite(websiteField.getText());
@@ -314,8 +326,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}
-			Social.text(false);
-			Social.button(false);
+			socialInstance.text(false);
+			socialInstance.button(false);
 		}
 	}
 
@@ -323,8 +335,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Social.button(false);
-			Social.text(false);
+			socialInstance.button(false);
+			socialInstance.text(false);
 			setSocial();			
 		}
 	}
@@ -333,8 +345,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Personal.button(true);
-			Personal.text(true);
+			personalInstance.button(true);
+			personalInstance.text(true);
 		}
 	}
 	
@@ -342,8 +354,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Personal.button(true);
-			Personal.text(false);
+			personalInstance.button(true);
+			personalInstance.text(false);
 		}
 	}
 	
@@ -351,7 +363,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {
-			Personal.button(false);
+			personalInstance.button(false);
 			
 			if(!oldPasswordField.isVisible()) {
 				if(nameField.getText() == "" ||
@@ -363,7 +375,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 								"Personal Data", 
 								"Unable to change data", 
 								"You cannot leave empty field").showAndWait();
-						Personal.text();
+						personalInstance.text();
 						return;
 				}
 				
@@ -371,7 +383,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				user.setSurname(surnameField.getText());
 				user.setPhoneNumber(phoneField.getText());
 				user.setHomeAddress(addressField.getText());
-				Personal.text();
+				personalInstance.text();
 
 				try {
 					AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
@@ -381,7 +393,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					GraphicsUtil.showExceptionStage(e);
 				}
 			} else {
-				Personal.text();
+				personalInstance.text();
 				if(oldPasswordField.getText() == "" ||
 					newPasswordField.getText() == "" ||
 					confirmPasswordField.getText() == "") {
@@ -427,8 +439,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Personal.button(false);
-			Personal.text();
+			personalInstance.button(false);
+			personalInstance.text();
 			setPersonal();
 		}
 	}
@@ -437,8 +449,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Bio.button(true);
-			Bio.text(true);
+			bioInstance.button(true);
+			bioInstance.text(true);
 		}
 	}
 
@@ -446,8 +458,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Bio.button(false);
-			Bio.text(false);
+			bioInstance.button(false);
+			bioInstance.text(false);
 			
 			if(bioField.getText() == "") {
 
@@ -473,8 +485,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			Bio.button(false);
-			Bio.text(false);
+			bioInstance.button(false);
+			bioInstance.text(false);
 			setBio();
 		}
 	}
@@ -512,22 +524,31 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 	}
 
-	
-	private abstract static class Edit {
-		static void button(boolean variable) {}
-		static void text(boolean variable) {}
-	}
-	
-	private static class Social extends Edit {
 
-		protected static void button(boolean variable) {
+	private interface Edit {
+		abstract void button(boolean variable);
+		abstract void text(boolean variable);
+	}
+
+	private abstract class ElementHandler {
+		protected Edit createElement() {
+			Edit edit = newElement();
+			return edit;
+		}
+		
+		protected abstract Edit newElement();
+	}
+
+	private class Social implements Edit {
+
+		public void button(boolean variable) {
 			if(variable == true) editSocialBtn.setVisible(false);
 			else editSocialBtn.setVisible(true);
 			submitSocialBtn.setVisible(variable);
 			cancelSocialBtn.setVisible(variable);
 		}
 
-		protected static void text(boolean variable) {
+		public void text(boolean variable) {
 			websiteField.setEditable(variable);
 			twitterField.setEditable(variable);
 			instaField.setEditable(variable);
@@ -536,9 +557,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		
 	}
 
-	private static class Personal extends Edit {
+	private class Personal implements Edit {
 
-		protected static void button(boolean variable) {
+		public void button(boolean variable) {
 			if(variable == true) {
 				editPersonalBtn.setVisible(false);
 				changePasswordBtn.setVisible(false);
@@ -550,7 +571,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			cancelPersonalBtn.setVisible(variable);
 		}
 
-		protected static void text(boolean variable) {
+		public void text(boolean variable) {
 			nameField.setEditable(variable);
 			surnameField.setEditable(variable);
 			emailField.setEditable(variable);
@@ -573,7 +594,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			}
 		}
 		
-		protected static void text() {
+		public void text() {
 			nameField.setEditable(false);
 			surnameField.setEditable(false);
 			emailField.setEditable(false);
@@ -586,21 +607,49 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			newPasswordLabel.setVisible(false);
 			confirmPasswordLabel.setVisible(false);
 		}
-		
-	}
-	
-	private static class Bio extends Edit {
 
-		protected static void button(boolean variable) {
+	}
+
+	private class Bio implements Edit {
+
+		public void button(boolean variable) {
 			if(variable == true) editBioBtn.setVisible(false);
 			else editBioBtn.setVisible(true);
 			submitBioBtn.setVisible(variable);
 			cancelBioBtn.setVisible(variable);
 		}
 
-		protected static void text(boolean variable) {
+		public void text(boolean variable) {
 			bioField.setEditable(variable);
 		}
 		
 	}
+
+	protected class SocialHandler extends ElementHandler {
+		protected Edit newElement() {
+			return new Social();
+		}
+	}
+
+	protected class PersonalHandler extends ElementHandler {
+		protected Edit newElement() {
+			return new Personal();
+		}
+	}
+
+	protected class BioHandler extends ElementHandler {
+		protected Edit newElement() {
+			return new Bio();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
