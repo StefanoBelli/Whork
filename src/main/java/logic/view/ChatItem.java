@@ -69,7 +69,8 @@ public class ChatItem {
 		if(picture == null)
 			imgView.setImage(new Image(pathBuilder.append(dflRoot).append("/avatar2.png").toString()));
 		else
-			imgView.setImage(new Image(pathBuilder.append(usrData).append(picture).toString()));
+			imgView.setImage(
+					new Image(pathBuilder.append(usrData).append("/").append(picture).toString()));
 		
 		emailText.setText(nameChat);
 		emailText.setFont(GraphicsUtil.getBoldFont());
