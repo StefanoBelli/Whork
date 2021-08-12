@@ -134,13 +134,11 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			GraphicsUtil.showExceptionStage(e);
 		}
 
-		SocialHandler socialFactory = new SocialHandler();
-		PersonalHandler personalFactory = new PersonalHandler();
-		BioHandler bioFactory = new BioHandler();
+		Factory factory = new Factory();
 
-		socialInstance = (Social) socialFactory.createElement();
-		personalInstance = (Personal) personalFactory.createElement();
-		bioInstance = (Bio) bioFactory.createElement();
+		socialInstance = (Social) factory.createElement("Social");
+		personalInstance = (Personal) factory.createElement("Personal");
+		bioInstance = (Bio) factory.createElement("Bio");
 
 		setDescription();
 		setSocial();
@@ -530,15 +528,6 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		abstract void text(boolean variable);
 	}
 
-	private abstract class ElementHandler {
-		protected Edit createElement() {
-			Edit edit = newElement();
-			return edit;
-		}
-		
-		protected abstract Edit newElement();
-	}
-
 	private class Social implements Edit {
 
 		public void button(boolean variable) {
@@ -622,34 +611,32 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		public void text(boolean variable) {
 			bioField.setEditable(variable);
 		}
-		
+
 	}
 
-	protected class SocialHandler extends ElementHandler {
-		protected Edit newElement() {
+	private class Factory {
+		private Edit createElement(String element) {
+			switch(element) {
+				case("Social"): 
+					return createNewProductBaseSocial();
+				case("Personal"):
+					return createNewProductBasePersonal();
+				case("Bio"):
+					return createNewProductBaseBio();
+				default: return null;
+			}
+		}
+
+		private Edit createNewProductBaseSocial() {
 			return new Social();
 		}
-	}
 
-	protected class PersonalHandler extends ElementHandler {
-		protected Edit newElement() {
+		private Edit createNewProductBasePersonal() {
 			return new Personal();
 		}
-	}
 
-	protected class BioHandler extends ElementHandler {
-		protected Edit newElement() {
+		private Edit createNewProductBaseBio() {
 			return new Bio();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

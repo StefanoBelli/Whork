@@ -22,18 +22,18 @@
 	</head>	
 	<body>
 <%
-UserBean sessionUser = ServletUtil.getUserForSession(request);
-String searchVal=(String) request.getParameter("searchVal");
-String jobCategory = (String) request.getParameter("jobCategories");
-String jobPosition = (String) request.getParameter("jobPositions");
-String qualification = (String) request.getParameter("qualifications");
-String typeOfContract = (String) request.getParameter("typesOfContract");
-List<OfferBean> offers =OfferController.searchOffers(searchVal, 
-			jobCategory, jobPosition, qualification	, typeOfContract);
-String candidateToOffer = (String) request.getParameter("candidate_offer_id");
-if(candidateToOffer != null && sessionUser != null) {
-	CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(
-			OfferController.getOfferById(Integer.parseInt(candidateToOffer)), sessionUser));
+	UserBean sessionUser = ServletUtil.getUserForSession(request);
+	String searchVal=(String) request.getParameter("searchVal");
+	String jobCategory = (String) request.getParameter("jobCategories");
+	String jobPosition = (String) request.getParameter("jobPositions");
+	String qualification = (String) request.getParameter("qualifications");
+	String typeOfContract = (String) request.getParameter("typesOfContract");
+	List<OfferBean> offers =OfferController.searchOffers(searchVal, 
+				jobCategory, jobPosition, qualification	, typeOfContract);
+	String candidateToOffer = (String) request.getParameter("candidate_offer_id");
+	if(candidateToOffer != null && sessionUser != null) {
+		CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(
+				OfferController.getOfferById(Integer.parseInt(candidateToOffer)), sessionUser));
 }
 %>
 	<div class="searchDiv">
