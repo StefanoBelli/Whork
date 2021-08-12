@@ -1,5 +1,6 @@
 package logic.graphicscontroller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,23 +8,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 import logic.bean.ChatLogEntryBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
@@ -38,6 +50,7 @@ import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
+import logic.view.AccountCompanyView;
 import logic.view.ChatItem;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
@@ -79,22 +92,27 @@ public class AccountCompanyViewController extends GraphicsController {
 
 	private ListView<ChatLogEntryBean> listChatView;
 	private ListView<UserBean> listRecruiterView;
+	private HBox hboxRecruiter;
 	private Button addRecruiterBtn;
 	private TextField nameField;
 	private TextField surnameField;
 	private TextField emailField;
-	private TextField passwordField;
+	private PasswordField passwordField;
 	private TextField fiscalCodeField;
 	private TextField phoneNumberField;
-	private ImageView imgRecruiterField;
+	private Button profilePhotoButton;
+	private Label profilePhotoFileLabel;
 	private Button submitBtn;
 	private Button cancelBtn;
 	private VBox vboxAddRecr;
 
+	private Text textFX;
+
+	private File photo;
 	private UserBean user;
 	private String email;
 	private Map<String, UserBean> mapRecruiter;
-	
+
 	public AccountCompanyViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
@@ -120,15 +138,20 @@ public class AccountCompanyViewController extends GraphicsController {
 		nameField = (TextField) n[14];
 		surnameField = (TextField) n[15];
 		emailField = (TextField) n[16];
-		passwordField = (TextField) n[17];
+		passwordField = (PasswordField) n[17];
 		fiscalCodeField = (TextField) n[18];
 		phoneNumberField = (TextField) n[19];
-		imgRecruiterField = (ImageView) n[20];
-		submitBtn = (Button) n[21];
-		cancelBtn = (Button) n[22];
-		vboxAddRecr = (VBox) n[23];
+		profilePhotoButton = (Button) n[20];
+		profilePhotoFileLabel = (Label) n[21];
+		submitBtn = (Button) n[22];
+		cancelBtn = (Button) n[23];
+		vboxAddRecr = (VBox) n[24];
+		textFX = (Text) n[25];
+		hboxRecruiter = (HBox) n[26];
 
 		user = LoginHandler.getSessionUser();
+
+		if(!user.isAdmin()) hboxRecruiter.setVisible(false);
 
 		try {
 			email = AccountController.getEmailEmployeeByCF(user);
@@ -137,13 +160,17 @@ public class AccountCompanyViewController extends GraphicsController {
 			GraphicsUtil.showExceptionStage(e);
 		}
 
+		setTextProperties();
 		setPostOfferButton();
 		setHeader();
 		setNumber();
 		setNumberCandidateChart();
 		setChat();
-		setRecruiter();
-		setAddRecruiter(false);
+		if(user.isAdmin()) {
+			setRecruiter();
+			setAddRecruiter(false);
+		}
+		setTextAnimation();
 
 		setListeners();
 	}
@@ -155,13 +182,49 @@ public class AccountCompanyViewController extends GraphicsController {
 		addRecruiterBtn.setOnMouseClicked(new HandleAddRecruiterRequest());
 		submitBtn.setOnMouseClicked(new HandleSubmitRecruiterRequest());
 		cancelBtn.setOnMouseClicked(new HandleCancelRecruiterRequest());
+		profilePhotoButton.setOnMouseClicked(new HandleProfilePhotoButtonClicked());
+	}
+
+	private void setTextProperties() {
+		nameField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(nameField, 45));
+
+		surnameField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(surnameField, 45));
+
+		emailField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(emailField, 255));
+
+		passwordField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(passwordField, 255));
+
+		fiscalCodeField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(fiscalCodeField, 16));
+
+		phoneNumberField.textProperty().addListener(
+				new GraphicsUtil.LimitLengthChangeListener(phoneNumberField, 10));
+	}
+
+	private void setTextAnimation() {
+		textFX.setTextOrigin(VPos.TOP);
+		textFX.setFont(Font.font(24));
+
+	    double sceneWidth = 400;
+	    double msgWidth = textFX.getLayoutBounds().getWidth();
+	    KeyValue initKeyValue = new KeyValue(textFX.translateXProperty(), sceneWidth);
+	    KeyFrame initFrame = new KeyFrame(Duration.ZERO, initKeyValue);
+	    KeyValue endKeyValue = new KeyValue(textFX.translateXProperty(), msgWidth);
+	    KeyFrame endFrame = new KeyFrame(Duration.seconds(5), endKeyValue);
+	    Timeline timeline = new Timeline(initFrame, endFrame);
+	    timeline.setCycleCount(Timeline.INDEFINITE);
+	    timeline.play();
 	}
 
 	private void setPostOfferButton() {
 		if(user.isRecruiter()) postOfferBtn.setVisible(true);
 		else postOfferBtn.setVisible(false);
 	}
-	
+
 	private void setHeader() {
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
@@ -170,7 +233,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		imgAdminView.setPreserveRatio(true);
 
 		StringBuilder pathBuilder = new StringBuilder("file:");
-		
+
 		if(user.getPhoto()!=null) {
 			imgAdminView.setImage(
 					new Image(pathBuilder.append(usrData).append("/").append(user.getPhoto()).toString()));
@@ -202,7 +265,7 @@ public class AccountCompanyViewController extends GraphicsController {
 	private void setNumberCandidateChart() {
 		List<Integer> listCandidatureByVat = null;
 		series = new XYChart.Series<Number, String>();
-		
+
 		candidateBarChart.setTitle("Number of Candidate");
 		yAxis.setCategories(FXCollections.<String>observableArrayList(
 		        Arrays.asList(JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC)));
@@ -222,22 +285,31 @@ public class AccountCompanyViewController extends GraphicsController {
 		for(int i=0; i<listCandidatureByVat.size(); i++) {		
 			series.getData().add(new XYChart.Data<Number, String>(listCandidatureByVat.get(i), listMonth.get(i)));
 		}
-		//series.setName("2003");
-		
-		
+
 		candidateBarChart.getData().add(series);
 	}
 
 	public static ObservableList<PieChart.Data> setPieChart() {
-		pieChartData = 
-			FXCollections.observableArrayList(
-					new PieChart.Data("Grapefruit", 13),
-					new PieChart.Data("Oranges", 25),
-					new PieChart.Data("Plums", 10),
-					new PieChart.Data("Pears", 22),
-					new PieChart.Data("Apples", 30));
+		Map<String, Double> mapEmployment = null;
 
-        return pieChartData;
+		try {
+			mapEmployment = AccountController.getEmploymentStatusBtCompanyVAT(LoginHandler.getSessionUser().getCompany());
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		Iterator<String> keys = mapEmployment.keySet().iterator();
+		String key = null;
+
+		ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+		while(keys.hasNext()) {
+			key = keys.next();
+			pieData.add(new PieChart.Data(key, mapEmployment.get(key)*100));
+		}
+		pieChartData = pieData;
+
+		return pieChartData;
 	}
 
 	private void setChat() {
@@ -304,7 +376,7 @@ public class AccountCompanyViewController extends GraphicsController {
 					if (itemBean != null) {
 						RecruiterItem newItem = new RecruiterItem();
 						try {
-							newItem.setInfo(itemBean, getKey(mapRecruiter, itemBean));
+							newItem.setInfo(itemBean, GraphicsUtil.getKey(mapRecruiter, itemBean));
 						} catch (InternalException e) {
 							Util.exceptionLog(e);
 							GraphicsUtil.showExceptionStage(e);
@@ -314,16 +386,6 @@ public class AccountCompanyViewController extends GraphicsController {
 				}
 			}
 		);
-	}
-
-	public static <K, V> K getKey(Map<K, V> map, V value){
-	   for (Map.Entry<K, V> entry: map.entrySet())
-	   {
-	       if (value.equals(entry.getValue())) {
-	           return entry.getKey();
-	       }
-	   }
-	   return null;
 	}
 
 	private void setAddRecruiter(boolean variable) {
@@ -384,6 +446,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {			
 			if(!vboxAddRecr.isVisible()) setAddRecruiter(true);
+			else setAddRecruiter(false);
 		}
 	}
 
@@ -416,8 +479,13 @@ public class AccountCompanyViewController extends GraphicsController {
 	    	userAuthRecruiter.setPassword(passwordField.getText());
 			userRecruiter.setCf(fiscalCodeField.getText());
 			userRecruiter.setPhoneNumber(phoneNumberField.getText());
-			//userRecruiter.setPhoto(ServletUtil.saveUserFile(req, "photoForm", userRecruiter.getCf()));
-			userRecruiter.setPhoto(null);
+
+			try {
+				userRecruiter.setPhoto(Util.Files.saveUserFile(fiscalCodeField.getText(), photo));
+			} catch (IOException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
 
 			userRecruiter.setAdmin(false);
 			userRecruiter.setEmployee(true);
@@ -445,6 +513,20 @@ public class AccountCompanyViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {			
 			setAddRecruiter(false);
+		}
+	}
+
+	private final class HandleProfilePhotoButtonClicked implements EventHandler<MouseEvent> {
+		@Override
+		public void handle(MouseEvent event) {
+			photo = GraphicsUtil.showFileChooser((Stage)view.getScene().getWindow(), 
+				"Choose your profile photo", new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+
+			if(photo != null) {
+				profilePhotoFileLabel.setText(new StringBuilder("Selected: ").append(photo.getName()).toString());
+			} else {
+				profilePhotoFileLabel.setText(AccountCompanyView.SELECT_FILE_MESSAGE);
+			}
 		}
 	}
 }

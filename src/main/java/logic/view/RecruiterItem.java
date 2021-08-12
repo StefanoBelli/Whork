@@ -1,5 +1,7 @@
 package logic.view;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,7 @@ import logic.util.Util;
 
 public class RecruiterItem {
 	private final double MAX_WIDTH = 50;
+
 	private HBox itemBox;
 	private ImageView imgView;
 	private Text nameText;
@@ -35,19 +38,21 @@ public class RecruiterItem {
 	public void setInfo(UserBean userRecruiter, String email) throws InternalException {
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
-		
+
 		init();
 
 		imgView.setFitWidth(MAX_WIDTH);
 		imgView.setPreserveRatio(true);
 
 		StringBuilder pathBuilder = new StringBuilder("file:");
-		
+
 		if(userRecruiter.getPhoto() == null)
-			imgView.setImage(new Image(pathBuilder.append(dflRoot).append("/avatar3.jpg").toString()));
+			imgView.setImage(
+					new Image(pathBuilder.append(dflRoot).append("/avatar3.jpg").toString()));
 		else
-			imgView.setImage(new Image(pathBuilder.append(usrData).append(userRecruiter.getPhoto()).toString()));
-		
+			imgView.setImage(
+					new Image(pathBuilder.append(usrData).append("/").append(userRecruiter.getPhoto()).toString()));
+
 		StringBuilder builder = new StringBuilder();
 		builder.append(userRecruiter.getName())
 				.append(" ")
@@ -77,15 +82,17 @@ public class RecruiterItem {
 	}
 
 	public Node getBox() {
-		itemBox.getChildren().add(imgView);
-		itemBox.getChildren().add(nameText);
-		itemBox.getChildren().add(emailText);
-		itemBox.getChildren().add(fiscalCodeText);
-		itemBox.getChildren().add(numberPostText);
-		itemBox.getChildren().add(phoneNumberText);
-		
+		itemBox.getChildren().addAll(imgView);
+		itemBox.getChildren().addAll(nameText);
+		itemBox.getChildren().addAll(emailText);
+		itemBox.getChildren().addAll(fiscalCodeText);
+		itemBox.getChildren().addAll(numberPostText);
+		itemBox.getChildren().addAll(phoneNumberText);
+
 		itemBox.setSpacing(20);		
-		
+		itemBox.setAlignment(Pos.CENTER);
+		itemBox.setPadding(new Insets(10, 10, 10, 10));
+
 		return itemBox;
 	}
 }

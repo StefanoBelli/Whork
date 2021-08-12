@@ -3,6 +3,7 @@ package logic.view;
 import java.util.Date;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -68,7 +69,8 @@ public class ChatItem {
 		if(picture == null)
 			imgView.setImage(new Image(pathBuilder.append(dflRoot).append("/avatar2.png").toString()));
 		else
-			imgView.setImage(new Image(pathBuilder.append(usrData).append(picture).toString()));
+			imgView.setImage(
+					new Image(pathBuilder.append(usrData).append("/").append(picture).toString()));
 		
 		emailText.setText(nameChat);
 		emailText.setFont(GraphicsUtil.getBoldFont());
@@ -76,7 +78,7 @@ public class ChatItem {
 		messageText.setText(chat.getText());
 
 		dateText.setText(date.substring(0, date.length()-13));
-		
+
 		setListeners();
 	}
 
@@ -90,9 +92,10 @@ public class ChatItem {
 		itemBox.getChildren().add(messageText);
 		itemBox.getChildren().add(dateText);
 		itemBox.getChildren().add(replyBtn);
-		
+
 		itemBox.setSpacing(20);		
-		
+		itemBox.setAlignment(Pos.CENTER);
+
 		return itemBox;
 	}
 

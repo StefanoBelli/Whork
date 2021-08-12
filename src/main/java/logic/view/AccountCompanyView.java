@@ -13,6 +13,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,12 +25,15 @@ import logic.graphicscontroller.GraphicsController;
 import logic.util.GraphicsUtil;
 
 public class AccountCompanyView implements ControllableView {
-	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
-	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+150;
+	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+360;
+	private static double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+400;
 
+	private static final String PROFILE_PHOTO_MESSAGE = "Profile photo:";
+	private static final String CHOOSE_FILE_BTN = "Choose...";
+	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
-	
+
 	private Button homeBtn;
 	private Button postOfferBtn;
 	private Button logOutBtn;
@@ -48,8 +52,10 @@ public class AccountCompanyView implements ControllableView {
 	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
 	private PieChart pieChart;
-	
+
+	private Label messageLabel;
 	private ListView<Object> listChatView;
+	private HBox hboxRecruiter;
 	private Label recruiterLabel;
 	private Button addRecruiterBtn;
 	private ListView<Object> listRecruiterView;
@@ -62,13 +68,24 @@ public class AccountCompanyView implements ControllableView {
 	private TextField nameField;
 	private TextField surnameField;
 	private TextField emailField;
-	private TextField passwordField;
+	private PasswordField passwordField;
 	private TextField fiscalCodeField;
 	private TextField phoneNumberField;
-	private ImageView imgRecruiterField;
+	private Label profilePhotoMessage;
+	private Button profilePhotoButton;
+	private Label profilePhotoFileLabel;
 	private Button submitBtn;
 	private Button cancelBtn;
 	private VBox vboxAddRecr;
+
+	private Text imageRecruiterLabel;
+	private Text emailRecruiterLabel;
+	private Text nameRecruiterLabel;
+	private Text fiscalCodeRecruiterLabel;
+	private Text numberPostLabel;
+	private Text numberPhoneRecruiterLabel;
+
+	private Text textFX;
 
 	private Scene scene;
 
@@ -102,6 +119,7 @@ public class AccountCompanyView implements ControllableView {
 
 		pieChart = new PieChart(AccountCompanyViewController.setPieChart());
 
+		messageLabel = new Label("Messages");
 		listChatView = new ListView<>();
 		recruiterLabel = new Label("Recuiters");
 		addRecruiterBtn = new Button("Add Recruiter");
@@ -109,19 +127,29 @@ public class AccountCompanyView implements ControllableView {
 		nameField = new TextField();
 		surnameField = new TextField();
 		emailField = new TextField();
-		passwordField = new TextField();
+		passwordField = new PasswordField();
 		fiscalCodeField = new TextField();
 		phoneNumberField = new TextField();
-		imgRecruiterField = new ImageView();
 		nameLabel = new Label("Name");
 		surnameLabel = new Label("Surname");
 		emailLabel = new Label("Email");
 		passwordLabel = new Label("Password");
 		fiscalCodeLabel = new Label("Fiscal Code");
 		phoneNumberLabel = new Label("Phone Number");
+		profilePhotoMessage = new Label(PROFILE_PHOTO_MESSAGE);
+		profilePhotoButton = new Button(CHOOSE_FILE_BTN);
+		profilePhotoFileLabel = new Label(SELECT_FILE_MESSAGE);
 		submitBtn = new Button("Submit");
 		cancelBtn = new Button("Cancel");
-		vboxAddRecr = new VBox();
+		imageRecruiterLabel = new Text("Image");
+		emailRecruiterLabel = new Text("Email");
+		nameRecruiterLabel = new Text("Name");
+		fiscalCodeRecruiterLabel = new Text("Fiscal Code");
+		numberPostLabel = new Text("Number of post");
+		numberPhoneRecruiterLabel = new Text("Phone Number");
+		vboxAddRecr = new VBox(5);
+		hboxRecruiter = new HBox(10);
+		textFX = new Text("Dashboard");
 
 		controller.setup();
 
@@ -132,8 +160,18 @@ public class AccountCompanyView implements ControllableView {
 		numberEmployeeText.setFont(GraphicsUtil.getBoldFont());
 		numberOfferText.setFont(GraphicsUtil.getBoldFont());
 		totalClickText.setFont(GraphicsUtil.getBoldFont());
+		nameAdminText.setFont(GraphicsUtil.getBoldFont());
+		nameCompanyText.setFont(GraphicsUtil.getBoldFont());
+		dateText.setFont(GraphicsUtil.getBoldFont());
+		recruiterLabel.setFont(GraphicsUtil.getBoldFont());
+		addRecruiterBtn.setFont(GraphicsUtil.getBoldFont());
+		messageLabel.setFont(GraphicsUtil.getBoldFont());
+		listRecruiterView.setPrefSize(550, 400);
+		homeBtn.setFont(GraphicsUtil.getBoldFont());
+		postOfferBtn.setFont(GraphicsUtil.getBoldFont());
+		logOutBtn.setFont(GraphicsUtil.getBoldFont());
 	}
-	
+
 	private void populateScene() {
 		VBox vbox = new VBox(10);
 
@@ -143,13 +181,14 @@ public class AccountCompanyView implements ControllableView {
 		vboxPannel.getChildren().add(logOutBtn);
 		vboxPannel.setPrefWidth(200);
 		vboxPannel.setPadding(new Insets(10, 10, 10, 10));
+		vboxPannel.setAlignment(Pos.CENTER);
 		vboxPannel.setStyle(COMMON_STYLING);
-		
+
 		HBox hboxHeader = new HBox(10);
-		//hboxHeader.setPrefWidth(200);
 		VBox vboxHeader = new VBox(10);
 		vboxHeader.getChildren().add(nameAdminText);
 		vboxHeader.getChildren().add(nameCompanyText);
+		vboxHeader.getChildren().add(textFX);
 		hboxHeader.getChildren().add(vboxHeader);
 		hboxHeader.getChildren().add(imgAdminView);
 		hboxHeader.getChildren().add(dateText);
@@ -157,8 +196,8 @@ public class AccountCompanyView implements ControllableView {
 		hboxHeader.setAlignment(Pos.CENTER);
 		hboxHeader.setStyle(COMMON_STYLING);
 		hboxHeader.setPadding(new Insets(10, 10, 10, 10));
-		vboxHeader.setPadding(new Insets(10, 400, 10, 10));
-		//vboxHeader.setPrefWidth(500);
+		vboxHeader.setPadding(new Insets(10, 900, 10, 10));
+		hboxHeader.setPrefSize(900, 200);
 
 		HBox hboxHeaderPannel = new HBox(10);
 		hboxHeaderPannel.getChildren().add(vboxPannel);
@@ -171,7 +210,7 @@ public class AccountCompanyView implements ControllableView {
 		vboxNumberEmployee.setAlignment(Pos.CENTER);
 		vboxNumberEmployee.setStyle(COMMON_STYLING);
 		vboxNumberEmployee.setPadding(new Insets(10, 10, 10, 10));
-		
+
 		VBox vboxNumberOffer = new VBox(10);
 		vboxNumberOffer.getChildren().add(numberOfferLabel);
 		vboxNumberOffer.getChildren().add(numberOfferText);
@@ -193,12 +232,18 @@ public class AccountCompanyView implements ControllableView {
 		HBox hboxChart = new HBox(10);
 		hboxChart.getChildren().add(pieChart);
 		hboxChart.getChildren().add(candidateBarChart);
-		hboxChart.getChildren().add(listChatView);
+		listChatView.setPrefSize(550, 600);
+		VBox vboxMessage = new VBox(5);
+		vboxMessage.getChildren().add(messageLabel);
+		vboxMessage.getChildren().add(listChatView);
+		vboxMessage.setPadding(new Insets(10, 10, 10, 10));
+		hboxChart.getChildren().add(vboxMessage);
+		hboxChart.setStyle(COMMON_STYLING);
+		hboxChart.setPrefSize(300, 300);
 
-		HBox hboxRecruiter = new HBox(10);
-		VBox vboxRecruiter = new VBox();
-		vboxRecruiter.getChildren().add(recruiterLabel);
-		vboxRecruiter.getChildren().add(addRecruiterBtn);
+		VBox vboxRecruiter = new VBox(10);
+		vboxRecruiter.getChildren().add(getHBox(10, recruiterLabel, addRecruiterBtn));
+		vboxRecruiter.getChildren().add(getHBox(100, imageRecruiterLabel, nameRecruiterLabel, emailRecruiterLabel, fiscalCodeRecruiterLabel, numberPostLabel, numberPhoneRecruiterLabel));
 		vboxRecruiter.getChildren().add(listRecruiterView);
 		vboxRecruiter.setStyle(COMMON_STYLING);
 
@@ -214,22 +259,24 @@ public class AccountCompanyView implements ControllableView {
 		vboxAddRecr.getChildren().add(fiscalCodeField);
 		vboxAddRecr.getChildren().add(phoneNumberLabel);
 		vboxAddRecr.getChildren().add(phoneNumberField);
-		vboxAddRecr.getChildren().add(imgRecruiterField);
+		vboxAddRecr.getChildren().add(getHBox(10, profilePhotoMessage, profilePhotoButton, profilePhotoFileLabel));
 		vboxAddRecr.setStyle(COMMON_STYLING);
 		vboxAddRecr.setPadding(new Insets(10, 10, 10, 10));
-		HBox hboxBtn = new HBox();
-		hboxBtn.getChildren().add(submitBtn);
-		hboxBtn.getChildren().add(cancelBtn);
-		hboxBtn.setStyle(COMMON_STYLING);
+		vboxAddRecr.setPrefSize(650, 400);
 
+		vboxRecruiter.setPrefSize(900, 300);
+		vboxRecruiter.setPadding(new Insets(10, 10, 10, 10));
 		hboxRecruiter.getChildren().add(vboxRecruiter);
-		vboxAddRecr.getChildren().add(hboxBtn);
+		vboxAddRecr.getChildren().add(getHBox(10, submitBtn, cancelBtn));
 		hboxRecruiter.getChildren().add(vboxAddRecr);
+		hboxRecruiter.setPrefSize(900, 300);
 
 		vbox.getChildren().add(hboxHeaderPannel);
 		vbox.getChildren().add(hboxNumber);
 		vbox.getChildren().add(hboxChart);
 		vbox.getChildren().add(hboxRecruiter);
+		vbox.setPadding(new Insets(10, 10, 10, 10));
+
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
@@ -272,13 +319,21 @@ public class AccountCompanyView implements ControllableView {
 			passwordField,
 			fiscalCodeField,
 			phoneNumberField,
-			imgRecruiterField,
+			profilePhotoButton,
+			profilePhotoFileLabel,
 			submitBtn,
 			cancelBtn,
-			vboxAddRecr
+			vboxAddRecr,
+			textFX,
+			hboxRecruiter
 		};
 	}
 
+	private static HBox getHBox(int space, Node... nodes) {
+		HBox hbox = GraphicsUtil.getHBox(space, nodes);
+		hbox.setPadding(new Insets(10, 10, 10, 10));
+		return hbox;
+	}
 }
 
 

@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -186,4 +187,17 @@ public final class GraphicsUtil {
 
 		return builder.toString();
 	}
+	
+	/**
+	 * @author Magliari Elio
+	 */
+	public static <K, V> K getKey(Map<K, V> map, V value){
+		   for (Map.Entry<K, V> entry: map.entrySet())
+		   {
+		       if (value.equals(entry.getValue())) {
+		           return entry.getKey();
+		       }
+		   }
+		   return null;
+		}
 }
