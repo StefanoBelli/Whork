@@ -94,7 +94,7 @@ public class AccountCompanyViewController extends GraphicsController {
 	private UserBean user;
 	private String email;
 	private Map<String, UserBean> mapRecruiter;
-	
+
 	public AccountCompanyViewController(ControllableView view, ViewStack viewStack) {
 		super(view, viewStack);
 	}
@@ -222,22 +222,31 @@ public class AccountCompanyViewController extends GraphicsController {
 		for(int i=0; i<listCandidatureByVat.size(); i++) {		
 			series.getData().add(new XYChart.Data<Number, String>(listCandidatureByVat.get(i), listMonth.get(i)));
 		}
-		//series.setName("2003");
-		
-		
+
 		candidateBarChart.getData().add(series);
 	}
 
 	public static ObservableList<PieChart.Data> setPieChart() {
-		pieChartData = 
-			FXCollections.observableArrayList(
-					new PieChart.Data("Grapefruit", 13),
-					new PieChart.Data("Oranges", 25),
-					new PieChart.Data("Plums", 10),
-					new PieChart.Data("Pears", 22),
-					new PieChart.Data("Apples", 30));
+		Map<String, Double> mapEmployment = null;
 
-        return pieChartData;
+		try {
+			mapEmployment = AccountController.getEmploymentStatusBtCompanyVAT(LoginHandler.getSessionUser().getCompany());
+		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
+			GraphicsUtil.showExceptionStage(e);
+		}
+
+		Iterator<String> keys = mapEmployment.keySet().iterator();
+		String key = null;
+
+		ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+		while(keys.hasNext()) {
+			key = keys.next();
+			pieData.add(new PieChart.Data(key, mapEmployment.get(key)*100));
+		}
+		pieChartData = pieData;
+
+		return pieChartData;
 	}
 
 	private void setChat() {
@@ -304,7 +313,7 @@ public class AccountCompanyViewController extends GraphicsController {
 					if (itemBean != null) {
 						RecruiterItem newItem = new RecruiterItem();
 						try {
-							newItem.setInfo(itemBean, getKey(mapRecruiter, itemBean));
+							newItem.setInfo(itemBean, GraphicsUtil.getKey(mapRecruiter, itemBean));
 						} catch (InternalException e) {
 							Util.exceptionLog(e);
 							GraphicsUtil.showExceptionStage(e);
@@ -314,16 +323,6 @@ public class AccountCompanyViewController extends GraphicsController {
 				}
 			}
 		);
-	}
-
-	public static <K, V> K getKey(Map<K, V> map, V value){
-	   for (Map.Entry<K, V> entry: map.entrySet())
-	   {
-	       if (value.equals(entry.getValue())) {
-	           return entry.getKey();
-	       }
-	   }
-	   return null;
 	}
 
 	private void setAddRecruiter(boolean variable) {
