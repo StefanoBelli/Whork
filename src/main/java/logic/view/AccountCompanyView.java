@@ -13,6 +13,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -49,7 +50,25 @@ public class AccountCompanyView implements ControllableView {
 	private PieChart pieChart;
 	
 	private ListView<Object> listChatView;
+	private Label recruiterLabel;
+	private Button addRecruiterBtn;
 	private ListView<Object> listRecruiterView;
+	private Label nameLabel;
+	private Label surnameLabel;
+	private Label emailLabel;
+	private Label passwordLabel;
+	private Label fiscalCodeLabel;
+	private Label phoneNumberLabel;
+	private TextField nameField;
+	private TextField surnameField;
+	private TextField emailField;
+	private TextField passwordField;
+	private TextField fiscalCodeField;
+	private TextField phoneNumberField;
+	private ImageView imgRecruiterField;
+	private Button submitBtn;
+	private Button cancelBtn;
+	private VBox vboxAddRecr;
 
 	private Scene scene;
 
@@ -84,7 +103,25 @@ public class AccountCompanyView implements ControllableView {
 		pieChart = new PieChart(AccountCompanyViewController.setPieChart());
 
 		listChatView = new ListView<>();
+		recruiterLabel = new Label("Recuiters");
+		addRecruiterBtn = new Button("Add Recruiter");
 		listRecruiterView = new ListView<>();
+		nameField = new TextField();
+		surnameField = new TextField();
+		emailField = new TextField();
+		passwordField = new TextField();
+		fiscalCodeField = new TextField();
+		phoneNumberField = new TextField();
+		imgRecruiterField = new ImageView();
+		nameLabel = new Label("Name");
+		surnameLabel = new Label("Surname");
+		emailLabel = new Label("Email");
+		passwordLabel = new Label("Password");
+		fiscalCodeLabel = new Label("Fiscal Code");
+		phoneNumberLabel = new Label("Phone Number");
+		submitBtn = new Button("Submit");
+		cancelBtn = new Button("Cancel");
+		vboxAddRecr = new VBox();
 
 		controller.setup();
 
@@ -158,11 +195,41 @@ public class AccountCompanyView implements ControllableView {
 		hboxChart.getChildren().add(candidateBarChart);
 		hboxChart.getChildren().add(listChatView);
 
+		HBox hboxRecruiter = new HBox(10);
+		VBox vboxRecruiter = new VBox();
+		vboxRecruiter.getChildren().add(recruiterLabel);
+		vboxRecruiter.getChildren().add(addRecruiterBtn);
+		vboxRecruiter.getChildren().add(listRecruiterView);
+		vboxRecruiter.setStyle(COMMON_STYLING);
+
+		vboxAddRecr.getChildren().add(nameLabel);
+		vboxAddRecr.getChildren().add(nameField);
+		vboxAddRecr.getChildren().add(surnameLabel);
+		vboxAddRecr.getChildren().add(surnameField);
+		vboxAddRecr.getChildren().add(emailLabel);
+		vboxAddRecr.getChildren().add(emailField);
+		vboxAddRecr.getChildren().add(passwordLabel);
+		vboxAddRecr.getChildren().add(passwordField);
+		vboxAddRecr.getChildren().add(fiscalCodeLabel);
+		vboxAddRecr.getChildren().add(fiscalCodeField);
+		vboxAddRecr.getChildren().add(phoneNumberLabel);
+		vboxAddRecr.getChildren().add(phoneNumberField);
+		vboxAddRecr.getChildren().add(imgRecruiterField);
+		vboxAddRecr.setStyle(COMMON_STYLING);
+		vboxAddRecr.setPadding(new Insets(10, 10, 10, 10));
+		HBox hboxBtn = new HBox();
+		hboxBtn.getChildren().add(submitBtn);
+		hboxBtn.getChildren().add(cancelBtn);
+		hboxBtn.setStyle(COMMON_STYLING);
+
+		hboxRecruiter.getChildren().add(vboxRecruiter);
+		vboxAddRecr.getChildren().add(hboxBtn);
+		hboxRecruiter.getChildren().add(vboxAddRecr);
 
 		vbox.getChildren().add(hboxHeaderPannel);
 		vbox.getChildren().add(hboxNumber);
 		vbox.getChildren().add(hboxChart);
-		vbox.getChildren().add(listRecruiterView);
+		vbox.getChildren().add(hboxRecruiter);
 		scene = new Scene(vbox, WIDTHWINDOW, HEIGHTWINDOW);
 	}
 
@@ -197,7 +264,18 @@ public class AccountCompanyView implements ControllableView {
 			yAxis,
 			candidateBarChart,
 			listChatView,
-			listRecruiterView
+			listRecruiterView,
+			addRecruiterBtn,
+			nameField,
+			surnameField,
+			emailField,
+			passwordField,
+			fiscalCodeField,
+			phoneNumberField,
+			imgRecruiterField,
+			submitBtn,
+			cancelBtn,
+			vboxAddRecr
 		};
 	}
 

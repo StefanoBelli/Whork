@@ -18,19 +18,26 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.bean.ChatLogEntryBean;
+import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.controller.CandidatureController;
+import logic.controller.RegisterController;
+import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
+import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
+import logic.util.tuple.Pair;
 import logic.view.ChatItem;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
@@ -72,6 +79,17 @@ public class AccountCompanyViewController extends GraphicsController {
 
 	private ListView<ChatLogEntryBean> listChatView;
 	private ListView<UserBean> listRecruiterView;
+	private Button addRecruiterBtn;
+	private TextField nameField;
+	private TextField surnameField;
+	private TextField emailField;
+	private TextField passwordField;
+	private TextField fiscalCodeField;
+	private TextField phoneNumberField;
+	private ImageView imgRecruiterField;
+	private Button submitBtn;
+	private Button cancelBtn;
+	private VBox vboxAddRecr;
 
 	private UserBean user;
 	private String email;
@@ -98,6 +116,17 @@ public class AccountCompanyViewController extends GraphicsController {
 		candidateBarChart = (StackedBarChart<Number, String>) n[10];
 		listChatView = (ListView<ChatLogEntryBean>) n[11];
 		listRecruiterView = (ListView<UserBean>) n[12];
+		addRecruiterBtn = (Button) n[13];
+		nameField = (TextField) n[14];
+		surnameField = (TextField) n[15];
+		emailField = (TextField) n[16];
+		passwordField = (TextField) n[17];
+		fiscalCodeField = (TextField) n[18];
+		phoneNumberField = (TextField) n[19];
+		imgRecruiterField = (ImageView) n[20];
+		submitBtn = (Button) n[21];
+		cancelBtn = (Button) n[22];
+		vboxAddRecr = (VBox) n[23];
 
 		user = LoginHandler.getSessionUser();
 
@@ -114,6 +143,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		setNumberCandidateChart();
 		setChat();
 		setRecruiter();
+		setAddRecruiter(false);
 
 		setListeners();
 	}
@@ -122,6 +152,9 @@ public class AccountCompanyViewController extends GraphicsController {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
 		postOfferBtn.setOnMouseClicked(new HandlePostOfferRequest());
 		logOutBtn.setOnMouseClicked(new HandleLogoutRequest());
+		addRecruiterBtn.setOnMouseClicked(new HandleAddRecruiterRequest());
+		submitBtn.setOnMouseClicked(new HandleSubmitRecruiterRequest());
+		cancelBtn.setOnMouseClicked(new HandleCancelRecruiterRequest());
 	}
 
 	private void setPostOfferButton() {
@@ -283,16 +316,28 @@ public class AccountCompanyViewController extends GraphicsController {
 		);
 	}
 
-	 public static <K, V> K getKey(Map<K, V> map, V value){
-        for (Map.Entry<K, V> entry: map.entrySet())
-        {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
+	public static <K, V> K getKey(Map<K, V> map, V value){
+	   for (Map.Entry<K, V> entry: map.entrySet())
+	   {
+	       if (value.equals(entry.getValue())) {
+	           return entry.getKey();
+	       }
+	   }
+	   return null;
+	}
 
+	private void setAddRecruiter(boolean variable) {
+		vboxAddRecr.setVisible(variable);
+		if(variable == false) {
+			nameField.setText("");
+			surnameField.setText("");
+			emailField.setText("");
+			passwordField.setText("");
+			fiscalCodeField.setText("");
+			phoneNumberField.setText("");
+		}
+	}
+	
 	@Override
 	public void update() {
 		//no need to update anything
@@ -331,6 +376,75 @@ public class AccountCompanyViewController extends GraphicsController {
 			}
 
 			viewStack.pop();
+		}
+	}
+
+	private final class HandleAddRecruiterRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			if(!vboxAddRecr.isVisible()) setAddRecruiter(true);
+		}
+	}
+
+	private final class HandleSubmitRecruiterRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			if(nameField.getText() == "" ||
+				surnameField.getText() == "" ||
+				emailField.getText() == "" ||
+				passwordField.getText() == "" ||
+				fiscalCodeField.getText() == "" ||
+				phoneNumberField.getText() == "") {
+
+					DialogFactory.error(
+							"Recruiter Data",
+							"Unable to add recruiter", 
+							"You cannot leave empty field").showAndWait();
+					
+					setAddRecruiter(false);
+					return;
+			}
+			
+			UserBean userRecruiter = new UserBean();
+	    	UserAuthBean userAuthRecruiter = new UserAuthBean();
+	    	
+	    	userRecruiter.setName(nameField.getText());
+	    	userRecruiter.setSurname(surnameField.getText());
+	    	userAuthRecruiter.setEmail(emailField.getText());
+	    	userAuthRecruiter.setPassword(passwordField.getText());
+			userRecruiter.setCf(fiscalCodeField.getText());
+			userRecruiter.setPhoneNumber(phoneNumberField.getText());
+			//userRecruiter.setPhoto(ServletUtil.saveUserFile(req, "photoForm", userRecruiter.getCf()));
+			userRecruiter.setPhoto(null);
+
+			userRecruiter.setAdmin(false);
+			userRecruiter.setEmployee(true);
+			userRecruiter.setRecruiter(true);
+			userRecruiter.setCompany(user.getCompany());
+			userRecruiter.setNote(null);
+			
+			try {
+				RegisterController.registerEmployeeForExistingCompany(new Pair<>(userRecruiter, userAuthRecruiter));
+			} catch (InternalException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			} catch (AlreadyExistantUserException e) {
+				DialogFactory.error(
+					"Already Existant User", 
+					"Unable to add recruiter", 
+					e.getMessage()).showAndWait();
+			}
+			setAddRecruiter(false);
+		}
+	}
+
+	private final class HandleCancelRecruiterRequest implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {			
+			setAddRecruiter(false);
 		}
 	}
 }
