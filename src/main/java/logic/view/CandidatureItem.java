@@ -109,4 +109,3 @@ public final class CandidatureItem {
 		}
 	}
 }
-

@@ -49,16 +49,16 @@ import logic.factory.DialogFactory;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
-import logic.view.AccountCompanyView;
 import logic.view.ChatItem;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
 import logic.view.RecruiterItem;
+import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
 public final class AccountCompanyViewController extends GraphicsController {
 	
-	private static final double MAX_WIDTH = 200;
+	private static final int MAX_WIDTH = 200;
 
 	private static final String JAN = "Jan";
 	private static final String FEB = "Feb";
@@ -204,7 +204,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 		textFX.setTextOrigin(VPos.TOP);
 		textFX.setFont(Font.font(24));
 
-	    double sceneWidth = 400;
+	    int sceneWidth = 400;
 	    double msgWidth = textFX.getLayoutBounds().getWidth();
 	    KeyValue initKeyValue = new KeyValue(textFX.translateXProperty(), sceneWidth);
 	    KeyFrame initFrame = new KeyFrame(Duration.ZERO, initKeyValue);
@@ -283,7 +283,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 
 		candidateBarChart.getData().add(series);
 	}
-
+	
 	public static ObservableList<PieChart.Data> setPieChart() {
 		Map<String, Double> mapEmployment = null;
 
@@ -404,8 +404,6 @@ public final class AccountCompanyViewController extends GraphicsController {
 		//no need to update anything
 	}
 	
-	
-	
 	private final class HandleHomeRequest implements EventHandler<MouseEvent> {
 
 		@Override
@@ -414,7 +412,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 		}
 	}
 	
-	private final class HandlePostOfferRequest implements EventHandler<MouseEvent> {
+	private static final class HandlePostOfferRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {			
@@ -431,21 +429,50 @@ public final class AccountCompanyViewController extends GraphicsController {
 	}
 
 	private final class HandleSubmitRecruiterRequest implements EventHandler<MouseEvent> {
-
+		
+		private boolean anyPersonalBlankField() {
+			return nameField.getText().isBlank() ||
+					surnameField.getText().isBlank() ||
+					emailField.getText().isBlank() ||
+					passwordField.getText().isBlank() ||
+					fiscalCodeField.getText().isBlank() ||
+					phoneNumberField.getText().isBlank();
+		}
+		
+		private void photoMakeChanges(UserBean userRecruiter) {
+			try {
+				userRecruiter.setPhoto(Util.Files.saveUserFile(fiscalCodeField.getText(), photo));
+			} catch (IOException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
+		
+		private void makeChanges(UserBean userRecruiter, UserAuthBean userAuthRecruiter) {
+			try {
+				RegisterController.registerEmployeeForExistingCompany(new Pair<>(userRecruiter, userAuthRecruiter));
+			} catch (InternalException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			} catch (AlreadyExistantUserException e) {
+				DialogFactory.error(
+					"Already Existant User", 
+					"Unable to add recruiter", 
+					e.getMessage()).showAndWait();
+			}
+		}
+		
+		private void dialogUnableToAddRecruiterShowAndWait() {
+			DialogFactory.error(
+					"Recruiter Data",
+					"Unable to add recruiter", 
+					"You cannot leave empty field").showAndWait();
+		}
+		
 		@Override
 		public void handle(MouseEvent event) {			
-			if(nameField.getText().isBlank() ||
-				surnameField.getText().isBlank() ||
-				emailField.getText().isBlank() ||
-				passwordField.getText().isBlank() ||
-				fiscalCodeField.getText().isBlank() ||
-				phoneNumberField.getText().isBlank()) {
-
-					DialogFactory.error(
-							"Recruiter Data",
-							"Unable to add recruiter", 
-							"You cannot leave empty field").showAndWait();
-					
+			if(anyPersonalBlankField()) {
+					dialogUnableToAddRecruiterShowAndWait();
 					setAddRecruiter(false);
 					return;
 			}
@@ -460,30 +487,16 @@ public final class AccountCompanyViewController extends GraphicsController {
 			userRecruiter.setCf(fiscalCodeField.getText());
 			userRecruiter.setPhoneNumber(phoneNumberField.getText());
 
-			try {
-				userRecruiter.setPhoto(Util.Files.saveUserFile(fiscalCodeField.getText(), photo));
-			} catch (IOException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.showExceptionStage(e);
-			}
-
+			photoMakeChanges(userRecruiter);
+			
 			userRecruiter.setAdmin(false);
 			userRecruiter.setEmployee(true);
 			userRecruiter.setRecruiter(true);
 			userRecruiter.setCompany(user.getCompany());
 			userRecruiter.setNote(null);
 			
-			try {
-				RegisterController.registerEmployeeForExistingCompany(new Pair<>(userRecruiter, userAuthRecruiter));
-			} catch (InternalException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.showExceptionStage(e);
-			} catch (AlreadyExistantUserException e) {
-				DialogFactory.error(
-					"Already Existant User", 
-					"Unable to add recruiter", 
-					e.getMessage()).showAndWait();
-			}
+			makeChanges(userRecruiter, userAuthRecruiter);
+			
 			setAddRecruiter(false);
 		}
 	}
@@ -505,7 +518,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 			if(photo != null) {
 				profilePhotoFileLabel.setText(new StringBuilder("Selected: ").append(photo.getName()).toString());
 			} else {
-				profilePhotoFileLabel.setText(AccountCompanyView.SELECT_FILE_MESSAGE);
+				profilePhotoFileLabel.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
 			}
 		}
 	}

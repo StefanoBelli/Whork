@@ -30,7 +30,6 @@ public final class AccountCompanyView implements ControllableView {
 
 	private static final String PROFILE_PHOTO_MESSAGE = "Profile photo:";
 	private static final String CHOOSE_FILE_BTN = "Choose...";
-	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
 
@@ -137,7 +136,7 @@ public final class AccountCompanyView implements ControllableView {
 		phoneNumberLabel = new Label("Phone Number");
 		profilePhotoMessage = new Label(PROFILE_PHOTO_MESSAGE);
 		profilePhotoButton = new Button(CHOOSE_FILE_BTN);
-		profilePhotoFileLabel = new Label(SELECT_FILE_MESSAGE);
+		profilePhotoFileLabel = new Label(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
 		submitBtn = new Button("Submit");
 		cancelBtn = new Button("Cancel");
 		imageRecruiterLabel = new Text("Image");
@@ -151,7 +150,6 @@ public final class AccountCompanyView implements ControllableView {
 		textFX = new Text("Dashboard");
 
 		controller.setup();
-
 	}
 
 	private void setNodesProps() {
@@ -242,7 +240,9 @@ public final class AccountCompanyView implements ControllableView {
 
 		VBox vboxRecruiter = new VBox(10);
 		vboxRecruiter.getChildren().add(getHBox(10, recruiterLabel, addRecruiterBtn));
-		vboxRecruiter.getChildren().add(getHBox(100, imageRecruiterLabel, nameRecruiterLabel, emailRecruiterLabel, fiscalCodeRecruiterLabel, numberPostLabel, numberPhoneRecruiterLabel));
+		vboxRecruiter.getChildren().add(getHBox(100, imageRecruiterLabel, nameRecruiterLabel, 
+														emailRecruiterLabel, fiscalCodeRecruiterLabel, 
+														numberPostLabel, numberPhoneRecruiterLabel));
 		vboxRecruiter.getChildren().add(listRecruiterView);
 		vboxRecruiter.setStyle(COMMON_STYLING);
 
@@ -258,7 +258,8 @@ public final class AccountCompanyView implements ControllableView {
 		vboxAddRecr.getChildren().add(fiscalCodeField);
 		vboxAddRecr.getChildren().add(phoneNumberLabel);
 		vboxAddRecr.getChildren().add(phoneNumberField);
-		vboxAddRecr.getChildren().add(getHBox(10, profilePhotoMessage, profilePhotoButton, profilePhotoFileLabel));
+		vboxAddRecr.getChildren().add(getHBox(10, profilePhotoMessage, profilePhotoButton, 
+													profilePhotoFileLabel));
 		vboxAddRecr.setStyle(COMMON_STYLING);
 		vboxAddRecr.setPadding(new Insets(10, 10, 10, 10));
 		vboxAddRecr.setPrefSize(650, 400);
@@ -334,9 +335,3 @@ public final class AccountCompanyView implements ControllableView {
 		return hbox;
 	}
 }
-
-
-
-
-
-

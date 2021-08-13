@@ -73,12 +73,6 @@ public final class RecruiterItem {
 		}
 		
 		phoneNumberText.setText(userRecruiter.getPhoneNumber());
-		
-		setListeners();
-	}
-
-	private void setListeners() {
-		// Any listener
 	}
 
 	public Node getBox() {

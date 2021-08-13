@@ -33,7 +33,7 @@ import logic.view.ViewStack;
 
 public final class AccountJobSeekerViewController extends GraphicsController {
 	
-	private static final double MAX_WIDTH = 200;
+	private static final int MAX_WIDTH = 200;
 	private static final String WHORK = "whork";
 
 	private Button homeBtn;
@@ -227,6 +227,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		if(user.getBiography() == null) bioField.setText("Insert here your bio");
 		else bioField.setText(user.getBiography());
 	}
+	
 	private void settingTextField() {
 		personalInstance.text();
 		fiscalCodeField.setEditable(false);
@@ -296,24 +297,15 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 
 	private final class HandleSubmitSocialRequest implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {			
-			
-			if(websiteField.getText().isBlank() ||
-				twitterField.getText().isBlank() ||
-				facebookField.getText().isBlank() ||
-				instaField.getText().isBlank()) {
-				
-				showErrorDialogEmptyField("Social data");
-				socialInstance.text(false);
-				socialInstance.button(false);
-				return;
-			}
-			user.setWebsite(websiteField.getText());
-			user.setTwitter(twitterField.getText());
-			user.setFacebook(facebookField.getText());
-			user.setInstagram(instaField.getText());
+		
+		private boolean anySocialBlankField() {
+			return websiteField.getText().isBlank() ||
+					twitterField.getText().isBlank() ||
+					facebookField.getText().isBlank() ||
+					instaField.getText().isBlank();
+		}
+		
+		private void makeChanges() {
 			try {
 				AccountController.editAccountController("SocialAccounts", user, null, null);
 				LoginHandler.setSessionUser(user);
@@ -321,6 +313,25 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
 			}
+		}
+
+		@Override
+		public void handle(MouseEvent event) {			
+			
+			if(anySocialBlankField()) {
+				showErrorDialogEmptyField("Social data");
+				socialInstance.text(false);
+				socialInstance.button(false);
+				return;
+			}
+			
+			user.setWebsite(websiteField.getText());
+			user.setTwitter(twitterField.getText());
+			user.setFacebook(facebookField.getText());
+			user.setInstagram(instaField.getText());
+			
+			makeChanges();
+			
 			socialInstance.text(false);
 			socialInstance.button(false);
 		}
