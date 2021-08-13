@@ -1446,7 +1446,7 @@
 				<a href="#"><%= CandidatureController.getEmployeeEmailByCf(listCandidatureBean.get(i).getOffer().getEmployee())%></a>
 			</td>
 			<td>				
-				<button name="deleteCandidatureButton" class="btn btn-7 btn-icon-only icon-remove" value=<%=i%>></button>	 			
+				<button name="deleteCandidatureButton" class="btn btn-primary" style="background-color:#FF6347" value=<%=i%>><i class="fa fa-trash" style="font-size:20px" aria-hidden="true"></i></button>	 			
 			</td>
 		</tr>	
 <%		
