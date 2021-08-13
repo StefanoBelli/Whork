@@ -151,7 +151,7 @@
 								}
 %>
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit" id="search" value="Search">Search</button>
-							<a href="/index.jsp"><button type="submit" name="reset" class="btn btn-outline-success my-2 my-sm-0" value="Reset filters">Reset filters</button></a>
+							<button onclick="window.location='/index.jsp';" type="button" id="reset" class="btn btn-outline-success my-2 my-sm-0" value="Reset filters">Reset filters</button>
 	                  	</div>
                      </div>
                   </div>
