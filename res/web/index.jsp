@@ -27,19 +27,12 @@
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
       <title>Home - Whork</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="">
-      <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" type="text/css" href="css/indexCss/bootstrap.min.css">
       <!-- style css -->
       <link rel="stylesheet" type="text/css" href="css/indexCss/style.css">
       <!-- Responsive-->
-      <link rel="stylesheet" href="css/indexCss/responsive.css">
       <!-- fevicon -->
-      <link rel="icon" href="indexSource/images/fevicon.png" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="css/indexCss/jquery.mCustomScrollbar.min.css">
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <!-- fonts -->
@@ -49,8 +42,6 @@
       <!--  -->
       <!-- owl stylesheets -->
       <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
-      <link rel="stylesheet" href="css/indexCss/owl.carousel.min.css">
-      <link rel="stylesheet" href="css/indexCss/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
 	  <link rel="stylesheet" href="css/index.css">
    	  <link rel="stylesheet" href="css/whork.css">
