@@ -57,23 +57,23 @@ import logic.view.PostOfferView;
 import logic.view.RecruiterItem;
 import logic.view.ViewStack;
 
-public class AccountCompanyViewController extends GraphicsController {
+public final class AccountCompanyViewController extends GraphicsController {
 	
 	private static final double MAX_WIDTH = 200;
 	//private static final String WHORK = "whork";
 
-	private final static String JAN = "Jan";
-	private final static String FEB = "Feb";
-	private final static String MAR = "Mar";
-	private final static String APR = "Apr";
-	private final static String MAY = "May";
-	private final static String JUN = "Jun";
-	private final static String JUL = "Jul";
-	private final static String AUG = "Aug";
-	private final static String SEP = "Sep";
-	private final static String OCT = "Oct";
-	private final static String NOV = "Nov";
-	private final static String DEC = "Dec";
+	private static final String JAN = "Jan";
+	private static final String FEB = "Feb";
+	private static final String MAR = "Mar";
+	private static final String APR = "Apr";
+	private static final String MAY = "May";
+	private static final String JUN = "Jun";
+	private static final String JUL = "Jul";
+	private static final String AUG = "Aug";
+	private static final String SEP = "Sep";
+	private static final String OCT = "Oct";
+	private static final String NOV = "Nov";
+	private static final String DEC = "Dec";
 
 	private Button homeBtn;
 	private Button postOfferBtn;
@@ -221,8 +221,7 @@ public class AccountCompanyViewController extends GraphicsController {
 	}
 
 	private void setPostOfferButton() {
-		if(user.isRecruiter()) postOfferBtn.setVisible(true);
-		else postOfferBtn.setVisible(false);
+		postOfferBtn.setDisable(!user.isRecruiter());
 	}
 
 	private void setHeader() {
@@ -275,6 +274,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		} catch (DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
+			return; //already unreachable, suppress sonar smell
 		}
 
 		List<String> listMonth = new ArrayList<>();
@@ -297,6 +297,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		} catch (DataAccessException | DataLogicException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
+			return null; //already unreachable, suppress sonar smell
 		}
 
 		Iterator<String> keys = mapEmployment.keySet().iterator();
@@ -354,6 +355,7 @@ public class AccountCompanyViewController extends GraphicsController {
 		} catch (DataAccessException e) {
 			Util.exceptionLog(e);
 			GraphicsUtil.showExceptionStage(e);
+			return; //already unreachable, suppress sonar smell
 		}
 
 		Iterator<String> keys = mapRecruiter.keySet().iterator();
@@ -390,7 +392,7 @@ public class AccountCompanyViewController extends GraphicsController {
 
 	private void setAddRecruiter(boolean variable) {
 		vboxAddRecr.setVisible(variable);
-		if(variable == false) {
+		if(variable) {
 			nameField.setText("");
 			surnameField.setText("");
 			emailField.setText("");
@@ -444,9 +446,8 @@ public class AccountCompanyViewController extends GraphicsController {
 	private final class HandleAddRecruiterRequest implements EventHandler<MouseEvent> {
 
 		@Override
-		public void handle(MouseEvent event) {			
-			if(!vboxAddRecr.isVisible()) setAddRecruiter(true);
-			else setAddRecruiter(false);
+		public void handle(MouseEvent event) {
+			setAddRecruiter(!vboxAddRecr.isVisible());
 		}
 	}
 

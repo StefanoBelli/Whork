@@ -18,8 +18,9 @@ import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
-public class CandidatureItem {
-	private final double MAX_WIDTH = 50;
+public final class CandidatureItem {
+	private static final int MAX_WIDTH = 50;
+	
 	private HBox itemBox;
 	private ImageView imgView;
 	private Text nameCompanyField;

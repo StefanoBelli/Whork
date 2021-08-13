@@ -40,44 +40,44 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private Button homeBtn;
 	private Button chatBtn;
 	private Button logoutBtn;
-	private static TextField nameField;
-	private static TextField surnameField;
-	private static TextField emailField;
-	private static TextField phoneField;
-	private static TextField fiscalCodeField;
-	private static TextField addressField;
+	private TextField nameField;
+	private TextField surnameField;
+	private TextField emailField;
+	private TextField phoneField;
+	private TextField fiscalCodeField;
+	private TextField addressField;
 	private ImageView imgView;
 	private Label nameLabel;
 	private Label statusLabel;
 	private Label locationLabel;
-	private static TextField websiteField;
-	private static TextField twitterField;
-	private static TextField instaField;
-	private static TextField facebookField;
-	private static TextField bioField;
-	private static Button editSocialBtn;
-	private static Button submitSocialBtn;
-	private static Button cancelSocialBtn;
-	private static Button editPersonalBtn;
-	private static Label oldPasswordLabel;
-	private static Label newPasswordLabel;
-	private static Label confirmPasswordLabel;
-	private static TextField oldPasswordField;
-	private static TextField newPasswordField;
-	private static TextField confirmPasswordField;
-	private static Button changePasswordBtn;
-	private static Button submitPersonalBtn;
-	private static Button cancelPersonalBtn;
-	private static Button editBioBtn;
-	private static Button submitBioBtn;
-	private static Button cancelBioBtn;
+	private TextField websiteField;
+	private TextField twitterField;
+	private TextField instaField;
+	private TextField facebookField;
+	private TextField bioField;
+	private Button editSocialBtn;
+	private Button submitSocialBtn;
+	private Button cancelSocialBtn;
+	private Button editPersonalBtn;
+	private Label oldPasswordLabel;
+	private Label newPasswordLabel;
+	private Label confirmPasswordLabel;
+	private TextField oldPasswordField;
+	private TextField newPasswordField;
+	private TextField confirmPasswordField;
+	private Button changePasswordBtn;
+	private Button submitPersonalBtn;
+	private Button cancelPersonalBtn;
+	private Button editBioBtn;
+	private Button submitBioBtn;
+	private Button cancelBioBtn;
 	private ListView<CandidatureBean> listCandidatureView;
 	
 	private List<CandidatureBean> list;
 	
-	private Social socialInstance;
+	private Edit socialInstance;
 	private Personal personalInstance;
-	private Bio bioInstance;
+	private Edit bioInstance;
 
 	private UserBean user;
 	private String email;
@@ -136,9 +136,9 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		Factory factory = new Factory();
 
-		socialInstance = (Social) factory.createElement("Social");
+		socialInstance = factory.createElement("Social");
 		personalInstance = (Personal) factory.createElement("Personal");
-		bioInstance = (Bio) factory.createElement("Bio");
+		bioInstance = factory.createElement("Bio");
 
 		setDescription();
 		setSocial();
@@ -305,10 +305,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				facebookField.getText() == "" ||
 				instaField.getText() == "") {
 				
-				DialogFactory.error(
-						"Social Data", 
-						"Unable to change data", 
-						"You cannot leave empty field").showAndWait();
+				showErrorDialogEmptyField("Social data");
 				socialInstance.text(false);
 				socialInstance.button(false);
 				return;
@@ -368,11 +365,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					surnameField.getText() == "" ||
 					phoneField.getText() == "" ||
 					addressField.getText() == "") {
-
-						DialogFactory.error(
-								"Personal Data", 
-								"Unable to change data", 
-								"You cannot leave empty field").showAndWait();
+						showErrorDialogEmptyField("Personal data");
 						personalInstance.text();
 						return;
 				}
@@ -392,20 +385,18 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				}
 			} else {
 				personalInstance.text();
-				if(oldPasswordField.getText() == "" ||
-					newPasswordField.getText() == "" ||
-					confirmPasswordField.getText() == "") {
+				if(oldPasswordField.getText().isBlank()||
+					newPasswordField.getText().isBlank() ||
+					confirmPasswordField.getText().isBlank()) {
 
-							DialogFactory.error(
-									"Password Data", 
-									"Unable to change data", 
-									"You cannot leave empty field").showAndWait();
+						showErrorDialogEmptyField("Password data");
 							
-							oldPasswordField.setText("");
-							newPasswordField.setText("");
-							confirmPasswordField.setText("");
-							return;
+						oldPasswordField.setText("");
+						newPasswordField.setText("");
+						confirmPasswordField.setText("");
+						return;
 				}
+				
 				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
 					try {
 						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
@@ -414,23 +405,31 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 						Util.exceptionLog(e);
 						GraphicsUtil.showExceptionStage(e);
 					} catch (InvalidPasswordException e) {
-						DialogFactory.error(
-								"Passwords not equals!", 
-								"Unable to change password", 
-								"Try to write the correct old password").showAndWait();
+						showNonEqualityPasswordErrorDialog("Try to use the old password");
 					}
 				} else {
-					DialogFactory.error(
-							"Passwords not equals!", 
-							"Unable to change password", 
-							"Try to write the same new password in the confirmation field").showAndWait();
+					showNonEqualityPasswordErrorDialog("Try writing the same password in both fields");
 				}
+				
 				oldPasswordField.setText("");
 				newPasswordField.setText("");
 				confirmPasswordField.setText("");
 			}
 		}
-
+	}
+	
+	private void showErrorDialogEmptyField(String argWhat) {
+		DialogFactory.error(
+				argWhat, 
+				"Unable to change data", 
+				"You cannot leave empty field").showAndWait();
+	}
+	
+	private void showNonEqualityPasswordErrorDialog(String msg) {
+		DialogFactory.error(
+				"Passwords are not the same!", 
+				"Unable to change password", 
+				msg).showAndWait();
 	}
 	
 	private final class HandleCancelPersonalRequest implements EventHandler<MouseEvent> {
@@ -460,16 +459,12 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			bioInstance.text(false);
 			
 			if(bioField.getText() == "") {
-
-				DialogFactory.error(
-						"Bio Data", 
-						"Unable to change data", 
-						"You cannot leave empty field").showAndWait();
-
+				showErrorDialogEmptyField("Bio data");
 				return;
 			}
 			
 			user.setBiography(bioField.getText());
+			
 			try {
 				AccountController.editAccountController("JobSeekerBiography", user, BeanFactory.buildUserAuthBean(email, ""), null);
 			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
@@ -489,7 +484,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 	}
 
-	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
+	private static final class HandleChatRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
@@ -522,21 +517,21 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 	}
 
-
 	private interface Edit {
-		abstract void button(boolean variable);
-		abstract void text(boolean variable);
+		void button(boolean variable);
+		void text(boolean variable);
 	}
 
-	private class Social implements Edit {
-
+	private final class Social implements Edit {
+		
+		@Override
 		public void button(boolean variable) {
-			if(variable == true) editSocialBtn.setVisible(false);
-			else editSocialBtn.setVisible(true);
+			editSocialBtn.setVisible(!variable);
 			submitSocialBtn.setVisible(variable);
 			cancelSocialBtn.setVisible(variable);
 		}
-
+		
+		@Override
 		public void text(boolean variable) {
 			websiteField.setEditable(variable);
 			twitterField.setEditable(variable);
@@ -546,10 +541,11 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		
 	}
 
-	private class Personal implements Edit {
+	private final class Personal implements Edit {
 
+		@Override
 		public void button(boolean variable) {
-			if(variable == true) {
+			if(variable) {
 				editPersonalBtn.setVisible(false);
 				changePasswordBtn.setVisible(false);
 			} else {
@@ -559,14 +555,15 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			submitPersonalBtn.setVisible(variable);
 			cancelPersonalBtn.setVisible(variable);
 		}
-
+		
+		@Override
 		public void text(boolean variable) {
 			nameField.setEditable(variable);
 			surnameField.setEditable(variable);
 			emailField.setEditable(variable);
 			phoneField.setEditable(variable);
 			addressField.setEditable(variable);
-			if(variable == true) {
+			if(variable) {
 				oldPasswordField.setVisible(false);
 				newPasswordField.setVisible(false);
 				confirmPasswordField.setVisible(false);
@@ -599,43 +596,45 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 	}
 
-	private class Bio implements Edit {
-
+	private final class Bio implements Edit {
+		
+		@Override
 		public void button(boolean variable) {
-			if(variable == true) editBioBtn.setVisible(false);
-			else editBioBtn.setVisible(true);
+			editBioBtn.setVisible(!variable);
 			submitBioBtn.setVisible(variable);
 			cancelBioBtn.setVisible(variable);
 		}
-
+		
+		@Override
 		public void text(boolean variable) {
 			bioField.setEditable(variable);
 		}
 
 	}
 
-	private class Factory {
+	private final class Factory {
+
 		private Edit createElement(String element) {
 			switch(element) {
 				case("Social"): 
-					return createNewProductBaseSocial();
+					return createNewConcreteProductSocial();
 				case("Personal"):
-					return createNewProductBasePersonal();
+					return createNewConcreteProductPersonal();
 				case("Bio"):
-					return createNewProductBaseBio();
+					return createNewConcreteProductBio();
 				default: return null;
 			}
 		}
 
-		private Edit createNewProductBaseSocial() {
+		private Edit createNewConcreteProductSocial() {
 			return new Social();
 		}
 
-		private Edit createNewProductBasePersonal() {
+		private Edit createNewConcreteProductPersonal() {
 			return new Personal();
 		}
 
-		private Edit createNewProductBaseBio() {
+		private Edit createNewConcreteProductBio() {
 			return new Bio();
 		}
 	}

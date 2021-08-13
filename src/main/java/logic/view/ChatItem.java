@@ -20,8 +20,8 @@ import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
-public class ChatItem {
-	private final double MAX_WIDTH = 50;
+public final class ChatItem {
+	private final int MAX_WIDTH = 50;
 
 	private HBox itemBox;
 	private ImageView imgView;
@@ -30,7 +30,7 @@ public class ChatItem {
 	private Text dateText;
 	private Button replyBtn;
 
-	private static String emailRecruiter;
+	private String emailRecruiter;
 
 	private void init() {
 		itemBox = new HBox();
@@ -99,7 +99,7 @@ public class ChatItem {
 		return itemBox;
 	}
 
-	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
+	private final class HandleChatRequest implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {

@@ -41,8 +41,8 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String CANCEL = "Cancel";
 	private static final String CHANGEPASSWORD = "Change Password";
 	
-	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+400;
-	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+250;
+	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH + 400;
+	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT + 250;
 
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";

@@ -24,9 +24,9 @@ import logic.graphicscontroller.AccountCompanyViewController;
 import logic.graphicscontroller.GraphicsController;
 import logic.util.GraphicsUtil;
 
-public class AccountCompanyView implements ControllableView {
-	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH+360;
-	private static double HEIGHTWINDOW = DefaultWindowSize.HEIGHT+400;
+public final class AccountCompanyView implements ControllableView {
+	private static final int WIDTHWINDOW = DefaultWindowSize.WIDTH + 360;
+	private static final int HEIGHTWINDOW = DefaultWindowSize.HEIGHT + 400;
 
 	private static final String PROFILE_PHOTO_MESSAGE = "Profile photo:";
 	private static final String CHOOSE_FILE_BTN = "Choose...";
@@ -115,7 +115,7 @@ public class AccountCompanyView implements ControllableView {
 
 		xAxis = new NumberAxis();
 		yAxis = new CategoryAxis();
-		candidateBarChart = new StackedBarChart<Number, String>(xAxis, yAxis);
+		candidateBarChart = new StackedBarChart<>(xAxis, yAxis);
 
 		pieChart = new PieChart(AccountCompanyViewController.setPieChart());
 
