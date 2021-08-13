@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -211,7 +212,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 	    KeyValue endKeyValue = new KeyValue(textFX.translateXProperty(), msgWidth);
 	    KeyFrame endFrame = new KeyFrame(Duration.seconds(5), endKeyValue);
 	    Timeline timeline = new Timeline(initFrame, endFrame);
-	    timeline.setCycleCount(Timeline.INDEFINITE);
+	    timeline.setCycleCount(Animation.INDEFINITE);
 	    timeline.play();
 	}
 
@@ -328,12 +329,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
 						ChatItem newItem = new ChatItem();
-						try {
-							newItem.setInfo(itemBean, email);
-						} catch (InternalException e) {
-							Util.exceptionLog(e);
-							GraphicsUtil.showExceptionStage(e);
-						}
+						newItem.setInfo(itemBean, email);
 						setGraphic(newItem.getBox());
 					}
 				}
