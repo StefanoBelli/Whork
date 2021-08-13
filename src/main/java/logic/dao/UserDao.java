@@ -64,6 +64,10 @@ public final class UserDao {
 		m.setEmploymentStatus(
 			EmploymentStatusDao.getEmploymentStatus(rs.getString(10)));
 		m.setPhoto(rs.getString(11));
+		m.setWebsite(rs.getString(12));
+		m.setFacebook(rs.getString(13));
+		m.setTwitter(rs.getString(14));
+		m.setInstagram(rs.getString(15));
 
 		return m;
 	}

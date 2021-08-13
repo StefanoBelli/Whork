@@ -458,7 +458,8 @@ BEGIN
     
     SELECT Name, Surname, PhoneNumber, Birthday, CV, 
         HomeAddress, Biography, Comune_Nome, Comune_CAP, 
-        EmploymentStatus_Position, Photo
+        EmploymentStatus_Position, Photo, Website, FacebookID,
+        TwitterID, InstagramID
 	FROM JobSeekerUserDetails
 	WHERE CF = var_cf;
     
