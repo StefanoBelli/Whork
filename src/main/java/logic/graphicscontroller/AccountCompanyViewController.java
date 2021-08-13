@@ -366,6 +366,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 
 	@SuppressWarnings({"squid:S110", "squid:S1854"})
 	private void fillListViewRecruiter(ObservableList<UserBean> list) {
+		Map<String, UserBean> hereMapRecruiter = mapRecruiter;
 		listRecruiterView.setItems(list);
 		listRecruiterView.setCellFactory((ListView<UserBean> oUnused) -> new ListCell<UserBean>() {
 				@Override
@@ -374,7 +375,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 					if (itemBean != null) {
 						RecruiterItem newItem = new RecruiterItem();
 						try {
-							newItem.setInfo(itemBean, GraphicsUtil.getKey(mapRecruiter, itemBean));
+							newItem.setInfo(itemBean, GraphicsUtil.getKey(hereMapRecruiter, itemBean));
 						} catch (InternalException e) {
 							Util.exceptionLog(e);
 							GraphicsUtil.showExceptionStage(e);
