@@ -433,12 +433,12 @@ public final class AccountCompanyViewController extends GraphicsController {
 
 		@Override
 		public void handle(MouseEvent event) {			
-			if(nameField.getText() == "" ||
-				surnameField.getText() == "" ||
-				emailField.getText() == "" ||
-				passwordField.getText() == "" ||
-				fiscalCodeField.getText() == "" ||
-				phoneNumberField.getText() == "") {
+			if(nameField.getText().equals("") ||
+				surnameField.getText().equals("") ||
+				emailField.getText().equals("") ||
+				passwordField.getText().equals("") ||
+				fiscalCodeField.getText().equals("") ||
+				phoneNumberField.getText().equals("")) {
 
 					DialogFactory.error(
 							"Recruiter Data",
