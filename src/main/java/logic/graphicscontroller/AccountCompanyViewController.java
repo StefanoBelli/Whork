@@ -370,12 +370,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
 						RecruiterItem newItem = new RecruiterItem();
-						try {
-							newItem.setInfo(itemBean, GraphicsUtil.getKey(hereMapRecruiter, itemBean));
-						} catch (InternalException e) {
-							Util.exceptionLog(e);
-							GraphicsUtil.showExceptionStage(e);
-						}
+						newItem.setInfo(itemBean, GraphicsUtil.getKey(hereMapRecruiter, itemBean));
 						setGraphic(newItem.getBox());
 					}
 				}

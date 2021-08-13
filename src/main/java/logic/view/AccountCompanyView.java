@@ -119,7 +119,7 @@ public final class AccountCompanyView implements ControllableView {
 
 		messageLabel = new Label("Messages");
 		listChatView = new ListView<>();
-		recruiterLabel = new Label("Recuiters");
+		recruiterLabel = new Label("Recruiters");
 		addRecruiterBtn = new Button("Add Recruiter");
 		listRecruiterView = new ListView<>();
 		nameField = new TextField();
@@ -241,8 +241,9 @@ public final class AccountCompanyView implements ControllableView {
 		VBox vboxRecruiter = new VBox(10);
 		vboxRecruiter.getChildren().add(getHBox(10, recruiterLabel, addRecruiterBtn));
 		vboxRecruiter.getChildren().add(getHBox(100, imageRecruiterLabel, nameRecruiterLabel, 
-														emailRecruiterLabel, fiscalCodeRecruiterLabel, 
-														numberPostLabel, numberPhoneRecruiterLabel));
+							emailRecruiterLabel, fiscalCodeRecruiterLabel, 
+							numberPostLabel, numberPhoneRecruiterLabel));
+
 		vboxRecruiter.getChildren().add(listRecruiterView);
 		vboxRecruiter.setStyle(COMMON_STYLING);
 

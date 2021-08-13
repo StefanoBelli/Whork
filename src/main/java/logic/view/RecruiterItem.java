@@ -10,7 +10,6 @@ import javafx.scene.text.Text;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
-import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
@@ -35,7 +34,7 @@ public final class RecruiterItem {
 		phoneNumberText = new Text();
 	}
 
-	public void setInfo(UserBean userRecruiter, String email) throws InternalException {
+	public void setInfo(UserBean userRecruiter, String email) {
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 
@@ -76,14 +75,14 @@ public final class RecruiterItem {
 	}
 
 	public Node getBox() {
-		itemBox.getChildren().addAll(imgView);
-		itemBox.getChildren().addAll(nameText);
-		itemBox.getChildren().addAll(emailText);
-		itemBox.getChildren().addAll(fiscalCodeText);
-		itemBox.getChildren().addAll(numberPostText);
-		itemBox.getChildren().addAll(phoneNumberText);
+		itemBox.getChildren().add(imgView);
+		itemBox.getChildren().add(nameText);
+		itemBox.getChildren().add(emailText);
+		itemBox.getChildren().add(fiscalCodeText);
+		itemBox.getChildren().add(numberPostText);
+		itemBox.getChildren().add(phoneNumberText);
 
-		itemBox.setSpacing(20);		
+		itemBox.setSpacing(20);
 		itemBox.setAlignment(Pos.CENTER);
 		itemBox.setPadding(new Insets(10, 10, 10, 10));
 
