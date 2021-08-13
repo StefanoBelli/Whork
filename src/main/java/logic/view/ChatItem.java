@@ -16,7 +16,6 @@ import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
-import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
@@ -30,7 +29,7 @@ public final class ChatItem {
 	private Text dateText;
 	private Button replyBtn;
 
-	private String emailRecruiter;
+	private String remoteEmail;
 
 	private void init() {
 		itemBox = new HBox();
@@ -41,14 +40,15 @@ public final class ChatItem {
 		replyBtn = new Button("Reply");
 	}
 
-	public void setInfo(ChatLogEntryBean chat, String email) throws InternalException {
+	public void setInfo(ChatLogEntryBean chat, String email) {
 		final String dflRoot = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_DFL_ROOT);
 		final String usrData = Util.InstanceConfig.getString(Util.InstanceConfig.KEY_USR_DATA);
 
-		emailRecruiter = email;
 		String nameChat = (!chat.getSenderEmail().equals(email)) ? chat.getSenderEmail() : chat.getReceiverEmail();
 	 	String date = new Date(chat.getDeliveryRequestTime()).toString();
 	 	UserBean userPicture = null;
+		 
+		remoteEmail = nameChat;
 		
 	 	try {
 			userPicture = AccountController.getPictureForMessage(nameChat);
@@ -103,7 +103,7 @@ public final class ChatItem {
 
 		@Override
 		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", emailRecruiter);
+			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmail);
 		}
 	}
 }

@@ -328,12 +328,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 					super.updateItem(itemBean, empty);
 					if (itemBean != null) {
 						ChatItem newItem = new ChatItem();
-						try {
-							newItem.setInfo(itemBean, email);
-						} catch (InternalException e) {
-							Util.exceptionLog(e);
-							GraphicsUtil.showExceptionStage(e);
-						}
+						newItem.setInfo(itemBean, email);
 						setGraphic(newItem.getBox());
 					}
 				}
