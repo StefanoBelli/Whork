@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -211,7 +212,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 	    KeyValue endKeyValue = new KeyValue(textFX.translateXProperty(), msgWidth);
 	    KeyFrame endFrame = new KeyFrame(Duration.seconds(5), endKeyValue);
 	    Timeline timeline = new Timeline(initFrame, endFrame);
-	    timeline.setCycleCount(Timeline.INDEFINITE);
+	    timeline.setCycleCount(Animation.INDEFINITE);
 	    timeline.play();
 	}
 
