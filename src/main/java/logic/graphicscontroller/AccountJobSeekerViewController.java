@@ -255,7 +255,8 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	public void update() {
 		//no need to update anything
 	}
-	
+
+	@SuppressWarnings({"squid:S110", "squid:S1854"})
 	private void fillListView(ObservableList<CandidatureBean> list) {
 		listCandidatureView.setItems(list);
 		listCandidatureView.setCellFactory((ListView<CandidatureBean> oUnused) -> new ListCell<CandidatureBean>() {
@@ -373,6 +374,28 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			newPasswordField.setText("");
 			confirmPasswordField.setText("");
 		}
+		
+		private void userMakeChanges() {
+			try {
+				AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
+				LoginHandler.setSessionUser(user);
+			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
+		
+		private void passwordMakeChanges() {
+			try {
+				AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
+						newPasswordField.getText());
+			} catch (DataAccessException | InternalException | DataLogicException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			} catch (InvalidPasswordException e) {
+				showNonEqualityPasswordErrorDialog("Try to use the old password");
+			}
+		}
 
 		@Override
 		public void handle(MouseEvent event) {
@@ -390,13 +413,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				
 					personalInstance.text();
 
-					try {
-						AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
-						LoginHandler.setSessionUser(user);
-					} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
-						Util.exceptionLog(e);
-						GraphicsUtil.showExceptionStage(e);
-					}
+					userMakeChanges();
 				}
 			} else {
 				personalInstance.text();
@@ -405,15 +422,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					showErrorDialogEmptyField("Password data");
 					emptyPasswordFields();
 				} else if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
-					try {
-						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
-								newPasswordField.getText());
-					} catch (DataAccessException | InternalException | DataLogicException e) {
-						Util.exceptionLog(e);
-						GraphicsUtil.showExceptionStage(e);
-					} catch (InvalidPasswordException e) {
-						showNonEqualityPasswordErrorDialog("Try to use the old password");
-					}
+					passwordMakeChanges();
 				} else {
 					showNonEqualityPasswordErrorDialog("Try writing the same password in both fields");
 				}

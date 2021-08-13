@@ -319,6 +319,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 		fillListViewChat(FXCollections.observableArrayList(listChat));
 	}
 
+	@SuppressWarnings({"squid:S110", "squid:S1854"})
 	private void fillListViewChat(ObservableList<ChatLogEntryBean> list) {
 		listChatView.setItems(list);
 		listChatView.setCellFactory((ListView<ChatLogEntryBean> oUnused) -> new ListCell<ChatLogEntryBean>() {
@@ -363,6 +364,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 		fillListViewRecruiter(FXCollections.observableArrayList(listRecruiter));
 	}
 
+	@SuppressWarnings({"squid:S110", "squid:S1854"})
 	private void fillListViewRecruiter(ObservableList<UserBean> list) {
 		listRecruiterView.setItems(list);
 		listRecruiterView.setCellFactory((ListView<UserBean> oUnused) -> new ListCell<UserBean>() {
