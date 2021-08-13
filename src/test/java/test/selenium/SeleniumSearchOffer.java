@@ -89,7 +89,7 @@ public class SeleniumSearchOffer {
 		WebDriver driver = ChromeWebDriver.getWebDriver();
 		driver.get("http://localhost:8080/index.jsp");
 
-		WebElement searchVal = driver.findElement(By.xpath("/html/body/div/form/input[1]"));
+		WebElement searchVal = driver.findElement(By.id("searchVal"));
 		Select selectCategories = new Select(driver.findElement(By.id("categories")));
 		Select selectPositions = new Select(driver.findElement(By.id("positions")));
 		Select selectQualifies = new Select(driver.findElement(By.id("qualifies")));
@@ -102,8 +102,8 @@ public class SeleniumSearchOffer {
 		selectContracts.selectByVisibleText("Full Time");
 		searchBtn.click();
 		
-		WebElement outcome = driver.findElement(By.className("name"));
-		assertEquals("Name: offer 3", outcome.getText());
+		WebElement outcome = driver.findElement(By.id("offer-name"));
+		assertEquals("offer 3", outcome.getText());
 		driver.close();
 
 		

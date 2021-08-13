@@ -142,11 +142,11 @@
 <%
 								if(searchVal != null && searchVal != ""){ 
 %>
-									<input class="form-control mr-sm-2" type="search" name="searchVal" aria-label="Search" value="<%=searchVal %>" />
+									<input class="form-control mr-sm-2" type="search" name="searchVal" id="searchVal" aria-label="Search" value="<%=searchVal %>" />
 <%
 								} else {
 %>
-									<input class="form-control mr-sm-2" type="search" name="searchVal" aria-label="Search" value="" />
+									<input class="form-control mr-sm-2" type="search" name="searchVal" id="searchVal" aria-label="Search" value="" />
 <%
 								}
 %>
@@ -324,7 +324,7 @@
 		        	<i class="fa fa-forward"></i> 
 		    	</a> 
 		    <div class="member-details"> 
-		        <h4> <b> <%= offer.getOfferName() %> </b>
+		        <h4> <b id="offer-name"> <%= offer.getOfferName() %> </b>
 
 <%
 					if(offer.isVerifiedByWhork()){ 
