@@ -14,8 +14,8 @@ import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
-public class RecruiterItem {
-	private final double MAX_WIDTH = 50;
+public final class RecruiterItem {
+	private static final int MAX_WIDTH = 50;
 
 	private HBox itemBox;
 	private ImageView imgView;

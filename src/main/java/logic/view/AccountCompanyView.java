@@ -48,11 +48,10 @@ public final class AccountCompanyView implements ControllableView {
 	private Text totalClickText;
 	private Label totalClickLabel;
 
-	private NumberAxis xAxis;
-	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
 	private PieChart pieChart;
 
+	private CategoryAxis yAxis;
 	private Label messageLabel;
 	private ListView<Object> listChatView;
 	private HBox hboxRecruiter;
@@ -113,7 +112,7 @@ public final class AccountCompanyView implements ControllableView {
 		totalClickText = new Text();
 		totalClickLabel = new Label("Total number of clicks");
 
-		xAxis = new NumberAxis();
+		NumberAxis xAxis = new NumberAxis();
 		yAxis = new CategoryAxis();
 		candidateBarChart = new StackedBarChart<>(xAxis, yAxis);
 

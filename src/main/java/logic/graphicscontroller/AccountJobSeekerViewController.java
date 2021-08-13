@@ -416,6 +416,13 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				confirmPasswordField.setText("");
 			}
 		}
+		
+		private void showNonEqualityPasswordErrorDialog(String msg) {
+			DialogFactory.error(
+					"Passwords are not the same!", 
+					"Unable to change password", 
+					msg).showAndWait();
+		}
 	}
 	
 	private void showErrorDialogEmptyField(String argWhat) {
@@ -424,14 +431,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 				"Unable to change data", 
 				"You cannot leave empty field").showAndWait();
 	}
-	
-	private void showNonEqualityPasswordErrorDialog(String msg) {
-		DialogFactory.error(
-				"Passwords are not the same!", 
-				"Unable to change password", 
-				msg).showAndWait();
-	}
-	
+
 	private final class HandleCancelPersonalRequest implements EventHandler<MouseEvent> {
 
 		@Override

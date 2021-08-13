@@ -29,7 +29,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -88,11 +87,9 @@ public final class AccountCompanyViewController extends GraphicsController {
 	private CategoryAxis yAxis;
 	private StackedBarChart<Number, String> candidateBarChart;
 	private XYChart.Series<Number, String> series;
-	private static ObservableList<PieChart.Data> pieChartData;
 
 	private ListView<ChatLogEntryBean> listChatView;
 	private ListView<UserBean> listRecruiterView;
-	private HBox hboxRecruiter;
 	private Button addRecruiterBtn;
 	private TextField nameField;
 	private TextField surnameField;
@@ -147,11 +144,10 @@ public final class AccountCompanyViewController extends GraphicsController {
 		cancelBtn = (Button) n[23];
 		vboxAddRecr = (VBox) n[24];
 		textFX = (Text) n[25];
-		hboxRecruiter = (HBox) n[26];
 
 		user = LoginHandler.getSessionUser();
 
-		if(!user.isAdmin()) hboxRecruiter.setVisible(false);
+		n[26].setVisible(user.isAdmin());
 
 		try {
 			email = AccountController.getEmailEmployeeByCF(user);
@@ -308,9 +304,8 @@ public final class AccountCompanyViewController extends GraphicsController {
 			key = keys.next();
 			pieData.add(new PieChart.Data(key, mapEmployment.get(key)*100));
 		}
-		pieChartData = pieData;
 
-		return pieChartData;
+		return pieData;
 	}
 
 	private void setChat() {

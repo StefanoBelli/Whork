@@ -41,8 +41,8 @@ public final class AccountJobSeekerView implements ControllableView {
 	private static final String CANCEL = "Cancel";
 	private static final String CHANGEPASSWORD = "Change Password";
 	
-	private static final double WIDTHWINDOW = DefaultWindowSize.WIDTH + 400;
-	private static final double HEIGHTWINDOW = DefaultWindowSize.HEIGHT + 250;
+	private static final int WIDTHWINDOW = DefaultWindowSize.WIDTH + 400;
+	private static final int HEIGHTWINDOW = DefaultWindowSize.HEIGHT + 250;
 
 	private static final String COMMON_STYLING =
 		"-fx-border-style: solid;-fx-border-width: 1;-fx-border-color: black";
@@ -299,6 +299,11 @@ public final class AccountJobSeekerView implements ControllableView {
 	}
 
 	@Override
+	public void visible() {
+		//no need to call update
+	}
+	
+	@Override
 	public Scene getScene() {
 		return scene;
 	}
@@ -307,11 +312,6 @@ public final class AccountJobSeekerView implements ControllableView {
 	public void setWindowProperties(Stage stage) {
 		stage.setResizable(false);
 		stage.setTitle("My Account - Whork");
-	}
-
-	@Override
-	public void visible() {
-		//no need to call update
 	}
 
 	@Override
