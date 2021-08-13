@@ -300,10 +300,10 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {			
 			
-			if(websiteField.getText() == "" ||
-				twitterField.getText() == "" ||
-				facebookField.getText() == "" ||
-				instaField.getText() == "") {
+			if(websiteField.getText().equals("") ||
+				twitterField.getText().equals("") ||
+				facebookField.getText().equals("") ||
+				instaField.getText().equals("")) {
 				
 				showErrorDialogEmptyField("Social data");
 				socialInstance.text(false);
@@ -472,7 +472,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			bioInstance.button(false);
 			bioInstance.text(false);
 			
-			if(bioField.getText() == "") {
+			if(bioField.getText().equals("")) {
 				showErrorDialogEmptyField("Bio data");
 				return;
 			}
