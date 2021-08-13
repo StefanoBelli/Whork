@@ -59,7 +59,6 @@ import logic.view.ViewStack;
 public final class AccountCompanyViewController extends GraphicsController {
 	
 	private static final double MAX_WIDTH = 200;
-	//private static final String WHORK = "whork";
 
 	private static final String JAN = "Jan";
 	private static final String FEB = "Feb";
@@ -174,7 +173,7 @@ public final class AccountCompanyViewController extends GraphicsController {
 	private void setListeners() {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
 		postOfferBtn.setOnMouseClicked(new HandlePostOfferRequest());
-		logOutBtn.setOnMouseClicked(new HandleLogoutRequest());
+		logOutBtn.setOnMouseClicked(new GraphicsUtil.HandleLogoutRequest(viewStack));
 		addRecruiterBtn.setOnMouseClicked(new HandleAddRecruiterRequest());
 		submitBtn.setOnMouseClicked(new HandleSubmitRecruiterRequest());
 		cancelBtn.setOnMouseClicked(new HandleCancelRecruiterRequest());
@@ -417,24 +416,6 @@ public final class AccountCompanyViewController extends GraphicsController {
 		@Override
 		public void handle(MouseEvent event) {			
 			GraphicsUtil.showAndWaitWindow(PostOfferView.class);
-		}
-	}
-
-	private final class HandleLogoutRequest implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {
-			LoginHandler.logout();
-			
-			try {
-				Util.Files.overWriteJsonAuth(null, null);
-			} catch(IOException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.closeStageByMouseEvent(event);
-				GraphicsUtil.showExceptionStage(e);
-			}
-
-			viewStack.pop();
 		}
 	}
 

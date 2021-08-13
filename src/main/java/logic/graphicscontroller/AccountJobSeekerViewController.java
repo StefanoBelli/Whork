@@ -1,6 +1,5 @@
 package logic.graphicscontroller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -154,7 +153,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	private void setListeners() {
 		homeBtn.setOnMouseClicked(new HandleHomeRequest());
 		chatBtn.setOnMouseClicked(new HandleChatRequest());
-		logoutBtn.setOnMouseClicked(new HandleLogoutRequest());
+		logoutBtn.setOnMouseClicked(new GraphicsUtil.HandleLogoutRequest(viewStack));
 		editSocialBtn.setOnMouseClicked(new HandleEditSocialRequest());
 		submitSocialBtn.setOnMouseClicked(new HandleSubmitSocialRequest());
 		cancelSocialBtn.setOnMouseClicked(new HandleCancelSocialRequest());		
@@ -355,49 +354,57 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 	}
 	
 	private final class HandleSubmitPersonalRequest implements EventHandler<MouseEvent> {
+		
+		private boolean anyPersonalBlankField() {
+			return nameField.getText().isBlank() ||
+					surnameField.getText().isBlank() ||
+					phoneField.getText().isBlank() ||
+					addressField.getText().isBlank();
+		}
+		
+		private boolean anyPasswordBlankField() {
+			return oldPasswordField.getText().isBlank()||
+					newPasswordField.getText().isBlank() ||
+					confirmPasswordField.getText().isBlank();
+		}
+		
+		private void emptyPasswordFields() {
+			oldPasswordField.setText("");
+			newPasswordField.setText("");
+			confirmPasswordField.setText("");
+		}
 
 		@Override
 		public void handle(MouseEvent event) {
 			personalInstance.button(false);
 			
 			if(!oldPasswordField.isVisible()) {
-				if(nameField.getText() == "" ||
-					surnameField.getText() == "" ||
-					phoneField.getText() == "" ||
-					addressField.getText() == "") {
-						showErrorDialogEmptyField("Personal data");
-						personalInstance.text();
-						return;
-				}
+				if(anyPersonalBlankField()) {
+					showErrorDialogEmptyField("Personal data");
+					personalInstance.text();
+				} else {
+					user.setName(nameField.getText());
+					user.setSurname(surnameField.getText());
+					user.setPhoneNumber(phoneField.getText());
+					user.setHomeAddress(addressField.getText());
 				
-				user.setName(nameField.getText());
-				user.setSurname(surnameField.getText());
-				user.setPhoneNumber(phoneField.getText());
-				user.setHomeAddress(addressField.getText());
-				personalInstance.text();
+					personalInstance.text();
 
-				try {
-					AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
-					LoginHandler.setSessionUser(user);
-				} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
-					Util.exceptionLog(e);
-					GraphicsUtil.showExceptionStage(e);
+					try {
+						AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
+						LoginHandler.setSessionUser(user);
+					} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
+						Util.exceptionLog(e);
+						GraphicsUtil.showExceptionStage(e);
+					}
 				}
 			} else {
 				personalInstance.text();
-				if(oldPasswordField.getText().isBlank()||
-					newPasswordField.getText().isBlank() ||
-					confirmPasswordField.getText().isBlank()) {
-
-						showErrorDialogEmptyField("Password data");
-							
-						oldPasswordField.setText("");
-						newPasswordField.setText("");
-						confirmPasswordField.setText("");
-						return;
-				}
 				
-				if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
+				if(anyPasswordBlankField()) {
+					showErrorDialogEmptyField("Password data");
+					emptyPasswordFields();
+				} else if(newPasswordField.getText().equals(confirmPasswordField.getText())) {
 					try {
 						AccountController.editAccountController("ChangePasswordAccount", user, BeanFactory.buildUserAuthBean(email, oldPasswordField.getText()),
 								newPasswordField.getText());
@@ -411,9 +418,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 					showNonEqualityPasswordErrorDialog("Try writing the same password in both fields");
 				}
 				
-				oldPasswordField.setText("");
-				newPasswordField.setText("");
-				confirmPasswordField.setText("");
+				emptyPasswordFields();
 			}
 		}
 		
@@ -496,24 +501,6 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			if(remoteEmailOpt.isPresent()) {
 				GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmailOpt.get());
 			}
-		}
-	}
-
-	private final class HandleLogoutRequest implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {
-			LoginHandler.logout();
-			
-			try {
-				Util.Files.overWriteJsonAuth(null, null);
-			} catch(IOException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.closeStageByMouseEvent(event);
-				GraphicsUtil.showExceptionStage(e);
-			}
-
-			viewStack.pop();
 		}
 	}
 

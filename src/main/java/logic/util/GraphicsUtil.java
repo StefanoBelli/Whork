@@ -1,6 +1,7 @@
 package logic.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import logic.bean.JobCategoryBean;
 import logic.bean.JobPositionBean;
 import logic.bean.QualificationBean;
 import logic.bean.TypeOfContractBean;
+import logic.graphicscontroller.LoginHandler;
 import logic.view.ExceptionView;
 import logic.view.View;
 import logic.view.ViewStack;
@@ -187,6 +189,30 @@ public final class GraphicsUtil {
 
 		return builder.toString();
 	}
+	
+	public static final class HandleLogoutRequest implements EventHandler<MouseEvent> {
+		private ViewStack viewStack;
+		
+		public HandleLogoutRequest(ViewStack viewStack) {
+			this.viewStack = viewStack;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {
+			LoginHandler.logout();
+			
+			try {
+				Util.Files.overWriteJsonAuth(null, null);
+			} catch(IOException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.closeStageByMouseEvent(event);
+				GraphicsUtil.showExceptionStage(e);
+			}
+
+			viewStack.pop();
+		}
+	}
+
 	
 	/**
 	 * @author Magliari Elio
