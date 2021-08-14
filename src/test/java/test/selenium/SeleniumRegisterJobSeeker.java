@@ -19,19 +19,19 @@ public class SeleniumRegisterJobSeeker {
 		WebDriver driver = ChromeWebDriver.getWebDriver();
 		driver.get("http://localhost:8080/logout");
 		driver.get("http://localhost:8080/register.jsp");
-		driver.findElement(By.xpath("/html/body/div/div[1]/form[1]/input")).click();
+		driver.findElement(By.xpath("/html/body/div/div[2]/div[1]/form/button")).click();
 
-		WebElement email = driver.findElement(By.xpath("/html/body/form/input[1]"));
+		WebElement email = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[1]/div[1]/div/input"));
 		WebElement pwd = driver.findElement(By.xpath("//*[@id=\"pwd\"]"));
 		WebElement confPwd = driver.findElement(By.xpath("//*[@id=\"conf_pwd\"]"));
-		WebElement name = driver.findElement(By.xpath("/html/body/form/input[4]"));
-		WebElement surname = driver.findElement(By.xpath("/html/body/form/input[5]"));
+		WebElement name = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[3]/div[1]/div/input"));
+		WebElement surname = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[3]/div[2]/div/input"));
 		WebElement fiscalCode = driver.findElement(By.xpath("//*[@id=\"my_fc\"]"));
-		WebElement phoneNumber = driver.findElement(By.xpath("/html/body/form/input[7]"));
+		WebElement phoneNumber = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[3]/div[4]/div/input"));
 		WebElement town = driver.findElement(By.xpath("//*[@id=\"town\"]"));
 		WebElement address = driver.findElement(By.xpath("//*[@id=\"address\"]"));
-		WebElement cvFile = driver.findElement(By.xpath("/html/body/form/input[11]"));
-		WebElement policy = driver.findElement(By.xpath("//*[@id=\"ppolicy\"]"));
+		WebElement cvFile = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[4]/div[4]/div/label/input"));
+		WebElement policy = driver.findElement(By.xpath("//*[@id=\"details\"]/div/div[5]/div[1]/div/div/div/label/span/span"));
 		WebElement confirm = driver.findElement(By.xpath("//*[@id=\"submit\"]"));
 
 		email.sendKeys("selenium@is.testing");
@@ -47,7 +47,7 @@ public class SeleniumRegisterJobSeeker {
 		policy.click();
 		confirm.click();
 		
-		WebElement outcome = driver.findElement(By.xpath("/html/body/h1"));
+		WebElement outcome = driver.findElement(By.xpath("/html/body/div/h1"));
 		assertEquals("Success", outcome.getText());
 
 		driver.close();

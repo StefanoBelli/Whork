@@ -234,6 +234,13 @@
         ["xpath=//h1[contains(.,'Success')]", "xpath:innerText"]
       ],
       "value": "Success"
+    }, {
+      "id": "315744cc-856f-487c-9778-bc2b129a55a4",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
     }]
   }],
   "suites": [{
