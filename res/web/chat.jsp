@@ -247,21 +247,26 @@ if(chatController.isOnlineService()) {
 				document.getElementById("chatting_with").style.color = color;
 			}
 		</script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 	</head>
-	<body>
+	<body style="background-color:#B0E0E6">
 		<div id="wrapper">
 			<div id="menu">
-                <span>
-					<p id="online_status"></p>
+                <span style="font-size:20px; font-weight:700;">
+					<p id="online_status" style="color:green"></p>
 					<p id="chatting_with" class="chatting_with">Chatting with: </p>
 				</span>
             </div>
  
-			<div id="chatbox" onscroll="chatboxScroll();"></div>
+			<div id="chatbox" style="border:2px solid black" onscroll="chatboxScroll();"></div>
 		
 			<div id="ctrl">
-				<textarea rows="2" cols="60" id="mymsg"></textarea>
-				<button id="sendbtn">Send</button>
+				<div class="column" style="padding-right:20px; padding-left:42px;">
+					<textarea class="md-textarea form-control" rows="2" cols="60" id="mymsg" style="border:1px solid black"></textarea>
+				</div>
+				<div class="column">
+					<button id="sendbtn" class="btn btn-primary" style="text-align:center; padding-right:50px;">Send</button>
+				</div>				
 			</div>
 		</div>
 	</body>
@@ -269,16 +274,27 @@ if(chatController.isOnlineService()) {
 <%
 } else {
 %>
-<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>[OFFLINE] Chat - Whork</title>
+		<link rel="stylesheet" href="css/cpoutcome.css">
 	</head>
 
-	<body>
-		<h1>We're sorry but chat service is currently offline!</h1>
+	<body style="background-color: #FFA07A">
+		<div class="card">
+	      <div style="border-radius:200px; height:200px; width:200px; background: #ffcccb; margin:0 auto;">
+	        <i style="color:#FF0000">&#10007;</i>
+	      </div>
+	      <h1 style="color:#FF0000">Error</h1> 
+	      <p>We're sorry but chat service is currently offline!</p>
+	     </div>
 	</body>
 </html>
 <%
 }
 %>
+
+
+
+	    		
+	    		
