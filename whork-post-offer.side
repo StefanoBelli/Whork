@@ -1,0 +1,249 @@
+{
+  "id": "71eaff2c-7b9c-4607-91ed-d04edb779e8c",
+  "version": "2.0",
+  "name": "WhorkPrj",
+  "url": "http://localhost:8080/",
+  "tests": [{
+    "id": "0e2de04a-bd71-42cb-b065-71275c7f39ee",
+    "name": "test_post_offer",
+    "commands": [{
+      "id": "7b1bf1dc-22b3-4223-98be-7740ccd923f7",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/logout",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "996fde46-22c4-471d-abfa-ea84543c3fc2",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d85d6e74-ff29-4fd9-8e7b-06327e17343e",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Sign In",
+      "targets": [
+        ["linkText=Sign In", "linkText"],
+        ["css=li:nth-child(1) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Sign In')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/login.jsp')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Sign In')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e3328660-d36b-4043-81e9-ce5279172b9e",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='email']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "new@abc.dom"
+    }, {
+      "id": "d8158417-9f65-4d90-8dd7-dde222f0ee8e",
+      "comment": "",
+      "command": "type",
+      "target": "name=passwd",
+      "targets": [],
+      "value": "ciaone123"
+    }, {
+      "id": "dd621d98-0f10-4914-b794-1f2ea28bf667",
+      "comment": "",
+      "command": "click",
+      "target": "name=stayLoggedIn",
+      "targets": [
+        ["name=stayLoggedIn", "name"],
+        ["css=input:nth-child(10)", "css:finder"],
+        ["xpath=//input[@name='stayLoggedIn']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7c14af4-2d9e-4610-9445-fa56c6edbe90",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(1)",
+      "targets": [
+        ["css=.btn:nth-child(1)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='credInput']/div[4]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Sign in')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "75098421-acf3-430f-b5a7-d63631da246c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Post Offer",
+      "targets": [
+        ["linkText=Post Offer", "linkText"],
+        ["name=post_offer", "name"],
+        ["css=li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Post Offer')]", "xpath:link"],
+        ["xpath=//a[@name='post_offer']", "xpath:attributes"],
+        ["xpath=//a[contains(@href, '/post_offer.jsp')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Post Offer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4dcd63bf-21cf-4626-b589-92a68bdcb49d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "724x692",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bf26acdd-17fa-4fff-8de5-9181a6da4793",
+      "comment": "",
+      "command": "click",
+      "target": "name=name",
+      "targets": [
+        ["name=name", "name"],
+        ["css=input:nth-child(3)", "css:finder"],
+        ["xpath=//input[@name='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e7dd28f2-b8c1-4eee-a1bd-8c010171802b",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=name", "name"],
+        ["css=input:nth-child(3)", "css:finder"],
+        ["xpath=//input[@name='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "offer name"
+    }, {
+      "id": "e4b62402-fe15-421f-8f07-2f973845e6d9",
+      "comment": "",
+      "command": "type",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='description']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "offer description"
+    }, {
+      "id": "b4161b2c-7a1a-4737-ad50-f01ce835266d",
+      "comment": "",
+      "command": "type",
+      "target": "name=salaryEur",
+      "targets": [
+        ["name=salaryEur", "name"],
+        ["css=input:nth-child(7)", "css:finder"],
+        ["xpath=//input[@name='salaryEur']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "3000"
+    }, {
+      "id": "f6ca9225-e313-42aa-bc61-45f123343bda",
+      "comment": "",
+      "command": "type",
+      "target": "id=address",
+      "targets": [
+        ["id=address", "id"],
+        ["name=address", "name"],
+        ["css=#address", "css:finder"],
+        ["xpath=//input[@id='address']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "09:00 - 19:00"
+    }, {
+      "id": "1cb57fb5-3e6b-47fd-bc2f-26fdb65a5c14",
+      "comment": "",
+      "command": "type",
+      "target": "id=address",
+      "targets": [
+        ["id=address", "id"],
+        ["name=address", "name"],
+        ["css=#address", "css:finder"],
+        ["xpath=//input[@id='address']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "via tuscolana 1300"
+    }, {
+      "id": "b6bb1921-95fe-4d9f-8a41-979a11641893",
+      "comment": "",
+      "command": "type",
+      "target": "id=work_shift",
+      "targets": [
+        ["id=work_shift", "id"],
+        ["name=work_shift", "name"],
+        ["css=#work_shift", "css:finder"],
+        ["xpath=//input[@id='work_shift']", "xpath:attributes"],
+        ["xpath=//input[5]", "xpath:position"]
+      ],
+      "value": "09:00 - 19:00"
+    }, {
+      "id": "36bb9eaf-7858-4c66-a9fd-7a81702371ca",
+      "comment": "",
+      "command": "select",
+      "target": "name=job_position",
+      "targets": [],
+      "value": "label=Engineer"
+    }, {
+      "id": "8a31613a-12ca-4c4a-9c49-32831e1d776c",
+      "comment": "",
+      "command": "select",
+      "target": "name=job_category",
+      "targets": [],
+      "value": "label=Engineering"
+    }, {
+      "id": "5d89ef8b-5825-41df-8955-7c97388b2af6",
+      "comment": "",
+      "command": "select",
+      "target": "name=qualification",
+      "targets": [],
+      "value": "label=Master's degree"
+    }, {
+      "id": "838d2264-ef75-49cc-9570-034575d3f6bb",
+      "comment": "",
+      "command": "click",
+      "target": "name=post_offer_button",
+      "targets": [
+        ["name=post_offer_button", "name"],
+        ["css=input:nth-child(24)", "css:finder"],
+        ["xpath=//input[@name='post_offer_button']", "xpath:attributes"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0a5671d-a3d9-4cee-bdb0-19bf5700b9b3",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Success')]", "xpath:innerText"]
+      ],
+      "value": "Success"
+    }]
+  }],
+  "suites": [{
+    "id": "77e36a4d-ce91-45c5-a4f5-aef9bdded25c",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/", "http://localhost:8080/post_offer.jsp"],
+  "plugins": []
+}
