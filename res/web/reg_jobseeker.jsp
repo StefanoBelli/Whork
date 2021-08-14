@@ -29,17 +29,27 @@
 	<link href="assetsJobSeekerRegist/css/demo.css" rel="stylesheet" />
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 
+	<!--   Core JS Files   -->
+	<script src="assetsJobSeekerRegist/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+	<script src="assetsJobSeekerRegist/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="assetsJobSeekerRegist/js/jquery.bootstrap.js" type="text/javascript"></script>
+
+	<!--  Plugin for the Wizard -->
+	<script src="assetsJobSeekerRegist/js/material-bootstrap-wizard.js"></script>
+
+	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+	<script src="assetsJobSeekerRegist/js/jquery.validate.min.js"></script>
+	
 	<script src="js/common.js"></script>
 	<script src="js/reg_jobseeker.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
-	<link rel="stylesheet" href="css/reg_jobseeker.css">
 	<link rel="stylesheet" type="text/css" href="css/whork.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
  	<link href="https://fonts.googleapis.com/css2?family=Kameron&display=swap" rel="stylesheet">
  	<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<link rel="stylesheet" href="css/reg_jobseeker.css">
 	
 	<script>
 var ittowns = [
@@ -294,14 +304,4 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 	</form>
 
 </body>
-	<!--   Core JS Files   -->
-	<script src="assetsJobSeekerRegist/js/jquery-2.2.4.min.js" type="text/javascript"></script>
-	<script src="assetsJobSeekerRegist/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assetsJobSeekerRegist/js/jquery.bootstrap.js" type="text/javascript"></script>
-
-	<!--  Plugin for the Wizard -->
-	<script src="assetsJobSeekerRegist/js/material-bootstrap-wizard.js"></script>
-
-	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
-	<script src="assetsJobSeekerRegist/js/jquery.validate.min.js"></script>
 </html>
