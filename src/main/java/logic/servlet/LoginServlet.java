@@ -61,7 +61,7 @@ public final class LoginServlet extends HttpServlet {
 				resp.addCookie(ckPassword);
 			}
 
-			resp.sendRedirect("account.jsp");
+			resp.sendRedirect("index.jsp");
 		}
 	}
 }

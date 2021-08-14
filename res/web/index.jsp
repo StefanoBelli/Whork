@@ -369,8 +369,7 @@
 		                <i class="fa fa-unlock"></i> 
 		                <%=offer.getPublishDate() %> 
 		            </div>
-		            <div class="col-sm-4">&nbsp;
-		            </div>
+		            <div class="col-sm-4">&nbsp;</div>
 <%
 					if(sessionUser == null || sessionUser.isEmployee()){
 %>
