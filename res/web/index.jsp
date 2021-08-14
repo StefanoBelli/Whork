@@ -236,7 +236,7 @@
 	   				<img class="img-rounded" src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "offerPhoto.jpg" %>" alt="Image offer">
 		        	<i class="fa fa-forward"></i> 
 		    	</a> 
-		    <div class="member-details"> 
+		    	<div class="member-details"> 
 		        <h4> <b> No offers </b> </h4>
 			        <div class="row info-list"> 
 			            <div class="col-sm-4"> 
@@ -251,7 +251,7 @@
 	   				<img class="img-rounded" src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "offerPhoto.jpg" %>" alt="Image offer">
 		        	<i class="fa fa-forward"></i> 
 		    	</a> 
-		    <div class="member-details"> 
+		    	<div class="member-details"> 
 		        <h4> <b> No offers </b> </h4>
 			        <div class="row info-list"> 
 			            <div class="col-sm-4"> 
@@ -266,7 +266,7 @@
 	   				<img class="img-rounded" src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "offerPhoto.jpg" %>" alt="Image offer">
 		        	<i class="fa fa-forward"></i> 
 		    	</a> 
-		    <div class="member-details"> 
+		    	<div class="member-details"> 
 		        <h4> <b> No offers </b> </h4>
 			        <div class="row info-list"> 
 			            <div class="col-sm-4"> 
@@ -281,7 +281,7 @@
 	   				<img class="img-rounded" src="<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "offerPhoto.jpg" %>" alt="Image offer">
 		        	<i class="fa fa-forward"></i> 
 		    	</a> 
-		    <div class="member-details"> 
+		    	<div class="member-details"> 
 		        <h4> <b> No offers </b> </h4>
 			        <div class="row info-list"> 
 			            <div class="col-sm-4"> 
@@ -407,16 +407,18 @@
 							</form>
 <%
 						}
+%>
+					</div>
+<%
 					} 
 %>
-				</div> 
 		    </div> 
-		</div>
+		   </div>
+		  </div>
 <%
 			}
 		}
 %>
-		</div>
        </div>
       </div>
    </body>
