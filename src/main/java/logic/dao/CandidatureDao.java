@@ -31,8 +31,6 @@ public final class CandidatureDao {
 			"{ call DeleteCandidature(?,?) }";
 	private static final String GET_CANDIDATURE_BY_COMPANY_VAT = 
 			"{ call GetCandidatureByCompanyVAT(?) }";
-	private static final String DATA_LOGIC_ERROR_SAMEID_MORECANDIDATURE = 
-			"Multiple candidature detected with same Id";	
 	
 	public static void insertCandidature(CandidatureModel candidatureModel) 
 			throws DataAccessException {
@@ -65,10 +63,6 @@ public final class CandidatureDao {
 				cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
 				cm.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
 				cm.setCandidatureDate(rs.getDate(3));
-				
-				if(rs.next()) {
-					throw new DataLogicException(DATA_LOGIC_ERROR_SAMEID_MORECANDIDATURE);
-				}
 				
 				return cm;
 			}

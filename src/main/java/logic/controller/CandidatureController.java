@@ -35,6 +35,11 @@ public final class CandidatureController {
 		
 		try {
 			CandidatureDao.insertCandidature(ModelFactory.buildCandidatureModel(candidatureBean));
+		} catch(DataAccessException e) {
+			return; //ignore, browser may resend same form, triggering SQL integrity violation
+		}
+		
+		try {
 			OfferDao.updateClickStats(ModelFactory.buildCandidatureModel(candidatureBean));
 			sendMail(UserDao.getJobSeekerEmailByCf(ModelFactory.buildUserModel(candidatureBean.getJobSeeker()))
 					, candidatureBean.getOffer());

@@ -63,7 +63,7 @@
 	if(candidateToOffer != null && sessionUser != null) {
 		CandidatureController.insertCandidature(BeanFactory.buildCandidatureBean(
 				OfferController.getOfferById(Integer.parseInt(candidateToOffer)), sessionUser));
-}
+	}
 %>
 
    <body style="background-color:#87CEEB">

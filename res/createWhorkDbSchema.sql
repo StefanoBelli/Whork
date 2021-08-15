@@ -358,6 +358,7 @@ CREATE TABLE IF NOT EXISTS `whorkdb`.`Candidature` (
   `Offer_OfferID` INT NOT NULL,
   `JobSeekerUserDetails_CF` CHAR(16) NOT NULL,
   `CandidatureDate` DATETIME NULL,
+  PRIMARY KEY(`Offer_OfferID`, `JobSeekerUserDetails_CF`),
   INDEX `fk_Candidature_Offer1_idx` (`Offer_OfferID` ASC) VISIBLE,
   INDEX `fk_Candidature_JobSeekerUserDetails1_idx` (`JobSeekerUserDetails_CF` ASC) VISIBLE,
   CONSTRAINT `fk_Candidature_Offer1`
@@ -1300,10 +1301,8 @@ DELIMITER $$
 USE `whorkdb`$$
 CREATE PROCEDURE `InsertCandidature` (in var_id int, in var_jobSeekerCF char(16), in var_date datetime)
 BEGIN
-
-insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
-values (var_id, var_jobSeekerCF, var_date);
-
+	insert into Candidature(Offer_OfferID, JobSeekerUserDetails_CF, CandidatureDate)
+	values (var_id, var_jobSeekerCF, var_date);
 END$$
 
 DELIMITER ;
