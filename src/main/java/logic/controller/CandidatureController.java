@@ -39,6 +39,7 @@ public final class CandidatureController {
 			sendMail(UserDao.getJobSeekerEmailByCf(ModelFactory.buildUserModel(candidatureBean.getJobSeeker()))
 					, candidatureBean.getOffer());
 		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
@@ -51,6 +52,7 @@ public final class CandidatureController {
 				return BeanFactory.buildCandidatureBean(CandidatureDao.getCandidature(id, cf));				
 			}
 		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
@@ -59,6 +61,7 @@ public final class CandidatureController {
 		try {
 			return UserDao.getEmployeeEmailByCf(ModelFactory.buildUserModel(userBean));
 		} catch (DataLogicException | DataAccessException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
@@ -67,6 +70,7 @@ public final class CandidatureController {
 		try {
 			CandidatureDao.deleteCandidature((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));
 		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}		
 	}

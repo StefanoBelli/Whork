@@ -496,7 +496,7 @@
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
 				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
-				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', 'width=726,height=630');">Reply</button>
 				                               </p>
 				                          </div>
                                         </a>
@@ -1100,7 +1100,7 @@
 				                               <p class="inbox-item-date">
 				                               	   <%=date.substring(0, date.length()-13)%>
 				                                   <button class="btn btn-icon btn-sm waves-effect waves-light btn-success"
-				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', width=674, height=634);">Reply</button>
+				                                       onclick="window.open('/chat.jsp?toEmail=<%=nameChat%>','Chat - Whork', 'width=726,height=630');">Reply</button>
 				                               </p>
 				                          </div>
                                         </a>
@@ -1348,7 +1348,7 @@
 	            <div class="row">                 
                   <a class="btn btn-info " href="/index.jsp">home</a>
                   <a class="btn btn-info "
-                      onclick="window.open('/chat.jsp','Chat - Whork', width=674, height=634);">chat</a>
+                      onclick="window.open('/chat.jsp','Chat - Whork', 'width=726,height=630');">chat</a>
                   <a class="btn btn-info " href="/logout">logout</a>                 
                 </div>                
                </div>

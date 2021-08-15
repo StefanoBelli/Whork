@@ -96,13 +96,11 @@ public final class CandidatureDao {
 
 			try (ResultSet rs = stmt.getResultSet()) {
 				while(rs.next()) {
-		
-				CandidatureModel cm = new CandidatureModel();
-				cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
-				cm.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
-				cm.setCandidatureDate(rs.getDate(3));
-				listCandidatureModel.add(cm);
-				
+					CandidatureModel cm = new CandidatureModel();
+					cm.setOffer(OfferDao.getOfferById(rs.getInt(1)));
+					cm.setJobSeeker((JobSeekerUserModel) UserDao.getUserByCf(rs.getString(2)));
+					cm.setCandidatureDate(rs.getDate(3));
+					listCandidatureModel.add(cm);
 				}
 			}
 		} catch(SQLException e) {

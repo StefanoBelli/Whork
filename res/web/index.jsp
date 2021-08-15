@@ -389,7 +389,7 @@
 %>
 					<br>
 					<div class="col-sm-4">
-						<button class="btn btn-outline-success my-2 my-sm-0" style="border:1px solid black" onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.getEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', width=674, height=634);">Chat with recruiter</button>
+						<button class="btn btn-outline-success my-2 my-sm-0" style="border:1px solid black" onclick="window.open('/chat.jsp?toEmail=<%=CandidatureController.getEmployeeEmailByCf(offer.getEmployee()) %>','Chat - Whork', 'width=726,height=630');">Chat with recruiter</button>
 					</div>
 					<div class="col-sm-4">
 <%

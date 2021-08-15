@@ -12,7 +12,7 @@ String offer_name = (String) request.getAttribute("offer_name");
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/success.css">
 		<script>
-			redirect("account.jsp", 10000);
+			redirect("index.jsp", 10000);
 		</script>
 	</head>
 <%
@@ -26,14 +26,13 @@ String offer_name = (String) request.getAttribute("offer_name");
 	      <h1>Success</h1> 
 	      <p>Yay! <%=name%> You did it! You successfully post offer <%=offer_name%>.<br/>
 			The Whork team.<br/>
-			You will be redirected to login page in 10 seconds...</p>
+			You will be redirected to the home page in 10 seconds...</p>
 	      <div style="padding-top:40px">
-		      <a href="login.jsp">
-		      	<button type="submit" class="button button2">Go to Login page</button>
+		      <a href="index.jsp">
+		      	<button type="submit" class="button button2">Go to home page</button>
 		      </a>
 	      </div>
 	    </div>
-
 	</body>
 <%
 	} else {
@@ -46,8 +45,8 @@ String offer_name = (String) request.getAttribute("offer_name");
 	      <h1 style="color:#FF0000">Error</h1> 
 	      <p>Something went wrong.</p>
 	      <div style="padding-top:40px">
-		      <a href="login.jsp">
-		      	<button type="submit" class="button button1">Go to Login page</button>
+		      <a href="index.jsp">
+		      	<button type="submit" class="button button1">Go to home page</button>
 		      </a>
 	      </div>
 	     </div>
