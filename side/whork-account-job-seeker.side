@@ -1,27 +1,27 @@
 {
   "id": "6ce7211e-4fab-4534-8b6a-9d820275b7c5",
   "version": "2.0",
-  "name": "testAccountWhork",
+  "name": "&nbsp; whork-account-job-seeker",
   "url": "localhost:8080/login.jsp",
   "tests": [{
     "id": "4ec8102b-298c-422c-ba32-3fa5bccc068f",
-    "name": "Untitled",
+    "name": "test",
     "commands": [{
-      "id": "60144e47-32f7-41aa-965f-e7c11d90a79c",
+      "id": "306b7dd5-9e59-42ae-aafd-77703774b3ba",
       "comment": "",
       "command": "open",
       "target": "http://localhost:8080/login.jsp",
       "targets": [],
       "value": ""
     }, {
-      "id": "8bf040b6-8504-45f9-b318-827afea651ee",
+      "id": "02acc4a3-f22c-4794-aa3c-1c6c5f300c63",
       "comment": "",
       "command": "setWindowSize",
       "target": "1440x789",
       "targets": [],
       "value": ""
     }, {
-      "id": "074c70ce-0120-46f8-b36c-5a2bb47a0207",
+      "id": "8ebe53d2-6178-4668-82bc-220c6704a04d",
       "comment": "",
       "command": "click",
       "target": "name=email",
@@ -34,7 +34,7 @@
       ],
       "value": ""
     }, {
-      "id": "41f6adc3-2194-4ecb-a534-11d7838a2ed7",
+      "id": "0c430221-9101-44e2-9ff4-3101f4c2988e",
       "comment": "",
       "command": "type",
       "target": "name=email",
@@ -47,7 +47,7 @@
       ],
       "value": "email@gmail.com"
     }, {
-      "id": "fda0daf5-7f9e-45a0-bc87-7162e4fc36e7",
+      "id": "4e212442-fa28-484b-9405-1ca3ea090e38",
       "comment": "",
       "command": "click",
       "target": "name=passwd",
@@ -60,7 +60,7 @@
       ],
       "value": ""
     }, {
-      "id": "f08ca713-f2b3-4c69-bfe1-63b7ba762d50",
+      "id": "68ab8056-94a3-43f5-ad53-a151ac3a3110",
       "comment": "",
       "command": "type",
       "target": "name=passwd",
@@ -71,9 +71,9 @@
         ["xpath=//div[@id='credInput']/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "password"
+      "value": "different password"
     }, {
-      "id": "0d32eb92-55a1-46a6-a9b9-0d607863401c",
+      "id": "e961f12d-126c-4147-ac66-67fd85de4fe3",
       "comment": "",
       "command": "click",
       "target": "css=.btn:nth-child(1)",
@@ -86,18 +86,7 @@
       ],
       "value": ""
     }, {
-      "id": "fb5c776c-7b96-4452-9203-e5330f197968",
-      "comment": "",
-      "command": "click",
-      "target": "css=li:nth-child(1)",
-      "targets": [
-        ["css=li:nth-child(1)", "css:finder"],
-        ["xpath=//li", "xpath:position"],
-        ["xpath=//li[contains(.,'My Account')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "fc72ed4c-ace4-4d5b-9fc2-01b6750ba90b",
+      "id": "f88ab79b-98fb-4c78-9819-6fa7427760f0",
       "comment": "",
       "command": "click",
       "target": "linkText=My Account",
@@ -113,17 +102,7 @@
       ],
       "value": ""
     }, {
-      "id": "86027a92-c125-4be0-a3a4-fd8598a6d467",
-      "comment": "",
-      "command": "click",
-      "target": "css=.col-md-8 > .card > .card-body",
-      "targets": [
-        ["css=.col-md-8 > .card > .card-body", "css:finder"],
-        ["xpath=//div[2]/div/div", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "1135a06c-cda9-472c-8a9c-214edfd245ca",
+      "id": "aa0db003-af49-4a8a-9b5c-0ce9012fbcee",
       "comment": "",
       "command": "click",
       "target": "css=#editInfoAccountButton > font",
@@ -134,7 +113,7 @@
       ],
       "value": ""
     }, {
-      "id": "db01965c-6269-47bf-96ae-0bcb62103d56",
+      "id": "f04e08b2-7d34-42d1-9eda-db8df41472c4",
       "comment": "",
       "command": "click",
       "target": "name=nameForm",
@@ -147,7 +126,20 @@
       ],
       "value": ""
     }, {
-      "id": "22c5568d-97b6-427f-86c5-cc7e80adec0c",
+      "id": "2ec29df2-57c8-4e3e-a00d-cf86599e8971",
+      "comment": "",
+      "command": "type",
+      "target": "name=nameForm",
+      "targets": [
+        ["name=addressForm", "name"],
+        ["css=#address .form-control", "css:finder"],
+        ["xpath=//input[@name='addressForm']", "xpath:attributes"],
+        ["xpath=//div[@id='address']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Elio"
+    }, {
+      "id": "c30296a4-c3e2-4a41-a4b7-84bff4b4875d",
       "comment": "",
       "command": "click",
       "target": "name=surnameForm",
@@ -160,7 +152,20 @@
       ],
       "value": ""
     }, {
-      "id": "34c4c408-c9e0-4a1a-8e64-fb34f2e998c8",
+      "id": "ae1fac0b-c283-47e7-9c14-693292831338",
+      "comment": "",
+      "command": "type",
+      "target": "name=surnameForm",
+      "targets": [
+        ["name=addressForm", "name"],
+        ["css=#address .form-control", "css:finder"],
+        ["xpath=//input[@name='addressForm']", "xpath:attributes"],
+        ["xpath=//div[@id='address']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Magliari"
+    }, {
+      "id": "073d2d4a-80af-407f-a25c-921276fe4ca5",
       "comment": "",
       "command": "click",
       "target": "name=addressForm",
@@ -173,7 +178,20 @@
       ],
       "value": ""
     }, {
-      "id": "4c6ea975-a3bf-4d5c-b263-d5e2b295f7de",
+      "id": "80718827-ea50-4eef-bf4e-e9ab72f55a05",
+      "comment": "",
+      "command": "type",
+      "target": "name=addressForm",
+      "targets": [
+        ["name=addressForm", "name"],
+        ["css=#address .form-control", "css:finder"],
+        ["xpath=//input[@name='addressForm']", "xpath:attributes"],
+        ["xpath=//div[@id='address']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "indirizzo"
+    }, {
+      "id": "bd351173-6e85-44cf-9b85-6142cb527d0c",
       "comment": "",
       "command": "click",
       "target": "id=editInfoButton",
@@ -186,7 +204,119 @@
       ],
       "value": ""
     }, {
-      "id": "e4e7ff67-cae5-4f87-8aee-9c0b963d8d7a",
+      "id": "6306ee42-d07d-40ee-8c35-c09b82fa05fa",
+      "comment": "",
+      "command": "click",
+      "target": "css=#changePasswordAccountButton > font",
+      "targets": [
+        ["css=#changePasswordAccountButton > font", "css:finder"],
+        ["xpath=//a[@id='changePasswordAccountButton']/font", "xpath:idRelative"],
+        ["xpath=//a[2]/font", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4cd6c7ac-9f40-4405-a8c2-4b5a1f6eb5a5",
+      "comment": "",
+      "command": "click",
+      "target": "name=oldPasswordForm",
+      "targets": [
+        ["name=oldPasswordForm", "name"],
+        ["css=.row:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='oldPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7005c8b2-3104-4904-87f8-b28e0c7e21c3",
+      "comment": "",
+      "command": "type",
+      "target": "name=oldPasswordForm",
+      "targets": [
+        ["name=oldPasswordForm", "name"],
+        ["css=.row:nth-child(2) .form-control", "css:finder"],
+        ["xpath=//input[@name='oldPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "different password"
+    }, {
+      "id": "7bc2984d-405e-457a-b73d-1f26092045b5",
+      "comment": "",
+      "command": "click",
+      "target": "name=newPasswordForm",
+      "targets": [
+        ["name=newPasswordForm", "name"],
+        ["css=.row:nth-child(4) .form-control", "css:finder"],
+        ["xpath=//input[@name='newPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div[2]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6147761-40cd-4de1-aa04-f5c37d6959b3",
+      "comment": "",
+      "command": "type",
+      "target": "name=newPasswordForm",
+      "targets": [
+        ["name=newPasswordForm", "name"],
+        ["css=.row:nth-child(4) .form-control", "css:finder"],
+        ["xpath=//input[@name='newPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div[2]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "31b84511-b794-4faf-be1c-1ec60f1f715c",
+      "comment": "",
+      "command": "click",
+      "target": "name=confirmPasswordForm",
+      "targets": [
+        ["name=confirmPasswordForm", "name"],
+        ["css=.row:nth-child(6) .form-control", "css:finder"],
+        ["xpath=//input[@name='confirmPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f24841f-cfa9-4ecf-afac-b9b5fe475fe9",
+      "comment": "",
+      "command": "type",
+      "target": "name=confirmPasswordForm",
+      "targets": [
+        ["name=confirmPasswordForm", "name"],
+        ["css=.row:nth-child(6) .form-control", "css:finder"],
+        ["xpath=//input[@name='confirmPasswordForm']", "xpath:attributes"],
+        ["xpath=//span[@id='changePasswordForm']/div[3]/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div[2]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "b2506049-e0f3-4c9c-bbba-a5797251df35",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-md-8 > .card > .card-body",
+      "targets": [
+        ["css=.col-md-8 > .card > .card-body", "css:finder"],
+        ["xpath=//div[2]/div[2]/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9176d43e-01ee-4db8-9d0b-87a67ee48fda",
+      "comment": "",
+      "command": "click",
+      "target": "id=editInfoButton",
+      "targets": [
+        ["id=editInfoButton", "id"],
+        ["name=editInfoButton", "name"],
+        ["css=#editInfoButton", "css:finder"],
+        ["xpath=//button[@id='editInfoButton']", "xpath:attributes"],
+        ["xpath=//div[7]/div/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7ec59e3-5a3d-48e8-a6a0-e0588611ff1a",
       "comment": "",
       "command": "click",
       "target": "css=#editSocialAccountButton > font",
@@ -197,7 +327,7 @@
       ],
       "value": ""
     }, {
-      "id": "b4ba504b-cc49-4067-a629-88e74f81c4ae",
+      "id": "0f6527de-ccdc-4239-9135-0059ddd9444a",
       "comment": "",
       "command": "click",
       "target": "name=instagramForm",
@@ -210,7 +340,20 @@
       ],
       "value": ""
     }, {
-      "id": "1bcb13ee-9788-4729-8dfd-2dd0a626f4de",
+      "id": "4f5740f0-567a-421e-9c1a-5fe0c098e4eb",
+      "comment": "",
+      "command": "type",
+      "target": "name=instagramForm",
+      "targets": [
+        ["name=addressForm", "name"],
+        ["css=#address .form-control", "css:finder"],
+        ["xpath=//input[@name='addressForm']", "xpath:attributes"],
+        ["xpath=//div[@id='address']/div/input", "xpath:idRelative"],
+        ["xpath=//div[6]/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "magliari_elio"
+    }, {
+      "id": "59e22658-3bec-4b5d-946f-f81d1a3ef9d4",
       "comment": "",
       "command": "click",
       "target": "id=editSocialAccountForm",
@@ -223,7 +366,31 @@
       ],
       "value": ""
     }, {
-      "id": "d5f69f38-a80d-4357-b56a-d01ec5dd42ae",
+      "id": "ff5d598c-3f3c-40f2-83d9-48961503e441",
+      "comment": "",
+      "command": "click",
+      "target": "name=deleteCandidatureButton",
+      "targets": [
+        ["name=deleteCandidatureButton", "name"],
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@name='deleteCandidatureButton']", "xpath:attributes"],
+        ["xpath=//td[6]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ba638e6f-5fe9-4736-a3a9-9791024b39e3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.row > .btn:nth-child(3)",
+      "targets": [
+        ["css=.row > .btn:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'logout')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/logout')]", "xpath:href"],
+        ["xpath=//a[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "020ca5ce-dd3a-4ef8-89b5-892b5714c073",
       "comment": "",
       "command": "close",
       "target": "",

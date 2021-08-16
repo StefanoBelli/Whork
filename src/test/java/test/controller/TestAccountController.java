@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -100,6 +99,8 @@ public class TestAccountController {
 			if(!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
+		} catch (AlreadyExistantCompanyException | AlreadyExistantUserException e) {
+			//
 		}
 
 		userAuth.setEmail("recruiter@gmail.com");
@@ -109,6 +110,8 @@ public class TestAccountController {
 			if (!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
+		} catch (AlreadyExistantUserException e) {
+			//
 		}
 
 		OfferBean offer = new OfferBean();
