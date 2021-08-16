@@ -79,7 +79,7 @@ public class TestOfferController {
 		offer.setJobPhysicalLocationFullAddress("via gela 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
 		offer.setOfferName("offer 1");
-		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
+		offer.setQualification(BeanFactory.buildQualificationBean("Ph.D"));
 		offer.setSalaryEUR(2000);
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
 		offer.setWorkShift("09:00 - 19:00");
@@ -91,10 +91,9 @@ public class TestOfferController {
 	public void testASearchOffers() throws InternalException {
 		List<OfferBean> offers=new ArrayList<>();
 		
-		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Master's degree", "Full Time");
+		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Ph.D", "Full Time");
 		
 		assertEquals(1, offers.size());
-		
 	}
 	
 	@Test
@@ -123,17 +122,16 @@ public class TestOfferController {
 		offer.setJobPhysicalLocationFullAddress("via alessandrino 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
 		offer.setOfferName("offer 12");
-		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
-		offer.setSalaryEUR(2000);
+		offer.setQualification(BeanFactory.buildQualificationBean("Ph.D"));
+
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
 		offer.setWorkShift("10:00 - 19:00");
 		
 		OfferController.postOffer(offer);
 		
 		List<OfferBean> offers=new ArrayList<>();
-		
 
-		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Master's degree", "Full Time");
+		offers=OfferController.searchOffers("offer 1", "Engineering", "Engineer", "Ph.D", "Full Time");
 		
 		assertEquals(2, offers.size());
 	}
