@@ -113,6 +113,11 @@ public final class AccountController {
 		return OfferDao.totalNumberOfClick(ModelFactory.buildCompanyModel(userBean.getCompany()));		
 	}
 	
+	/*
+	 * This method gets all employment status of candidate by company vat.
+	 * String: Employments status
+	 * Double: Number of candidate with this status
+	 */
 	public static Map<String, Double> getEmploymentStatusBtCompanyVAT(CompanyBean company) throws DataAccessException, DataLogicException {
 		List<EmploymentStatusModel> listEmployments =  UserDao.getEmploymentStatusByCompanyVat(ModelFactory.buildCompanyModel(company));
 		Map<String, Double> map = new HashMap<>();
@@ -140,7 +145,12 @@ public final class AccountController {
 		
 		return map;
 	}
-	
+
+	/*
+	 * This method gets all country of candidate by fiscal code
+	 * String: County
+	 * Double: Number of candidate in this country
+	 */
 	public static Map<String, Double> getCountryCandidateByFiscalCode(CompanyBean companyBean) throws DataAccessException {
 		List<String> listCountry = AccountDao.getCountryFiscalCodeDecode(ModelFactory.buildCompanyModel(companyBean));
 		

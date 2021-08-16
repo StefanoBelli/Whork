@@ -1,9 +1,13 @@
 package test.controller;
 
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -43,6 +47,8 @@ import test.Db;
 public class TestAccountController {
 	static UserBean userJobSeeker;
 	static UserAuthBean userAuthJobSeeker;
+	static UserBean userAdmin;
+	static CompanyBean company;
 
 	@BeforeClass
 	public static void initDb() 
@@ -56,23 +62,36 @@ public class TestAccountController {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
 
-		//Recruiter
-		CompanyBean company = new CompanyBean();
-		company = BeanFactory.buildCompanyBean("FRRTTR04T45A662L", 
+		//Admin
+		CompanyBean companyBean = new CompanyBean();
+		companyBean = BeanFactory.buildCompanyBean("FRRTTR04T45A662L", 
 				"data/seide.png", "LAMBORGHINI", "00743110157");
+		company = companyBean;
 
 		UserBean user = new UserBean();
 		user.setAdmin(true);
 		user.setEmployee(true);
 		user.setRecruiter(true);
-		user.setCompany(company);
-		user.setName("name recruiter");
-		user.setSurname("surname recruiter");
+		user.setCompany(companyBean);
+		user.setName("name admin");
+		user.setSurname("surname admin");
 		user.setPhoneNumber("3333333333");
 		user.setCf("TPLPLT00A01D612T");
+		userAdmin = user;
+
+		//Recruiter
+		UserBean userRecr = new UserBean();
+		userRecr.setAdmin(false);
+		userRecr.setEmployee(true);
+		userRecr.setRecruiter(true);
+		userRecr.setCompany(companyBean);
+		userRecr.setName("name recruiter");
+		userRecr.setSurname("surname recruiter");
+		userRecr.setPhoneNumber("3333333333");
+		userRecr.setCf("TPLPLT00A01D612R");
 
 		UserAuthBean userAuth = new UserAuthBean();
-		userAuth.setEmail("recruiter@gmail.com");
+		userAuth.setEmail("admin@gmail.com");
 		userAuth.setPassword("password");
 
 		try {
@@ -87,11 +106,24 @@ public class TestAccountController {
 			//
 		}
 
+		userAuth.setEmail("recruiter@gmail.com");
+		try {
+			RegisterController.register(new Pair<>(userRecr, userAuth));
+		} catch (InternalException e) {
+			if(!e.getMessage().equals("Unable to send you an email!")) {
+				throw e;
+			}
+		} catch (AlreadyExistantCompanyException e) {
+			//
+		} catch (AlreadyExistantUserException e) {
+			//
+		}
+
 		OfferBean offer = new OfferBean();
 		offer.setId(1);
-		offer.setCompany(company);
+		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta 1");
-		offer.setEmployee(user);
+		offer.setEmployee(userRecr);
 		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
 		offer.setJobPhysicalLocationFullAddress("via tuscolana 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
@@ -168,7 +200,7 @@ public class TestAccountController {
 		String variablePassword = "different password";
 		AccountController.editAccountController("ChangePasswordAccount", userJobSeeker, userAuthJobSeeker, variablePassword);
 		userAuthJobSeeker.setPassword(variablePassword);
-		ByteArrayInputStream password = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending("email@gmail.com").getSecond();
+		ByteArrayInputStream password = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending(userAuthJobSeeker.getEmail()).getSecond();
 		assertEquals(Util.Bcrypt.hash(userAuthJobSeeker.getPassword()), password.readAllBytes());
 	}
 
@@ -177,7 +209,7 @@ public class TestAccountController {
 		String variable = "website://whork.it";
 		userJobSeeker.setWebsite(variable);
 		AccountController.editAccountController("SocialAccounts", userJobSeeker, userAuthJobSeeker, null);
-		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf(userJobSeeker.getCf());
 		assertEquals(variable, user.getWebsite());
 	}
 
@@ -186,7 +218,7 @@ public class TestAccountController {
 		String variable = "name job seeker";
 		userJobSeeker.setName(variable);
 		AccountController.editAccountController("JobSeekerInfoAccount", userJobSeeker, userAuthJobSeeker, null);
-		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf(userJobSeeker.getCf());
 		assertEquals(variable, user.getName());
 	}
 
@@ -195,10 +227,45 @@ public class TestAccountController {
 		String variable = "my bio is different now";
 		userJobSeeker.setBiography(variable);
 		AccountController.editAccountController("JobSeekerBiography", userJobSeeker, userAuthJobSeeker, null);
-		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf(userJobSeeker.getCf());
 		assertEquals(variable, user.getBiography());
 	}
 
+	@Test
+	public void testFChangePictureAccountJobSeeker() throws DataAccessException, IOException, DataLogicException {
+		String variable = "/this/is/a/new/path";
+		userJobSeeker.setBiography(variable);
+		AccountController.changePictureAccountJobSeeker(variable, userJobSeeker);
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf(userJobSeeker.getCf());
+		assertEquals(variable, user.getPhoto());
+	}
+
+	@Test
+	public void testGGetNumberOfEmployees() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNumberOfEmployees(userAdmin));
+	}
+
+	@Test
+	public void testHGetNumberOfOffers() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNumberOfOffers(userAdmin));
+	}
+
+	@Test
+	public void testIGetNumberOfClick() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNumberOfClick(userAdmin));
+	}
+
+	@Test
+	public void testJGetEmploymentStatusBtCompanyVAT() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
+		Map<String, Double> map = AccountController.getEmploymentStatusBtCompanyVAT(company);
+		assertEquals(userJobSeeker.getEmploymentStatus().getStatus(), map.get(userJobSeeker.getEmploymentStatus().getStatus()));
+	}
+
+	@Test
+	public void testKGetCountryCandidateByFiscalCode() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
+		Map<String, Double> map = AccountController.getCountryCandidateByFiscalCode(company);
+		assertTrue(1.0 == map.get("Italy"));
+	}
 }
 
 
