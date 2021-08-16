@@ -105,9 +105,6 @@ public class SeleniumSearchOffer {
 		WebElement outcome = driver.findElement(By.id("offer-name"));
 		assertEquals("offer 3", outcome.getText());
 		driver.close();
-
-		
-		
 	}
 
 }

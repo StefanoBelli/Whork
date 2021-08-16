@@ -1,6 +1,5 @@
 package test.controller;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -53,7 +52,8 @@ public class TestAccountController {
 	@BeforeClass
 	public static void initDb() 
 			throws ClassNotFoundException, SQLException, DataAccessException, 
-			InvalidVatCodeException, InternalException, DataLogicException {
+			InvalidVatCodeException, InternalException, DataLogicException, 
+			InvalidVatCodeException, InternalException, AlreadyExistantCompanyException, AlreadyExistantUserException {
 
 		Db.init();
 
@@ -64,8 +64,8 @@ public class TestAccountController {
 
 		//Admin
 		CompanyBean companyBean = new CompanyBean();
-		companyBean = BeanFactory.buildCompanyBean("FRRTTR04T45A662L", 
-				"data/seide.png", "LAMBORGHINI", "00743110157");
+		companyBean = BeanFactory.buildCompanyBean("MDDSS123467890XD", 
+				"data/seide.png", "mediaset", "09032310154");
 		company = companyBean;
 
 		UserBean user = new UserBean();
@@ -79,7 +79,7 @@ public class TestAccountController {
 		user.setCf("TPLPLT00A01D612T");
 		userAdmin = user;
 
-		//Recruiter
+		// Recruiter
 		UserBean userRecr = new UserBean();
 		userRecr.setAdmin(false);
 		userRecr.setEmployee(true);
@@ -100,30 +100,22 @@ public class TestAccountController {
 			if(!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
-		} catch (AlreadyExistantCompanyException e) {
-			//
-		} catch (AlreadyExistantUserException e) {
-			//
 		}
 
 		userAuth.setEmail("recruiter@gmail.com");
 		try {
-			RegisterController.register(new Pair<>(userRecr, userAuth));
+			RegisterController.registerEmployeeForExistingCompany(new Pair<>(userRecr, userAuth));
 		} catch (InternalException e) {
-			if(!e.getMessage().equals("Unable to send you an email!")) {
+			if (!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
-		} catch (AlreadyExistantCompanyException e) {
-			//
-		} catch (AlreadyExistantUserException e) {
-			//
 		}
 
 		OfferBean offer = new OfferBean();
 		offer.setId(1);
 		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta 1");
-		offer.setEmployee(userRecr);
+		offer.setEmployee(user);
 		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
 		offer.setJobPhysicalLocationFullAddress("via tuscolana 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
@@ -185,7 +177,6 @@ public class TestAccountController {
 
 		userJobSeeker = userBean;
 		userAuthJobSeeker = userAuthBean;
-
 	}
 
 	@Test
@@ -199,7 +190,7 @@ public class TestAccountController {
 		AccountController.editAccountController("ChangePasswordAccount", userJobSeeker, userAuthJobSeeker, variablePassword);
 		userAuthJobSeeker.setPassword(variablePassword);
 		ByteArrayInputStream password = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending(userAuthJobSeeker.getEmail()).getSecond();
-		assertEquals(Util.Bcrypt.hash(userAuthJobSeeker.getPassword()), password.readAllBytes());
+		assertTrue(Util.Bcrypt.equals(userAuthJobSeeker.getPassword(), password.readAllBytes()));
 	}
 
 	@Test
@@ -246,23 +237,6 @@ public class TestAccountController {
 	@Test
 	public void testHGetNumberOfOffers() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfOffers(userAdmin));
-	}
-
-	@Test
-	public void testIGetNumberOfClick() throws DataAccessException, IOException, DataLogicException {
-		assertEquals(1, AccountController.getNumberOfClick(userAdmin));
-	}
-
-	@Test
-	public void testJGetEmploymentStatusBtCompanyVAT() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
-		Map<String, Double> map = AccountController.getEmploymentStatusBtCompanyVAT(company);
-		assertEquals(userJobSeeker.getEmploymentStatus().getStatus(), map.get(userJobSeeker.getEmploymentStatus().getStatus()));
-	}
-
-	@Test
-	public void testKGetCountryCandidateByFiscalCode() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
-		Map<String, Double> map = AccountController.getCountryCandidateByFiscalCode(company);
-		assertTrue(1.0 == map.get("Italy"));
 	}
 }
 

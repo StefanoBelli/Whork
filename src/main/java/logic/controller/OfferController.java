@@ -9,6 +9,7 @@ import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
+import logic.util.Util;
 
 public final class OfferController {
 
@@ -26,6 +27,7 @@ public final class OfferController {
 					OfferDao.getOffers(searchVal, category,
 							position, qualification, typeOfContract));
 		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
@@ -34,6 +36,7 @@ public final class OfferController {
 		try {
 			return BeanFactory.buildOfferBean(OfferDao.getOfferById(offerId));
 		} catch (DataAccessException | DataLogicException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
@@ -42,6 +45,7 @@ public final class OfferController {
 		try {
 			OfferDao.postOffer(ModelFactory.buildOfferModel(offerBean));
 		} catch (DataAccessException e) {
+			Util.exceptionLog(e);
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}		
 	}
