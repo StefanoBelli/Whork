@@ -14,7 +14,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
 import logic.bean.OfferBean;
@@ -34,6 +33,7 @@ import logic.exception.InternalException;
 import logic.exception.InvalidPasswordException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
+import logic.factory.ModelFactory;
 import logic.model.JobSeekerUserModel;
 import logic.util.Util;
 import logic.util.tuple.Pair;
@@ -53,14 +53,14 @@ public class TestAccountController {
 	@BeforeClass
 	public static void initDb() 
 			throws ClassNotFoundException, SQLException, DataAccessException, 
-			InvalidVatCodeException, InternalException {
+			InvalidVatCodeException, InternalException, DataLogicException {
 
 		Db.init();
 
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
+		//Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
 
 		//Admin
 		CompanyBean companyBean = new CompanyBean();
@@ -133,7 +133,11 @@ public class TestAccountController {
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
 		offer.setWorkShift("10:00 - 19:00");
 
-		OfferController.postOffer(offer);
+		try {
+			OfferController.postOffer(offer);
+		} catch (InternalException e) {
+			//
+		}
 
 		//JobSeeker
 		UserBean userBean = new UserBean();
@@ -161,17 +165,11 @@ public class TestAccountController {
 		userAuthBean.setEmail("email@gmail.com");
 		userAuthBean.setPassword("password");
 
-		try {
-			RegisterController.register(new Pair<>(userBean, userAuthBean));
-		} catch (InternalException e) {
-				if(!e.getMessage().equals("Unable to send you an email!")) {
-					throw e;
-				}
-		} catch (AlreadyExistantCompanyException e) {
-			//
-		} catch (AlreadyExistantUserException e) {
-			//
-		}
+		String regToken = Util.generateToken();
+
+		UserDao.registerUserDetails(ModelFactory.buildUserModel(userBean));
+		UserAuthDao.registerUserAuth(ModelFactory.buildUserModel(userBean), ModelFactory.buildUserAuthModel(userAuthBean), regToken);
+		UserAuthDao.confirmRegistration(userAuthBean.getEmail(), regToken);
 
 		CandidatureBean candidature = new CandidatureBean();
 		candidature.setJobSeeker(userBean);
