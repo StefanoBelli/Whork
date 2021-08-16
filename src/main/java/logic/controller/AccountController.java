@@ -70,22 +70,18 @@ public final class AccountController {
 		if(userAuthBean != null) userAuthModel = ModelFactory.buildUserAuthModel(userAuthBean);
 		if(function == null) throw new InternalException("Function value cannot be null");
 		
-		if (function.equals("SocialAccounts")) 
+		if (function.equals("SocialAccounts")) { 
 			AccountDao.editSocialAccount (userModel);
-		
-		else if (function.equals("JobSeekerInfoAccount")) {
-			if(userAuthModel == null) 
-				throw new InternalException("userAuthModel is null");			
-
+		} else if (function.equals("JobSeekerInfoAccount")) {
+			if(userAuthModel == null) throw new InternalException("userAuthModel is null");			
 			AccountDao.editJobSeekerInfoAccount (userModel, userAuthModel.getEmail());
-		} else if (function.equals("JobSeekerBiography"))
+		} else if (function.equals("JobSeekerBiography")) {
 			AccountDao.editJobSeekerBiography (userModel);
-		
-		else if (function.equals("ChangePasswordAccount")) {	
+		} else if (function.equals("ChangePasswordAccount")) {	
 			if(userAuthModel == null) 
 				throw new InternalException("userAuthModel is null");			
 			
-			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmail(userAuthModel.getEmail());						
+			Pair<String, ByteArrayInputStream> user = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending(userAuthModel.getEmail());						
 			if(!Util.Bcrypt.equals(userAuthBean.getPassword(), user.getSecond().readAllBytes())) { //oldPassword == passwordSavedInDB
 				throw new InvalidPasswordException();							
 			} else {

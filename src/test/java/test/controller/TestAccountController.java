@@ -2,6 +2,7 @@ package test.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
 
 import org.junit.BeforeClass;
@@ -9,25 +10,27 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
-import logic.bean.ComuneBean;
-import logic.bean.EmploymentStatusBean;
 import logic.bean.OfferBean;
-import logic.bean.ProvinciaBean;
-import logic.bean.RegioneBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.controller.RegisterController;
+import logic.dao.UserAuthDao;
+import logic.dao.UserDao;
 import logic.exception.AlreadyExistantCompanyException;
 import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
+import logic.exception.DataLogicException;
 import logic.exception.InternalException;
+import logic.exception.InvalidPasswordException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
+import logic.model.JobSeekerUserModel;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 import test.Db;
@@ -39,6 +42,7 @@ import test.Db;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestAccountController {
 	static UserBean userJobSeeker;
+	static UserAuthBean userAuthJobSeeker;
 
 	@BeforeClass
 	public static void initDb() 
@@ -54,8 +58,8 @@ public class TestAccountController {
 
 		//Recruiter
 		CompanyBean company = new CompanyBean();
-		company = BeanFactory.buildCompanyBean("FRRTTR04T45A662J", 
-				"data/seide.png", "FERRARI", "00159560366");
+		company = BeanFactory.buildCompanyBean("FRRTTR04T45A662L", 
+				"data/seide.png", "LAMBORGHINI", "00743110157");
 
 		UserBean user = new UserBean();
 		user.setAdmin(true);
@@ -96,7 +100,7 @@ public class TestAccountController {
 		offer.setSalaryEUR(2100);
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
 		offer.setWorkShift("10:00 - 19:00");
-		
+
 		OfferController.postOffer(offer);
 
 		//JobSeeker
@@ -136,7 +140,6 @@ public class TestAccountController {
 		} catch (AlreadyExistantUserException e) {
 			//
 		}
-		
 
 		CandidatureBean candidature = new CandidatureBean();
 		candidature.setJobSeeker(userBean);
@@ -151,6 +154,7 @@ public class TestAccountController {
 		}
 
 		userJobSeeker = userBean;
+		userAuthJobSeeker = userAuthBean;
 
 	}
 
@@ -158,4 +162,50 @@ public class TestAccountController {
 	public void testAGetSeekerCandidature() throws InternalException {
 		assertEquals(1, AccountController.getSeekerCandidature(userJobSeeker).size());
 	}
+
+	@Test
+	public void testBEditAccount() throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {
+		String variablePassword = "different password";
+		AccountController.editAccountController("ChangePasswordAccount", userJobSeeker, userAuthJobSeeker, variablePassword);
+		userAuthJobSeeker.setPassword(variablePassword);
+		ByteArrayInputStream password = UserAuthDao.getUserCfAndBcryPwdByEmailIgnRegPending("email@gmail.com").getSecond();
+		assertEquals(Util.Bcrypt.hash(userAuthJobSeeker.getPassword()), password.readAllBytes());
+	}
+
+	@Test
+	public void testCEditAccount() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
+		String variable = "website://whork.it";
+		userJobSeeker.setWebsite(variable);
+		AccountController.editAccountController("SocialAccounts", userJobSeeker, userAuthJobSeeker, null);
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		assertEquals(variable, user.getWebsite());
+	}
+
+	@Test
+	public void testDEditAccount() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
+		String variable = "name job seeker";
+		userJobSeeker.setName(variable);
+		AccountController.editAccountController("JobSeekerInfoAccount", userJobSeeker, userAuthJobSeeker, null);
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		assertEquals(variable, user.getName());
+	}
+
+	@Test
+	public void testEEditAccount() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
+		String variable = "my bio is different now";
+		userJobSeeker.setBiography(variable);
+		AccountController.editAccountController("JobSeekerBiography", userJobSeeker, userAuthJobSeeker, null);
+		JobSeekerUserModel user = (JobSeekerUserModel) UserDao.getUserByCf("TPLPLT00A01D612A");
+		assertEquals(variable, user.getBiography());
+	}
+
 }
+
+
+
+
+
+
+
+
+
