@@ -234,23 +234,6 @@ public class TestAccountController {
 	public void testHGetNumberOfOffers() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfOffers(userAdmin));
 	}
-
-	@Test
-	public void testIGetNumberOfClick() throws DataAccessException, IOException, DataLogicException {
-		assertEquals(1, AccountController.getNumberOfClick(userAdmin));
-	}
-	
-	@Test
-	public void testJGetEmploymentStatusBtCompanyVAT() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
-		Map<String, Double> map = AccountController.getEmploymentStatusBtCompanyVAT(company);
-		assertEquals(1.0, map.get(userJobSeeker.getEmploymentStatus().getStatus()), 0); //student
-	}
-
-	@Test
-	public void testKGetCountryCandidateByFiscalCode() throws InternalException, DataAccessException, InvalidPasswordException, DataLogicException {
-		Map<String, Double> map = AccountController.getCountryCandidateByFiscalCode(company);
-		assertEquals(1.0, map.get("Italy"), 0);
-	}
 }
 
 
