@@ -1,6 +1,7 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{url}
 \usepackage[margin=0.5in]{geometry}
 
 \title{\includegraphics{logo.png}\\Whork: Software Requirement Specification}
@@ -17,11 +18,11 @@ The following document contains a general description of the developed project, 
 design diagrams and storyboards.
 \subsection{Overview of the defined system}
 Whork is an easy to use job-seeking platform. It allows job seekers to find and candidate for a job based on their interests, with direct interaction such as
-chatting with recruiter who posted this offer, immediate candidacy, on-sight workplace location map and only some other really useful details: no waste of time with useless infos.
+chatting with recruiter who posted a particular offer, immediate candidacy, on-sight workplace location map and only some other really useful details: no waste of time with useless infos.
 Provides user-friendly job offer posting feature for company recruiters. Lets company admin able to manage recruiters by providing
 a simple control panel in their own private profile. This system also ensures that company whose signing up is a valid one and we also mark
 valid and secure offers with a "Verified by Whork" signature. Also, as previously said, a reliable chatting platform is built-in Whork, which can be used from recruiters to chat with
-anyone who tries to reach them (by seeing their "inbox" in own private profile), job seekers will try to reach recruiter easily, just by pressing a button. Company admins and recruiters
+anyone who tries to reach them (by seeing their "inbox" in own private profile), job seekers can get in touch with recruiter easily, just by pressing a button. Company admins and recruiters
 can see general stats about their recruiting operations, like number of clicks on offers, number of posted offers, how many offers some recruiter posted, candidate employment status, and so on...
 \subsection{Operational settings}
 This system runs on whatever operating sytstem/architecture supports a java runtime environment.\\
@@ -29,15 +30,15 @@ This system runs on whatever operating sytstem/architecture supports a java runt
 \subsection{Related systems}
 These are our competitors:
 \begin{itemize}
-	\item Cercolavoro (https://www.cercolavoro.com/)
+	\item Cercolavoro (\url{https://www.cercolavoro.com/})
 	\begin{itemize}
-		\item Whork pro: realtime chat with recruiter
-		\item Whork con: job cannot be filtered by particular area, province or comune
+		\item Whork pros: realtime chat with recruiter
+		\item Whork cons: job cannot be filtered by particular area, province or comune
 	\end{itemize}
-	\item Indeed (https://it.indeed.com/)
+	\item Indeed (\url{https://it.indeed.com/})
 	\begin{itemize}
-		\item Whork pro: realtime chat with recruiter
-		\item Whork con: job cannot be filtered by particular area, province or comune
+		\item Whork pros: realtime chat with recruiter
+		\item Whork cons: job cannot be filtered by particular area, province or comune
 	\end{itemize}
 \end{itemize}
 
@@ -70,8 +71,8 @@ The following are functional requirements for the project:
 	\item The system shall provide the ability to display a calendar for time management. (???)
 	\item The system shall notify you by email of new offers from a favorite company. (???)
 	\item The system shall provide the possibility to search based on the user's interest using advanced search filters.
-	\item The system shall send a confirmation email after a job seeker successfully candidates for a job offer
-	\item The system shall force every user to login before chatting with a recruiter
+	\item The system shall send a confirmation email to the job seeker who successfully candidated for a job offer, the email may contain a simple successful message with no requirement to confirm candidacy
+	\item The system shall force every job seeker to login before chatting with a recruiter
 	\item The system shall check if a company's VAT code is valid or not, if it is not, then reject signup request.
 	\item The system shall provide all users with an upload curriculum feature in their profile.
 	\item The system shall provide all companies with a job posting function with attributes that let the job seeker 
