@@ -43,8 +43,7 @@ public class TestAccountController {
 	@BeforeClass
 	public static void initDb() 
 			throws ClassNotFoundException, SQLException, DataAccessException, 
-			InvalidVatCodeException, AlreadyExistantCompanyException, 
-			AlreadyExistantUserException, InternalException {
+			InvalidVatCodeException, InternalException {
 
 		Db.init();
 
@@ -74,13 +73,18 @@ public class TestAccountController {
 
 		try {
 			RegisterController.register(new Pair<>(user, userAuth));
-		} catch (InternalException e) { //see test method desc
+		} catch (InternalException e) {
 			if(!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
+		} catch (AlreadyExistantCompanyException e) {
+			//
+		} catch (AlreadyExistantUserException e) {
+			//
 		}
 
 		OfferBean offer = new OfferBean();
+		offer.setId(1);
 		offer.setCompany(company);
 		offer.setDescription("descrizione offerta 1");
 		offer.setEmployee(user);
@@ -96,18 +100,6 @@ public class TestAccountController {
 		OfferController.postOffer(offer);
 
 		//JobSeeker
-		RegioneBean region = new RegioneBean();
-		region.setNome("Lazio");
-		ProvinciaBean province = new ProvinciaBean();
-		province.setSigla("FR");
-		province.setRegione(region);
-		ComuneBean comune = new ComuneBean();
-		comune.setCap("03039");
-		comune.setNome("Sora");
-		comune.setProvincia(province);
-		EmploymentStatusBean employmentStatus = new EmploymentStatusBean();
-		employmentStatus.setStatus("Student");
-
 		UserBean userBean = new UserBean();
 		userBean.setAdmin(false);
 		userBean.setEmployee(false);
@@ -121,9 +113,9 @@ public class TestAccountController {
 		userBean.setBirthday(new java.sql.Date(972647238));
 		userBean.setCf("TPLPLT00A01D612A");
 		userBean.setCv(null);
-		userBean.setComune(comune);
+		userBean.setComune(BeanFactory.buildComuneBean("Cave RM - 00033, Lazio"));
 		userBean.setBiography(null);
-		userBean.setEmploymentStatus(employmentStatus);
+		userBean.setEmploymentStatus(BeanFactory.buildEmploymentStatusBean("Student"));
 		userBean.setWebsite(null);
 		userBean.setTwitter(null);
 		userBean.setFacebook(null);
@@ -135,19 +127,24 @@ public class TestAccountController {
 
 		try {
 			RegisterController.register(new Pair<>(userBean, userAuthBean));
-		} catch (InternalException e) { //see test method desc
-			if(!e.getMessage().equals("Unable to send you an email!")) {
-				throw e;
-			}
+		} catch (InternalException e) {
+				if(!e.getMessage().equals("Unable to send you an email!")) {
+					throw e;
+				}
+		} catch (AlreadyExistantCompanyException e) {
+			//
+		} catch (AlreadyExistantUserException e) {
+			//
 		}
+		
 
 		CandidatureBean candidature = new CandidatureBean();
 		candidature.setJobSeeker(userBean);
-		candidature.setOffer(offer);
+		candidature.setOffer(OfferController.getOfferById(1));
 
 		try {
 			CandidatureController.insertCandidature(candidature);
-		} catch (InternalException e) { //see test method desc
+		} catch (InternalException e) {
 			if(!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
