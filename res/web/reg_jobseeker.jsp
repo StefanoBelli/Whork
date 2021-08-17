@@ -81,7 +81,7 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 
 </head>
 
-<body>
+<body style="background-color: #90EE90">
 <%
 	String descError = (String) request.getAttribute("descriptive_error");
 	if(descError != null) {
@@ -98,7 +98,7 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 
 	<form enctype="multipart/form-data" action="/completeRegistration" method="post"
 			onsubmit='return check_jobseeker_fields();'>
-	<div class="image-container set-full-height" style="background-image: url('<%= Util.InstanceConfig.getString(Util.InstanceConfig.KEY_CTX_DFL_ROOT) + "/" + "backgroundRegJobSeeker.jpeg" %>')">
+	<div class="image-container set-full-height" style="margin-top: -45px">
 
 	    <!--   Big container   -->
 	    <div class="containers">
@@ -106,7 +106,7 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 		        <div class="col-sm-8 col-sm-offset-2">
 		            <!--      Wizard container        -->
 		            <div class="wizard-container">
-		                <div class="card wizard-card" data-color="orange">
+		                <div class="card wizard-card" data-color="blue">
 							<div style="font-size:20pt; margin-left:50px; padding-top: 20px;">
 						 		<a href="index.jsp">
 						                <span class="whork"> W<span class="hred">h</span>ork</span>
@@ -160,7 +160,7 @@ for(final ComuneBean comune : ComuniPool.getComuni()) {
 		                                	</div>
 
 											<div class="col-sm-6">
-	                                        	<iframe title="whereareyou" width="580" height="400" style="border:1" loading="lazy" allowfullscreen id="maps"
+	                                        	<iframe title="whereareyou" width="95%" height="400" style="border:1" loading="lazy" allowfullscreen id="maps"
 													src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=Italy">
 												</iframe>
 		                                	</div>
