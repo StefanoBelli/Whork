@@ -34,8 +34,6 @@ public final class JobSeekerUserModel extends UserModel {
 		return facebook;
 	}
 
-	
-
 	public String getTwitter() {
 		return twitter;
 	}
@@ -52,7 +50,6 @@ public final class JobSeekerUserModel extends UserModel {
 		return instagram;
 	}
 
-	
 	public String getCv() {
 		return cv;
 	}
