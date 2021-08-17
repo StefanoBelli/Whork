@@ -31,12 +31,13 @@ import test.Db;
  * @author Michele Tosi
  */
 public class SeleniumSearchOffer {
-
+	
 	@BeforeClass
-	public static void initDb() throws ClassNotFoundException, SQLException, DataAccessException {
+	public static void initDb() 
+			throws ClassNotFoundException, SQLException, DataAccessException {
 		Db.init();
 	}
-	
+
 	@Test
 	public void testSearchOffer() throws DataAccessException, InternalException, InvalidVatCodeException, AlreadyExistantCompanyException, AlreadyExistantUserException, ClassNotFoundException, SQLException {
 		

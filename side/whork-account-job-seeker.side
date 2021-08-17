@@ -7,6 +7,13 @@
     "id": "4ec8102b-298c-422c-ba32-3fa5bccc068f",
     "name": "test",
     "commands": [{
+      "id": "aa2fc41c-b141-495a-bf4d-26a6bda83543",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/logout",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "306b7dd5-9e59-42ae-aafd-77703774b3ba",
       "comment": "",
       "command": "open",
@@ -45,7 +52,7 @@
         ["xpath=//div[@id='credInput']/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "email@gmail.com"
+      "value": "thisismy@email.comx"
     }, {
       "id": "4e212442-fa28-484b-9405-1ca3ea090e38",
       "comment": "",
@@ -71,7 +78,7 @@
         ["xpath=//div[@id='credInput']/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "different password"
+      "value": "ciao123"
     }, {
       "id": "e961f12d-126c-4147-ac66-67fd85de4fe3",
       "comment": "",
