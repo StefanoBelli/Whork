@@ -3,7 +3,8 @@
 failure=0
 TESTS="
 test.selenium.SeleniumRegisterJobSeeker
-test.selenium.SeleniumSearchOffer"
+test.selenium.SeleniumSearchOffer
+test.selenium.SeleniumEditAccount"
 
 echo "[$0] will run your tests"
 
