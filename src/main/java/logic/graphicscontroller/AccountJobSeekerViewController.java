@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
 import logic.controller.AccountController;
+import logic.controller.CandidatureController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
@@ -643,6 +644,27 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 		private Edit createNewConcreteProductBio() {
 			return new Bio();
+		}
+	}
+	
+	public static final class HandleDeleteRequest implements EventHandler<MouseEvent> {
+		
+		private final UserBean user;
+		private final CandidatureBean candidatureBean;
+		
+		public HandleDeleteRequest(UserBean user, CandidatureBean candidatureBean) {
+			this.user = user;
+			this.candidatureBean = candidatureBean;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {			
+			try {
+				CandidatureController.deleteCandidature(user, candidatureBean);
+			} catch (InternalException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
 		}
 	}
 }
