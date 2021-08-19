@@ -22,11 +22,6 @@ public final class LoginHandler {
 	public static UserBean getSessionUser() {
 		return sessionUser;
 	}
-	
-	// Modifica dell'utente di sessione in caso di edit
-	public static void setSessionUser(UserBean user) {
-		sessionUser = user;
-	}
 
 	public static void logout() {
 		sessionUser = null;

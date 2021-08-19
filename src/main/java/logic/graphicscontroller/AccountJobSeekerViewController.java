@@ -309,7 +309,6 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		private void makeChanges() {
 			try {
 				AccountController.editAccountController("SocialAccounts", user, null, null);
-				LoginHandler.setSessionUser(user);
 			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
@@ -390,7 +389,6 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		private void userMakeChanges() {
 			try {
 				AccountController.editAccountController("JobSeekerInfoAccount", user, BeanFactory.buildUserAuthBean(emailField.getText(), ""), null);
-				LoginHandler.setSessionUser(user);
 			} catch (DataAccessException | InternalException | InvalidPasswordException | DataLogicException e) {
 				Util.exceptionLog(e);
 				GraphicsUtil.showExceptionStage(e);
