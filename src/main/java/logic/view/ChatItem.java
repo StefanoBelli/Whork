@@ -2,13 +2,11 @@ package logic.view;
 
 import java.util.Date;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import logic.bean.ChatLogEntryBean;
@@ -16,6 +14,7 @@ import logic.bean.UserBean;
 import logic.controller.AccountController;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
+import logic.graphicscontroller.AccountCompanyViewController;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
@@ -83,7 +82,8 @@ public final class ChatItem {
 	}
 
 	private void setListeners() {
-		replyBtn.setOnMouseClicked(new HandleChatRequest());
+		replyBtn.setOnMouseClicked(
+				new AccountCompanyViewController.HandleChatRequest(remoteEmail));
 	}
 
 	public Node getBox() {
@@ -97,13 +97,5 @@ public final class ChatItem {
 		itemBox.setAlignment(Pos.CENTER);
 
 		return itemBox;
-	}
-
-	private final class HandleChatRequest implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {
-			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmail);
-		}
 	}
 }

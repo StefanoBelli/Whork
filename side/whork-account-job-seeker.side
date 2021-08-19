@@ -246,7 +246,7 @@
         ["xpath=//span[@id='changePasswordForm']/div/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[2]/input", "xpath:position"]
       ],
-      "value": "different password"
+      "value": "ciao123"
     }, {
       "id": "7bc2984d-405e-457a-b73d-1f26092045b5",
       "comment": "",

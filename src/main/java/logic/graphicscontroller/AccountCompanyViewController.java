@@ -51,6 +51,7 @@ import logic.util.GraphicsUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 import logic.view.ChatItem;
+import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.PostOfferView;
 import logic.view.RecruiterItem;
@@ -511,6 +512,19 @@ public final class AccountCompanyViewController extends GraphicsController {
 			} else {
 				profilePhotoFileLabel.setText(RegisterJobSeekerView.SELECT_FILE_MESSAGE);
 			}
+		}
+	}
+	
+	public static final class HandleChatRequest implements EventHandler<MouseEvent> {
+		private final String remoteEmail;
+		
+		public HandleChatRequest(String remoteEmail) {
+			this.remoteEmail = remoteEmail;
+		}
+		
+		@Override
+		public void handle(MouseEvent event) {
+			GraphicsUtil.showAndWaitWindow(ChatView.class, "setRemoteEmail", remoteEmail);
 		}
 	}
 }

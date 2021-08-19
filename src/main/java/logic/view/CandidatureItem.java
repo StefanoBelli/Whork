@@ -1,19 +1,18 @@
 package logic.view;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import logic.bean.CandidatureBean;
 import logic.bean.UserBean;
 import logic.controller.CandidatureController;
 import logic.exception.InternalException;
+import logic.graphicscontroller.AccountJobSeekerViewController;
 import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
@@ -75,7 +74,8 @@ public final class CandidatureItem {
 	}
 
 	private void setListeners() {
-		deleteBtn.setOnMouseClicked(new HandleDeleteRequest());
+		deleteBtn.setOnMouseClicked(
+				new AccountJobSeekerViewController.HandleDeleteRequest(user, candidatureBean));
 	}
 
 	public Node getBox() {
@@ -94,18 +94,5 @@ public final class CandidatureItem {
 		itemBox.setPadding(new Insets(10, 10, 10, 10));
 
 		return itemBox;
-	}
-	
-	private final class HandleDeleteRequest implements EventHandler<MouseEvent> {
-
-		@Override
-		public void handle(MouseEvent event) {			
-			try {
-				CandidatureController.deleteCandidature(user, candidatureBean);
-			} catch (InternalException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.showExceptionStage(e);
-			}
-		}
 	}
 }
