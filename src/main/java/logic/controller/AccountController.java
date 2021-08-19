@@ -179,7 +179,12 @@ public final class AccountController {
 		
 		return map;		
 	}
-	
+
+	/*
+	 * This method gets all employee of company by its vat number
+	 * String: Email
+	 * Double: User Bean of employee related to his email
+	 */
 	public static Map<String, UserBean> getEmployeeByCompanyVAT(CompanyBean companyBean) throws DataAccessException {
 		Map<String, EmployeeUserModel> map = UserDao.getEmployeeByCompanyVAT(ModelFactory.buildCompanyModel(companyBean));		
 		Map<String, UserBean> mapBean = new HashMap<>();

@@ -47,6 +47,8 @@ public class TestAccountController {
 	static UserAuthBean userAuthJobSeeker;
 	static UserBean userAdmin;
 	static CompanyBean company;
+	static UserBean userRecruiter;
+	static UserAuthBean userAuthRecruiter;
 
 	@BeforeClass
 	public static void initDb() 
@@ -59,7 +61,7 @@ public class TestAccountController {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
-		//Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
 
 		//Admin
 		CompanyBean companyBean = new CompanyBean();
@@ -88,6 +90,7 @@ public class TestAccountController {
 		userRecr.setSurname("surname recruiter");
 		userRecr.setPhoneNumber("3333333333");
 		userRecr.setCf("TPLPLT00A01D612R");
+		userRecruiter = userRecr;
 
 		UserAuthBean userAuth = new UserAuthBean();
 		userAuth.setEmail("admin@gmail.com");
@@ -113,12 +116,13 @@ public class TestAccountController {
 		} catch (AlreadyExistantUserException e) {
 			//
 		}
+		userAuthRecruiter = userAuth;
 
 		OfferBean offer = new OfferBean();
 		offer.setId(1);
 		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta 1");
-		offer.setEmployee(user);
+		offer.setEmployee(userRecr);
 		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
 		offer.setJobPhysicalLocationFullAddress("via tuscolana 8");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
@@ -240,6 +244,47 @@ public class TestAccountController {
 	@Test
 	public void testHGetNumberOfOffers() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfOffers(userAdmin));
+	}
+
+	@Test
+	public void testIGetNumberOfClick() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNumberOfClick(userAdmin));
+	}
+
+	@Test
+	public void testLGetEmploymentStatusBtCompanyVAT() throws DataAccessException, IOException, DataLogicException {
+		assertTrue(1 == AccountController.getEmploymentStatusBtCompanyVAT(company).get(userJobSeeker.getEmploymentStatus().getStatus()));
+	}
+
+	@Test
+	public void testMGetCountryCandidateByFiscalCode() throws DataAccessException, IOException, DataLogicException {
+		assertTrue(1 == AccountController.getCountryCandidateByFiscalCode(company).get("Italy"));
+	}
+
+	@Test
+	public void testNGetEmployeeByCompanyVAT() throws DataAccessException, IOException, DataLogicException {
+		UserBean user = AccountController.getEmployeeByCompanyVAT(company).get(userAuthRecruiter.getEmail());
+		assertTrue(userRecruiter.getCf().equals(user.getCf()));
+	}
+
+	@Test
+	public void testOGetNumberOfferOfAnEmployee() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNumberOfferOfAnEmployee(userRecruiter));
+	}
+
+	@Test
+	public void testPGetNUmberClickOfAnEmployee() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(1, AccountController.getNUmberClickOfAnEmployee(userRecruiter));
+	}
+
+	@Test
+	public void testQGetEmailJobSeekerByCF() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(userAuthJobSeeker.getEmail(), AccountController.getEmailJobSeekerByCF(userJobSeeker));
+	}
+
+	@Test
+	public void testRGetEmailEmployeeByCF() throws DataAccessException, IOException, DataLogicException {
+		assertEquals(userAuthRecruiter.getEmail(), AccountController.getEmailEmployeeByCF(userRecruiter));
 	}
 }
 
