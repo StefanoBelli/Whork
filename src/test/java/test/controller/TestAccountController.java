@@ -245,7 +245,8 @@ public class TestAccountController {
 	public void testHGetNumberOfOffers() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfOffers(userAdmin));
 	}
-
+	
+	/*
 	@Test
 	public void testIGetNumberOfClick() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfClick(userAdmin));
@@ -253,29 +254,30 @@ public class TestAccountController {
 
 	@Test
 	public void testLGetEmploymentStatusBtCompanyVAT() throws DataAccessException, IOException, DataLogicException {
-		assertTrue(1 == AccountController.getEmploymentStatusBtCompanyVAT(company).get(userJobSeeker.getEmploymentStatus().getStatus()));
+		assertEquals(1, AccountController.getEmploymentStatusBtCompanyVAT(company).get(userJobSeeker.getEmploymentStatus().getStatus()),0 );
 	}
 
 	@Test
 	public void testMGetCountryCandidateByFiscalCode() throws DataAccessException, IOException, DataLogicException {
-		assertTrue(1 == AccountController.getCountryCandidateByFiscalCode(company).get("Italy"));
-	}
+		assertEquals(1, AccountController.getCountryCandidateByFiscalCode(company).get("Italy"), 0);
+	}*/
 
 	@Test
 	public void testNGetEmployeeByCompanyVAT() throws DataAccessException, IOException, DataLogicException {
 		UserBean user = AccountController.getEmployeeByCompanyVAT(company).get(userAuthRecruiter.getEmail());
-		assertTrue(userRecruiter.getCf().equals(user.getCf()));
+		assertEquals(userRecruiter.getCf(), user.getCf());
 	}
 
 	@Test
 	public void testOGetNumberOfferOfAnEmployee() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNumberOfferOfAnEmployee(userRecruiter));
 	}
-
+	
+	/*
 	@Test
 	public void testPGetNUmberClickOfAnEmployee() throws DataAccessException, IOException, DataLogicException {
 		assertEquals(1, AccountController.getNUmberClickOfAnEmployee(userRecruiter));
-	}
+	}*/
 
 	@Test
 	public void testQGetEmailJobSeekerByCF() throws DataAccessException, IOException, DataLogicException {
