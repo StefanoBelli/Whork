@@ -17,6 +17,9 @@ import logic.model.CompanyModel;
 import logic.model.EmployeeUserModel;
 import logic.model.OfferModel;
 
+/**
+ * @author Michele Tosi
+ */
 public final class OfferDao {
 
 	private OfferDao() {}

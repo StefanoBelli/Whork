@@ -15,12 +15,11 @@ import logic.factory.BeanFactory;
 import logic.util.ServletUtil;
 import logic.util.Util;
 
+/**
+ * @author Michele Tosi
+ */
 @MultipartConfig
 public final class PostOfferServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8258513746798360851L;
 
 	

@@ -16,6 +16,9 @@ import logic.model.CandidatureModel;
 import logic.model.CompanyModel;
 import logic.model.JobSeekerUserModel;
 
+/**
+ * @author Michele Tosi
+ */
 public final class CandidatureDao {
 	
 	private CandidatureDao() {}

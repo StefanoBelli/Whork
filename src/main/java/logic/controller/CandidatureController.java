@@ -21,6 +21,10 @@ import logic.model.CompanyModel;
 import logic.model.JobSeekerUserModel;
 import logic.util.Util;
 
+/**
+ * @author Michele Tosi
+ */
+
 public final class CandidatureController {
 	
 	private static final String DATA_ACCESS_ERROR =

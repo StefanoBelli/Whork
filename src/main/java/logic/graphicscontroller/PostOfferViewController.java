@@ -34,6 +34,9 @@ import logic.util.Util;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
+/**
+ * @author Michele Tosi
+ */
 public final class PostOfferViewController extends GraphicsController {
 	public static final String SELECT_FILE_MESSAGE = "(Select a file)";
 	private final UserBean sessionUser = LoginHandler.getSessionUser();

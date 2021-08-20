@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 import logic.bean.OfferBean;
 import logic.bean.UserBean;
 
+/**
+ * @author Michele Tosi
+ */
 public final class Context {
 	/* package-private */ OfferButtonsState state;
 	private Button candidateBtn;
