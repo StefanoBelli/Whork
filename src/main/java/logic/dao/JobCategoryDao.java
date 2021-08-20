@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @author Michele Tosi
+ */
 public final class JobCategoryDao {
 	private JobCategoryDao() {}
 

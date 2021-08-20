@@ -2,6 +2,9 @@ package logic.graphicscontroller.formchecker;
 
 import logic.util.Util;
 
+/**
+ * @author Michele Tosi
+ */
 public final class OfferFormChecker extends FormChecker{
 	private static final String SELECT_AN_OPTION = "--select an option--";
 	

@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 import logic.graphicscontroller.PostOfferViewController;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Michele Tosi
+ */
 public final class PostOfferView implements ControllableView {
 	
 	private static final String WIN_TITLE = "Whork - Post offer";

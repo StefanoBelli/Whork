@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 import logic.bean.OfferBean;
 import logic.bean.UserBean;
 
+/**
+ * @author Michele Tosi
+ */
 /* package-private */ final class LoggedInOfferButtonsState implements OfferButtonsState {
 
 	@Override

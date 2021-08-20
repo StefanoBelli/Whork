@@ -40,6 +40,9 @@ import logic.view.PostOfferView;
 import logic.view.OfferItem;
 import logic.view.ViewStack;
 
+/**
+ * @author Michele Tosi
+ */
 public final class HomeViewController extends GraphicsController {
 
 

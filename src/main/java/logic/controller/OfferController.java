@@ -11,6 +11,10 @@ import logic.factory.BeanFactory;
 import logic.factory.ModelFactory;
 import logic.util.Util;
 
+/**
+ * @author Michele Tosi
+ */
+
 public final class OfferController {
 
 	private static final String DATA_ACCESS_ERROR =

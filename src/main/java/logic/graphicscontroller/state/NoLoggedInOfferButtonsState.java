@@ -7,6 +7,9 @@ import logic.controller.CandidatureController;
 import logic.exception.InternalException;
 import logic.util.GraphicsUtil;
 
+/**
+ * @author Michele Tosi
+ */
 /* package-private */ final class NoLoggedInOfferButtonsState implements OfferButtonsState {	
 	@Override
 	public void login(Context context,UserBean user, OfferBean offer, Button candidateBtn, Button chatBtn) {

@@ -16,6 +16,9 @@ import logic.graphicscontroller.state.Context;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
+/**
+ * @author Michele Tosi
+ */
 public final class OfferItem {
 	private static final double WEBVIEW_MAX_HEIGHT = 200;
 	private static final double MAX_WIDTH = 200;
