@@ -3179,7 +3179,7 @@
 										"$ref": "AAAAAAF6wtEeW16gYpI="
 									},
 									"font": "Arial;13;0",
-									"left": 480,
+									"left": 448,
 									"top": 2032,
 									"width": 153,
 									"height": 142,
@@ -5550,7 +5550,7 @@
 										"$ref": "AAAAAAF6wtEeW16gYpI="
 									},
 									"font": "Arial;13;0",
-									"left": 640,
+									"left": 688,
 									"top": 2032,
 									"width": 201,
 									"height": 121,
@@ -5897,7 +5897,7 @@
 										"$ref": "AAAAAAF6wtEeW16gYpI="
 									},
 									"font": "Arial;13;0",
-									"left": 856,
+									"left": 896,
 									"top": 2032,
 									"width": 168,
 									"height": 129,
@@ -5910,7 +5910,7 @@
 										"$ref": "AAAAAAF6wtEeW16gYpI="
 									},
 									"font": "Arial;13;0",
-									"left": 1040,
+									"left": 1072,
 									"top": 2032,
 									"width": 73,
 									"height": 147,
@@ -7599,6 +7599,19 @@
 									"activation": {
 										"$ref": "AAAAAAF7CvJZxWU5l98="
 									}
+								},
+								{
+									"_type": "UMLNoteView",
+									"_id": "AAAAAAF7ad4fBWxIDmY=",
+									"_parent": {
+										"$ref": "AAAAAAF6wtEeW16gYpI="
+									},
+									"font": "Arial;13;0",
+									"left": 608,
+									"top": 2032,
+									"width": 74.18994140625,
+									"height": 115,
+									"text": "setProp1\nsetProp2\nsetProp3\n.\n.\n.\nsetPropN"
 								}
 							]
 						}
@@ -8647,7 +8660,8 @@
 					"_parent": {
 						"$ref": "AAAAAAF6wtEeWV6eGgw="
 					},
-					"name": "Role13"
+					"name": "Role13",
+					"type": ""
 				}
 			]
 		}
