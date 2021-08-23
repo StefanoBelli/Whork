@@ -27,6 +27,10 @@ import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Magliari Elio
+ */
+
 @MultipartConfig
 public final class AccountServlet extends HttpServlet {	
 	private static final long serialVersionUID = 5039870100867000103L;

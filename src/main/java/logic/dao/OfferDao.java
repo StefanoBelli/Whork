@@ -176,7 +176,10 @@ public final class OfferDao {
 
 		return s.isBlank() ? null : s;
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */	
 	public static int totalNumberOffers(CompanyModel company) throws DataAccessException, DataLogicException {		
 		int n = 0;
 		try (CallableStatement stmt = CONN.prepareCall(TOTAL_NUMBER_OFFERS)) {
@@ -195,7 +198,10 @@ public final class OfferDao {
 		
 		return n;
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */
 	public static int totalNumberOfClick(CompanyModel company) throws DataAccessException, DataLogicException {		
 		int n = 0;
 		try (CallableStatement stmt = CONN.prepareCall(TOTAL_NUMBER_OF_CLICK)) {

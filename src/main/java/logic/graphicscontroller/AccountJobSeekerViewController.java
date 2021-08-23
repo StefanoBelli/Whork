@@ -32,6 +32,10 @@ import logic.view.ChatView;
 import logic.view.ControllableView;
 import logic.view.ViewStack;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class AccountJobSeekerViewController extends GraphicsController {
 	
 	private static final int MAX_WIDTH = 200;

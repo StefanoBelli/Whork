@@ -16,6 +16,10 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class AccountDao {
 	private AccountDao() {}
 	

@@ -34,6 +34,10 @@ import logic.util.ServletUtil;
 import logic.util.Util;
 import logic.util.tuple.Pair;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class AccountController {
 	
 	private static final String DATA_ACCESS_ERROR =

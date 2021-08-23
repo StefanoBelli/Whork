@@ -58,6 +58,10 @@ import logic.view.RecruiterItem;
 import logic.view.RegisterJobSeekerView;
 import logic.view.ViewStack;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class AccountCompanyViewController extends GraphicsController {
 	
 	private static final int MAX_WIDTH = 200;
