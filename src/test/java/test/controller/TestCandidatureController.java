@@ -127,7 +127,7 @@ public class TestCandidatureController {
 		
 		CandidatureBean candidature= new CandidatureBean();
 		candidature.setJobSeeker(user);
-		candidature.setOffer(OfferController.getOfferById(2));
+		candidature.setOffer(OfferController.getOfferById(1));
 		
 		try {
 			CandidatureController.insertCandidature(candidature);
@@ -136,7 +136,7 @@ public class TestCandidatureController {
 				throw e;
 			}
 		}
-		assertEquals(2, OfferController.getOfferById(2).getClickStats());
+		assertEquals(1, OfferController.getOfferById(1).getClickStats());
 		
 	}
 	
