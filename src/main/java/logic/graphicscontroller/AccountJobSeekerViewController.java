@@ -134,7 +134,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			GraphicsUtil.showExceptionStage(e);
 		}
 
-		Factory factory = new Factory();
+		Creator factory = new Creator();
 
 		socialInstance = factory.createElement("Social");
 		personalInstance = (Personal) factory.createElement("Personal");
@@ -523,6 +523,27 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 		}
 	}
 
+	public static final class HandleDeleteRequest implements EventHandler<MouseEvent> {
+		
+		private final UserBean user;
+		private final CandidatureBean candidatureBean;
+		
+		public HandleDeleteRequest(UserBean user, CandidatureBean candidatureBean) {
+			this.user = user;
+			this.candidatureBean = candidatureBean;
+		}
+
+		@Override
+		public void handle(MouseEvent event) {			
+			try {
+				CandidatureController.deleteCandidature(user, candidatureBean);
+			} catch (InternalException e) {
+				Util.exceptionLog(e);
+				GraphicsUtil.showExceptionStage(e);
+			}
+		}
+	}
+
 	private interface Edit {
 		void button(boolean variable);
 		void text(boolean variable);
@@ -618,7 +639,7 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 
 	}
 
-	private final class Factory {
+	private final class Creator {
 
 		private Edit createElement(String element) {
 			switch(element) {
@@ -644,25 +665,5 @@ public final class AccountJobSeekerViewController extends GraphicsController {
 			return new Bio();
 		}
 	}
-	
-	public static final class HandleDeleteRequest implements EventHandler<MouseEvent> {
-		
-		private final UserBean user;
-		private final CandidatureBean candidatureBean;
-		
-		public HandleDeleteRequest(UserBean user, CandidatureBean candidatureBean) {
-			this.user = user;
-			this.candidatureBean = candidatureBean;
-		}
 
-		@Override
-		public void handle(MouseEvent event) {			
-			try {
-				CandidatureController.deleteCandidature(user, candidatureBean);
-			} catch (InternalException e) {
-				Util.exceptionLog(e);
-				GraphicsUtil.showExceptionStage(e);
-			}
-		}
-	}
 }
