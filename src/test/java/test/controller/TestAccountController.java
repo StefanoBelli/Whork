@@ -172,7 +172,12 @@ public class TestAccountController {
 
 		CandidatureBean candidature = new CandidatureBean();
 		candidature.setJobSeeker(userBean);
-		candidature.setOffer(OfferController.getOfferById(1));
+		try {
+			offer = OfferController.getOfferById(2);
+		} catch (InternalException | NullPointerException e) {
+			offer = OfferController.getOfferById(1);
+		}
+		candidature.setOffer(offer);
 
 		try {
 			CandidatureController.insertCandidature(candidature);
