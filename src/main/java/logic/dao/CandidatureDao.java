@@ -73,7 +73,10 @@ public final class CandidatureDao {
 			throw new DataAccessException(e);
 		}		
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */
 	public static void deleteCandidature (JobSeekerUserModel userModel, CandidatureModel candidature) throws DataAccessException {		
 		try (CallableStatement stmt = CONN.prepareCall(DELETE_CANDIDATURE)) {
 			stmt.setString(1, userModel.getCf());
@@ -83,7 +86,10 @@ public final class CandidatureDao {
 			throw new DataAccessException(e);
 		}
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */
 	public static List<CandidatureModel> getCandidatureByCompanyVat(CompanyModel company) 
 			throws DataAccessException, DataLogicException {
 		List<CandidatureModel> listCandidatureModel = new ArrayList<>();

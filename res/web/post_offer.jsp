@@ -18,6 +18,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Post offer - Whork</title>
+		<meta name="author" content="Michele Tosi">
+		<meta name="author" content="Magliari Elio">
 		<script src="js/common.js"></script>
 		<script src="js/post_offer.js"></script>
 		<link href="css/postOffer.css" rel="stylesheet" />

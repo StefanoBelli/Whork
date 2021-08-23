@@ -3,6 +3,8 @@
 <html xml:lang="en">
 	<head>
 		<title>Reset Password - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/changepwd.css">
 		<script src="js/changepwd.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

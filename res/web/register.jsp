@@ -3,6 +3,8 @@
 <html lang="en">
 	<head>
 		<title>Sign Up - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="css/register.css">
 		<link rel="stylesheet" type="text/css" href="css/whork.css">

@@ -12,6 +12,8 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Register as a job seeker - Whork</title>
+	<meta name="author" content="Stefano Belli">
+	<meta name="author" content="Magliari Elio">
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />

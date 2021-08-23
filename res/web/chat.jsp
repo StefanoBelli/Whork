@@ -17,6 +17,8 @@ if(chatController.isOnlineService()) {
 <html lang="en">
 	<head>
 		<title>Chat - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" type="text/css" href="css/chat.css"></link>
 		<script>
 			var ws;
@@ -277,6 +279,8 @@ if(chatController.isOnlineService()) {
 <html lang="en">
 	<head>
 		<title>[OFFLINE] Chat - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/cpoutcome.css">
 	</head>
 

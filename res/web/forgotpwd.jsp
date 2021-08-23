@@ -4,6 +4,8 @@
 
 	<head>
 		<title>Forgot Password - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/forgotpwd.css">
 		<link rel="stylesheet" type="text/css" href="css/whork.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">

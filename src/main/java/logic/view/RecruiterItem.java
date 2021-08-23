@@ -13,6 +13,10 @@ import logic.exception.DataAccessException;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class RecruiterItem {
 	private static final int MAX_WIDTH = 50;
 

@@ -4,6 +4,8 @@
 <html lang="en">
 	<head>
 		<title>Success - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<script src="js/common.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/success.css">

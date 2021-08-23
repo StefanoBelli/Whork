@@ -17,6 +17,10 @@ import logic.graphicscontroller.LoginHandler;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class CandidatureItem {
 	private static final int MAX_WIDTH = 50;
 	

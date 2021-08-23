@@ -2,6 +2,8 @@
 <html xml:lang="en">
 	<head>
 		<title>Password Change Outcome- Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/cpoutcome.css">
 		<script src="js/common.js"></script>		
 		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">

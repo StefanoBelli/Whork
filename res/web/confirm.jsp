@@ -10,6 +10,8 @@ if(token != null && email != null) {
 <html lang="en">
 	<head>
 		<title>Confirm registration - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/cpoutcome.css">
 		<script src="js/common.js"></script>
 		<script>

@@ -27,6 +27,8 @@
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
       <title>Home - Whork</title>
+      <meta name="author" content="Michele Tosi">
+		<meta name="author" content="Magliari Elio">
       <!-- style css -->
       <link rel="stylesheet" type="text/css" href="css/indexCss/style.css">
       <!-- Tweaks for older IEs-->
@@ -324,7 +326,7 @@
 %> 
 				</h4>
 		        <div class="col-sm-4"> 
-	                <iframe title="whereisjob" width="300" height="250" style="border:1" loading="lazy" allowfullscreen id="maps"
+	                <iframe title="whereisjob" width="95%" height="250" style="border:1" loading="lazy" allowfullscreen id="maps"
 						src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAp5hG3kGqNGj6Auxh4IhC0Y60hzgUyzKo&q=<%=offer.getJobPhysicalLocationFullAddress()%>">
 					</iframe>
 	            </div>

@@ -74,7 +74,15 @@ public final class CandidatureController {
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */
+	/*
+	 * Simply, this method deletes just application of a job seeker.
+	 * @param UserBean: userBean
+	 * @param CandidatureBean: candidatureBean
+	 */
 	public static void deleteCandidature(UserBean userBean, CandidatureBean candidatureBean) throws InternalException {		
 		try {
 			CandidatureDao.deleteCandidature((JobSeekerUserModel) ModelFactory.buildUserModel(userBean), ModelFactory.buildCandidatureModel(candidatureBean));
@@ -83,7 +91,16 @@ public final class CandidatureController {
 			throw new InternalException(DATA_ACCESS_ERROR);
 		}		
 	}
-	
+
+	/**
+	 * @author Magliari Elio
+	 */
+	/*
+	 * This method gets all applications related to the company vat.
+	 * It is used in order to make charts in the employees pages.
+	 * @param CompanyBean: companyBean
+	 * @return List<Integer>: Number of applications according to months.
+	 */
 	public static List<Integer> getCandidatureByCompanyVat(CompanyBean companyBean) throws DataAccessException, DataLogicException {
 		CompanyModel company = ModelFactory.buildCompanyModel(companyBean);
 		List<CandidatureModel> listModel = CandidatureDao.getCandidatureByCompanyVat(company);

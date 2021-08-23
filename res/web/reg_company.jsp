@@ -3,6 +3,8 @@
 <html lang="en">
 	<head>
 		<title>Sign Up as a company - Whork</title>
+		<meta name="author" content="Stefano Belli">
+		<meta name="author" content="Magliari Elio">
 		<link rel="stylesheet" href="css/reg_company.css">
 		<script src="js/reg_company.js"></script>
 		<script src="js/common.js"></script>

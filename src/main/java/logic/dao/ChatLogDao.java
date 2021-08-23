@@ -84,6 +84,9 @@ public final class ChatLogDao {
 		}
 	}
 
+	/**
+	 * @author Magliari Elio
+	 */
 	public static List<String> getChattingPeers(String email) 
 			throws DataAccessException {
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_CHATTING_PEERS)) {
@@ -104,6 +107,9 @@ public final class ChatLogDao {
 		}
 	}
 
+	/**
+	 * @author Magliari Elio
+	 */
 	public static ChatLogEntryModel getLastMessageWithPeer(String firstEmail, String secondEmail) 
 			throws DataAccessException, DataLogicException {
 		try (CallableStatement stmt = CONN.prepareCall(STMT_GET_LAST_MSG_WITH_PEER)) {

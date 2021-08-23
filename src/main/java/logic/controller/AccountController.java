@@ -65,7 +65,14 @@ public final class AccountController {
 		return listCandidatureBean;
 		
 	}	
-	
+
+	/*
+	 * This method edits data in the database according the string function passed as parameter, following facade pattern
+	 * @param String: function (it has the responsability to decide which method should be called)
+	 * @param UserBean: userBean
+	 * @param UserAuthBean: userAuthBean
+	 * @param String: newPassword (it can be null)
+	 */
 	public static void editAccountController(String function, UserBean userBean, UserAuthBean userAuthBean, String newPassword) 
 			throws DataAccessException, InternalException, InvalidPasswordException, DataLogicException {
 		JobSeekerUserModel userModel = (JobSeekerUserModel) ModelFactory.buildUserModel(userBean);
@@ -233,6 +240,11 @@ public final class AccountController {
 		return lastMessagesWithEachPeer;
 	}
 
+	/*
+	 * This method gets picture of an user according his email and it is used in the employee account for messages.
+	 * @param String: Email
+	 * @return UserBean: User Bean of the user related to his email
+	 */
 	public static UserBean getPictureForMessage(String email) throws DataAccessException, DataLogicException {
 		String cf = UserAuthDao.getUserCfAndBcryPwdByEmail(email).getFirst();
 		UserModel user = UserDao.getUserByCf(cf);

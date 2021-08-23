@@ -18,6 +18,10 @@ import logic.graphicscontroller.AccountCompanyViewController;
 import logic.util.GraphicsUtil;
 import logic.util.Util;
 
+/**
+ * @author Magliari Elio
+ */
+
 public final class ChatItem {
 	private static final int MAX_WIDTH = 50;
 
