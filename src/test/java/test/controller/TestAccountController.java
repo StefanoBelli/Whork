@@ -119,7 +119,7 @@ public class TestAccountController {
 		userAuthRecruiter = userAuth;
 
 		OfferBean offer = new OfferBean();
-		offer.setId(1);
+		offer.setId(2);
 		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta 1");
 		offer.setEmployee(userRecr);

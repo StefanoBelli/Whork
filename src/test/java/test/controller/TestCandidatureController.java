@@ -48,7 +48,47 @@ public class TestCandidatureController {
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "fake@fake.fakefakefake");
 		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");		
+		
+		CompanyBean company= new CompanyBean();
+		company=BeanFactory.buildCompanyBean("FRRTTR04T45A662J", 
+				"data/seide.png", "FERRARI", "00159560366");
+		
+		UserBean user=new UserBean();
+		user.setAdmin(true);
+		user.setEmployee(true);
+		user.setRecruiter(true);
+		user.setCompany(company);
+		user.setName("nome2");
+		user.setSurname("cognome2");
+		user.setPhoneNumber("3335520346");
+		user.setCf("SRRSND04R45A543X");
+		
+		UserAuthBean userAuth=new UserAuthBean();
+		userAuth.setEmail("email2@libero.it");
+		userAuth.setPassword("password");
+		
+		try {
+			RegisterController.register(new Pair<>(user, userAuth));
+		} catch(InternalException e) { // see test method desc
+			if (!e.getMessage().equals("Unable to send you an email!")) {
+				throw e;
+			}
+		}
 
+		OfferBean offer=new OfferBean();
+		offer.setCompany(company);
+		offer.setDescription("descrizione offerta 2");
+		offer.setEmployee(user);
+		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
+		offer.setJobPhysicalLocationFullAddress("via tuscolana 8");
+		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
+		offer.setOfferName("offer 2");
+		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
+		offer.setSalaryEUR(2100);
+		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
+		offer.setWorkShift("10:00 - 19:00");
+		
+		OfferController.postOffer(offer);
 	}
 	
 	

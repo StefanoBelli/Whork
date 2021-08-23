@@ -16,12 +16,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import logic.bean.CandidatureBean;
 import logic.bean.CompanyBean;
 import logic.bean.OfferBean;
 import logic.bean.UserAuthBean;
 import logic.bean.UserBean;
-import logic.controller.CandidatureController;
 import logic.controller.OfferController;
 import logic.controller.RegisterController;
 import logic.dao.CandidatureDao;
@@ -35,7 +33,6 @@ import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
 import logic.factory.BeanFactory;
-import logic.factory.ModelFactory;
 import logic.model.CandidatureModel;
 import logic.model.ComuneModel;
 import logic.model.EmploymentStatusModel;
@@ -51,7 +48,7 @@ import test.Db;
 public class SeleniumEditAccount {
 	@BeforeClass
 	public static void createUser()
-			throws DataAccessException, DataLogicException, ClassNotFoundException, SQLException, InvalidVatCodeException, InternalException {
+			throws DataAccessException, DataLogicException, ClassNotFoundException, SQLException, InternalException, InvalidVatCodeException {
 
 		Db.init();
 
@@ -92,22 +89,21 @@ public class SeleniumEditAccount {
 		UserAuthDao.confirmRegistration(userAuthModel.getEmail(), regToken);
 
 		CompanyBean companyBean = new CompanyBean();
-		companyBean = BeanFactory.buildCompanyBean("MDDSS123467890XH", 
-				"data/seide.png", "rai", "0234400282");
+		companyBean = BeanFactory.buildCompanyBean("MDDSS123467890XG", 
+				"data/seide.png", "rai", "00743110157");
 
-		
 		UserBean user = new UserBean();
 		user.setAdmin(true);
 		user.setEmployee(true);
 		user.setRecruiter(true);
 		user.setCompany(companyBean);
-		user.setName("admin name");
-		user.setSurname("admin surname");
-		user.setPhoneNumber("1111111111");
-		user.setCf("TPLPLT00A01D612E");
+		user.setName("admin");
+		user.setSurname("admin");
+		user.setPhoneNumber("3333333333");
+		user.setCf("TPLPLT00A01D612S");
 
 		UserAuthBean userAuth = new UserAuthBean();
-		userAuth.setEmail("admin-rai@gmail.com");
+		userAuth.setEmail("adm@gmail.com");
 		userAuth.setPassword("password");
 
 		try {
@@ -116,16 +112,16 @@ public class SeleniumEditAccount {
 			if(!e.getMessage().equals("Unable to send you an email!")) {
 				throw e;
 			}
-		} catch (AlreadyExistantCompanyException | AlreadyExistantUserException | InvalidVatCodeException e) {
+		} catch (AlreadyExistantCompanyException | AlreadyExistantUserException e) {
 			//
-		}
+		} 
 
 		OfferBean offer = new OfferBean();
 		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta");
 		offer.setEmployee(user);
 		offer.setJobCategory(BeanFactory.buildJobCategoryBean("Engineering"));
-		offer.setJobPhysicalLocationFullAddress("via tuscolana 1");
+		offer.setJobPhysicalLocationFullAddress("via tuscolana 10");
 		offer.setJobPosition(BeanFactory.buildJobPositionBean("Engineer"));
 		offer.setOfferName("offer");
 		offer.setQualification(BeanFactory.buildQualificationBean("Master's degree"));
@@ -133,24 +129,14 @@ public class SeleniumEditAccount {
 		offer.setTypeOfContract(BeanFactory.buildTypeOfContractBean("Full Time"));
 		offer.setWorkShift("10:00 - 19:00");
 
-		try {
-			OfferController.postOffer(offer);
-		} catch (InternalException e) {
-			//
-		}
+		OfferController.postOffer(offer);
 
-		CandidatureBean candidature = new CandidatureBean();
-		candidature.setCandidatureDate(new Date());
-		candidature.setJobSeeker(BeanFactory.buildUserBean(jobSeekerUserModel));
-		candidature.setOffer(offer);
-	
-		try {
-			CandidatureController.insertCandidature(candidature);
-		} catch (InternalException e) {
-			if(!e.getMessage().equals("Unable to send you an email!")) {
-				throw e;
-			}
-		}
+		CandidatureModel candidatureModel = new CandidatureModel();
+		candidatureModel.setCandidatureDate(new Date());
+		candidatureModel.setJobSeeker(jobSeekerUserModel);
+		candidatureModel.setOffer(OfferDao.getOfferById(1));
+
+		CandidatureDao.insertCandidature(candidatureModel);
 	}
 
 	@Test
