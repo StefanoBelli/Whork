@@ -136,7 +136,7 @@ public class TestCandidatureController {
 				throw e;
 			}
 		}
-		assertEquals(1, OfferController.getOfferById(1).getClickStats());
+		assertEquals(2, OfferController.getOfferById(1).getClickStats());
 		
 	}
 
