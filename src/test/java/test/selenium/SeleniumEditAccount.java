@@ -37,6 +37,11 @@ public class SeleniumEditAccount {
 	public static void createUser()
 			throws DataAccessException, DataLogicException, ClassNotFoundException, SQLException, InternalException, InvalidVatCodeException {
 
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
+		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
+
 		Db.init();
 
 		EmploymentStatusModel empStatusModel = new EmploymentStatusModel();
