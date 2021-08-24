@@ -15,12 +15,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import logic.dao.CandidatureDao;
+import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
-import logic.exception.InternalException;
-import logic.exception.InvalidVatCodeException;
+import logic.model.CandidatureModel;
 import logic.model.ComuneModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
@@ -35,12 +36,7 @@ import test.Db;
 public class SeleniumEditAccount {
 	@BeforeClass
 	public static void createUser()
-			throws DataAccessException, DataLogicException, ClassNotFoundException, SQLException, InternalException, InvalidVatCodeException {
-
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILTLS, false);
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILHOST, "smtp.more.fake.than.this");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILFROM, "whork.noreply@gmail.com");
-		Util.InstanceConfig.setConf(Util.InstanceConfig.KEY_MAILSMTP_PORT, "587");
+			throws DataAccessException, DataLogicException, ClassNotFoundException, SQLException {
 
 		Db.init();
 
@@ -80,6 +76,12 @@ public class SeleniumEditAccount {
 		UserAuthDao.registerUserAuth(jobSeekerUserModel, userAuthModel, regToken);
 		UserAuthDao.confirmRegistration(userAuthModel.getEmail(), regToken);
 
+		CandidatureModel candidatureModel = new CandidatureModel();
+		candidatureModel.setCandidatureDate(new Date());
+		candidatureModel.setJobSeeker(jobSeekerUserModel);
+		candidatureModel.setOffer(OfferDao.getOfferById(1));
+
+		CandidatureDao.insertCandidature(candidatureModel);
 	}
 
 	@Test

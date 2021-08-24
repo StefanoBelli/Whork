@@ -127,7 +127,7 @@ public class TestCandidatureController {
 		
 		CandidatureBean candidature= new CandidatureBean();
 		candidature.setJobSeeker(user);
-		candidature.setOffer(OfferController.getOfferById(1));
+		candidature.setOffer(OfferController.getOfferById(2));
 		
 		try {
 			CandidatureController.insertCandidature(candidature);
@@ -136,22 +136,23 @@ public class TestCandidatureController {
 				throw e;
 			}
 		}
-		assertEquals(2, OfferController.getOfferById(1).getClickStats());
+		assertEquals(1, OfferController.getOfferById(2).getClickStats());
 		
 	}
-
+	
+	
 	@Test
 	public void testBGetCandidature() throws InternalException {
-		assertNotEquals(null, CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"));
+		assertNotEquals(null, CandidatureController.getCandidature(2, "SRRPQR04R45A422Y"));
 	}
 	
 	@Test
 	public void testCDeleteCandidature() throws InternalException {
 		
-		CandidatureBean candidature=CandidatureController.getCandidature(1, "SRRPQR04R45A422Y");
+		CandidatureBean candidature=CandidatureController.getCandidature(2, "SRRPQR04R45A422Y");
 		
 		CandidatureController.deleteCandidature(candidature.getJobSeeker(),candidature);
-		assertEquals(null, CandidatureController.getCandidature(1, "SRRPQR04R45A422Y"));
+		assertEquals(null, CandidatureController.getCandidature(2, "SRRPQR04R45A422Y"));
 	}
 	
 }

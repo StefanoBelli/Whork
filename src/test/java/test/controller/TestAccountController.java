@@ -119,7 +119,7 @@ public class TestAccountController {
 		userAuthRecruiter = userAuth;
 
 		OfferBean offer = new OfferBean();
-		offer.setId(2);
+		offer.setId(1);
 		offer.setCompany(companyBean);
 		offer.setDescription("descrizione offerta 1");
 		offer.setEmployee(userRecr);
@@ -172,12 +172,7 @@ public class TestAccountController {
 
 		CandidatureBean candidature = new CandidatureBean();
 		candidature.setJobSeeker(userBean);
-		try {
-			offer = OfferController.getOfferById(2);
-		} catch (InternalException | NullPointerException e) {
-			offer = OfferController.getOfferById(1);
-		}
-		candidature.setOffer(offer);
+		candidature.setOffer(OfferController.getOfferById(1));
 
 		try {
 			CandidatureController.insertCandidature(candidature);
