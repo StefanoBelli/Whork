@@ -1,7 +1,0 @@
-As a job seeker, I want to be notified by e-mail when the candidature is sent, so that I can be sure that it is successful
-As a job seeker, I want to delete my candidatures, so that I can only select candidates i am really interested in
-As a recruiter, I want to post new offer, so that job seekers can candidates to them
-
-
-fr
-The system shall send a confirmation email to the user who successfully 

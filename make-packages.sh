@@ -21,14 +21,15 @@ mvn assembly:single
 mv $ORIGIN_APP ./$WHORK_JAR
 donepkg $WHORK_JAR
 
-infopkg "docs"
-cd $ORIGIN_DOCS
-cp -r ../side .
-pdflatex srs.tex
-rm -rf srs.log srs.aux srs.tex *.log
-cd ..
-zip -r $WHORK_DOCS $ORIGIN_DOCS
-donepkg $WHORK_DOCS
+#infopkg "docs"
+#cd $ORIGIN_DOCS
+#cp -r ../side .
+#pdflatex srs.tex
+#pdflatex dp_ex.tex
+#rm -rf *.log *.aux *.tex *.log
+#cd ..
+#zip -r $WHORK_DOCS $ORIGIN_DOCS
+#donepkg $WHORK_DOCS
 
 infopkg "dbschema"
 zip -r $WHORK_DBSCHEMA $ORIGIN_DBSCHEMA

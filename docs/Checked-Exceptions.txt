@@ -1,4 +1,0 @@
-ste: InvalidVatCodeException
-ste: DataAccessException
-ste: AlreadyRegisteredCommandException (optional, unchecked)
-ste: InvalidMethodSignatureException (optional, unchecked)
