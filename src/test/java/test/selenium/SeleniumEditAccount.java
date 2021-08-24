@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 
 import logic.util.Util;
-import logic.util.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
@@ -16,24 +15,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import logic.bean.CompanyBean;
-import logic.bean.OfferBean;
-import logic.bean.UserAuthBean;
-import logic.bean.UserBean;
-import logic.controller.OfferController;
-import logic.controller.RegisterController;
-import logic.dao.CandidatureDao;
-import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
-import logic.exception.AlreadyExistantCompanyException;
-import logic.exception.AlreadyExistantUserException;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
 import logic.exception.InternalException;
 import logic.exception.InvalidVatCodeException;
-import logic.factory.BeanFactory;
-import logic.model.CandidatureModel;
 import logic.model.ComuneModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
