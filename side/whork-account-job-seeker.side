@@ -93,6 +93,19 @@
       ],
       "value": ""
     }, {
+      "id": "33cf397b-4ff2-44cb-9364-80c9225dfd4c",
+      "comment": "",
+      "command": "click",
+      "target": "name=candidate_button",
+      "targets": [
+        ["name=candidate_button", "name"],
+        ["css=.member-entry:nth-child(2) form > .btn", "css:finder"],
+        ["xpath=//button[@name='candidate_button']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Candidate')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
       "id": "f88ab79b-98fb-4c78-9819-6fa7427760f0",
       "comment": "",
       "command": "click",
