@@ -75,13 +75,6 @@ public class SeleniumEditAccount {
 		UserDao.registerUserDetails(jobSeekerUserModel);
 		UserAuthDao.registerUserAuth(jobSeekerUserModel, userAuthModel, regToken);
 		UserAuthDao.confirmRegistration(userAuthModel.getEmail(), regToken);
-
-		CandidatureModel candidatureModel = new CandidatureModel();
-		candidatureModel.setCandidatureDate(new Date());
-		candidatureModel.setJobSeeker(jobSeekerUserModel);
-		candidatureModel.setOffer(OfferDao.getOfferById(1));
-
-		CandidatureDao.insertCandidature(candidatureModel);
 	}
 
 	@Test
