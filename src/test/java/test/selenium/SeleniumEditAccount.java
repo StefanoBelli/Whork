@@ -15,13 +15,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import logic.dao.CandidatureDao;
-import logic.dao.OfferDao;
 import logic.dao.UserAuthDao;
 import logic.dao.UserDao;
 import logic.exception.DataAccessException;
 import logic.exception.DataLogicException;
-import logic.model.CandidatureModel;
 import logic.model.ComuneModel;
 import logic.model.EmploymentStatusModel;
 import logic.model.JobSeekerUserModel;
